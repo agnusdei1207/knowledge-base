@@ -31,27 +31,29 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 작아 CPU 개입이 문제 되지 않았으나, 디스크 용량이 커지고 네트워크 속도가 폭발하면서 CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 감당할 수 없게 되어 필수 하드웨어 아키텍처로 자리 잡았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PIO 방식과 DMA 방식의 CPU 부하 비교도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PIO 방식 (Programmed I/O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ▶ 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (CPU가 장치에서 1바이트 읽기) (CPU가 메모리에 1바이트 쓰기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 장치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ CPU가 데이터 이동의 '수동 통로'가 됨 -&gt; CPU 사용률 100% 낭비</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMA 방식 (Direct Memory Access)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 명령 하달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ▶ DMAC (DMA 컨트롤러)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 완료 인터럽트</div><div class="kb-diagram-node">2. 버스 요청 및 통제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 데이터 직접 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 장치 ▶ 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ CPU는 명령만 내리고 다른 작업 수행 -&gt; 시스템 전체 병렬 처리 향상</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 PIO 방식과 DMA 방식의 CPU 부하 비교도                 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [PIO 방식 (Programmed I/O)]                                │
+  │   CPU ──────────────────────────────────────▶ 메모리        │
+  │    ▲ (CPU가 장치에서 1바이트 읽기)      (CPU가 메모리에 1바이트 쓰기) │
+  │    │                                        │               │
+  │   I/O 장치                                                   │
+  │   ※ CPU가 데이터 이동의 '수동 통로'가 됨 -> CPU 사용률 100% 낭비  │
+  │                                                             │
+  │  [DMA 방식 (Direct Memory Access)]                          │
+  │                      [ 1. 명령 하달 ]                         │
+  │            CPU ────────────────────▶ DMAC (DMA 컨트롤러)    │
+  │             ▲                              │               │
+  │  [ 4. 완료 인터럽트 ]                        │ [ 2. 버스 요청 및 통제 ] │
+  │             │                              ▼               │
+  │             │           [ 3. 데이터 직접 전송 ]                │
+  │         I/O 장치 ══════════════════════════════▶ 메모리        │
+  │   ※ CPU는 명령만 내리고 다른 작업 수행 -> 시스템 전체 병렬 처리 향상 │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 위쪽 PIO 방식에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무조건 CPU의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 통과해야만 메모리로 갈 수 있다. 반면 아래쪽 DMA 방식에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 CPU를 우회(Bypass)하여 장치와 메모리 간에 다이렉트로 고속도로([시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/))를 타고 흐른다. 이 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 조율하는 신호등 역할이 DMAC다. CPU는 단 한 번의 지시(출발 주소, 목적지 주소, 복사할 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수)만 내리고 전송 과정에 일절 개입하지 않다가, 마지막에 딱 한 번의 완료 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)만 받으면 된다.
 
@@ -78,26 +80,28 @@ tags = ["studynote-operating-system"]
 
 CPU와 DMAC는 하나의 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)(메모리로 가는 길)를 공유한다. 둘이 동시에 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 쓰려고 하면 어떻게 될까?
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA 사이클 스틸링 (Cycle Stealing) 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 흐름 ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 캐시 히트: █████████ ██████████████ █████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(버스 안 씀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 버스 요청: ██ ██</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(캐시 미스) ▲ ▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">충돌!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMAC 버스 요청: ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실제 시스템 버스 점유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">버스 사용자:</div><div class="kb-diagram-node">DMAC전송</div><div class="kb-diagram-node">DMAC</div><div class="kb-diagram-node">DMAC전송....</div><div class="kb-diagram-node">DMAC</div><div class="kb-diagram-node">DMAC전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 우선순위 ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU는 이 1 사이클 동안 버스를 양보하고 잠시 대기(Stall)함</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 DMA 사이클 스틸링 (Cycle Stealing) 메커니즘           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [시간 흐름 ──▶]                                                    │
+  │                                                                   │
+  │  CPU 캐시 히트:  █████████        ██████████████         █████    │
+  │  (버스 안 씀)                                                      │
+  │                                                                   │
+  │  CPU 버스 요청:           ██                     ██               │
+  │  (캐시 미스)               ▲                      ▲               │
+  │                           │ 충돌!                │               │
+  │  DMAC 버스 요청: ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  │
+  │                           │                      │               │
+  │                           ▼                      ▼               │
+  │  [실제 시스템 버스 점유]                                              │
+  │  버스 사용자:   [DMAC전송] [DMAC] [DMAC전송....] [DMAC] [DMAC전송] │
+  │                             ↑ 우선순위             ↑              │
+  │                CPU는 이 1 사이클 동안 버스를 양보하고 잠시 대기(Stall)함 │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** DMAC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))을 막기 위해 CPU보다 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/) 사용 우선순위가 높게 설계되어 있다. CPU와 DMAC가 동시에 메모리에 접근하려 할 때, DMAC가 CPU의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 사이클을 몰래 훔쳐서(Steal) 1 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)([Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/))의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송한다. 이 짧은 순간 CPU는 메모리에 접근하지 못하고 아주 찰나의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Memory Stall)을 겪게 되는데, 이를 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/">사이클 스틸링</a></strong>이라고 부른다. 비록 CPU가 약간 멈칫하지만, 자신이 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나르는(PIO) 오버헤드에 비하면 압도적으로 이득이다. (현대 아키텍처에서는 L1/L2 캐시 덕분에 CPU가 메인 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 덜 쓰므로 이 충돌이 크게 줄어들었다.)
 
@@ -123,32 +127,34 @@ DMA가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus
 
 이 문제를 해결한 것이 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/452_dma_scatter_gather/">Scatter-Gather</a> DMA</strong> 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scatter-Gather DMA 의 메모리 매핑 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 메모리 버퍼</div><div class="kb-diagram-note">(연속적)</div><div class="kb-diagram-node">물리 메모리 (RAM)</div><div class="kb-diagram-note">(불연속적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16KB 파일 읽기 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Page 3</div><div class="kb-diagram-cell">(Addr 0x9000)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page B</div><div class="kb-diagram-cell">Scatter ▶</div><div class="kb-diagram-cell">Page 1</div><div class="kb-diagram-cell">(Addr 0x1000)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(흩뿌리기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Page 4</div><div class="kb-diagram-cell">(Addr 0xC000)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Page 2</div><div class="kb-diagram-cell">(Addr 0x4000)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scatter-Gather List (SGL)</div><div class="kb-diagram-note">구조체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 주소: 0x1000, 크기 4KB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 주소: 0x4000, 크기 4KB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 주소: 0x9000, 크기 4KB &lt;-- CPU는 이 리스트의 시작 주소만 DMAC에 던짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 주소: 0xC000, 크기 4KB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ DMAC는 리스트를 스스로 순회하며 불연속적인 4개의 조각을 한 번에 읽어들여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단 1번의 인터럽트만 CPU에 보냄! (인터럽트 오버헤드 극단적 감소)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Scatter-Gather DMA 의 메모리 매핑 아키텍처            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [가상 메모리 버퍼] (연속적)              [물리 메모리 (RAM)] (불연속적)│
+  │   16KB 파일 읽기 요청                      ┌───────┐                  │
+  │  ┌────────────┐               ┌─────▶ │ Page 3│ (Addr 0x9000)    │
+  │  │   Page A   │               │       └───────┘                  │
+  │  ├────────────┤               │       ┌───────┐                  │
+  │  │   Page B   │   Scatter     ├─────▶ │ Page 1│ (Addr 0x1000)    │
+  │  ├────────────┤  (흩뿌리기)     │       └───────┘                  │
+  │  │   Page C   │ ──────────────┤       ┌───────┐                  │
+  │  ├────────────┤               ├─────▶ │ Page 4│ (Addr 0xC000)    │
+  │  │   Page D   │               │       └───────┘                  │
+  │  └────────────┘               │       ┌───────┐                  │
+  │                               └─────▶ │ Page 2│ (Addr 0x4000)    │
+  │                                       └───────┘                  │
+  │  [Scatter-Gather List (SGL)] 구조체                                 │
+  │  1. 주소: 0x1000, 크기 4KB                                            │
+  │  2. 주소: 0x4000, 크기 4KB                                            │
+  │  3. 주소: 0x9000, 크기 4KB  <-- CPU는 이 리스트의 시작 주소만 DMAC에 던짐 │
+  │  4. 주소: 0xC000, 크기 4KB                                            │
+  │                                                                   │
+  │  ※ DMAC는 리스트를 스스로 순회하며 불연속적인 4개의 조각을 한 번에 읽어들여  │
+  │    단 1번의 인터럽트만 CPU에 보냄! (인터럽트 오버헤드 극단적 감소)            │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [Scatter-Gather](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/452_dma_scatter_gather/) DMA는 DMAC 안에 작은 두뇌(List Processing)를 탑재한 것이다. OS(드라이버)는 물리적으로 파편화된 메모리 주소들의 목록(SGL)을 메모리에 만들어 두고, DMAC에게 이 목록의 시작 포인터만 알려준다. 진화된 DMAC는 이 리스트를 스스로 읽어가며 장치 버퍼의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 조각으로 쪼개어(Scatter) 흩뿌려주거나, 반대로 여러 조각을 모아(Gather) 장치로 쏴준다. 디스크 컨트롤러([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))나 네트워크 인터페이스([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 모두 이 SGL 방식을 사용해 10Gbps 이상의 폭발적인 트래픽을 단 한 번의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 처리한다.
 
@@ -169,7 +175,7 @@ DMA가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus
 ### 도입 및 디버깅 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">캐시 일관성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/">Cache Coherence</a>) 문제</strong>: CPU가 L1 캐시에 써둔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아직 메인 메모리에 안 내려갔는데, DMAC가 디스크로 그 메모리 주소를 전송해버리면 구형 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Stale [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 기록된다. 반대로 DMAC가 메모리에 새 패킷을 썼는데 CPU가 캐시에서 옛날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 수도 있다. 이를 막기 위해 디바이스 드라이버 개발자는 DMA 전송 전후에 반드시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(`dma_sync_single_for_cpu()` 등)를 호출하여 버퍼의 캐시를 플러시(Flush)하거나 무효화(Invalidate)하는 코드가 있는지 점검해야 한다. (x86은 하드웨어가 자동으로 스누핑하여 맞춰주지만, ARM 등 임베디드 환경에서는 소프트웨어 처리가 필수다.)
 
-- **📢 섹션 요약 비유**: 최신식 고속철도(DMA)를 깔아놓고도, 정작 기차역에서 집까지 우마차(소프트웨어 복사, 캐시 불일치)로 짐을 나른다면 전체 물류 속도는 우마차 속도로 전락합니다. 아키텍트는 철도와 도로가 매끄럽게 연결되는 '통합 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)'를 고려해야 합니다.
+- **📢 섹션 요약 비유**: 최정보 고속철도(DMA)를 깔아놓고도, 정작 기차역에서 집까지 우마차(소프트웨어 복사, 캐시 불일치)로 짐을 나른다면 전체 물류 속도는 우마차 속도로 전락합니다. 아키텍트는 철도와 도로가 매끄럽게 연결되는 '통합 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)'를 고려해야 합니다.
 
 ---
 
@@ -208,19 +214,15 @@ DMA 기술의 본질은 "위임(Delegation)"이다. 시스템의 두뇌인 CPU�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 클럭 타이머 틱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 직접 메모리 접근 (DMA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 풀링 (Polling) 오버헤드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스풀링 (Spooling) 버퍼</div></div>
-</div>
-</div>
-
-
+```text
+[시스템 클럭 타이머 틱]
+    │
+    ▼
+[I/O 직접 메모리 접근 (DMA)]
+    │
+    ├──▶ [I/O 풀링 (Polling) 오버헤드]
+    └──▶ [스풀링 (Spooling) 버퍼]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

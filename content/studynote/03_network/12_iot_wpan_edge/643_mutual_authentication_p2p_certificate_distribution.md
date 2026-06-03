@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 통신을 시도하는 두 주체(예: 클라이언트 센서와 서버, 또는 자율주행차 A와 B)가 <strong>일방적으로 한쪽만 신분을 증명하는 것이 아니라, 양쪽 모두 서로의 신원을 암호학적으로 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하고 믿을 수 있는지 검증하는 절차</strong>입니다.
 - 일반 웹 서핑([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))에서는 보통 서버(네이버)만 클라이언트에게 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 보여주고 신분을 증명하지만, 해킹에 취약한 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기 통신에서는 해커의 기기 위장([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 막기 위해 <strong>반드시 양방향(상호) <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>을 거쳐야 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DTLS 프로토콜 CoAP 결합</div></div>
-</div>
-</div>
-
-
+```text
+[망분리 및 제로 트러스트 연결형 논리망 보안…]
+    │
+    ▼
+[기기 간 상호인증체계 관리 기법 P2P 연결…]
+    │
+    └──▶ [DTLS 프로토콜 CoAP 결합]
+```
 
 - **📢 섹션 요약 비유**: 기기 간 상호인증체계 관리 기법 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 3. 양쪽은 상대방의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서에 찍힌 삼성/애플의 도장(서명)이 진짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 상대방이 개인키를 제대로 가졌는지 수학적 퀴즈(Challenge-Response)를 내서 검증합니다.
 4. 둘 다 합격(상호인증 완료)하면 그제야 안전한 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 암호화 터널([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))을 뚫고 통신을 시작합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DTLS 프로토콜 CoAP 결합</div></div>
-</div>
-</div>
-
-
+```text
+[망분리 및 제로 트러스트 연결형 논리망 보안…]
+    │
+    ▼
+[기기 간 상호인증체계 관리 기법 P2P 연결…]
+    │
+    └──▶ [DTLS 프로토콜 CoAP 결합]
+```
 
 - **📢 섹션 요약 비유**: 기기 간 상호인증체계 관리 기법 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DTLS 프로토콜 CoAP 결합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 망분리 및 제로 트러스트 연결형 논리망 보안…]
+    │
+    ▼
+[현재 개념: 기기 간 상호인증체계 관리 기법 P2P 연결…]
+    │
+    ├──▶ [확장 A: DTLS 프로토콜 CoAP 결합]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 기기 간 상호인증체계 관리 기법 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결…는 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 연결형 논리망 보안…에서 출발해 현재 메커니즘을 정교화하고, 이후 [DTLS](/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 결합와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

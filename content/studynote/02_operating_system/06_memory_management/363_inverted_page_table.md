@@ -27,26 +27,28 @@ tags = ["studynote-operating-system"]
   2. **관점의 역전 (Frame-Centric)**: 가상 주소 공간은 무한하지만, 꽂을 수 있는 물리 램(RAM)의 크기(Frame 개수)는 유한하고 작다는 물리적 진리에 착안.
   3. **극단적 램 다이어트 성공**: 16GB 램을 4KB로 쪼개면 4백만 개의 프레임이 나온다. 장부 한 줄이 8바이트면 <strong>장부 크기는 영원히 32MB로 고정</strong>된다. 프로세스가 1만 개 떠도 장부 크기는 1바이트도 늘어나지 않는다!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정방향 페이지 테이블 vs 역 페이지 테이블 구조 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존: 프로세스 중심 (Forward Page Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 프로세스 A의 장부:</div><div class="kb-diagram-node">페이지 0 -&gt; 프레임 5</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">페이지 1 -&gt; Fr 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 프로세스 B의 장부:</div><div class="kb-diagram-node">페이지 0 -&gt; 프레임 9</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">페이지 1 -&gt; Fr 7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 단점: 프로세스 100개면 장부도 100개! 메모리 낭비 극심)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 물리 프레임 중심 (Inverted Page Table)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템 전체에 단 1개의 전역 장부만 존재!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Index) Fr</div><div class="kb-diagram-cell">PID</div><div class="kb-diagram-cell">Page</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임 0번</div><div class="kb-diagram-cell">---</div><div class="kb-diagram-cell">비어있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임 1번</div><div class="kb-diagram-cell">P_B</div><div class="kb-diagram-cell">Pg 1</div><div class="kb-diagram-cell">◀ "B의 1번 페이지가 여기 있네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임 2번</div><div class="kb-diagram-cell">P_A</div><div class="kb-diagram-cell">Pg 0</div><div class="kb-diagram-cell">◀ "A의 0번 페이지가 여깄네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│        정방향 페이지 테이블 vs 역 페이지 테이블 구조 비교         │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│ [ 기존: 프로세스 중심 (Forward Page Table) ]                      │
+│  - 프로세스 A의 장부: [페이지 0 -> 프레임 5], [페이지 1 -> Fr 2]  │
+│  - 프로세스 B의 장부: [페이지 0 -> 프레임 9], [페이지 1 -> Fr 7]  │
+│  (※ 단점: 프로세스 100개면 장부도 100개! 메모리 낭비 극심)        │
+│                                                                   │
+│ [ 혁신: 물리 프레임 중심 (Inverted Page Table) ]                  │
+│  - 시스템 전체에 단 1개의 전역 장부만 존재!                       │
+│  ┌────────────┬───────┬────────┐                                  │
+│  │ (Index) Fr │ PID  │  Page  │                                   │
+│  ├────────────┼───────┼────────┤                                  │
+│  │ 프레임 0번  │ ---  │ 비어있음 │                                │
+│  │ 프레임 1번  │ P_B  │  Pg 1  │ ◀ "B의 1번 페이지가 여기 있네!"  │
+│  │ 프레임 2번  │ P_A  │  Pg 0  │ ◀ "A의 0번 페이지가 여깄네!"     │
+│  │ ...        │ ...  │  ...   │                                   │
+│  └────────────┴───────┴────────┘                                  │
+└───────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 테이블의 구조를 잘 보면, 우리가 알고 싶은 '정답(프레임 번호)'이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 인덱스로 들어가 버렸다. 그리고 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 '내용물'에는 가상 주소(PID, [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))가 들어가 있다. 테이블의 길이가 프로세스의 가상 주소 크기가 아닌, <strong>실제 꽂혀있는 램의 크기</strong>에 완벽히 종속되므로 램 공간 절약에 있어서는 범접할 수 없는 궁극의 아키텍처다.
 
 - **📢 섹션 요약 비유**: 수만 명의 학생들에게 각자 '내가 앉을 의자 번호표(기존 장부)'를 나눠주어 종이를 낭비하는 대신, 교실의 의자 50개(물리 프레임)에 '앉을 학생 이름표(역 장부)'를 딱 하나씩만 붙여놔서 종이를 극단적으로 아낀 기발한 발상입니다.
@@ -68,23 +70,28 @@ tags = ["studynote-operating-system"]
 
 이 미친 탐색 오버헤드를 막기 위해 하드웨어 설계자들은 앞서 배운 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/362_hashed_page_table/">해시 페이지 테이블</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/362_hashed_page_table/">Hashed Page Table</a>)</strong> 논리를 긴급 투입했다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시를 융합한 역 페이지 테이블의 탐색 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 요청</div><div class="kb-diagram-note">"PID: A, Page: 3번 프레임 어딨어?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 해시 함수</div><div class="kb-diagram-note">Hash(A, 3) = 인덱스 105 도출!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해시 앵커 테이블 (Hash Anchor Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">역 테이블의 프레임 8번을 가리키는 포인터!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (체이닝 탐색)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역 페이지 테이블 (Inverted Page Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">프레임 8번 줄:</div><div class="kb-diagram-node">PID: A | Page: 3</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(일치 확인! 빙고!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8번 프레임으로 램(RAM) 실제 데이터 접근!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│              해시를 융합한 역 페이지 테이블의 탐색 흐름도             │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ CPU 요청 ] "PID: A, Page: 3번 프레임 어딨어?"                       │
+│         │                                                             │
+│         ▼                                                             │
+│ [ 하드웨어 해시 함수 ] Hash(A, 3) = 인덱스 105 도출!                  │
+│         │                                                             │
+│         ▼                                                             │
+│ [ 해시 앵커 테이블 (Hash Anchor Table) ]                              │
+│ 인덱스 105에 가보니 ──▶ [ 역 테이블의 프레임 8번을 가리키는 포인터! ] │
+│         │                                                             │
+│         ▼ (체이닝 탐색)                                               │
+│ [ 역 페이지 테이블 (Inverted Page Table) ]                            │
+│ 프레임 8번 줄: [ PID: A | Page: 3 ] ◀ (일치 확인! 빙고!)              │
+│         │                                                             │
+│         ▼                                                             │
+│ 8번 프레임으로 램(RAM) 실제 데이터 접근!                              │
+└───────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** $O(N)$의 [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/) 지옥을 탈출하기 위해 램에 작은 '해시 앵커(포인터) 테이블'을 하나 더 두었다. CPU가 던진 (PID, [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 조합을 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에 돌려 단 1~2번의 램 접근만으로 역 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 정확한 줄(프레임 번호)에 랜딩하게 만드는 정교한 하드웨어 마술이다.
 
@@ -111,17 +118,14 @@ tags = ["studynote-operating-system"]
 - 문제: 만약 10번 프레임에 크롬 브라우저 공용 코드가 들어있고 100명이 이걸 공유한다고 치자. Fr 10번 칸에 100명의 `PID`와 `Page` 번호를 다 욱여넣을 공간이 없다! 장부의 구조적 한계다.
 - 결과: 이 문제를 우회하기 위해 OS는 공유 코드를 쓸 때마다 장부를 더럽게 꼬아놓거나 별도의 예외 장부를 만들어야 해서 오버헤드가 산으로 간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 매핑</div><div class="kb-diagram-cell">1:N (공유)</div><div class="kb-diagram-cell">N:1 (일반)</div><div class="kb-diagram-cell">1:1 (역 테이블)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징</div><div class="kb-diagram-cell">다수 앱이 1개 램</div><div class="kb-diagram-cell">1개 앱이 다수 램</div><div class="kb-diagram-cell">1프레임당 1앱만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 난이도</div><div class="kb-diagram-cell">매우 직관적</div><div class="kb-diagram-cell">직관적</div><div class="kb-diagram-cell">☠️ 구조적 불가능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────┐
+│ 페이지 매핑│ 1:N (공유)  │ N:1 (일반)  │ 1:1 (역 테이블)         │
+├──────────┼────────────┼────────────┼─────────────────────────────┤
+│ 특징       │ 다수 앱이 1개 램│ 1개 앱이 다수 램│ 1프레임당 1앱만 │
+│ 공유 난이도│ 매우 직관적  │ 직관적      │ ☠️ 구조적 불가능       │
+└──────────┴────────────┴────────────┴─────────────────────────────┘
+```
 **[매트릭스 해설]** 테이블의 주어([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))를 가상 주소에서 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)로 바꾼 대가다. 공간 절약의 정점을 찍었지만, 다중 프로그래밍의 핵심인 '코드 공유'를 스스로 걷어찬 꼴이 되어 범용 OS(윈도우/리눅스)의 메인스트림([x86 아키텍처](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/198_x86_architecture/))에 안착하는 데 실패했다.
 
 - **📢 섹션 요약 비유**: 호텔 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 장부(역 테이블)를 101호=철수, 102호=영희 식으로 딱 1칸씩만 만들어 종이를 아꼈는데, 103호에 5명(공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))이 혼숙하겠다고 오니까 장부 칸이 모자라서 적을 수가 없는 난감한 구조적 한계입니다.
@@ -176,19 +180,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">해시 페이지 테이블 (Hashed Page Table)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역 페이지 테이블 (Inverted Page Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세그멘테이션 (Segmentation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세그먼트 테이블 (Segment Table)</div></div>
-</div>
-</div>
-
-
+```text
+[해시 페이지 테이블 (Hashed Page Table)]
+    │
+    ▼
+[역 페이지 테이블 (Inverted Page Table)]
+    │
+    ├──▶ [세그멘테이션 (Segmentation)]
+    └──▶ [세그먼트 테이블 (Segment Table)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

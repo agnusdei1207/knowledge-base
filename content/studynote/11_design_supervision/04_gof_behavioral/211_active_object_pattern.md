@@ -18,32 +18,22 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
+```
+  동기 호출:
+  Client → method() → [실행, 대기, 대기, 대기...] → 결과 반환
+                       (Client는 실행이 완료될 때까지 블록됨)
 
+  예: HTTP 요청 처리 중 DB 조회 10초 → UI 10초 동안 멈춤
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">동기 호출:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">실행, 대기, 대기, 대기...</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">결과 반환</div></div>
-<div class="kb-diagram-note">(Client는 실행이 완료될 때까지 블록됨)</div>
-<div class="kb-diagram-note">예: HTTP 요청 처리 중 DB 조회 10초 → UI 10초 동안 멈춤</div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Active Object 호출:</div>
-<div class="kb-diagram-note">Client → method() → Future 즉시 반환</div>
-<div class="kb-diagram-note">▼ (별도 스레드에서 비동기 실행)</div>
-<div class="kb-diagram-note">Scheduler → 실행 완료 → Future에 결과 저장</div>
-<div class="kb-diagram-note">Client는 나중에 future.get() 또는 콜백으로 결과 수신</div>
-</div>
-</div>
-
-
+```
+  Active Object 호출:
+  Client → method() → Future 즉시 반환
+                          │
+                          ▼ (별도 스레드에서 비동기 실행)
+                       Scheduler → 실행 완료 → Future에 결과 저장
+  Client는 나중에 future.get() 또는 콜백으로 결과 수신
+```
 
 | 요소 | 역할 |
 |:---|:---|
@@ -54,43 +44,42 @@ tags = ["studynote-design-supervision"]
 | **Servant** | 실제 메서드를 실행하는 객체 |
 | **Future** | 비동기 실행 결과를 나중에 받을 수 있는 핸들 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 식당 주문 시스템 — 손님([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))이 주문서(MethodRequest)를 제출하고 주문 번호표(Future)를 받는다. 주방(Servant)은 주문 큐(ActivationQueue) 순서대로 조리한다. 손님은 음식을 기다리지 않고 앉아서 다른 일을 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Client Thread Active Object Thread</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">proxy.doWork(args)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Proxy</div><div class="kb-diagram-cell">enqueue(MethodRequest)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(대리자)</div><div class="kb-diagram-cell">►</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ActivationQueue</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Future 즉시 반환</div><div class="kb-diagram-node">Req1, Req2, ...</div></div>
-<div class="kb-diagram-note">│ dequeue()</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Future&lt;T&gt;</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결과 수신</div><div class="kb-diagram-cell">Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핸들)</div><div class="kb-diagram-cell">(실행 타이밍</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">future.get()</div><div class="kb-diagram-node">나중에</div><div class="kb-diagram-note">execute()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">Servant</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result</div><div class="kb-diagram-cell">(실제 실행)</div></div>
-</div>
-</div>
-
-
+```
+  Client Thread                    Active Object Thread
+  ─────────────                    ─────────────────────
+       │                                    │
+       │ proxy.doWork(args)                 │
+       ▼                                    │
+  ┌─────────────┐                           │
+  │   Proxy     │  enqueue(MethodRequest)   │
+  │  (대리자)   │──────────────────────────►│
+  └──────┬──────┘                     ┌────┴──────────────┐
+         │                            │  ActivationQueue  │
+         │ Future 즉시 반환            │  [Req1, Req2, ...] │
+         ▼                            └────┬──────────────┘
+  ┌──────────────┐                         │ dequeue()
+  │  Future<T>   │                    ┌────▼──────────────┐
+  │  (결과 수신  │                    │    Scheduler      │
+  │   핸들)      │                    │  (실행 타이밍     │
+  └──────┬───────┘                    │   제어)           │
+         │                            └────┬──────────────┘
+         │ future.get() [나중에]           │ execute()
+         │                            ┌────▼──────────────┐
+         └◄───────────────────────────│    Servant        │
+            result                   │  (실제 실행)       │
+                                      └───────────────────┘
+```
 
 ```java
 // Active Object 패턴 직접 구현 (단순화)
@@ -173,21 +162,18 @@ String result = future
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Android 아키텍처:</div>
-<div class="kb-diagram-note">UI Thread (Main Thread) Worker Thread</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">viewModel.loadData()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 즉시 반환 (LiveData Future)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다른 UI 업데이트 계속</div><div class="kb-diagram-note">데이터 로딩 중...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">liveData.postValue(result)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UI 자동 업데이트 (Observer)</div></div>
-</div>
-</div>
-
-
+```
+  Android 아키텍처:
+  UI Thread (Main Thread)          Worker Thread
+       │                                │
+       │ viewModel.loadData()           │
+       │ → 즉시 반환 (LiveData Future)  │
+       │                                │
+       │ [다른 UI 업데이트 계속]        │ 데이터 로딩 중...
+       │                                │
+       │◄──────────────────────────────│ liveData.postValue(result)
+       │ UI 자동 업데이트 (Observer)    │
+```
 
 ```java
 // Spring의 @Async = Active Object 패턴의 선언적 구현

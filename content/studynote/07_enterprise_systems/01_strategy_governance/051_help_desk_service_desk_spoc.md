@@ -31,25 +31,27 @@ tags = ["studynote-enterprise-systems"]
 ### [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)의 티켓팅(Ticketing) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)는 걸려 온 전화를 받는 것으로 끝나지 않고, 모든 접촉을 '티켓(Incident/Request)'이라는 쇳덩어리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 만들어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 태운다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ITIL 기반 서비스 데스크(Service Desk) 처리 라우팅 맵</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 (User)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SPOC (전화/웹)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tier 1: 서비스 데스크 에이전트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 식별 및 로깅 (티켓 발급: T-2026-001)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 지식 기반(KEDB) 검색 ──▶ (해결 가능?) ─(Yes)─▶ 즉시 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. (No) 에스컬레이션(Escalation) 발동!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tier 2 / Tier 3: 전문 기술 지원 그룹</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인프라팀, 네트워크팀, 앱 개발팀 (전문가 투입)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 근본 원인 해결 (Problem Management 연계)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 데스크</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── "티켓 해결 완료 통보"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 사용자와 확인 후 티켓 종료 (Close) 및 만족도 조사</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           ITIL 기반 서비스 데스크(Service Desk) 처리 라우팅 맵  │
+├────────────────────────────────────────────────────────┤
+│   [ 사용자 (User) ] ──(장애, 요청, 질문 발생)──▶ [ SPOC (전화/웹) ]│
+│                                                        │
+│   [ Tier 1: 서비스 데스크 에이전트 ]                       │
+│    1. 식별 및 로깅 (티켓 발급: T-2026-001)                │
+│    2. 지식 기반(KEDB) 검색 ──▶ (해결 가능?) ─(Yes)─▶ 즉시 완료 │
+│    3. (No) 에스컬레이션(Escalation) 발동!                  │
+│             │                                          │
+│             ▼                                          │
+│   [ Tier 2 / Tier 3: 전문 기술 지원 그룹 ]                  │
+│    - 인프라팀, 네트워크팀, 앱 개발팀 (전문가 투입)              │
+│    - 근본 원인 해결 (Problem Management 연계)              │
+│             │                                          │
+│             ▼                                          │
+│   [ 서비스 데스크 ] ◀── "티켓 해결 완료 통보"              │
+│    4. 사용자와 확인 후 티켓 종료 (Close) 및 만족도 조사       │
+└────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 [SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/)([서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/))는 티켓의 생로병사를 끝까지 책임지는 오너(Owner)다. 전문가(Tier 2)가 문제를 고쳤더라도, 티켓을 닫고 사용자에게 "다 고쳐졌습니다"라고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받는 최종 역할은 오직 [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)만이 수행한다. 
 
@@ -108,23 +110,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 IT 환경의 파편화 (부서별 개별 지원, 핑퐁 현상, 티켓 누락)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">헬프 데스크(Help Desk) 도입 (콜센터 형태의 수동적 Break/Fix 위주 장애 처리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ITIL 프레임워크 융합 ──▶ 서비스 데스크(Service Desk)로 아키텍처 격상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SPOC (Single Point of Contact) 철학의 강제 (모든 소통 창구의 단일화 달성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 챗봇 결합 및 Shift-Left 최적화 ──▶ 티켓리스(Ticketless) 및 자동 복구 시대로 진화</div>
-</div>
-</div>
-
-
+```text
+초기 IT 환경의 파편화 (부서별 개별 지원, 핑퐁 현상, 티켓 누락)
+    │
+    ▼
+헬프 데스크(Help Desk) 도입 (콜센터 형태의 수동적 Break/Fix 위주 장애 처리)
+    │
+    ▼
+ITIL 프레임워크 융합 ──▶ 서비스 데스크(Service Desk)로 아키텍처 격상
+    │
+    ▼
+SPOC (Single Point of Contact) 철학의 강제 (모든 소통 창구의 단일화 달성)
+    │
+    ▼
+AI 챗봇 결합 및 Shift-Left 최적화 ──▶ 티켓리스(Ticketless) 및 자동 복구 시대로 진화
+```
 
 이 흐름도는 "무질서한 장애 처리 → 콜센터 도입 → [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 기반의 거버넌스 확립([SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/)) → 지식 기반 예방 체계(자동화) 구축"으로 성장하는 기업 IT 지원 조직의 성숙도 레벨을 보여준다.
 

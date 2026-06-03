@@ -38,27 +38,25 @@ tags = ["studynote-ict-convergence"]
 
 **책임 공유 모델(Shared Responsibility Model)**:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">On-Premises → IaaS → PaaS → SaaS → FaaS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계층</div><div class="kb-diagram-cell">On-Prem IaaS PaaS SaaS FaaS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application</div><div class="kb-diagram-cell">고객 고객 고객 벤더 벤더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime</div><div class="kb-diagram-cell">고객 고객 벤더 벤더 벤더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">고객 고객 벤더 벤더 벤더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtualize</div><div class="kb-diagram-cell">고객 벤더 벤더 벤더 벤더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware</div><div class="kb-diagram-cell">고객 벤더 벤더 벤더 벤더</div></div>
-<div class="kb-diagram-note">고객 관리 ◀ 벤더 관리 ▶</div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│            On-Premises → IaaS → PaaS → SaaS → FaaS          │
+├───────────────┬──────────────────────────────────────────────┤
+│  계층          │  On-Prem  IaaS   PaaS   SaaS   FaaS         │
+├───────────────┼──────────────────────────────────────────────┤
+│  Application  │  고객      고객    고객    벤더    벤더         │
+│  Runtime      │  고객      고객    벤더    벤더    벤더         │
+│  OS           │  고객      고객    벤더    벤더    벤더         │
+│  Virtualize   │  고객      벤더    벤더    벤더    벤더         │
+│  Hardware     │  고객      벤더    벤더    벤더    벤더         │
+└───────────────┴──────────────────────────────────────────────┘
+  고객 관리 ◀──────────────────────────── 벤더 관리 ▶
+```
 
 | 모델 | 제어권 | 관리 부담 | 대표 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 적합 사례 |
 |:---|:---:|:---:|:---|:---|
 | [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) | 높음 | 높음 | AWS EC2, Azure [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | 레거시 [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift |
-| [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) | 중간 | 중간 | Heroku, GCP App Engine | 웹 앱 개발 |
+| [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) | 중간 | 중간 | Heroku, GCP App 엔진 | 웹 앱 개발 |
 | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | 낮음 | 낮음 | Salesforce, Google Workspace | 사무 생산성 |
 | [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) | 낮음 | 매우 낮음 | AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/), Azure Functions | 이벤트 처리 |
 | [BaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/186_baas_backend_as_a_service_firebase/) | 낮음 | 낮음 | Firebase, AWS Amplify | 모바일 앱 |

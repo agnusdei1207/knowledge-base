@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: Type 3 메시지는 우체국에서 편지가 반송될 때 겉면에 찍혀 있는 <strong>"반송 사유 스탬프"</strong>와 같습니다. 스탬프 항목에는 [수취인 불명([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 1)], [주소지 파괴([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 0)], [우편함 잠김([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 3)], [규격 초과([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 4)] 등이 있어서, 보낸 사람은 스탬프에 체크된 항목을 보고 왜 편지가 되돌아왔는지 정확히 알 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Time Exceeded</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Destination Unreachable…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Echo Request/Reply / Sou…</div></div>
-</div>
-</div>
-
-
+```text
+[Time Exceeded]
+    │
+    ▼
+[Destination Unreachable…]
+    │
+    └──▶ [Echo Request/Reply / Sou…]
+```
 
 - **📢 섹션 요약 비유**: ** Destination Unreachable은 내비게이션에 뜬 **"경로 탐색 실패"** 경고창입니다. 다리가 끊겨서 못 가는 건지(네트워크 도달 불가), 주소를 잘못 친 건지(호스트 도달 불가)를 화면에 띄워주어 운전자가 헛고생하는 것을 막아줍니다.
 
@@ -65,24 +61,25 @@ tags = ["studynote-network"]
 - **상황**: "내 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 나가려면 1400바이트로 찢어야 하는데, 네가 1500바이트 패킷에 찢지 마(DF=1) 딱지를 붙여놔서 나보고 어쩌라는 건지 몰라 그냥 버렸음!"
 - **의미**: [PMTU](/knowledge-base/studynote/03_network/06_network_layer_ip/293_pmtu_path_mtu_discovery/) ([Path MTU Discovery](/knowledge-base/studynote/03_network/06_network_layer_ip/293_pmtu_path_mtu_discovery/)) 원리에 쓰이는 핵심 에러 코드. 송신자가 이 코드를 받으면 패킷 사이즈를 줄여서 다시 보낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방화벽(Firewall)의 Type 3 차단(Drop) 처리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방화벽 (포트 80 차단 중)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">내부 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 옛날 멍청한 라우터 시절 (Reject 방식):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방화벽 왈: "야 너 차단이야! (Type 3 Code 13 통보 날려줌)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커: "오? 차단됐다는 건 서버 IP는 진짜 맞나 보네? 다른 공격 시도!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 현대 방화벽 (Drop/Deny 방식):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방화벽 왈: (패킷을 쓰레기통에 조용히 버리고 철저히 '침묵'함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커: "왜 대답이 없지? (Request Timed Out). 서버가 아예 없나?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결론: 친절한 에러 통보(ICMP)는 해커에게 최고의 먹잇감이 되므로,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 보안에서는 ICMP 에러 생성을 강제로 꺼버린다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                방화벽(Firewall)의 Type 3 차단(Drop) 처리           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 해커 ] ────▶ [ 방화벽 (포트 80 차단 중) ] ────▶ [ 내부 서버 ] │
+ │                                                             │
+ │   * 옛날 멍청한 라우터 시절 (Reject 방식):                          │
+ │   방화벽 왈: "야 너 차단이야! (Type 3 Code 13 통보 날려줌)"          │
+ │   해커: "오? 차단됐다는 건 서버 IP는 진짜 맞나 보네? 다른 공격 시도!"   │
+ │                                                             │
+ │   * 현대 방화벽 (Drop/Deny 방식):                               │
+ │   방화벽 왈: (패킷을 쓰레기통에 조용히 버리고 철저히 '침묵'함)            │
+ │   해커: "왜 대답이 없지? (Request Timed Out). 서버가 아예 없나?"     │
+ │                                                             │
+ │   ▶ 결론: 친절한 에러 통보(ICMP)는 해커에게 최고의 먹잇감이 되므로,      │
+ │           실무 보안에서는 ICMP 에러 생성을 강제로 꺼버린다.           │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** Type 3 에러 코드들은 우체국 소포 반송 딱지의 **"체크박스"**입니다. 주소 불명(네트워크), 수취인 부재(호스트), 수취 거부([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 등 어떤 박스에 체크되어 있느냐에 따라 송신자는 문제 해결의 정확한 실마리를 잡을 수 있습니다.
 
@@ -140,19 +137,15 @@ Destination Unreachable…는 네트워크 계층과 IP를 이해할 때 핵심 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Time Exceeded</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Destination Unreachable…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Echo Request/Reply / Sou…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Time Exceeded]
+    │
+    ▼
+[현재 개념: Destination Unreachable…]
+    │
+    ├──▶ [확장 A: Echo Request/Reply / Sou…]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 Destination Unreachable…는 Time Exceeded에서 출발해 현재 메커니즘을 정교화하고, 이후 Echo Request/Reply / Sou…와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

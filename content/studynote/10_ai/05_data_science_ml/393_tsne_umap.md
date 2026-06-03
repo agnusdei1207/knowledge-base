@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))는 선형 변환만 수행하므로 비선형 구조(매니폴드)를 잃어버린다. t-SNE와 UMAP은 비선형 매니폴드를 보존한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 지구 표면(3D 구면)을 세계 지도(2D 평면)로 펼칠 때 어딘가는 왜곡이 생긴다. t-SNE/UMAP은 이 왜곡을 최소화하며 지도를 만드는 방법이다.
 
@@ -70,21 +67,19 @@ tags = ["studynote-ai"]
    L = Σw·log(w/w_low) + (1-w)·log((1-w)/(1-w_low))
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고차원 임베딩 (BERT, ResNet 등)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">●●●</div><div class="kb-diagram-node">○○○</div><div class="kb-diagram-node">▲▲▲</div><div class="kb-diagram-note">(3 클래스, 768차원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ t-SNE / UMAP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저차원 시각화 (2D)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">●●●●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○○○</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(클러스터 구조 시각화 성공)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  고차원 임베딩 (BERT, ResNet 등)                      │
+│  [●●●] [○○○] [▲▲▲]  (3 클래스, 768차원)             │
+│       ↓ t-SNE / UMAP                                 │
+│  저차원 시각화 (2D)                                   │
+│                                                      │
+│  ●●●●                                                │
+│      ○○○                                             │
+│          ▲▲▲                                         │
+│  (클러스터 구조 시각화 성공)                           │
+└──────────────────────────────────────────────────────┘
+```
 
 | 특성 | t-SNE | UMAP |
 |:---|:---|:---|

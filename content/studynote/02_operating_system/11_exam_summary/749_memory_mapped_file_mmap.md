@@ -32,31 +32,35 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 시스템 메모리 용량이 커지면서, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 서브시스템과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 캐시 계층을 하나로 합치는 <strong>통합 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a> (Unified <a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">Buffer Cache</a>)</strong> 아키텍처가 최신 OS에 정착됨에 따라 자연스럽게 구현된 강력한 I/O 최적화 기법이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 파일 I/O vs 메모리 매핑 파일(mmap) 구조 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 read() / write()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 유저 공간 (User Space)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ App 버퍼 (char buf</div><div class="kb-diagram-node">4096</div><div class="kb-diagram-note">) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU 복사) ▼ (수백 번의 시스템 콜)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 커널 공간 (Kernel Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 캐시 (Page Cache)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DMA) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드 디스크 (데이터 파일)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 매핑 (mmap)</div><div class="kb-diagram-note">- "복사도 없고 시스템 콜도 없다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 유저 가상 메모리 공간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포인터 주소 (char *p) ---------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리적 1:1 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 커널 공간 (Kernel Space) ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 캐시 (Page Cache) ◀-------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DMA) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드 디스크 (데이터 파일)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 전통적 파일 I/O vs 메모리 매핑 파일(mmap) 구조 차이     │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 전통적 read() / write() ]                                │
+  │   ┌── 유저 공간 (User Space) ──────────┐                    │
+  │   │  App 버퍼 (char buf[4096])       │                    │
+  │   └─── ▲ ──── | ────────────────────┘                    │
+  │     (CPU 복사) ▼  (수백 번의 시스템 콜)                       │
+  │   ┌── 커널 공간 (Kernel Space) ────────┐                    │
+  │   │  페이지 캐시 (Page Cache)         │                    │
+  │   └─── ▲ ──── | ────────────────────┘                    │
+  │      (DMA)     ▼                                            │
+  │   [ 하드 디스크 (데이터 파일) ]                                  │
+  │                                                             │
+  │                                                             │
+  │  [ 메모리 매핑 (mmap) ]  - "복사도 없고 시스템 콜도 없다!"             │
+  │   ┌── 유저 가상 메모리 공간 ────────────┐                     │
+  │   │  포인터 주소 (char *p) ---------┐   │                     │
+  │   └─────────────────────────────────┼─┘                     │
+  │                                     │  논리적 1:1 매핑        │
+  │   ┌── 커널 공간 (Kernel Space) ────────┼─┐                    │
+  │   │  페이지 캐시 (Page Cache) ◀-------┘  │                    │
+  │   └─── ▲ ──── | ────────────────────┘                    │
+  │      (DMA)     ▼                                            │
+  │   [ 하드 디스크 (데이터 파일) ]                                  │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 위쪽의 전통적 방식은 유저 공간과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 사이에 거대한 장벽이 있다. 앱이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 원할 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 문을 두드려야 하고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 자신의 캐시 공간에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 굳이 유저의 버퍼로 한 번 더 복사(CPU 연산 소모)해서 넘겨준다. 반면 아래쪽의 `mmap` 방식은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자신이 쥐고 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시(물리 메모리)의 주소록을 유저 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(가상 주소)에 그대로 등록해 버린다. 즉, 유저가 메모리 포인터(`*p`)를 읽고 쓰면, 그게 사실은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 캐시 메모리를 직접 건드리는 것이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복 복사가 사라지는 궁극의 제로 카피([Zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/))가 완성된다.
 
@@ -70,32 +74,33 @@ tags = ["studynote-operating-system"]
 
 초보자들이 흔히 하는 오해는 "`mmap`을 호출하면 1GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 메모리에 통째로 올라가서 메모리가 펑크 난다"는 것이다. 틀렸다. `mmap`의 천재성은 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))과 결합하여, <strong>내가 진짜로 포인터를 건드린 부분(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)만 메모리에 올라온다</strong>는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mmap의 지연 할당 (Lazy Loading) 기반 내부 동작 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 매핑 셋업 (mmap 호출 시점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App: <code>p = mmap(..., "big_file.dat", ...)</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS : 가상 주소 공간에 VMA(Virtual Memory Area) 구조체만 딸랑 만듦.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 테이블은 비어 있음 (Valid 비트 = 0).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 주의: 이때 디스크 I/O는 1바이트도 일어나지 않음! 🚀 초고속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 실제 메모리 접근 (포인터 읽기/쓰기 시점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">App: <code>char c = p</div><div class="kb-diagram-node">5000</div><div class="kb-diagram-note">;</code> (특정 오프셋 데이터 접근 시도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: 어? 페이지 테이블에 매핑된 물리 메모리가 없네?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 🚨 페이지 폴트 (Page Fault) 인터럽트 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 커널의 페이지 폴트 핸들러 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS : "아! mmap 해둔 파일이구나!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크에서 파일의 5000번지 근처 4KB(1페이지) 조각만 DMA로 퍼올림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 테이블에 방금 가져온 물리 프레임 주소 연결 (Valid = 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 변경분 동기화 (Dirty Page Write-back)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">App: <code>p</div><div class="kb-diagram-node">5000</div><div class="kb-diagram-note">= 'Z';</code> (데이터 수정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS : 백그라운드 스레드(pdflush)나 <code>msync()</code> 호출 시, 더티 페이지를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모아두었다가 디스크 원본 파일에 비동기로 몰아서 씀.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 mmap의 지연 할당 (Lazy Loading) 기반 내부 동작 원리       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   1. 매핑 셋업 (mmap 호출 시점)                                        │
+  │      App: `p = mmap(..., "big_file.dat", ...)`                    │
+  │      OS : 가상 주소 공간에 VMA(Virtual Memory Area) 구조체만 딸랑 만듦.  │
+  │           페이지 테이블은 비어 있음 (Valid 비트 = 0).                  │
+  │           ※ 주의: 이때 디스크 I/O는 1바이트도 일어나지 않음! 🚀 초고속      │
+  │                                                                   │
+  │   2. 실제 메모리 접근 (포인터 읽기/쓰기 시점)                             │
+  │      App: `char c = p[5000];` (특정 오프셋 데이터 접근 시도)            │
+  │      CPU: 어? 페이지 테이블에 매핑된 물리 메모리가 없네?                 │
+  │           ──▶ 🚨 페이지 폴트 (Page Fault) 인터럽트 발생!             │
+  │                                                                   │
+  │   3. 커널의 페이지 폴트 핸들러 처리                                      │
+  │      OS : "아! mmap 해둔 파일이구나!"                                 │
+  │           디스크에서 파일의 5000번지 근처 4KB(1페이지) 조각만 DMA로 퍼올림. │
+  │           페이지 테이블에 방금 가져온 물리 프레임 주소 연결 (Valid = 1)   │
+  │                                                                   │
+  │   4. 변경분 동기화 (Dirty Page Write-back)                           │
+  │      App: `p[5000] = 'Z';` (데이터 수정)                             │
+  │      OS : 백그라운드 스레드(pdflush)나 `msync()` 호출 시, 더티 페이지를    │
+  │           모아두었다가 디스크 원본 파일에 비동기로 몰아서 씀.                │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** `mmap`의 심장부는 '가짜 약속([Lazy Loading](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/182_lazy_loading/))'이다. 100GB짜리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 mmap으로 묶어도, OS는 "이 가상 주소 범위는 디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 어느 위치와 연결되어 있다"라는 명함([VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/))만 파놓을 뿐 물리적 RAM은 1바이트도 소모하지 않는다. 나중에 애플리케이션 코드가 그 주소를 진짜 건드리는 순간에 하드웨어가 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 트랩을 걸고, OS가 그제야 부리나케 디스크에서 해당 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위만 쏙 뽑아 메모리에 채워준다. 메모리가 꽉 차면 안 쓰는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)부터 다시 디스크 스왑이 아닌 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 내쫓으면 되므로 메모리 관리조차 완벽하게 효율적이다.
 
@@ -147,25 +152,31 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: 포인터 연산(`*p`)은 코드상으로는 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 연산처럼 보여서 즉시 끝날 것 같다. 하지만 해당 주소의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아직 메모리에 안 올라와서 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터지면, OS는 디스크에서 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 퍼 올릴 때까지(수 밀리초) 프로세스를 블로킹(I/O Wait) 상태로 무자비하게 재워버린다.
    - **아키텍트 판단**: 애플리케이션 입장에서는 변수에 접근했을 뿐인데 스레드가 정지당하는 끔찍한 예측 불가능성이 mmap의 치명적 단점이다. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 치명적인 시스템에서는 mmap 대신 `io_uring` 이나 비동기 I/O (AIO)를 통해 디스크 I/O를 철저히 이벤트 루프로 관리하는 모던 아키텍처로 넘어가야 한다. (그래서 최신 [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) WiredTiger 엔진 등은 mmap 의존도를 줄이고 자체 버퍼 풀을 구축했다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 I/O 기술 선택을 위한 아키텍트 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대용량 데이터 파일 처리 모듈을 설계한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 패턴이 순차적(Sequential)이고 한 번만 읽고 버리는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">read() / write() + 큰 청크 버퍼 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (이리저리 건너뛰며 반복적으로 탐색/수정한다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일의 일부분만 랜덤하게 자주 수정하거나, 프로세스 간 공유가 필요한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">mmap() 적용 검토 (제로 카피 효과 극대화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단, 64비트 OS 여부 및 페이지 폴트 지연 주의)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (극단적 저지연 Non-blocking 반응이 무조건 필수다)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">io_uring 또는 Direct I/O (O_DIRECT) 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 페이지 캐시를 아예 믿지 않고 애플리케이션이 직접 메모리 큐를 통제</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 파일 I/O 기술 선택을 위한 아키텍트 의사결정 트리            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 대용량 데이터 파일 처리 모듈을 설계한다 ]                             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      접근 패턴이 순차적(Sequential)이고 한 번만 읽고 버리는가?            │
+  │          ├─ 예 ─────▶ [ read() / write() + 큰 청크 버퍼 사용 ]     │
+  │          │                                                        │
+  │          └─ 아니오 (이리저리 건너뛰며 반복적으로 탐색/수정한다)              │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      파일의 일부분만 랜덤하게 자주 수정하거나, 프로세스 간 공유가 필요한가?    │
+  │          ├─ 예 ─────▶ [ mmap() 적용 검토 (제로 카피 효과 극대화) ] │
+  │          │             (단, 64비트 OS 여부 및 페이지 폴트 지연 주의)    │
+  │          │                                                        │
+  │          └─ 아니오 (극단적 저지연 Non-blocking 반응이 무조건 필수다)        │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      [ io_uring 또는 Direct I/O (O_DIRECT) 도입 ]                  │
+  │      OS 페이지 캐시를 아예 믿지 않고 애플리케이션이 직접 메모리 큐를 통제       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 흐름도는 I/O 처리의 정답이 없음을 보여준다. 무거운 대용량 시스템에서는 단순히 함수 하나 바꾸는 것이 튜닝이 아니다. `read`는 중복 복사가 문제고, `mmap`은 예측 불허의 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 멈춤 현상이 문제다. 궁극의 실시간성이 필요하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 모든 개입([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시)을 치워버리고 디스크와 직접 대화하는 `Direct I/O`라는 어둠의 마법을 꺼내 들어야 한다. 기술사는 이 세 가지 무기의 장단점을 상황에 맞게 꺼내 쓰는 지휘관이다.
 
@@ -211,19 +222,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스풀링 (Spooling) 버퍼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 매핑 파일 (mmap)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">쓰기 시 복사 (COW)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SMP 캐시 일관성 폴스 셰어링</div></div>
-</div>
-</div>
-
-
+```text
+[스풀링 (Spooling) 버퍼]
+    │
+    ▼
+[메모리 매핑 파일 (mmap)]
+    │
+    ├──▶ [쓰기 시 복사 (COW)]
+    └──▶ [SMP 캐시 일관성 폴스 셰어링]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -25,27 +25,28 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 교차로 4방향 꼬리물기(데드락) 예방. "차는 무조건 직진만 해! 좌회전 절대 금지!"(조건 부정)라고 룰을 강제하면 절대 교차로 중앙에서 꼬리가 물릴 수가 없다. 다만, 운전자는 목적지까지 몇 바퀴를 우회하며 엄청난 비효율(오버헤드)을 감수해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 예방의 4가지 타격점(Denial Points)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 1</div><div class="kb-diagram-note">상호 배제 (Mutual Exclusion) 부정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타격법: "모든 걸 같이 쓰자! 락(Lock) 금지!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 한계: 프린터 조각 인쇄, DB 동시 수정 파괴 등 논리적 불가.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 2</div><div class="kb-diagram-note">점유 대기 (Hold and Wait) 부정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타격법: "시작할 때 모든 자원을 선점하거나, 빈손만 요청!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 한계: 10시간 중 1분 쓸 자원을 10시간 전세 냄. 엄청난 낭비.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 3</div><div class="kb-diagram-note">비선점 (No Preemption) 부정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타격법: "기다려야 하면 내가 쥔 걸 다 강제 반납해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 한계: 중간까지 진행된 트랜잭션 수동 롤백 복잡도 폭발.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 4</div><div class="kb-diagram-note">순환 대기 (Circular Wait) 부정 (★가장 현실적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타격법: "모든 락에 번호를 매기고, 오름차순으로만 집어!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 돌파구: O(N) 검증으로 사이클 100% 방어. 업계 표준 락 위계.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         교착 상태 예방의 4가지 타격점(Denial Points)         │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [조건 1] 상호 배제 (Mutual Exclusion) 부정                  │
+│  - 타격법: "모든 걸 같이 쓰자! 락(Lock) 금지!"               │
+│  - 한계: 프린터 조각 인쇄, DB 동시 수정 파괴 등 논리적 불가. │
+│                                                              │
+│  [조건 2] 점유 대기 (Hold and Wait) 부정                     │
+│  - 타격법: "시작할 때 모든 자원을 선점하거나, 빈손만 요청!"  │
+│  - 한계: 10시간 중 1분 쓸 자원을 10시간 전세 냄. 엄청난 낭비.│
+│                                                              │
+│  [조건 3] 비선점 (No Preemption) 부정                        │
+│  - 타격법: "기다려야 하면 내가 쥔 걸 다 강제 반납해!"        │
+│  - 한계: 중간까지 진행된 트랜잭션 수동 롤백 복잡도 폭발.     │
+│                                                              │
+│  [조건 4] 순환 대기 (Circular Wait) 부정 (★가장 현실적)      │
+│  - 타격법: "모든 락에 번호를 매기고, 오름차순으로만 집어!"   │
+│  - 돌파구: O(N) 검증으로 사이클 100% 방어. 업계 표준 락 위계.│
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 벌이 꽃에 오지 못하게 막는 예방(Prevention) — 가장 확실한 건 꽃을 다 뽑아버리거나(1~3번 부정), 그물망을 씌워(4번 부정) 아예 접근 루트를 하드코어하게 차단하는 겁니다.
 
@@ -115,19 +116,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">타조 알고리즘 (Ostrich Algorithm)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 예방 (Deadlock Prevention)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상호 배제 부정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">점유 대기 부정</div></div>
-</div>
-</div>
-
-
+```text
+[타조 알고리즘 (Ostrich Algorithm)]
+    │
+    ▼
+[교착 상태 예방 (Deadlock Prevention)]
+    │
+    ├──▶ [상호 배제 부정]
+    └──▶ [점유 대기 부정]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

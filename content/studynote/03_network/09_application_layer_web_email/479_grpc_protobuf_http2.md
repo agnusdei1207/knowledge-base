@@ -30,31 +30,34 @@ tags = ["studynote-network"]
   2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2와 결합 (2015)</strong>: 마침 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 표준이 완성되자, 구글은 Stubby의 철학을 유지하면서 전송 계층을 범용적인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2로 교체하고 차세대 이진 직렬화 도구(ProtoBuf v3)를 탑재한 'gRPC'를 세상에 공개했다.
   3. <strong><a href="/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/">CNCF</a> 생태계 편입</strong>: Kubernetes와 완벽히 호환되며 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 생태계의 중추적 프로젝트로 편입되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REST API (JSON) vs gRPC (ProtoBuf) 구조 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">REST API 방식 - 느슨한 계약, 텍스트 파싱의 무거움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node.js 서버 Spring Boot 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── POST /users (JSON Body) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ "id": 1, "name": "Kim" }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1. JSON 파싱 연산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2. 타입 캐스팅 연산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 200 OK (JSON Body)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">gRPC 방식 - 강력한 계약(Proto), 이진 직렬화의 초고속성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node.js 서버 (gRPC Client) Spring Boot 서버 (gRPC Server)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1. Proto 파일 기반 자동 생성된 함수 호출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">client.CreateUser({id:1, name:"Kim"})</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ ──</div><div class="kb-diagram-node">HTTP/2 이진 스트림 010101...</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사전 정의된 Proto로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 연산 없이 즉각</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 객체로 매핑!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">HTTP/2 이진 스트림 010101...</div><div class="kb-diagram-note">──│</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             REST API (JSON) vs gRPC (ProtoBuf) 구조 비교      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [ REST API 방식 - 느슨한 계약, 텍스트 파싱의 무거움 ]           │
+│                                                             │
+│ Node.js 서버                        Spring Boot 서버          │
+│   │── POST /users (JSON Body) ──────────▶│                  │
+│   │ { "id": 1, "name": "Kim" }          │                  │
+│   │                                       │ (1. JSON 파싱 연산)│
+│   │                                       │ (2. 타입 캐스팅 연산)│
+│   │◀── 200 OK (JSON Body) ──────────────│                  │
+│                                                             │
+│ [ gRPC 방식 - 강력한 계약(Proto), 이진 직렬화의 초고속성 ]        │
+│                                                             │
+│ Node.js 서버 (gRPC Client)          Spring Boot 서버 (gRPC Server)│
+│   │                                       │                  │
+│   │ (1. Proto 파일 기반 자동 생성된 함수 호출) │                  │
+│   │   client.CreateUser({id:1, name:"Kim"})                  │
+│   │                                       │                  │
+│   │ ── [ HTTP/2 이진 스트림 010101... ] ──▶│                  │
+│   │                                       │ (사전 정의된 Proto로 │
+│   │                                       │  CPU 연산 없이 즉각 │
+│   │                                       │  메모리 객체로 매핑!) │
+│   │ ◀─ [ HTTP/2 이진 스트림 010101... ] ──│                  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 방식은 `name`이라는 키워드를 매번 전송해야 하므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 크고, 수신자는 이 문자열을 읽고 문자열/숫자 타입으로 변환하는 직렬화/역직렬화(Serialization) 파싱에 엄청난 CPU를 소모한다. 반면 gRPC는 `.proto`라는 계약서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 통해 "1번 자리는 int, 2번 자리는 string"이라는 것을 양쪽이 미리 컴파일해 둔다. 통신할 때는 필드 이름 없이 값(이진수)만 빽빽하게 뭉쳐서 보내므로 [페이로드 크기](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/236_payload_size_and_padding_46_1500_bytes/)가 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 대비 절반 이하로 줄어들고, 파싱 속도는 수십 배 이상 빠르다.
 
@@ -82,23 +85,25 @@ gRPC가 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/15
 3. <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> Streaming <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">RPC</a></strong>: 클라이언트가 <strong>여러 개의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 스트림으로 계속</strong> 보내고, 서버는 다 받은 뒤 한 번 응답. (예: 대용량 센서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 업로드)
 4. <strong>Bidirectional Streaming <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">RPC</a> (양방향 스트리밍)</strong>: 클라이언트와 서버가 **동시에 독립적인 스트림으로** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계속 주고받음. 순서가 보장되며, 핑퐁 게임이나 채팅처럼 양방향 실시간 통신이 가능. ([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/) 대체 가능)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gRPC Bidirectional Streaming 내부 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">gRPC Client (Go)</div><div class="kb-diagram-node">gRPC Server (Java)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 Connection (단일 TCP 소켓)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Stream ID: 1 (요청 스트림) ──▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">MSG1</div><div class="kb-diagram-node">MSG2</div><div class="kb-diagram-node">MSG3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ Stream ID: 2 (응답 스트림) ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ACK1</div><div class="kb-diagram-node">ACK2</div><div class="kb-diagram-node">ACK3</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 클라이언트는 MSG를 다 보내지 않아도 서버가 즉시 ACK를 쏠 수 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완벽한 비동기 양방향 (Full-Duplex) 실시간 데이터 파이프라인!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│              gRPC Bidirectional Streaming 내부 구조               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│ [gRPC Client (Go)]                     [gRPC Server (Java)]     │
+│       │                                          │              │
+│       │  [ HTTP/2 Connection (단일 TCP 소켓) ]     │              │
+│       │                                          │              │
+│       │     ┌─ Stream ID: 1 (요청 스트림) ──▶      │              │
+│       │     │   [MSG1] [MSG2] [MSG3]             │              │
+│       │     │                                    │              │
+│       │     ◀─ Stream ID: 2 (응답 스트림) ──┐      │              │
+│       │        [ACK1] [ACK2] [ACK3]      │       │              │
+│       │                                          │              │
+│       │ 🌟 클라이언트는 MSG를 다 보내지 않아도 서버가 즉시 ACK를 쏠 수 있음│
+│       │    완벽한 비동기 양방향 (Full-Duplex) 실시간 데이터 파이프라인!    │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 단일 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결 위에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 프레임 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))를 완벽하게 활용한다. 클라이언트가 스트림을 열어 계속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘는 와중에도(업로드), 서버는 기다리지 않고 별도의 스트림으로 즉각 처리 결과나 경고를 날릴 수 있다(다운로드). 이 양방향 스트리밍 구조 덕분에 별도의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ)나 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 없이도 gRPC [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 하나만으로 초저지연 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리가 가능해졌다.
 
@@ -141,26 +146,28 @@ gRPC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 2. **시나리오 — 웹 브라우저에서의 gRPC 직접 호출 시도 (gRPC-Web)**: 프론트엔드 팀(React)이 백엔드의 압도적 성능을 웹 브라우저에서도 누리겠다며 클라이언트 코드에서 gRPC 서버를 직접 찌르려 했다. 하지만 브라우저는 보안과 샌드박스 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 때문에 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 프레임(Frame) 레벨 제어 권한을 자바스크립트 엔진(fetch [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))에 열어주지 않아 통신이 막혀버렸다.
    - **판단**: gRPC는 태생적으로 브라우저용이 아니다. 브라우저에서 억지로 사용하려면 <strong>gRPC-Web</strong>이라는 중간 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Envoy 등) 레이어를 도입해, 브라우저가 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1이나 Fetch 스펙으로 보낸 텍스트를 중간에서 진짜 gRPC 이진 스트림으로 번역해주어야 한다. 이 변환 오버헤드 때문에, 실무 프론트엔드 연결 구간은 그냥 REST나 GraphQL을 쓰고 백엔드 내부에서만 gRPC를 쓰는 [BFF](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)([Backend For Frontend](/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/)) 아키텍처가 정답이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: Polyglot MSA 환경의 gRPC 통합 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스키마 저장소 (Proto Repository)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user.proto (message User { int32 id = 1; ... })</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ git 푸시 ➔ CI/CD 파이프라인 작동 ➔ 각 언어별 라이브러리 자동 배포</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MSA 생태계 - 완벽한 언어 중립성(Polyglot) 달성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Order Service (Go 언어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Go용 gRPC stub 임포트)</div><div class="kb-diagram-cell">HTTP/2 이진 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Payment Service (Java)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">User Service (Python)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Java용 gRPC stub 임포트) (Python용 gRPC stub 임포트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 판단: 각 팀이 가장 잘하는 언어(Go, Java, Python)로 각 서버를 짜도,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙의 .proto 파일 하나만 업데이트하면 모든 언어의 통신 코드가 1초 만에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 호환되는 자동 컴파일 환경이 완성된다. (API 명세서 논쟁 영원히 종식)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: Polyglot MSA 환경의 gRPC 통합 설계        │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [스키마 저장소 (Proto Repository)]                             │
+  │   user.proto (message User { int32 id = 1; ... })           │
+  │   └──▶ git 푸시 ➔ CI/CD 파이프라인 작동 ➔ 각 언어별 라이브러리 자동 배포 │
+  │                                                             │
+  │ [MSA 생태계 - 완벽한 언어 중립성(Polyglot) 달성]                   │
+  │                                                             │
+  │   [Order Service (Go 언어)]   ──────┐                        │
+  │   (Go용 gRPC stub 임포트)           │ HTTP/2 이진 통신          │
+  │                                   ▼                        │
+  │   [Payment Service (Java)]  ◀─────▶ [User Service (Python)]│
+  │   (Java용 gRPC stub 임포트)          (Python용 gRPC stub 임포트)│
+  │                                                             │
+  │ ✅ 판단: 각 팀이 가장 잘하는 언어(Go, Java, Python)로 각 서버를 짜도, │
+  │ 중앙의 .proto 파일 하나만 업데이트하면 모든 언어의 통신 코드가 1초 만에   │
+  │ 100% 호환되는 자동 컴파일 환경이 완성된다. (API 명세서 논쟁 영원히 종식)│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 거대 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 조직에서 가장 큰 고통은 "[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스펙이 바뀌었을 때 타 부서에 전파하는 것"이다. [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 환경에서는 문서를 업데이트하고, 개발자들이 남이 짠 문서를 보고 각자 코드를 수정하다가 오타가 나거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입(문자열/숫자)이 틀려 장애가 난다. gRPC 아키텍처에서는 `.proto` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체가 절대적인 헌법이다. 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 수정되어 Git에 올라가면, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 Java, Python, Go 용 소스 코드를 자동으로 찍어내어 패키지 저장소(NPM, Maven)에 올려버린다. 개발자는 그냥 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 함수(`getUser(1)`)를 에러 없이 가져다 쓰기만 하면 되는, 궁극의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 주도 개발([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)-Driven Development)이 완성된다.
 
@@ -208,19 +215,15 @@ gRPC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: GraphQL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: gRPC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WebSocket</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: GraphQL]
+    │
+    ▼
+[현재 개념: gRPC]
+    │
+    ├──▶ [확장 A: WebSocket]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 gRPC는 GraphQL에서 출발해 현재 메커니즘을 정교화하고, 이후 WebSocket와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

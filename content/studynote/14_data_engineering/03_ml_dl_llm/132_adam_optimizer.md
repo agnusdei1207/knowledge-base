@@ -57,17 +57,11 @@ Adam = Momentum + RMSProp
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SGD (1951)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Momentum (1964)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AdaGrad (2011)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RMSProp (2012)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Adam (2014)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AdamW (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Lion·Sophia — 메모리 효율↑</div></div>
-</div>
-</div>
-
-
+```text
+[SGD (1951)] → [Momentum (1964)] → [AdaGrad (2011)]
+    → [RMSProp (2012)] → [Adam (2014)]
+    → [AdamW (2018)] → [현재: Lion·Sophia — 메모리 효율↑]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Adam은 <strong>내비게이션</strong>이에요. 방향과 속도를 **자동으로** 조절해줘요.

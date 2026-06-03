@@ -57,18 +57,12 @@ SQL 표준은 <strong>50년간 진화하며 여전히 <a href="/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SQL-86 (최초 표준)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SQL-92 (서브쿼리·JOIN)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SQL:1999 (CTE·OLAP)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SQL:2003 (Window)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SQL:2016 (JSON)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SQL:2023 (그래프)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Text-to-SQL — 자연어→SQL 자동 변환</div></div>
-</div>
-</div>
-
-
+```text
+[SQL-86 (최초 표준)] → [SQL-92 (서브쿼리·JOIN)]
+    → [SQL:1999 (CTE·OLAP)] → [SQL:2003 (Window)]
+    → [SQL:2016 (JSON)] → [SQL:2023 (그래프)]
+    → [현재: Text-to-SQL — 자연어→SQL 자동 변환]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SQL은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에게 말하는 <strong>공용 언어</strong>예요. "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보여줘!" 하면 **보여줘요**.

@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) ([Generative Pre-trained Transformer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) 계열은 모두 이 원리로 사전학습된다. 인간의 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)처럼 "앞 내용을 보고 다음을 예측"하는 자연스러운 귀납 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 자기 회귀 언어 모델은 "앞 글자들을 보고 다음 글자를 맞추는 받아쓰기 게임"을 무한 반복하며 언어 패턴을 학습하는 것이다.
 
@@ -60,19 +57,16 @@ L(θ) = Σ_{t=1}^{n} log P(xₜ | x₁,...,xₜ₋₁ ; θ)
 ### 교사 강요 (Teacher Forcing)
 
 학습 시 실제 토큰(Ground Truth)을 이전 입력으로 사용:
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">학습:</div><div class="kb-diagram-node">BOS, "오늘", "날씨", "가"</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"맑다" 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑실제 토큰 사용 (Teacher Forcing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">추론:</div><div class="kb-diagram-node">BOS, "오늘"</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"날씨" 예측 →</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BOS, "오늘", "날씨"</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"가" 예측 → ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑이전 예측 토큰 사용 (Auto-Regressive)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  학습:   [BOS, "오늘", "날씨", "가"] → "맑다" 예측   │
+│           ↑실제 토큰 사용 (Teacher Forcing)           │
+│                                                      │
+│  추론:   [BOS, "오늘"] → "날씨" 예측 →               │
+│           [BOS, "오늘", "날씨"] → "가" 예측 → ...     │
+│           ↑이전 예측 토큰 사용 (Auto-Regressive)      │
+└──────────────────────────────────────────────────────┘
+```
 
 ### 퍼플렉시티 (Perplexity)
 

@@ -51,23 +51,24 @@ ReLU: f(x) = max(0, x)
 
 ### ReLU 계열 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 비교 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ReLU 계열 활성화 함수 그래프 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ Leaky ReLU ReLU ELU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (기울기=1) / (기울기=1) / (기울기=1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ── ── → x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ (기울기=α)</div><div class="kb-diagram-cell">(기울기=0)</div><div class="kb-diagram-cell">~ (지수 감소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Leaky ReLU: ReLU: ELU:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">f(x)=max(αx, x) f(x)=max(0,x) f(x)=x (x≥0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α≈0.01 죽은 ReLU 문제 f(x)=α(eˣ-1) (x&lt;0)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              ReLU 계열 활성화 함수 그래프 비교                    │
+│                                                                 │
+│  y                                                              │
+│  ↑   Leaky ReLU           ReLU              ELU                 │
+│  │  /                   /                  /                    │
+│  │ /  (기울기=1)        /  (기울기=1)       /  (기울기=1)         │
+│  │/                   /                  /                     │
+│──┼────────────     ──┼────────────    ──┼────────────  → x     │
+│  │\  (기울기=α)      │  (기울기=0)      │~  (지수 감소)          │
+│  │ \                │                  │                        │
+│                                                                 │
+│  Leaky ReLU:          ReLU:             ELU:                    │
+│  f(x)=max(αx, x)     f(x)=max(0,x)     f(x)=x       (x≥0)     │
+│  α≈0.01              죽은 ReLU 문제    f(x)=α(eˣ-1) (x<0)     │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### ReLU 계열 변형 상세 비교
 
@@ -83,23 +84,22 @@ ReLU: f(x) = max(0, x)
 
 ### 죽은 ReLU (Dying ReLU) 문제
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">죽은 ReLU 발생 메커니즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뉴런 입력이 음수가 되면:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. ReLU 출력 = 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 역전파 기울기 = 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 가중치 갱신 없음 (∂L/∂W = 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 다음 배치에서도 같은 음수 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 영구적으로 비활성화 → "죽은 뉴런"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원인: 큰 학습률 → 가중치 크게 갱신 → 뉴런 입력이 항상 음수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예방: 적절한 학습률, He 초기화, Leaky ReLU 사용</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  죽은 ReLU 발생 메커니즘                          │
+│                                                                 │
+│  뉴런 입력이 음수가 되면:                                         │
+│                                                                 │
+│  1. ReLU 출력 = 0                                               │
+│  2. 역전파 기울기 = 0                                            │
+│  3. 가중치 갱신 없음 (∂L/∂W = 0)                                │
+│  4. 다음 배치에서도 같은 음수 입력                                │
+│  5. 영구적으로 비활성화 → "죽은 뉴런"                             │
+│                                                                 │
+│  원인: 큰 학습률 → 가중치 크게 갱신 → 뉴런 입력이 항상 음수         │
+│  예방: 적절한 학습률, He 초기화, Leaky ReLU 사용                   │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 희소 활성화 (Sparse Activation)
 
@@ -128,17 +128,12 @@ ReLU는 약 50%의 뉴런을 비활성화한다(출력=0). 이는 <strong>희소
 
 ### ReLU와 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))의 조합
 
+```
+Linear → BatchNorm → ReLU  (권장 순서)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Linear → BatchNorm → ReLU (권장 순서)</div>
-<div class="kb-diagram-note">이유: BatchNorm이 입력을 정규화해 ReLU가 음수 구간으로</div>
-<div class="kb-diagram-note">쏠리는 현상 방지 → 죽은 ReLU 예방 효과</div>
-</div>
-</div>
-
-
+이유: BatchNorm이 입력을 정규화해 ReLU가 음수 구간으로
+     쏠리는 현상 방지 → 죽은 ReLU 예방 효과
+```
 
 - **📢 섹션 요약 비유**: ReLU는 도로의 일방통행 게이트 — 앞으로 가는 차(양수 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))는 속도 그대로 통과, 역주행 차(음수 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))는 차단한다. Leaky ReLU는 역주행을 완전히 막지 않고 서행으로 통과시켜 도로 전체가 마비되는 것을 방지한다.
 

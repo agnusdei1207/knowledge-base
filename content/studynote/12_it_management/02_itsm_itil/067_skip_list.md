@@ -28,17 +28,11 @@ tags = ["it_management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Level 3: ● ●</div>
-<div class="kb-diagram-note">Level 2: ─● ● ● ●</div>
-<div class="kb-diagram-note">Level 1: ─●─●─●─●─●─●─●─●─●</div>
-</div>
-</div>
-
-
+```text
+Level 3: ────●────────────●────
+Level 2: ─●────●────●────●────
+Level 1: ─●─●─●─●─●─●─●─●─●───
+```
 
 | 요소 | 역할 |
 | :-- | :-- |
@@ -106,41 +100,29 @@ tags = ["it_management"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Sorted List</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Skip List</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Multi-level Pointers</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Logarithmic Search</div>
-</div>
-</div>
-
-
+```text
+Sorted List
+  ↓
+Skip List
+  ↓
+Multi-level Pointers
+  ↓
+Logarithmic Search
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Linked List</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Skip List</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Balanced Tree Alternative</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Ordered Map</div>
-</div>
-</div>
-
-
+```text
+Linked List
+  ↓
+Skip List
+  ↓
+Balanced Tree Alternative
+  ↓
+Ordered Map
+```
 
 ---
 

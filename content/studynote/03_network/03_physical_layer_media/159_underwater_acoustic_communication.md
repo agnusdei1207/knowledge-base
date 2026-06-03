@@ -41,22 +41,23 @@ tags = ["studynote-network"]
 
 아래 그림은 수중 음향 채널에서 직접파와 반사파가 함께 도착하는 모습을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">underwater acoustic channel characteristics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AUV / Sensor Tx</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">direct path ▶ Rx Hydrophone</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">surface reflection ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">seabed reflection ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">long range -&gt; large propagation delay</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">relative motion -&gt; Doppler shift</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">many paths -&gt; echo / inter-symbol interference</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 underwater acoustic channel characteristics                │
+├────────────────────────────────────────────────────────────────────────────┤
+│ AUV / Sensor Tx                                                            │
+│      │                                                                     │
+│      ├──────── direct path ───────────────────────────────▶ Rx Hydrophone  │
+│      │                                                                     │
+│      ├────── surface reflection ──────────────────────────▶                │
+│      │                                                                     │
+│      └──── seabed reflection ─────────────────────────────▶                │
+│                                                                            │
+│ long range  -> large propagation delay                                     │
+│ relative motion -> Doppler shift                                           │
+│ many paths   -> echo / inter-symbol interference                           │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 수신기가 “한 번의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)”를 받는 것이 아니라, 시간차를 두고 여러 경로의 복사본을 함께 받는다는 점이다. 예를 들어 15km 떨어진 두 장비 사이에서는 편도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 약 10초 수준이 될 수 있고, 반사파가 겹치면 심벌 간 간섭 (Inter-Symbol Interference)이 발생한다. 그래서 수중 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)은 단순 변조기보다 채널 추정, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 전방 오류 정정 (FEC, [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Error Correction), 적응형 등화가 훨씬 중요하다.
 
@@ -125,21 +126,18 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수중에서의 전자기파 감쇠</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">음향 통신 (수중 음파 통신)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Acoustic Modem · Transducer · Hydrophone</div>
-<div class="kb-diagram-tree-item" style="--depth:2">대지연 · 다중 경로 · 도플러 보정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해저 센서망 · AUV / ROV 제어 · 하이브리드 수중 네트워크</div>
-</div>
-</div>
-
-
+```text
+수중에서의 전자기파 감쇠
+    │
+    ▼
+음향 통신 (수중 음파 통신)
+    │
+    ├── Acoustic Modem · Transducer · Hydrophone
+    ├── 대지연 · 다중 경로 · 도플러 보정
+    │
+    ▼
+해저 센서망 · AUV / ROV 제어 · 하이브리드 수중 네트워크
+```
 
 이 흐름은 수중 음향 통신이 단순한 대체 기술이 아니라, 수중 환경의 물리 제약에서 출발해 전용 장비와 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 해양 응용망으로 확장되는 기술임을 보여 준다.
 

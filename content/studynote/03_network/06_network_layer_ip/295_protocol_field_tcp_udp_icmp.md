@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 목적지 회사 건물(IP 주소) 1층 안내 데스크에 도착한 택배 박스입니다. 안내 데스크(IP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 직원이 박스에 적힌 송장을 봅니다. 송장의 <strong>[담당 부서란(Protocol)]</strong>에 <strong>'6번'</strong>이라고 적혀 있으면 영업부([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))로 올리고, <strong>'17번'</strong>이라고 적혀 있으면 총무부([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))로 던져주는 것과 완벽히 똑같습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TTL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로토콜 필드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">헤더 체크섬</div></div>
-</div>
-</div>
-
-
+```text
+[TTL]
+    │
+    ▼
+[프로토콜 필드]
+    │
+    └──▶ [헤더 체크섬]
+```
 
 - **📢 섹션 요약 비유**: ** 프로토콜 필드는 큰 박스(IP) 안에 들어있는 작은 박스(L4)가 **"어떤 모양의 블록인지 알려주는 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 스티커"**입니다. 컴퓨터는 이 스티커의 번호를 보고 네모 모양 구멍([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))이나 세모 모양 구멍([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))에 맞춰서 박스를 쏙 집어넣습니다.
 
@@ -46,21 +42,27 @@ tags = ["studynote-network"]
 ### 1. 상위 계층으로의 역다중화 (Demultiplexing)
 IP는 여러 상위 프로토콜의 데이터를 실어 나르는 거대한 덤프트럭([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))이다. 반대로 수신 측에 도착해 짐을 내릴 때는, 짐을 각 주인에게 쪼개서 나눠주는 역다중화 과정이 필수적이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protocol 필드를 통한 수신 측 역다중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수신자 OS 내부 (4계층 모듈들)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP 모듈</div><div class="kb-diagram-node">TCP 모듈</div><div class="kb-diagram-node">UDP 모듈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protocol = 1 Protocol = 6 Protocol = 17</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수신자 IP 모듈 (3계층)</div><div class="kb-diagram-note">"야! 택배 도착했다. 번호 보고 찾아가라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IP 헤더를 벗김)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP Header | TCP/UDP/ICMP Data</div><div class="kb-diagram-connector">▶</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                Protocol 필드를 통한 수신 측 역다중화            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 수신자 OS 내부 (4계층 모듈들) ]                               │
+ │                                                             │
+ │     [ ICMP 모듈 ]     [ TCP 모듈 ]      [ UDP 모듈 ]          │
+ │          ▲                 ▲                 ▲              │
+ │          │                 │                 │              │
+ │   Protocol = 1      Protocol = 6      Protocol = 17         │
+ │          │                 │                 │              │
+ │          └───────── ┬ ───────── ┬ ─────────┘              │
+ │                       │         │                           │
+ │   [ 수신자 IP 모듈 (3계층) ] "야! 택배 도착했다. 번호 보고 찾아가라!" │
+ │                       ▲                                     │
+ │                       │ (IP 헤더를 벗김)                      │
+ │     인터넷 ───▶ [ IP Header | TCP/UDP/ICMP Data ] ───▶       │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 프로토콜 필드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +126,15 @@ IANA가 정의한 프로토콜 번호 중 네트워크 실무자가 평생 마�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TTL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 프로토콜 필드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 헤더 체크섬</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TTL]
+    │
+    ▼
+[현재 개념: 프로토콜 필드]
+    │
+    ├──▶ [확장 A: 헤더 체크섬]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 프로토콜 필드는 TTL에서 출발해 현재 메커니즘을 정교화하고, 이후 [헤더 체크섬](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **NAT의 이중성**: 가정용 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))는 부족한 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소를 아껴주지만, 밖(인터넷)에서 집 안(사설 IP)으로 들어오는 연결은 보안상 철저하게 차단(Drop)해버리는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 철문 방어막입니다.
 - **재앙의 시작**: 웹서핑(클라이언트가 먼저 밖으로 요청)은 문제없지만, 두 대의 컴퓨터가 직접 붙어야 하는 <strong>스카이프(음성 통화), 화상 회의(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/">WebRTC</a>), <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 전송</strong> 시스템에서는 양쪽 다 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 벽 안에 갇혀 서로에게 전화를 걸 수 없는 최악의 통신 먹통 사태가 터집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAT 횡단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트</div></div>
-</div>
-</div>
-
-
+```text
+[IPv6 헤더 압축 / SLAAC]
+    │
+    ▼
+[NAT 횡단]
+    │
+    └──▶ [멀티캐스트]
+```
 
 - **📢 섹션 요약 비유**: [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 두 단말기가 모두 사설 IP 대역(공유기 밑)에 숨어 있을 때, <strong>가운데 중계 서버(STUN/TURN)를 이용해 각자의 공유기(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>) <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 구멍을 강제로 열고 유지시켜, 두 단말 간에 직접적인(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a>) 통신 세션을 강제로 관통(횡단, Traversal)시키는 릴레이 통신 기술</strong>입니다.
 - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 홀 펀칭 (Hole Punching)</strong>: 안에서 밖으로 문을 밀고 나갈 때 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 잠깐 뚫리는 '임시 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 매핑)'을 닫히기 전에 얼른 꿰뚫어 버리는 핵심 눈속임 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAT 횡단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트</div></div>
-</div>
-</div>
-
-
+```text
+[IPv6 헤더 압축 / SLAAC]
+    │
+    ▼
+[NAT 횡단]
+    │
+    └──▶ [멀티캐스트]
+```
 
 - **📢 섹션 요약 비유**: [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -132,19 +124,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPv6 헤더 압축 / SLAAC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NAT 횡단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 멀티캐스트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IPv6 헤더 압축 / SLAAC]
+    │
+    ▼
+[현재 개념: NAT 횡단]
+    │
+    ├──▶ [확장 A: 멀티캐스트]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단는 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

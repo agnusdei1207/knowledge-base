@@ -32,22 +32,27 @@ LSP의 핵심은 계약에 의한 설계 ([Design by Contract](/knowledge-base/s
 
 대표적인 위반 사례가 '새(Bird)'와 '펭귄(Penguin)'의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSP 위반과 준수의 아키텍처 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSP 위반 구조: 행위 불일치</div><div class="kb-diagram-node">LSP 준수 구조: 인터페이스 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt; Bird &gt;&gt; &lt;&lt; Bird &gt;&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ fly() + eat()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sparrow Penguin(위반!) &lt;&lt; Flyable &gt;&gt; Penguin</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ fly() + fly() -&gt; 예외! + fly() + eat()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sparrow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ fly()</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  LSP 위반과 준수의 아키텍처 비교             │
+├──────────────────────────────────────────────────────────────┤
+│ [LSP 위반 구조: 행위 불일치]      [LSP 준수 구조: 인터페이스 분리] │
+│                                                              │
+│       << Bird >>                     << Bird >>              │
+│       + fly()                        + eat()                 │
+│          ▲                              ▲                    │
+│          │                              ├───┐                │
+│    ┌─────┴─────┐                  ┌─────┴─────┐              │
+│    │           │                  │           │              │
+│ Sparrow     Penguin(위반!)    << Flyable >>  Penguin         │
+│ + fly()     + fly() -> 예외!    + fly()      + eat()         │
+│                                   ▲                          │
+│                                   │                          │
+│                                Sparrow                       │
+│                                + fly()                       │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 왼쪽 구조에서 클라이언트는 `Bird` 타입의 객체 리스트를 순회하며 `fly()`를 호출할 때, `Penguin` 객체를 만나면 프로그램이 크래시(Crash)된다. 자식이 부모의 '날 수 있다'는 행위 계약을 위반했기 때문이다. 오른쪽 구조처럼 비행 가능성(Flyable)을 분리하여 재설계하면, 치환 과정에서 발생하는 논리적 모순을 원천적으로 차단할 수 있다.
 
@@ -105,23 +110,21 @@ LSP는 SOLID의 다른 원칙들, 특히 [개방-폐쇄 원칙](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">객체지향 프로그래밍 (OOP) · 다형성 개념의 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상속의 오남용 발생 (행위 불일치 및 런타임 에러)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">계약에 의한 설계 (Design by Contract) · 규약의 중요성 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LSP (Liskov Substitution Principle) · 치환 가능성 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SOLID 원칙 정립 · OCP, ISP와의 결합을 통한 유연한 아키텍처 완성</div>
-</div>
-</div>
-
-
+```text
+객체지향 프로그래밍 (OOP) · 다형성 개념의 등장
+    │
+    ▼
+상속의 오남용 발생 (행위 불일치 및 런타임 에러)
+    │
+    ▼
+계약에 의한 설계 (Design by Contract) · 규약의 중요성 대두
+    │
+    ▼
+LSP (Liskov Substitution Principle) · 치환 가능성 정의
+    │
+    ▼
+SOLID 원칙 정립 · OCP, ISP와의 결합을 통한 유연한 아키텍처 완성
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

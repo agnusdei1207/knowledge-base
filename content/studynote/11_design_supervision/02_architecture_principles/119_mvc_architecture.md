@@ -23,24 +23,25 @@ MVC 패턴은 1970년대 Smalltalk-80 언어의 GUI 프레임워크에서 처음
 
 MVC가 없던 시절 웹 코드는 HTML, SQL, 비즈니스 로직이 한 파일에 뒤섞인 "스파게티 코드"였다. UI 변경 시 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 쿼리도 수정해야 하고, 비즈니스 규칙 변경 시 HTML도 수정해야 하는 상황이었다. MVC는 이 혼합을 세 역할로 분리하여 독립적 진화를 가능하게 했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVC 구성 요소와 상호작용 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자(User)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. HTTP 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller ▶ Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(입력 처리·흐름 제어) 2. 비즈니스 로직 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 결과 데이터 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(화면 표현)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. HTML/JSON 응답</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자(User)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│            MVC 구성 요소와 상호작용 흐름                     │
+├─────────────────────────────────────────────────────────────┤
+│  사용자(User)                                               │
+│       │ 1. HTTP 요청                                        │
+│       ▼                                                     │
+│  Controller ─────────────▶ Model                           │
+│  (입력 처리·흐름 제어)   2. 비즈니스 로직 처리              │
+│       │                        │                           │
+│       │ 3. 결과 데이터 전달     │                           │
+│       ▼                        │                           │
+│     View ◀──────────────────────┘                          │
+│  (화면 표현)                                                │
+│       │ 4. HTML/JSON 응답                                   │
+│       ▼                                                     │
+│  사용자(User)                                               │
+└─────────────────────────────────────────────────────────────┘
+```
 
 Model은 [옵저버 패턴](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/606_observer_pattern_pub_sub/)([Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))을 통해 상태 변화를 View에 알릴 수 있다. 이 연결이 MVC의 핵심이자 Push 방식과 Pull 방식의 변형이 생기는 원천이다.
 
@@ -58,21 +59,20 @@ MVC의 세 요소는 명확한 역할 경계를 가진다. Model은 [데이터](
 | [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | 화면 표현·렌더링 / Model [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 비즈니스 로직, DB |
 | Controller | 입력 처리·[흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) / Model, [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | 비즈니스 로직 세부 사항 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 사이드 vs 클라이언트 사이드 MVC 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 사이드 MVC (Spring MVC):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP 요청 → DispatcherServlet(C) → Service(M) → View Template</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 사이드 MVC (Angular 계열):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DOM 이벤트 → Controller → Model 상태 변경 → View 리렌더링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차이: 서버 사이드는 요청마다 View 재생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 사이드는 상태 변화에 반응적 View 갱신</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      서버 사이드 vs 클라이언트 사이드 MVC 비교               │
+├─────────────────────────────────────────────────────────────┤
+│  서버 사이드 MVC (Spring MVC):                              │
+│  HTTP 요청 → DispatcherServlet(C) → Service(M) → View Template│
+│                                                             │
+│  클라이언트 사이드 MVC (Angular 계열):                      │
+│  DOM 이벤트 → Controller → Model 상태 변경 → View 리렌더링  │
+│                                                             │
+│  차이: 서버 사이드는 요청마다 View 재생성                    │
+│        클라이언트 사이드는 상태 변화에 반응적 View 갱신      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 Spring MVC의 DispatcherServlet은 Front Controller 패턴을 구현한다. 모든 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청이 중앙 DispatcherServlet을 거쳐 적절한 Controller로 라우팅되며, 이 구조가 인터셉터(Interceptor), 필터(Filter), 예외 처리의 중앙 집중 관리를 가능하게 한다.
 

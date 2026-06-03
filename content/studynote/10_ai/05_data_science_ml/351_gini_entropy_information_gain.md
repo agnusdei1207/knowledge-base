@@ -21,17 +21,14 @@ tags = ["studynote-ai"]
 
 결정 트리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이진(Binary) 질문으로 반복 분할하여 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다. "나이 < 30인가? → 예/아니오"처럼 분할할 때 어떤 기준으로 가장 좋은 질문을 고르는가가 핵심이다. 무작위로 고르면 트리가 깊어지고 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))이 발생한다. 분할 후 각 그룹이 얼마나 순수한지(한 클래스만 모였는지)를 측정하는 지표가 [지니 불순도](/knowledge-base/studynote/14_data_engineering/02_math_mining/108_gini_impurity/)와 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 결정 트리 분할은 "사탕통 정리"다. 빨간 사탕과 파란 사탕이 섞인 통을 나눌 때, "모양으로 나눌까? 색으로 나눌까?" 중 각 통이 가장 한 가지 색으로만 가득 차는(순수한) 방법을 찾는 것이 [지니 불순도](/knowledge-base/studynote/14_data_engineering/02_math_mining/108_gini_impurity/)다.
 
@@ -39,26 +36,26 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분할 기준 수식 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지니 불순도 (Gini Impurity):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gini(t) = 1 - Σ pᵢ²</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 완전 순수: Gini=0, 2클래스 균등: Gini=0.5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔트로피 (Entropy):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(t) = -Σ pᵢ · log₂(pᵢ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 완전 순수: H=0, 2클래스 균등: H=1.0 (bits)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보 획득량 (Information Gain):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IG(D,A) = H(D) - Σ</div><div class="kb-diagram-cell">Dᵥ</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">D</div><div class="kb-diagram-cell">· H(Dᵥ)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">예)</div><div class="kb-diagram-node">30 양성, 70 음성</div><div class="kb-diagram-note">노드:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gini = 1 - (0.3² + 0.7²) = 1 - 0.58 = 0.42</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H = -(0.3·log₂0.3 + 0.7·log₂0.7) ≈ 0.881</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│         분할 기준 수식 비교                               │
+├──────────────────────────────────────────────────────────┤
+│  지니 불순도 (Gini Impurity):                            │
+│  Gini(t) = 1 - Σ pᵢ²                                   │
+│  → 완전 순수: Gini=0,  2클래스 균등: Gini=0.5           │
+│                                                          │
+│  엔트로피 (Entropy):                                     │
+│  H(t) = -Σ pᵢ · log₂(pᵢ)                              │
+│  → 완전 순수: H=0,  2클래스 균등: H=1.0 (bits)         │
+│                                                          │
+│  정보 획득량 (Information Gain):                         │
+│  IG(D,A) = H(D) - Σ |Dᵥ|/|D| · H(Dᵥ)                 │
+│                                                          │
+│  예) [30 양성, 70 음성] 노드:                           │
+│  Gini = 1 - (0.3² + 0.7²) = 1 - 0.58 = 0.42           │
+│  H    = -(0.3·log₂0.3 + 0.7·log₂0.7) ≈ 0.881          │
+└──────────────────────────────────────────────────────────┘
+```
 
 | 지표 | 수식 | 범위 | 사용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 |:---|:---|:---|:---|

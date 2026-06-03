@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **RIPv1**: 우편번호가 없던 시절의 편지. 겉면에 대충 <strong>"서울시 김아무개"</strong>라고만 적혀 있어서 동명이인이 있으면 배달부가 미쳐버림 (마스크 부재).
   - **RIPv2**: 5자리 최신 우편번호가 도입된 편지. 겉면에 <strong>"서울시 김아무개 + 우편번호 06234(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a>)"</strong>까지 꽉꽉 적혀 있어 골목길 101동 202호까지 완벽하게 찾아감.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RIP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RIPv1 vs RIPv2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RIPng</div></div>
-</div>
-</div>
-
-
+```text
+[RIP]
+    │
+    ▼
+[RIPv1 vs RIPv2]
+    │
+    └──▶ [RIPng]
+```
 
 - **📢 섹션 요약 비유**: ** RIPv1이 눈치 없이 새벽 2시에 확성기로 온 동네가 다 깨도록 이장님 공지(브로드캐스트)를 때리는 구시대적 방식이라면, RIPv2는 관심 있는 사람들만 모인 밴드([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 224.0.0.9)에 조용히 글을 올려 수면을 보장해 주는 세련된 알림 시스템입니다.
 
@@ -66,22 +62,21 @@ RIPv1은 해커가 노트북 랜선을 꽂고 가짜 라우터인 척 엽서를 
 RIPv2는 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a> 해시 비밀번호</strong> 기능을 넣었다. 
 "야, 엽서 봉투에 우리가 합의한 비밀번호(예: `cisco123`) 암호화해서 찍어 보내. 암호 틀리면 네가 보낸 지도는 갈기갈기 찢어버릴 거야!"라는 강력한 보안막이 생겼다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RIP 버전 업그레이드 시 실무 명령어의 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Router(config)# router rip</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Router(config-router)# version 2 ◀─ (무조건 쳐야 함!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Router(config-router)# no auto-summary ◀─ (자동 요약 끄기!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 팁: RIPv2를 켜더라도 기본적으로 '자동 요약(Auto-Summary)' 기능이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">켜져 있어서 v1처럼 멍청하게 행동하려 든다. 그래서 실무에선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무조건 <code>no auto-summary</code>를 쳐서 강제로 Classless하게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쪼개진 디테일한 길을 다 넘기도록 멱살을 잡아야 한다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                RIP 버전 업그레이드 시 실무 명령어의 변화           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   Router(config)# router rip                                │
+ │   Router(config-router)# version 2   ◀─ (무조건 쳐야 함!)      │
+ │   Router(config-router)# no auto-summary ◀─ (자동 요약 끄기!)│
+ │                                                             │
+ │   * 팁: RIPv2를 켜더라도 기본적으로 '자동 요약(Auto-Summary)' 기능이  │
+ │        켜져 있어서 v1처럼 멍청하게 행동하려 든다. 그래서 실무에선      │
+ │        무조건 `no auto-summary`를 쳐서 강제로 Classless하게        │
+ │        쪼개진 디테일한 길을 다 넘기도록 멱살을 잡아야 한다.             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** RIPv1이 1980년대 만들어진 **"흑백 폴더폰"<strong>이라면, RIPv2는 어떻게든 스마트폰 시대에 살아남으려고 흑백 액정에다가 억지로 카메라(마스크 전송) 달고, 지문인식(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>) 기능까지 욱여넣어 간신히 개조해 낸 </strong>"컬러 피처폰"**입니다. (그래봤자 근본은 낡았습니다).
 
@@ -139,19 +134,15 @@ RIPv1 vs RIPv2는 [라우팅](/knowledge-base/studynote/03_network/07_network_la
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RIP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RIPv1 vs RIPv2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RIPng</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RIP]
+    │
+    ▼
+[현재 개념: RIPv1 vs RIPv2]
+    │
+    ├──▶ [확장 A: RIPng]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 RIPv1 vs RIPv2는 RIP에서 출발해 현재 메커니즘을 정교화하고, 이후 RIPng와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

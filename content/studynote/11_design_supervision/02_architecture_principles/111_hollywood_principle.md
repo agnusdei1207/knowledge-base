@@ -23,22 +23,23 @@ tags = ["studynote-design-supervision"]
 
 전통적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 방식에서는 개발자가 직접 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 호출했다. `Math.sqrt(4)`처럼 개발자 코드가 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 호출하고 결과를 받는다. 반면 프레임워크는 개발자의 코드를 호출한다. Spring Framework가 `@Controller`의 핸들러 메서드를 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청이 들어올 때 호출하는 것이 대표적이다. 이 차이가 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 프레임워크를 구분하는 본질이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라이브러리 vs 프레임워크: 제어 방향의 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라이브러리 방식</div><div class="kb-diagram-note">- 개발자 코드가 제어권 보유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 코드 ▶ 라이브러리 함수()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(제어권) (호출됨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프레임워크 방식 / 할리우드 원칙</div><div class="kb-diagram-note">- 프레임워크가 제어권 보유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임워크 ▶ 개발자 코드(핸들러)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(제어권) (호출됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자는 인터페이스만 구현</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      라이브러리 vs 프레임워크: 제어 방향의 차이              │
+├─────────────────────────────────────────────────────────────┤
+│ [라이브러리 방식] - 개발자 코드가 제어권 보유                │
+│                                                             │
+│  개발자 코드 ─────────────────▶ 라이브러리 함수()           │
+│  (제어권)                        (호출됨)                   │
+│                                                             │
+│ [프레임워크 방식 / 할리우드 원칙] - 프레임워크가 제어권 보유 │
+│                                                             │
+│  프레임워크 ──────────────────▶ 개발자 코드(핸들러)          │
+│  (제어권)                        (호출됨)                   │
+│       ▲                                                     │
+│       │ 개발자는 인터페이스만 구현                           │
+└─────────────────────────────────────────────────────────────┘
+```
 
 할리우드 원칙이 없으면 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에 직접 의존하여 [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/)이 생기거나, 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 실행 시점을 스스로 결정하는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식이 되어 자원 낭비와 타이밍 불일치가 발생한다.
 
@@ -57,20 +58,19 @@ tags = ["studynote-design-supervision"]
 | [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) | 추상 클래스의 훅(hook) 메서드 / 구체 클래스 오버라이딩 | JUnit, 웹 프레임워크 필터 |
 | [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | Spring IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) / @[Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), @[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | Spring, Guice |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spring IoC에서 할리우드 원칙 작동 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spring Container</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 1. Bean 정의 스캔 (클래스 탐색)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 2. 의존성 분석 및 주입 (@Autowired)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 3. 생명주기 훅 호출 (@PostConstruct)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자는 @Service만 붙이고 대기 → 컨테이너가 "호출"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      Spring IoC에서 할리우드 원칙 작동 흐름                  │
+├─────────────────────────────────────────────────────────────┤
+│  [Spring Container]                                         │
+│       │                                                     │
+│       ├─▶ 1. Bean 정의 스캔 (클래스 탐색)                   │
+│       ├─▶ 2. 의존성 분석 및 주입 (@Autowired)               │
+│       └─▶ 3. 생명주기 훅 호출 (@PostConstruct)              │
+│                                                             │
+│  개발자는 @Service만 붙이고 대기 → 컨테이너가 "호출"        │
+└─────────────────────────────────────────────────────────────┘
+```
 
 할리우드 원칙을 과도하게 적용하면 코드 실행 흐름을 추적하기 어려워지는 "프레임워크 블랙박스" 문제가 생긴다. 어디서 어떤 코드가 호출되는지 IDE에서 추적하기 어렵고, 디버깅이 복잡해진다.
 

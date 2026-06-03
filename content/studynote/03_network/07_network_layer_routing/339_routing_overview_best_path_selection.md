@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 라우팅은 <strong>"T맵(내비게이션)의 본사 서버 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>"</strong>과 같습니다. 매 초마다 전국의 교통 체증, 도로 공사, 사고 현장 정보를 수집하여 "현재 위치에서 부산까지는 경부고속도로가 300km(거리)로 제일 가깝지만 꽉 막혔으니, 320km짜리 중부내륙고속도로로 돌아가는 게 1시간 더 빠릅니다(최적 경로 [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 승리)"라고 실시간으로 지도를 다시 그려주는 두뇌 회전입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CEF 물리적 포워딩 / 하드웨어 스위칭</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우팅 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정적 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[CEF 물리적 포워딩 / 하드웨어 스위칭]
+    │
+    ▼
+[라우팅 개요]
+    │
+    └──▶ [정적 라우팅]
+```
 
 - **📢 섹션 요약 비유**: ** 라우팅은 전쟁터에서 사령관이 끊임없이 정찰병(라우팅 패킷)을 보내 지형을 파악하고, 적의 매복이 없는 가장 안전하고 빠른 보급로를 지도에 굵은 빨간펜으로 그어놓는 **"[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 경로 획정 작업"**입니다.
 
@@ -65,25 +61,26 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a> (동네 찌라시)</strong>: AD `120` (좀 덜 믿음)
 - *결과*: 관리자가 손으로 친 Static 룰(1점)이 OSPF가 찾은 룰(110점)을 압살하고 승리하여 라우팅 테이블에 최종 등재된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 경로 (Best Path) 결정 알고리즘 요약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황: "부산(10.1.1.0/24)으로 가고 싶다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계 (출처 대결 - AD 비교):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Static 정보 왈: "포트 1로 가!" (AD: 1) ◀─ 1차전 승리! (얘만 믿음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OSPF 정보 왈: "포트 2로 가!" (AD: 110)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계 (같은 출처 내 대결 - Metric 비교):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OSPF 정보만 두 개라면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"포트 2는 대역폭 코스트가 10 이야!" ◀─ 2차전 승리! (이 길 채택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"포트 3은 대역폭 코스트가 500 이야!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "최종적으로 살아남은 단 1개의 챔피언 경로만이 라우팅 테이블(RIB)에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영광스럽게 한 줄로 기록된다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                최적 경로 (Best Path) 결정 알고리즘 요약            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   상황: "부산(10.1.1.0/24)으로 가고 싶다!"                       │
+ │                                                             │
+ │   1단계 (출처 대결 - AD 비교):                                  │
+ │   - Static 정보 왈: "포트 1로 가!" (AD: 1) ◀─ 1차전 승리! (얘만 믿음)│
+ │   - OSPF 정보 왈: "포트 2로 가!" (AD: 110)                    │
+ │                                                             │
+ │   2단계 (같은 출처 내 대결 - Metric 비교):                       │
+ │   - OSPF 정보만 두 개라면?                                      │
+ │     "포트 2는 대역폭 코스트가 10 이야!" ◀─ 2차전 승리! (이 길 채택) │
+ │     "포트 3은 대역폭 코스트가 500 이야!"                       │
+ │                                                             │
+ │   ▶ "최종적으로 살아남은 단 1개의 챔피언 경로만이 라우팅 테이블(RIB)에   │
+ │      영광스럽게 한 줄로 기록된다!"                               │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** 최적 경로 설정은 라우터의 뇌 속에서 벌어지는 **"프로듀스 101 서바이벌 오디션"**입니다. 수많은 길이 "날 뽑아줘!"라고 외치지만, [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)(AD 점수)와 개인기([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 점수)에서 가장 뛰어난 단 하나의 길만이 최종 데뷔(라우팅 테이블 등재)의 영광을 누리게 됩니다.
 
@@ -141,19 +138,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CEF 물리적 포워딩 / 하드웨어 스위칭</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 라우팅 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 정적 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CEF 물리적 포워딩 / 하드웨어 스위칭]
+    │
+    ▼
+[현재 개념: 라우팅 개요]
+    │
+    ├──▶ [확장 A: 정적 라우팅]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 라우팅 개요는 [CEF](/knowledge-base/studynote/03_network/07_network_layer_routing/338_cef_cisco_express_forwarding_hardware_switching/) 물리적 포워딩 / 하드웨어 스위칭에서 출발해 현재 메커니즘을 정교화하고, 이후 [정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)와 의도 기반 라우팅 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
     > 1. **본질**: 부동소수점 (Floating Point)은 아주 큰 수와 아주 작은 수를 같은 형식으로 다루기 위해 가수와 지수를 분리한 근사 표현이다.
-    > 2. **가치**: [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics Engineers 754)는 표현 범위, 반올림, 특수값을 표준화해 서로 다른 시스템 간 호환성을 높였다.
+    > 2. **가치**: [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics 엔진ers 754)는 표현 범위, 반올림, 특수값을 표준화해 서로 다른 시스템 간 호환성을 높였다.
     > 3. **판단 포인트**: 실수처럼 보인다고 정확한 실수가 아니므로, 금액·비교·누적 계산에서는 오차 한계를 전제로 설계해야 한다.
 
     ---
@@ -99,7 +99,7 @@ tags = ["studynote-computer-architecture"]
 
     | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics Engineers 754) | 부동소수점 표준 |
+| [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics 엔진ers 754) | 부동소수점 표준 |
 | sign / exponent / fraction | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드 구조 |
 | [bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) | 지수 저장 보정값 |
 | [NaN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/) ([Not a Number](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/)) | 계산 오류를 나타내는 특수값 |

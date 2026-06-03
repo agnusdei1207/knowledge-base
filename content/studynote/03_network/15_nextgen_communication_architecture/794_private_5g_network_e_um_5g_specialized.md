@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: SKT, KT, LGU+ 등 기존 통신 3사를 거치지 않고, <strong>일반 기업(네이버, 삼성, 한전 등)이나 관공서가 특정 구역(공장, 사옥, 항만 등) 내에서 자신들만의 고유한 라이센스 주파수를 정부로부터 직접 할당받아, 독자적으로 구축하고 운영하는 맞춤형(Private) <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 네트워크망</strong>입니다.
 - **국내 명칭**: 한국에서는 이를 <strong>이음5G (e-UM <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>)</strong>라는 브랜드명으로 부릅니다. (4.7GHz 대역과 28GHz 대역을 특화망 전용으로 정부가 개방했습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프라이빗 5G망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
-</div>
-</div>
-
-
+```text
+[양자 인터넷 모듈 기반 네트워크 키 분배 안…]
+    │
+    ▼
+[프라이빗 5G망]
+    │
+    └──▶ [5G LAN 스위치 대체 이더넷 투명 연계형…]
+```
 
 - **📢 섹션 요약 비유**: 프라이빗 5G망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 - **일반 5G망**: 전 국민이 유튜브(다운로드)를 많이 보므로, 주파수 시간([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/))을 `다운로드 8 : 업로드 2` 비율로 고정해 둡니다.
 - **공장 특화망**: 스마트 팩토리는 로봇이 찍은 초고화질 불량품 검사 4K 영상 수천 개를 중앙 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 서버로 **올려보내야(업로드)** 합니다. 특화망은 내 맘대로 망을 주무를 수 있으므로, 과감하게 주파수 비율을 `업로드 8 : 다운로드 2`로 비틀어버려 공장 맞춤형 괴물 통신망으로 튜닝할 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프라이빗 5G망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
-</div>
-</div>
-
-
+```text
+[양자 인터넷 모듈 기반 네트워크 키 분배 안…]
+    │
+    ▼
+[프라이빗 5G망]
+    │
+    └──▶ [5G LAN 스위치 대체 이더넷 투명 연계형…]
+```
 
 - **📢 섹션 요약 비유**: 프라이빗 5G망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 프라이빗 5G망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 양자 인터넷 모듈 기반 네트워크 키 분배 안…]
+    │
+    ▼
+[현재 개념: 프라이빗 5G망]
+    │
+    ├──▶ [확장 A: 5G LAN 스위치 대체 이더넷 투명 연계형…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 프라이빗 5G망는 양자 인터넷 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 기반 네트워크 키 분배 안…에서 출발해 현재 메커니즘을 정교화하고, 이후 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

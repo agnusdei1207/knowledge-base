@@ -18,21 +18,19 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCF 프레임워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">응용 계층</div><div class="kb-diagram-note">— 스마트홈·헬스케어·산업 IoT 앱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCF 서비스 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디바이스 발견·리소스 관리·보안·데이터 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전송 계층</div><div class="kb-diagram-note">— CoAP / HTTP / WebSocket</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크</div><div class="kb-diagram-note">— Wi-Fi / BLE / Thread / Zigbee</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 이기종 디바이스 자동 발견 + 표준 데이터 모델</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    OCF 프레임워크                                     │
+├───────────────────────────────────────────────────────┤
+│  [응용 계층] — 스마트홈·헬스케어·산업 IoT 앱         │
+│  [OCF 서비스 계층]                                    │
+│   디바이스 발견·리소스 관리·보안·데이터 모델          │
+│  [전송 계층] — CoAP / HTTP / WebSocket               │
+│  [네트워크] — Wi-Fi / BLE / Thread / Zigbee          │
+│                                                       │
+│  핵심: 이기종 디바이스 자동 발견 + 표준 데이터 모델   │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: OCF는 IoT의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a> 표준</strong>이다. [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 이전에는 프린터마다 다른 케이블이 필요했지만, USB로 통일되면서 아무 프린터나 연결할 수 있게 되었다.
 
@@ -89,23 +87,21 @@ OCF는 <strong>이기종 <a href="/knowledge-base/studynote/06_ict_convergence/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">독자 IoT 프로토콜 (사일로, 2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OIC → OCF (2014~2016) — 상호운용성 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IoTivity 오픈소스 (2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Matter (2022) — 스마트 홈 통합 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: OCF + Matter + Thread — IoT 표준 생태계</div></div>
-</div>
-</div>
-
-
+```text
+[독자 IoT 프로토콜 (사일로, 2010s)]
+    │
+    ▼
+[OIC → OCF (2014~2016) — 상호운용성 표준]
+    │
+    ▼
+[IoTivity 오픈소스 (2015~)]
+    │
+    ▼
+[Matter (2022) — 스마트 홈 통합 표준]
+    │
+    ▼
+[현재: OCF + Matter + Thread — IoT 표준 생태계]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. OCF는 IoT의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a> 표준</strong>이에요. 어떤 회사 제품이든 <strong>같은 규격으로 연결</strong>돼요.

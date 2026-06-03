@@ -31,28 +31,27 @@ tags = ["studynote-design-supervision"]
 ### 마일스톤(Milestone) 기반의 3단계 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) 아키텍처
 폭포수(Waterfall) 모델에서 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)은 절대 뒤로 역류하지 않는 쇳덩어리 자물쇠다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 생명주기(SDLC)의 베이스라인 추적 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 요구사항 분석 단계 종료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 산출물: 요구사항 정의서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🔒 기능 베이스라인 (Functional Baseline) 확정!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (추적성 검증: Traceability)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 설계 단계 종료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 산출물: 시스템 아키텍처, 화면 설계서, DB ERD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🔒 분배 베이스라인 (Allocated Baseline) 확정!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 검증: "요구사항 100개가 설계서에 100개로 매핑되었는가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (추적성 검증: Traceability)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 구현(개발) 및 테스트 단계 종료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 산출물: 소스코드, 실행 파일 (.jar, .exe)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🔒 제품 베이스라인 (Product Baseline) 확정!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 검증: "설계서의 100개 기능이 소스코드/테스트로 통과되었는가?"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           소프트웨어 생명주기(SDLC)의 베이스라인 추적 메커니즘      │
+├────────────────────────────────────────────────────────┤
+│  [ 1. 요구사항 분석 단계 종료 ]                           │
+│   - 산출물: 요구사항 정의서                               │
+│   - 🔒 기능 베이스라인 (Functional Baseline) 확정!        │
+│             │                                          │
+│             ▼ (추적성 검증: Traceability)               │
+│  [ 2. 설계 단계 종료 ]                                   │
+│   - 산출물: 시스템 아키텍처, 화면 설계서, DB ERD            │
+│   - 🔒 분배 베이스라인 (Allocated Baseline) 확정!         │
+│   * 검증: "요구사항 100개가 설계서에 100개로 매핑되었는가?"    │
+│             │                                          │
+│             ▼ (추적성 검증: Traceability)               │
+│  [ 3. 구현(개발) 및 테스트 단계 종료 ]                     │
+│   - 산출물: 소스코드, 실행 파일 (.jar, .exe)               │
+│   - 🔒 제품 베이스라인 (Product Baseline) 확정!           │
+│   * 검증: "설계서의 100개 기능이 소스코드/테스트로 통과되었는가?"│
+└────────────────────────────────────────────────────────┘
+```
 
 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 핵심 기술은 <strong>추적성 매트릭스(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a> Matrix)</strong>다. 요구사항 ID `REQ-01`이, 설계서의 `DES-01`로, 소스코드의 `Login.java`로, 테스트 케이스의 `TC-01`로 이가 빠지지 않고 1:1로 연결되어 있는지 엑셀이나 Jira(지라) 쇳덩어리로 끈질기게 추적하는 것이 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 본질이다.
 
@@ -112,23 +111,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초창기 무계획 개발 (Code &amp; Fix) ──▶ 발주처의 끝없는 요구사항 변경으로 프로젝트 연쇄 파산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트웨어 공학의 도입 ──▶ 생명주기(SDLC) 단계 분리 및 문서화 시작</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단계별 산출물을 동결(Freeze)하는 형상 관리의 '베이스라인(Baseline)' 개념 확립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">일반 개발자 권한을 박탈하고 CCB(형상통제위원회)를 통한 강력한 변경 통제 프로세스 구축</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Jira, Git, ALM 도구 등과 융합하여 요구사항~소스코드 간의 100% 자동 추적성(Traceability) 검증 실현</div>
-</div>
-</div>
-
-
+```text
+초창기 무계획 개발 (Code & Fix) ──▶ 발주처의 끝없는 요구사항 변경으로 프로젝트 연쇄 파산
+    │
+    ▼
+소프트웨어 공학의 도입 ──▶ 생명주기(SDLC) 단계 분리 및 문서화 시작
+    │
+    ▼
+단계별 산출물을 동결(Freeze)하는 형상 관리의 '베이스라인(Baseline)' 개념 확립
+    │
+    ▼
+일반 개발자 권한을 박탈하고 CCB(형상통제위원회)를 통한 강력한 변경 통제 프로세스 구축
+    │
+    ▼
+Jira, Git, ALM 도구 등과 융합하여 요구사항~소스코드 간의 100% 자동 추적성(Traceability) 검증 실현
+```
 
 이 흐름도는 "무한 수정의 재앙 → 쇳덩어리 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)(동결) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 통제 위원회에 의한 프로세스 법치화 → 도구를 통한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 자동화"라는 IT 프로젝트 형상 거버넌스의 발전을 보여준다.
 

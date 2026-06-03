@@ -37,24 +37,23 @@ tags = ["studynote-network"]
 | **CW (백오프 윈도우)** | DIFS 대기 후 추가로 뽑는 무작위 난수 대기 시간 | 임의의 번호표 뽑고 세기 |
 | **ACK 프레임** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수신 후 SIFS 대기 후 즉시 송신자에게 응답하는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증 | 등기 우편 수령 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSMA/CA 경쟁 기반 매체 접근 타이밍 흐름도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">채널 상태 : ▒▒▒▒▒(누군가 사용 중)▒▒▒▒▒</div><div class="kb-diagram-cell">(유휴 상태 시작)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node A</div><div class="kb-diagram-note">(데이터 전송 희망) │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──&gt; 1. 감시 &gt; 2.</div><div class="kb-diagram-node">DIFS 대기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">난수 5 카운트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5..4..3..2..1..0!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 송신 시작</div><div class="kb-diagram-note">&lt;─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node B</div><div class="kb-diagram-note">(데이터 전송 희망) │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──&gt; 1. 감시 &gt; 2.</div><div class="kb-diagram-node">DIFS 대기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">난수 8 카운트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8..7..6..(A 송신!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카운트 중단 및 감시로 복귀</div><div class="kb-diagram-note">&lt;──</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           CSMA/CA 경쟁 기반 매체 접근 타이밍 흐름도              │
+├──────────────────────────────────────────────────────────────┤
+│ 채널 상태 : ▒▒▒▒▒(누군가 사용 중)▒▒▒▒▒ | (유휴 상태 시작)         │
+│                                   │                          │
+│ [Node A] (데이터 전송 희망)       │                          │
+│  └──> 1. 감시 ──────────────> 2. [DIFS 대기] -> 3. [난수 5 카운트]
+│                                            5..4..3..2..1..0! │
+│                                             [데이터 송신 시작] <─┘
+│                                                     │        │
+│ [Node B] (데이터 전송 희망)                         │        │
+│  └──> 1. 감시 ──────────────> 2. [DIFS 대기] -> 3. [난수 8 카운트]
+│                                            8..7..6..(A 송신!)│
+│                                [카운트 중단 및 감시로 복귀] <──┘
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 흐름도의 핵심은 백오프 타이머가 '전송 후(충돌 수습)'가 아니라 '전송 전(충돌 예방)'에 가동된다는 점이다. 노드 A와 B가 주사위를 굴려 각각 5와 8을 뽑았을 때, A의 카운트다운이 먼저 0에 도달하여 송신을 시작하면 B는 카운트를 5에서 멈추고 다음 턴에 5부터 다시 센다. 이 절묘한 난수 차이 덕분에 두 노드가 동시에 전송을 시작하는 최악의 충돌 확률을 극적으로 낮춘다.
 
@@ -118,25 +117,24 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">유선 CSMA/CD (충돌 감지 및 사후 복구)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무선 환경의 한계 (Half-Duplex 특성상 충돌 감지 불가능)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CSMA/CA 도입 (사전 무작위 대기 및 ACK를 통한 충돌 회피)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">은닉 노드 문제 발생 (서로 안 보이는 무선 단말 간 충돌)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RTS/CTS 교환 도입 (가상 캐리어 센싱을 통한 채널 예약)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고밀도 환경의 한계 극복을 위한 중앙 제어식 OFDMA (Wi-Fi 6) 발전</div>
-</div>
-</div>
-
-
+```text
+유선 CSMA/CD (충돌 감지 및 사후 복구)
+    │
+    ▼
+무선 환경의 한계 (Half-Duplex 특성상 충돌 감지 불가능)
+    │
+    ▼
+CSMA/CA 도입 (사전 무작위 대기 및 ACK를 통한 충돌 회피)
+    │
+    ▼
+은닉 노드 문제 발생 (서로 안 보이는 무선 단말 간 충돌)
+    │
+    ▼
+RTS/CTS 교환 도입 (가상 캐리어 센싱을 통한 채널 예약)
+    │
+    ▼
+고밀도 환경의 한계 극복을 위한 중앙 제어식 OFDMA (Wi-Fi 6) 발전
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -33,23 +33,27 @@ tags = ["studynote-cloud-architecture"]
 
 ### [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 에코시스템 구조도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하둡 에코시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리/SQL</div><div class="kb-diagram-cell">Hive</div><div class="kb-diagram-cell">Pig</div><div class="kb-diagram-cell">Spark SQL</div><div class="kb-diagram-cell">Presto</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 엔진</div><div class="kb-diagram-cell">MapReduce</div><div class="kb-diagram-cell">Apache Spark</div><div class="kb-diagram-cell">Flink</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리소스 관리</div><div class="kb-diagram-cell">YARN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 저장</div><div class="kb-diagram-cell">HDFS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NoSQL DB</div><div class="kb-diagram-cell">HBase</div><div class="kb-diagram-cell">Cassandra</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트리밍</div><div class="kb-diagram-cell">Kafka</div><div class="kb-diagram-cell">Flume</div><div class="kb-diagram-cell">Spark Streaming</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집</div><div class="kb-diagram-cell">Sqoop (RDB ↔ HDFS)</div><div class="kb-diagram-cell">Flume (로그)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조율/관리</div><div class="kb-diagram-cell">ZooKeeper</div><div class="kb-diagram-cell">Oozie (워크플로우)</div></div>
-</div>
-</div>
-
-
+```
+  ┌────────────────────────────────────────────────────────────┐
+  │                  하둡 에코시스템                              │
+  ├────────────────────────────────────────────────────────────┤
+  │  쿼리/SQL     │  Hive   │  Pig   │  Spark SQL │  Presto   │
+  ├────────────────────────────────────────────────────────────┤
+  │  처리 엔진    │  MapReduce    │  Apache Spark    │  Flink   │
+  ├────────────────────────────────────────────────────────────┤
+  │  리소스 관리  │              YARN                           │
+  ├────────────────────────────────────────────────────────────┤
+  │  분산 저장    │              HDFS                           │
+  ├────────────────────────────────────────────────────────────┤
+  │  NoSQL DB     │  HBase   │  Cassandra                      │
+  ├────────────────────────────────────────────────────────────┤
+  │  스트리밍     │  Kafka   │  Flume   │  Spark Streaming     │
+  ├────────────────────────────────────────────────────────────┤
+  │  데이터 수집  │  Sqoop (RDB ↔ HDFS)  │  Flume (로그)       │
+  ├────────────────────────────────────────────────────────────┤
+  │  조율/관리    │  ZooKeeper │  Oozie (워크플로우)             │
+  └────────────────────────────────────────────────────────────┘
+```
 
 ### 핵심 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 역할
 
@@ -172,19 +176,15 @@ ORDER BY total DESC;
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hadoop 1.0: HDFS + MapReduce (일체형)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hadoop 2.0: YARN 분리 → 다양한 처리 엔진 지원</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hadoop 3.0: Erasure Coding + GPU 지원 → 클라우드 최적화</div>
-</div>
-</div>
-
-
+```text
+Hadoop 1.0: HDFS + MapReduce (일체형)
+    │
+    ▼
+Hadoop 2.0: YARN 분리 → 다양한 처리 엔진 지원
+    │
+    ▼
+Hadoop 3.0: Erasure Coding + GPU 지원 → 클라우드 최적화
+```
 2. HDFS는 레고 조각을 여러 상자에 나눠 담고 목록을 관리하는 것이고, YARN은 어느 상자에서 누가 일할지 배정하는 담당자야.
 3. 혼자(단일 서버) 할 수 없는 일을 여럿([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버)이 나눠서 하는 게 핵심이야.
 

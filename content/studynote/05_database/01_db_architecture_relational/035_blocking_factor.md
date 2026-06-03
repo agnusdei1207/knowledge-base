@@ -40,20 +40,15 @@ BF = floor(4096 / 200) = floor(20.48) = 20
 
 ## Ⅱ. Spanned vs Unspanned 레코드 배치
 
+```
+Unspanned (비걸침):
+Block 1: [R1][R2][R3][ empty ]   <- 레코드가 블록 경계 내에만 저장
+Block 2: [R4][R5][R6][ empty ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Unspanned (비걸침):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Block 1:</div><div class="kb-diagram-node">R1</div><div class="kb-diagram-node">R2</div><div class="kb-diagram-node">R3</div><div class="kb-diagram-node">empty</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">레코드가 블록 경계 내에만 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Block 2:</div><div class="kb-diagram-node">R4</div><div class="kb-diagram-node">R5</div><div class="kb-diagram-node">R6</div><div class="kb-diagram-node">empty</div></div>
-<div class="kb-diagram-note">Spanned (걸침):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Block 1:</div><div class="kb-diagram-node">R1</div><div class="kb-diagram-node">R2</div><div class="kb-diagram-node">R3</div><div class="kb-diagram-node">R4 front</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">R4가 두 블록에 걸쳐 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Block 2:</div><div class="kb-diagram-node">R4 back</div><div class="kb-diagram-node">R5</div><div class="kb-diagram-node">R6</div><div class="kb-diagram-note">...</div></div>
-</div>
-</div>
-
-
+Spanned (걸침):
+Block 1: [R1][R2][R3][R4 front]  <- R4가 두 블록에 걸쳐 저장
+Block 2: [R4 back][R5][R6]...
+```
 
 | 방식        | 장점                    | 단점                  |
 |------------|-------------------------|-----------------------|
@@ -79,21 +74,16 @@ BF = 20 (블록당 레코드 수)
 
 ### [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 BF의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
+```
+B-Tree 인덱스 노드:
+  포인터 크기 = 6 Bytes
+  키 크기 = 10 Bytes
+  블록 크기 = 4 KB
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">B-Tree 인덱스 노드:</div>
-<div class="kb-diagram-note">포인터 크기 = 6 Bytes</div>
-<div class="kb-diagram-note">키 크기 = 10 Bytes</div>
-<div class="kb-diagram-note">블록 크기 = 4 KB</div>
-<div class="kb-diagram-note">차수(Order) n: n*10 + (n+1)*6 &lt;= 4096</div>
-<div class="kb-diagram-note">→ n = 251 (한 노드에 251개 키)</div>
-<div class="kb-diagram-note">→ 트리 깊이 = log_251(10,000,000) ≈ 3.5 ≈ 4 레벨</div>
-</div>
-</div>
-
-
+  차수(Order) n: n*10 + (n+1)*6 <= 4096
+  → n = 251 (한 노드에 251개 키)
+  → 트리 깊이 = log_251(10,000,000) ≈ 3.5 ≈ 4 레벨
+```
 
 > 📢 **섹션 요약 비유**: 도서관 서가(블록)에 책(레코드)을 얼마나 꽂을 수 있는지 — BF가 높으면 서가 수가 줄어 찾기도 빠르다.
 

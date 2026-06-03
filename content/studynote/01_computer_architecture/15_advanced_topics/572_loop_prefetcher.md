@@ -45,20 +45,18 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 루프 프리패처가 패턴을 배우고 앞질러 가는 과정을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Loop Prefetcher: same load의 stride를 학습해 미래 반복을 앞질러 간다</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Load PC = L1 : A</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Δ=+64B Δ=+64B Δ=+64B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">confidence up</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Demand : A</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+1</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+2</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Prefetch : A</div><div class="kb-diagram-node">i+2</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+3</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+4</div><div class="kb-diagram-note">------ A</div><div class="kb-diagram-node">i+5</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│      Loop Prefetcher: same load의 stride를 학습해 미래 반복을 앞질러 간다    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Load PC = L1 : A[0] -> A[1] -> A[2] -> A[3]                                │
+│                  Δ=+64B   Δ=+64B   Δ=+64B                                  │
+│                         confidence up                                        │
+│                                                                            │
+│ Demand   : A[i] ------ A[i+1] ------ A[i+2] ------ A[i+3]                 │
+│ Prefetch :        A[i+2] ------ A[i+3] ------ A[i+4] ------ A[i+5]        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 친구가 계단을 두 칸씩 오르는 걸 몇 번 보면, 다음에도 같은 간격으로 올라갈 거라 짐작할 수 있다. 루프 프리패처는 그 짐작을 메모리 요청으로 바꾸는 친구다.
 
@@ -133,25 +131,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Next-Line Prefetch</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Stream Prefetch</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PC-Based Stride / Loop Prefetch</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Adaptive Degree · Distance Control</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Software Hint + Hardware Hybrid</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Irregular Pattern 대응 Adaptive Prefetch</div>
-</div>
-</div>
-
-
+```text
+Next-Line Prefetch
+        │
+        ▼
+Stream Prefetch
+        │
+        ▼
+PC-Based Stride / Loop Prefetch
+        │
+        ▼
+Adaptive Degree · Distance Control
+        │
+        ▼
+Software Hint + Hardware Hybrid
+        │
+        ▼
+Irregular Pattern 대응 Adaptive Prefetch
+```
 
 이 흐름은 프리패칭이 단순 인접 블록 읽기에서 시작해, 이제는 loop 구조와 workload 특성에 따라 공격성과 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 조절하는 방향으로 발전하고 있음을 보여 준다.
 

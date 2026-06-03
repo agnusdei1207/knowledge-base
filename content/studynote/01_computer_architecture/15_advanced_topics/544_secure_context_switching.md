@@ -43,22 +43,26 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 일반 전환과 보안 경계 전환이 어떻게 갈라지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 경계 기반 스위치: 저장 이후에 '잔류 상태 처리'가 이어져야 한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 주체 A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타이머 / 트랩 / 가상 머신 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레지스터 / 제어 상태 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 같은 신뢰 도메인 ▶ ASID / VMID 재태깅 ─▶ 재개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 교차 도메인 ▶ 예측기 barrier / 키 교체 / 소거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 주체 B 상태 적재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 주체 B 재개</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ 보안 경계 기반 스위치: 저장 이후에 '잔류 상태 처리'가 이어져야 한다     │
+├──────────────────────────────────────────────────────────────────────┤
+│ 실행 주체 A                                                        │
+│       │ 타이머 / 트랩 / 가상 머신 전환                              │
+│       ▼                                                             │
+│ 레지스터 / 제어 상태 저장                                          │
+│       │                                                             │
+│       ├─ 같은 신뢰 도메인 ───────▶ ASID / VMID 재태깅 ─▶ 재개       │
+│       │                                                             │
+│       └─ 교차 도메인 ─────────▶ 예측기 barrier / 키 교체 / 소거      │
+│                                         │                            │
+│                                         ▼                            │
+│                               실행 주체 B 상태 적재                │
+│                                         │                            │
+│                                         ▼                            │
+│                                   실행 주체 B 재개                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 모든 전환이 동일하게 무거울 필요는 없다는 것이다. 같은 보안 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 안의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환은 태그 교체와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장으로 충분할 수 있지만, 다른 테넌트 가상 머신 사이 전환은 predictor barrier와 더 강한 잔류 상태 정리가 필요하다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 지키려면 보안 경계의 강도에 따라 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 비용을 계층화해야 한다.
 
@@ -138,23 +142,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 레지스터 저장·복원 중심 컨텍스트 스위치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ASID / VMID 기반 주소 공간 태깅</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spectre · Meltdown 이후 predictor barrier · buffer flush</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기밀 VM · TEE 진입/이탈 · core scheduling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">도메인별 분할 캐시 · 예측기 격리 · 자동 키 교체</div>
-</div>
-</div>
-
-
+```text
+기본 레지스터 저장·복원 중심 컨텍스트 스위치
+                     │
+                     ▼
+ASID / VMID 기반 주소 공간 태깅
+                     │
+                     ▼
+Spectre · Meltdown 이후 predictor barrier · buffer flush
+                     │
+                     ▼
+기밀 VM · TEE 진입/이탈 · core scheduling
+                     │
+                     ▼
+도메인별 분할 캐시 · 예측기 격리 · 자동 키 교체
+```
 
 이 흐름은 "정확한 재개" 중심의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가, 점차 "잔류 상태 격리"와 "신뢰 경계 유지" 중심의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 진화하는 과정을 보여 준다.
 

@@ -37,22 +37,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 절체 제어가 가상 IP (Virtual IP, VIP)를 중심으로 어떻게 작동하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이중화의 기본 절체 흐름 (1-out-of-2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 서비스 주소(VIP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주 장치 A : Active</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heartbeat</div><div class="kb-diagram-cell">서비스 제공</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">예비 장치 B : Standby</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ A 무응답 감지 ─▶ 역할 승계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B가 새 Active</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  이중화의 기본 절체 흐름 (1-out-of-2)               │
+├──────────────────────────────────────────────────────────────────────┤
+│ 사용자 요청                                                         │
+│     │                                                              │
+│     ▼                                                              │
+│ [가상 서비스 주소(VIP)]                                             │
+│     │                                                              │
+│     ├──────────────▶ [주 장치 A : Active] ──────────────┐           │
+│     │                     ▲            │                │           │
+│     │                     │ Heartbeat  │ 서비스 제공    │           │
+│     │                     │            ▼                │           │
+│     └──────────────▶ [예비 장치 B : Standby]            │           │
+│                           │                             │           │
+│                           └─ A 무응답 감지 ─▶ 역할 승계 ┘           │
+│                                            │                        │
+│                                            ▼                        │
+│                                   [B가 새 Active]                   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 가장 중요한 설계 포인트는 독립성과 검출 속도다. 두 장치가 같은 전원, 같은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 같은 랙, 같은 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)에 묶여 있으면 “2대”여도 사실상 하나와 다르지 않다. 또한 하트비트 (Heartbeat) 간격이 너무 짧으면 오탐이 늘고, 너무 길면 절체 시간이 길어져 중단 시간이 늘어난다.
 
@@ -140,25 +145,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 장비 의존</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SPOF (Single Point of Failure) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전원·링크·서버 이중화 (Dual Redundancy)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 서비스 절체형: Heartbeat → Failover → HA (High Availability)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 연산 검출형: DMR (Dual Modular Redundancy) → Comparator</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">쿼럼·펜싱 기반 Split-Brain 방지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TMR · Geo-Redundancy · Self-Healing Architecture</div>
-</div>
-</div>
-
-
+```text
+단일 장비 의존
+    │
+    ▼
+SPOF (Single Point of Failure) 인식
+    │
+    ▼
+전원·링크·서버 이중화 (Dual Redundancy)
+    │
+    ├──▶ 서비스 절체형: Heartbeat → Failover → HA (High Availability)
+    │
+    └──▶ 연산 검출형: DMR (Dual Modular Redundancy) → Comparator
+    │
+    ▼
+쿼럼·펜싱 기반 Split-Brain 방지
+    │
+    ▼
+TMR · Geo-Redundancy · Self-Healing Architecture
+```
 
 이 흐름은 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)에서 출발해, 자동 절체와 판정 로직을 거쳐, 더 넓은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 복원력 구조로 확장되는 방향을 보여준다.
 

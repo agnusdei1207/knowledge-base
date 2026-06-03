@@ -29,22 +29,23 @@ tags = ["studynote-bigdata"]
 
 ### 1. 시각화 도구 생태계
 
+```text
+빅데이터 시각화 도구 분류
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">빅데이터 시각화 도구 분류</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스 BI 도구 (비개발자 대상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tableau · Power BI · Looker · Metabase · Superset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그래밍 라이브러리 (개발자 대상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Python: Matplotlib · Seaborn · Plotly · Bokeh</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JavaScript: D3.js · ECharts · Vega-Lite</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 모니터링 대시보드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana + Prometheus · Kibana (ELK Stack)</div></div>
-</div>
-</div>
-
-
+  ┌─────────────────────────────────────────────────────────┐
+  │  비즈니스 BI 도구 (비개발자 대상)                         │
+  │  Tableau · Power BI · Looker · Metabase · Superset      │
+  └─────────────────────────────────────────────────────────┘
+  ┌─────────────────────────────────────────────────────────┐
+  │  프로그래밍 라이브러리 (개발자 대상)                       │
+  │  Python: Matplotlib · Seaborn · Plotly · Bokeh          │
+  │  JavaScript: D3.js · ECharts · Vega-Lite               │
+  └─────────────────────────────────────────────────────────┘
+  ┌─────────────────────────────────────────────────────────┐
+  │  실시간 모니터링 대시보드                                   │
+  │  Grafana + Prometheus · Kibana (ELK Stack)              │
+  └─────────────────────────────────────────────────────────┘
+```
 
 ### 2. 차트 유형별 사용 기준
 
@@ -59,20 +60,17 @@ tags = ["studynote-bigdata"]
 
 ### 3. 대용량 시각화 최적화
 
+```text
+수억 건 데이터 시각화 처리 흐름
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수억 건 데이터 시각화 처리 흐름</div>
-<div class="kb-diagram-note">원시 데이터 (수억 건)</div>
-<div class="kb-diagram-note">▼ 서버사이드 집계 (DW / Spark SQL)</div>
-<div class="kb-diagram-note">집계 데이터 (수천~수만 건)</div>
-<div class="kb-diagram-note">▼ 시각화 렌더링 엔진</div>
-<div class="kb-diagram-note">대시보드 / 차트 (브라우저)</div>
-</div>
-</div>
-
-
+  원시 데이터 (수억 건)
+      │
+      ▼ 서버사이드 집계 (DW / Spark SQL)
+  집계 데이터 (수천~수만 건)
+      │
+      ▼ 시각화 렌더링 엔진
+  대시보드 / 차트 (브라우저)
+```
 
 - **📢 섹션 요약 비유**: 수억 건 데이터를 그대로 브라우저로 보내는 것은 **'도서관 100만 권을 통째로 가방에 넣어 들고 다니는 것'** 과 같습니다. 서버에서 핵심만 요약(집계)해서 보내야 대시보드가 빠릅니다.
 
@@ -132,24 +130,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정적 보고서 (Excel 차트)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BI 도구 (Tableau, Power BI) — 드래그앤드롭 대시보드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실시간 모니터링 (Grafana + Prometheus / Kibana)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">D3.js / ECharts — 인터랙티브 커스텀 시각화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빅데이터 시각화 (서버사이드 집계 + 클라이언트 렌더링)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 기반 자동 차트 생성 (Text-to-Visualization)</div>
-</div>
-</div>
-
-
+```text
+정적 보고서 (Excel 차트)
+    │
+    ▼
+BI 도구 (Tableau, Power BI) — 드래그앤드롭 대시보드
+    │
+    ▼
+실시간 모니터링 (Grafana + Prometheus / Kibana)
+    │
+    ├─► D3.js / ECharts — 인터랙티브 커스텀 시각화
+    │
+    ▼
+빅데이터 시각화 (서버사이드 집계 + 클라이언트 렌더링)
+    │
+    ▼
+AI 기반 자동 차트 생성 (Text-to-Visualization)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

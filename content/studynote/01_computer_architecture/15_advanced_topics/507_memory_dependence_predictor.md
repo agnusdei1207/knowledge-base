@@ -35,21 +35,24 @@ tags = ["studynote-computer-architecture"]
 
 이 구조는 일회성 판단이 아니라 <strong>예측 → 실행 → 위반 감지 → 학습 → <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">노화</a></strong>라는 폐루프로 동작한다. 로드가 먼저 나갔다가 나중에 LSQ (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에서 같은 주소의 오래된 스토어와 충돌한 사실이 확인되면, 예측기는 두 명령의 관계를 더 강하게 기록한다. 반대로 한동안 충돌이 없으면 오래된 관계를 약화시켜 워크로드 단계가 바뀌어도 과거 이력에 과하게 묶이지 않도록 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory dependence prediction feedback loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decode Load PC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSIT</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LFST</div><div class="kb-diagram-note">---- unresolved store? ---- yes ----</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">---------------- no ------------------------&gt;</div><div class="kb-diagram-cell">issue load</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait / release</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSQ detects late conflict --------------------------------------------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">update relation, raise confidence, age old entries</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Memory dependence prediction feedback loop                               │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Decode Load PC                                                           │
+│      │                                                                   │
+│      ▼                                                                   │
+│   [SSIT] ---- set id ----> [LFST] ---- unresolved store? ---- yes ----┐ │
+│      │                                             │                    │ │
+│      └---------------- no ------------------------>│ issue load         │ │
+│                                                    ▼                    │ │
+│                                                wait / release           │ │
+│                                                                         │ │
+│ LSQ detects late conflict --------------------------------------------┐ │ │
+│                                                                       ▼ ▼ │
+│                    update relation, raise confidence, age old entries    │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 예측기가 "주소 자체"를 맞히는 것이 아니라, <strong>어떤 로드가 어떤 종류의 스토어와 자주 엮였는지</strong>를 학습한다는 점이다. 그래서 완벽한 정답기가 아니라, 대기 비용과 재실행 비용 중 더 작은 쪽을 고르는 의사결정기라고 보는 편이 정확하다.
 
@@ -114,25 +117,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모든 로드 보수적 대기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">맹목적 투기 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">충돌 비트 기반 예측</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스토어 세트 기반 학습</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">신뢰도·노화 결합 예측</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드·ML 기반 예측</div>
-</div>
-</div>
-
-
+```text
+모든 로드 보수적 대기
+    │
+    ▼
+맹목적 투기 실행
+    │
+    ▼
+충돌 비트 기반 예측
+    │
+    ▼
+스토어 세트 기반 학습
+    │
+    ▼
+신뢰도·노화 결합 예측
+    │
+    ▼
+하이브리드·ML 기반 예측
+```
 
 이 흐름은 "무조건 기다리기 → 무조건 내보내기 → 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반영한 선택적 판단"으로 메모리 투기가 정교해지는 과정을 보여준다.
 

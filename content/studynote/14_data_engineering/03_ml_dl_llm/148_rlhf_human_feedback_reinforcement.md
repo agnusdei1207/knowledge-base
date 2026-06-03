@@ -31,29 +31,29 @@ tags = ["studynote-data-engineering"]
 
 RLHF는 절대 한 방에 이루어지지 않으며, 3단계의 피 말리는 파이프라인 융합 공정으로 구성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF 3단계 파이프라인 융합 아키텍처 도해 (OpenAI InstructGPT 기준)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 1. SFT (Supervised Fine-Tuning / 모방 학습)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앵무새(베이스 모델)에게 인간이 쓴 '완벽한 Q&amp;A 모범 답안' 1만 개를 먹임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목표: 일단 질문을 받으면 대화(Chat) 형식으로 답하는 폼(Form)을 세팅함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 2. RM (Reward Model / 채점관 AI 뇌 만들기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SFT를 마친 모델이 1개 질문에 4개의 다른 답변(A, B, C, D)을 뱉게 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인간 알바생이 "B가 제일 안전하고, D는 위험해!" (B &gt; A &gt; C &gt; D) 순위 매김.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이 순위표를 바탕으로 "인간의 채점 기준"을 100% 카피한 새로운 미니 AI,</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">즉</div><div class="kb-diagram-node">보상 모델(Reward Model)</div><div class="kb-diagram-note">을 훈련시켜 탄생시킴! (인간 알바 해방 🚀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 3. PPO (Proximal Policy Optimization / 옥타곤 강화학습)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자, 이제 메인 LLM을 옥타곤 링에 올림. 질문을 던짐 ➔ LLM이 대답을 함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 관중석에 앉아있던</div><div class="kb-diagram-node">보상 모델(RM)</div><div class="kb-diagram-note">이 그 대답을 보고 "오 안전해! +10점!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">또는 "어? 위험한 발언! -50점 감점 콱!!" 점수(Reward)를 매겨버림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메인 LLM은 이 +점수를 미친 듯이 최대로 땡기기 위해(Reward Maximization)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스스로 파라미터를 교정하며 인간이 좋아하는 입맛(정렬)으로 완벽 개조됨 쾅!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          RLHF 3단계 파이프라인 융합 아키텍처 도해 (OpenAI InstructGPT 기준)│
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [ Step 1. SFT (Supervised Fine-Tuning / 모방 학습) ]           │
+│  - 앵무새(베이스 모델)에게 인간이 쓴 '완벽한 Q&A 모범 답안' 1만 개를 먹임.│
+│  - 목표: 일단 질문을 받으면 대화(Chat) 형식으로 답하는 폼(Form)을 세팅함.  │
+│          ▼                                                  │
+│ [ Step 2. RM (Reward Model / 채점관 AI 뇌 만들기) ]             │
+│  - SFT를 마친 모델이 1개 질문에 4개의 다른 답변(A, B, C, D)을 뱉게 함.   │
+│  - 인간 알바생이 "B가 제일 안전하고, D는 위험해!" (B > A > C > D) 순위 매김.│
+│  - 이 순위표를 바탕으로 "인간의 채점 기준"을 100% 카피한 새로운 미니 AI,   │
+│    즉 [보상 모델(Reward Model)]을 훈련시켜 탄생시킴! (인간 알바 해방 🚀)  │
+│          ▼                                                  │
+│ [ Step 3. PPO (Proximal Policy Optimization / 옥타곤 강화학습) ]│
+│  - 자, 이제 메인 LLM을 옥타곤 링에 올림. 질문을 던짐 ➔ LLM이 대답을 함.   │
+│  - 관중석에 앉아있던 [보상 모델(RM)]이 그 대답을 보고 "오 안전해! +10점!" │
+│    또는 "어? 위험한 발언! -50점 감점 콱!!" 점수(Reward)를 매겨버림.     │
+│  - 메인 LLM은 이 +점수를 미친 듯이 최대로 땡기기 위해(Reward Maximization)│
+│    스스로 파라미터를 교정하며 인간이 좋아하는 입맛(정렬)으로 완벽 개조됨 쾅!!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 여기서 아키텍트들의 천재적인 융합은 Step 2의 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/">RM</a>(보상 모델)</strong>의 도입이다. 강화학습([PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))을 하려면 LLM이 수억 번 대답을 할 때마다 매번 점수를 줘야 하는데, 인간이 그걸 다 채점하다간 늙어 죽는다. 그래서 "인간의 가치관과 채점 방식을 완벽히 복제한 '채점 전용 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 봇([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/))'"을 하나 만들어서 인간 대신 무한 루프 자동 채점(Automated Feedback)을 돌려버린 것이 RLHF의 성공을 이끈 진정한 하드캐리 뼈대다.
 
@@ -118,26 +118,24 @@ RLHF는 엄청난 성공을 거두었지만 치명적인 한계가 있었고, �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사전 학습 LLM (Pre-trained Model / GPT, Llama 베이스) / 아무 말이나 막 뱉는 야생 통계 앵무새</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SFT (Supervised Fine-Tuning) / 질문-답변 모범 답안을 외우게 하여 대화형 챗봇의 뼈대 장착</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RLHF 3단계 (인간 피드백 정렬) 십자 융합</div>
-<div class="kb-diagram-note">1. 인간의 선호도 순위를 데이터로 수집</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 인간의 눈치를 완벽히 복제한</div><div class="kb-diagram-node">Reward Model(보상 모델)</div><div class="kb-diagram-note">탄생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. 옥타곤 링에서</div><div class="kb-diagram-node">PPO 강화학습</div><div class="kb-diagram-note">으로 보상 점수 펌핑하며 모델 세뇌 개조 쾅!</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RLHF 튜닝 비용과 GPU 메모리 랙(SPOF) 폭발 파국 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPO (Direct Preference Optimization) 시대 대관식 / 보상 모델 다 찢어 버리고 오답 노트로 다이렉트 튜닝 🚀</div>
-</div>
-</div>
-
-
+```text
+사전 학습 LLM (Pre-trained Model / GPT, Llama 베이스) / 아무 말이나 막 뱉는 야생 통계 앵무새
+    │
+    ▼
+SFT (Supervised Fine-Tuning) / 질문-답변 모범 답안을 외우게 하여 대화형 챗봇의 뼈대 장착
+    │
+    ▼
+RLHF 3단계 (인간 피드백 정렬) 십자 융합
+ 1. 인간의 선호도 순위를 데이터로 수집 
+ 2. 인간의 눈치를 완벽히 복제한 [Reward Model(보상 모델)] 탄생
+ 3. 옥타곤 링에서 [PPO 강화학습]으로 보상 점수 펌핑하며 모델 세뇌 개조 쾅!
+    │
+    ▼
+RLHF 튜닝 비용과 GPU 메모리 랙(SPOF) 폭발 파국 💥
+    │
+    ▼
+DPO (Direct Preference Optimization) 시대 대관식 / 보상 모델 다 찢어 버리고 오답 노트로 다이렉트 튜닝 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -152,6 +150,6 @@ RLHF는 엄청난 성공을 거두었지만 치명적인 한계가 있었고, �
 **진행 상황**: 148 / 258
 
 ← **이전**: [147. 인스트럭션 튜닝 (Instruction Tuning) & RLHF](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/147_instruction_tuning_rlhf_alignment/)
-**다음**: [149. 프롬프트 엔지니어링 (Prompt Engineering) - CoT / Few-Shot](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) →
+**다음**: [149. 프롬프트 엔지니어링 (Prompt 엔진ering) - CoT / Few-Shot](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) →
 
 ---

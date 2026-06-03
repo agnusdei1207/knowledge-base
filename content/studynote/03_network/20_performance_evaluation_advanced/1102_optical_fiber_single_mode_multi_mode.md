@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **구조**: 머리카락 두께의 가장 안쪽 유리구멍인 <strong>코어(Core)</strong>와, 코어를 감싸고 있는 거울 코팅인 <strong>클래딩(Cladding)</strong>으로 구성됩니다.
 - **원리 (전반사)**: 코어의 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)을 클래딩보다 높게 만듭니다. 빛이 코어 안으로 들어가면, 클래딩 벽에 부딪힐 때 밖으로 빠져나가지 못하고 100% 내부로 튕겨 나오는 **전반사(Total Internal Reflection)** 현상을 이용해 빛의 손실 없이 수백 km를 질주합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">UTP 배선 카테고리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
-</div>
-</div>
-
-
+```text
+[UTP 배선 카테고리]
+    │
+    ▼
+[광섬유 싱글모드 다중모드]
+    │
+    └──▶ [WDM 무손실 광 증폭]
+```
 
 - **📢 섹션 요약 비유**: 광섬유 싱글모드 다중모드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
 - **장점**: 벽에 튕기며 지그재그로 가는 빛이 원천 차단되므로, <strong>도착 시간이 늦어지는 '모드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>'이 0%로 사라집니다.</strong> 빛의 순수한 속도 그대로 수십~수백 km를 단 1의 찌그러짐 없이 날아갑니다. 전 세계 해저 케이블과 통신사 전국망의 100% 절대 표준입니다.
 - **단점**: 구멍이 너무 좁아서 쏠 때 최고급 고가의 레이저(LD) 장비로 나노 단위의 조준을 해야 하므로 구축 비용이 엄청나게 비쌉니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">UTP 배선 카테고리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
-</div>
-</div>
-
-
+```text
+[UTP 배선 카테고리]
+    │
+    ▼
+[광섬유 싱글모드 다중모드]
+    │
+    └──▶ [WDM 무손실 광 증폭]
+```
 
 - **📢 섹션 요약 비유**: 광섬유 싱글모드 다중모드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: UTP 배선 카테고리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 광섬유 싱글모드 다중모드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WDM 무손실 광 증폭</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: UTP 배선 카테고리]
+    │
+    ▼
+[현재 개념: 광섬유 싱글모드 다중모드]
+    │
+    ├──▶ [확장 A: WDM 무손실 광 증폭]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 광섬유 싱글모드 다중모드는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리에서 출발해 현재 메커니즘을 정교화하고, 이후 WDM 무손실 광 증폭와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

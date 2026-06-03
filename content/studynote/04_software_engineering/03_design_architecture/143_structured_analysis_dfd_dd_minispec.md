@@ -18,20 +18,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DFD 4대 구성요소:</div>
-<div class="kb-diagram-note">○ 프로세스 (데이터 변환)</div>
-<div class="kb-diagram-note">→ 데이터 흐름 (화살표)</div>
-<div class="kb-diagram-note">═ 데이터 저장소 (DB)</div>
-<div class="kb-diagram-note">□ 외부 엔티티 (사용자·외부 시스템)</div>
-<div class="kb-diagram-note">레벨링: Context DFD → Level 0 → Level 1 (분해)</div>
-</div>
-</div>
-
-
+```text
+DFD 4대 구성요소:
+  ○ 프로세스 (데이터 변환)
+  → 데이터 흐름 (화살표)
+  ═ 데이터 저장소 (DB)
+  □ 외부 엔티티 (사용자·외부 시스템)
+레벨링: Context DFD → Level 0 → Level 1 (분해)
+```
 
 - **📢 섹션 요약 비유**: DFD는 <strong>수도관 배관도</strong>이다. 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 어디서 와서 어디로 흐르는지 보여준다.
 
@@ -55,17 +49,11 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">구조적 분석 (DeMarco, 1978)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SSADM (영국, 1980s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">UML (1997)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Agile User Story (2001)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: DFD는 정보처리기사 시험 필수 + 레거시 분석</div></div>
-</div>
-</div>
-
-
+```text
+[구조적 분석 (DeMarco, 1978)] → [SSADM (영국, 1980s)]
+    → [UML (1997)] → [Agile User Story (2001)]
+    → [현재: DFD는 정보처리기사 시험 필수 + 레거시 분석]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. DFD는 <strong>수도관 배관도</strong>예요. 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 **어디서 어디로** 흐르는지 보여줘요.

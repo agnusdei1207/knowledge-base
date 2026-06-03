@@ -37,39 +37,44 @@ tags = ["studynote-it-management"]
 "아 공식 씨발 알파벳 존나 헷갈리네 뇌 터짐 ㅠ" 
 PV 곡선이 엑셀 바닥부터 우주 천장(BAC)까지 뻗어 오르는 기하학적 누적 십자 융합 매핑 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PV (Planned Value 계획 가치) S-커브 누적 엑스레이 스캔 록온 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎯</div><div class="kb-diagram-node">절대 불변의 옥상 천장 (BAC 총예산 1,000만 원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사장님이 결재 사인 쾅! 때린 프로젝트 1통 전체 총 쩐당 1,000만 원 팩트 록온.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌟 아키텍트의 WBS 쇳덩이 도끼 찢기 &amp; PV 배분 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📝</div><div class="kb-diagram-node">1단계: 설계 (1개월 차) ➔ 100만 원짜리 일 (가벼움 깃털 ㅋ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1개월 차 PV 목표: 100만 원 (누적 100만 원 록온!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💻</div><div class="kb-diagram-node">2단계: 코딩 떡칠 (2~4개월 차) ➔ 700만 원짜리 헤비급 용광로 쇳덩이 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2개월 차 PV 목표: 200만 원 추가 ➔ 누적 300만 원!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 3개월 차 PV 목표: 300만 원 추가 ➔ 누적 600만 원! (수직 펌핑 풀악셀 🚀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 4개월 차 PV 목표: 200만 원 추가 ➔ 누적 800만 원!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">3단계: QA 테스트 쉴드 (5개월 차) ➔ 200만 원짜리 완충 버퍼 텐트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 5개월 차 PV 목표: 200만 원 추가 ➔ 누적 1,000만 원 달성 쾅!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">📈 궁극의 S-Curve (S-커브) 시각화 팩폭 🪓</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용(PV) ▲</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1000만 │ ●</div><div class="kb-diagram-node">프로젝트 종료 완수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">800만</div><div class="kb-diagram-cell">● ◀─ (QA 테스트 기간 완만해짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">600만</div><div class="kb-diagram-cell">● ◀─ (코딩 기간 미친 듯이 수직 폭발 스파이크)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">300만</div><div class="kb-diagram-cell">●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100만</div><div class="kb-diagram-cell">● ◀─ (설계 기간 진도 찔끔 완만함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 시간 (개월)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 2 3 4 5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌟 아키텍트 팩폭 결론: 이게 바로 정상적인 건강한 프로젝트의</div><div class="kb-diagram-node">S-커브</div><div class="kb-diagram-note">텐트다 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PV 선이 초반부터 미친 듯이 직각 수직 상승 꽂히거나, 거꾸로 역 S자 파국 그리면 ➔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코더 병신 새끼들이 일일이 WBS 나노 쪼개기 안 하고 뇌피셜로 엑셀 가라(사기) 쳤거나,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일정 빵꾸 나서 돈 허공 증발 타죽음 뻗을 100% 시한폭탄 안티패턴 적발 컷 록온 🚀!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          PV (Planned Value 계획 가치) S-커브 누적 엑스레이 스캔 록온 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🎯 [ 절대 불변의 옥상 천장 (BAC 총예산 1,000만 원) ]                │
+│   - 사장님이 결재 사인 쾅! 때린 프로젝트 1통 전체 총 쩐당 1,000만 원 팩트 록온. │
+│                                                             │
+│        ======= [ 🌟 아키텍트의 WBS 쇳덩이 도끼 찢기 & PV 배분 ✨ ] ========│
+│                                                             │
+│ 📝 [ 1단계: 설계 (1개월 차) ➔ 100만 원짜리 일 (가벼움 깃털 ㅋ) ]         │
+│   - 1개월 차 PV 목표: 100만 원 (누적 100만 원 록온!)                 │
+│                                                             │
+│ 💻 [ 2단계: 코딩 떡칠 (2~4개월 차) ➔ 700만 원짜리 헤비급 용광로 쇳덩이 💥 ] │
+│   - 2개월 차 PV 목표: 200만 원 추가 ➔ 누적 300만 원!                 │
+│   - 3개월 차 PV 목표: 300만 원 추가 ➔ 누적 600만 원! (수직 펌핑 풀악셀 🚀)│
+│   - 4개월 차 PV 목표: 200만 원 추가 ➔ 누적 800만 원!                 │
+│                                                             │
+│ 🛡️ [ 3단계: QA 테스트 쉴드 (5개월 차) ➔ 200만 원짜리 완충 버퍼 텐트 ]     │
+│   - 5개월 차 PV 목표: 200만 원 추가 ➔ 누적 1,000만 원 달성 쾅!!         │
+│                                                             │
+│        ======= [ 📈 궁극의 S-Curve (S-커브) 시각화 팩폭 🪓 ] ========│
+│                                                             │
+│   비용(PV) ▲                                                    │
+│  1000만 │                                  ● [프로젝트 종료 완수]│
+│   800만 │                           ● ◀─ (QA 테스트 기간 완만해짐) │
+│   600만 │                    ● ◀─ (코딩 기간 미친 듯이 수직 폭발 스파이크)│
+│   300만 │            ●                                       │
+│   100만 │      ● ◀─ (설계 기간 진도 찔끔 완만함)                   │
+│         └──────────────────────────────────▶ 시간 (개월)     │
+│             1     2     3     4     5                       │
+│                                                             │
+│ 🌟 아키텍트 팩폭 결론: 이게 바로 정상적인 건강한 프로젝트의 [S-커브] 텐트다 쾅!! │
+│ PV 선이 초반부터 미친 듯이 직각 수직 상승 꽂히거나, 거꾸로 역 S자 파국 그리면 ➔ │
+│ 코더 병신 새끼들이 일일이 WBS 나노 쪼개기 안 하고 뇌피셜로 엑셀 가라(사기) 쳤거나, │
+│ 일정 빵꾸 나서 돈 허공 증발 타죽음 뻗을 100% 시한폭탄 안티패턴 적발 컷 록온 🚀!  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">아키텍트의 피 터지는 메스: PMB ([Performance</a> Measurement <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">Baseline</a> 성과 측정 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a> 🛡️)]</strong>
 기술사 면접 1타 팩폭 타점. "야!! PV 다 더한 누적 합계가 전체 프로젝트 예산 100% 찐 총액 맞지 ㅋ?"
@@ -152,23 +157,21 @@ PV(Planned Value 계획 가치)는 단순히 엑셀 칸에 숫자 채워 넣는 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지성 주먹구구 예산 통장 뇌피셜 뻗음 시대 💀 / 걍 100억 통장에서 돈 50억 빼 썼으니 ➔ "오 일도 절반 50% 끝났겠네 개꿀 ㅋ" 망상 자위 치다 ➔ 런칭 날 까보니 코딩 10% 하고 유흥 탕진 사기 팩트 적발 ➔ 1조 원 국방 우주 프로젝트 동반 타죽음 폭파 💥 멸망 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">EVM (미 국방부 C/SCSC) 3차원 엑스레이 대관식 강림 🚀 / 펜타곤 아키텍트 분노 철퇴 🪓 "야 씨발 돈 쓴 거(AC)랑 진짜 만들어온 가치(EV)를 도끼로 찢어 분리 이혼 절단 쳐 쾅!! 그리고 오늘까지 도달해야 할</div><div class="kb-diagram-node">모범 정답 팩트 기준선 (PV 계획 가치)</div><div class="kb-diagram-note">텐트를 허공에 무.조.건 록온 박아 띄워 스캔 쳐라!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PV (Planned Value) 기반의 SV/SPI 일정 통제 펌핑 진화 ✨ / 걍 며칠 지각했다 감으로 때려잡던 시대 박살 ➔ "야 지금 우리 목표 대비(PV) 얼마나 뒤처졌어(EV)? ➔ SPI 0.8 떡락 꽂혔네 1달 런칭 타임아웃 뻗음 멸망 팩트 확정 쾅 🚀!" 조기 경보(Early Warning) 1초 컷 오토 스캔 방어막 구축 🚀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Re-baselining (리베이스라인) 통치술 록온 🛡️ / "사장님이 결제 연동 스펙 뺐는데 낡은 옛날 PV 기준선 그대로 엑셀 냅두니까 에러 팩폭 구라 적자 터지잖아 ㅋ ➔ 스펙 바뀔 때마다 기존 PV 도면 다 소각 폐기 찢어발겨 척살 치고 ➔</div><div class="kb-diagram-node">새 PV 곡선 S-커브</div><div class="kb-diagram-note">덮어쓰기 융합 강제 이식 텐트 수술 쳐 쾅!!" 100% 엄격 팩트 환경 싱크 보장 쉴드 달성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Agile 애자일 번다운 차트(Burndown Chart) 스토리 포인트(SP) 대통일 (현재) ✨ / 무거운 EVM PV/EV 달러($) 돈 계산 엑셀 쇳덩이 다 불태워 찢어 폐기 소각 치고! ➔</div><div class="kb-diagram-node">이상적 잔여 티켓 곡선 = PV</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">매일 해치운 티켓 스코어 = EV</div><div class="kb-diagram-note">로 껍데기만 100% 빙의 스위칭 변태 환생 쳐서 ➔ 2주 스프린트 K8s 클라우드 속도전 핑퐁 생태계 심장 엑스레이 코어로 완벽 융합 안착 우주 무결점 쾌속 생존 지배 🚀</div></div>
-</div>
-</div>
-
-
+```text
+무지성 주먹구구 예산 통장 뇌피셜 뻗음 시대 💀 / 걍 100억 통장에서 돈 50억 빼 썼으니 ➔ "오 일도 절반 50% 끝났겠네 개꿀 ㅋ" 망상 자위 치다 ➔ 런칭 날 까보니 코딩 10% 하고 유흥 탕진 사기 팩트 적발 ➔ 1조 원 국방 우주 프로젝트 동반 타죽음 폭파 💥 멸망 💀
+    │
+    ▼
+EVM (미 국방부 C/SCSC) 3차원 엑스레이 대관식 강림 🚀 / 펜타곤 아키텍트 분노 철퇴 🪓 "야 씨발 돈 쓴 거(AC)랑 진짜 만들어온 가치(EV)를 도끼로 찢어 분리 이혼 절단 쳐 쾅!! 그리고 오늘까지 도달해야 할 [모범 정답 팩트 기준선 (PV 계획 가치)] 텐트를 허공에 무.조.건 록온 박아 띄워 스캔 쳐라!!"
+    │
+    ▼
+PV (Planned Value) 기반의 SV/SPI 일정 통제 펌핑 진화 ✨ / 걍 며칠 지각했다 감으로 때려잡던 시대 박살 ➔ "야 지금 우리 목표 대비(PV) 얼마나 뒤처졌어(EV)? ➔ SPI 0.8 떡락 꽂혔네 1달 런칭 타임아웃 뻗음 멸망 팩트 확정 쾅 🚀!" 조기 경보(Early Warning) 1초 컷 오토 스캔 방어막 구축 🚀
+    │
+    ▼
+Re-baselining (리베이스라인) 통치술 록온 🛡️ / "사장님이 결제 연동 스펙 뺐는데 낡은 옛날 PV 기준선 그대로 엑셀 냅두니까 에러 팩폭 구라 적자 터지잖아 ㅋ ➔ 스펙 바뀔 때마다 기존 PV 도면 다 소각 폐기 찢어발겨 척살 치고 ➔ [새 PV 곡선 S-커브] 덮어쓰기 융합 강제 이식 텐트 수술 쳐 쾅!!" 100% 엄격 팩트 환경 싱크 보장 쉴드 달성
+    │
+    ▼
+Agile 애자일 번다운 차트(Burndown Chart) 스토리 포인트(SP) 대통일 (현재) ✨ / 무거운 EVM PV/EV 달러($) 돈 계산 엑셀 쇳덩이 다 불태워 찢어 폐기 소각 치고! ➔ [이상적 잔여 티켓 곡선 = PV], [매일 해치운 티켓 스코어 = EV] 로 껍데기만 100% 빙의 스위칭 변태 환생 쳐서 ➔ 2주 스프린트 K8s 클라우드 속도전 핑퐁 생태계 심장 엑스레이 코어로 완벽 융합 안착 우주 무결점 쾌속 생존 지배 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

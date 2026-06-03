@@ -42,28 +42,32 @@ Spark History Server는 이 공백을 채우는 <strong>사후 분석(Post-morte
 
 ### 1. History Server 동작 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark Application (실행 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Driver Event 생성 ──→ EventLog Writer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Stage/Task/Executor 이벤트)</div></div>
-<div class="kb-diagram-note">이벤트 로그 파일 스트리밍 기록</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS / S3 / 로컬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/spark/eventlogs/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">app_001.json.inprogress</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">app_001.json (완료 후)</div></div>
-<div class="kb-diagram-note">주기적 스캔</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark History Server (18080 포트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Jobs 탭</div><div class="kb-diagram-cell">Stages 탭</div><div class="kb-diagram-cell">Storage탭</div><div class="kb-diagram-cell">SQL 탭</div></div>
-<div class="kb-diagram-note">브라우저 접속: http://history-server:18080</div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│  Spark Application (실행 중)                                │
+│                                                            │
+│  Driver ─── Event 생성 ──→ EventLog Writer                 │
+│             (Stage/Task/Executor 이벤트)                   │
+└──────────────────────────┬─────────────────────────────────┘
+                           │ 이벤트 로그 파일 스트리밍 기록
+                           ▼
+              ┌─────────────────────────┐
+              │  HDFS / S3 / 로컬       │
+              │  /spark/eventlogs/      │
+              │  app_001.json.inprogress│
+              │  app_001.json (완료 후) │
+              └────────────┬────────────┘
+                           │ 주기적 스캔
+                           ▼
+┌──────────────────────────────────────────────────────────┐
+│  Spark History Server (18080 포트)                        │
+│                                                          │
+│  ┌─────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐ │
+│  │ Jobs 탭 │  │Stages 탭 │  │Storage탭 │  │SQL 탭    │ │
+│  └─────────┘  └──────────┘  └──────────┘  └──────────┘ │
+└──────────────────────────────────────────────────────────┘
+              브라우저 접속: http://history-server:18080
+```
 
 ### 2. 핵심 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
@@ -182,23 +186,21 @@ Spark History Server는 프로덕션 Spark 클러스터의 <strong>필수 운영
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Web UI (포트 4040 — 실시간 작업 모니터링)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 로그 (Event Log — HDFS/S3 영구 저장)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark History Server (포트 18080 — 사후 분석 UI)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SQL 탭 실행 계획 시각화 (AQE 재최적화 확인)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Prometheus / Grafana 연계 — 클러스터 메트릭 통합 대시보드</div></div>
-</div>
-</div>
-
-
+```text
+[Spark Web UI (포트 4040 — 실시간 작업 모니터링)]
+    │
+    ▼
+[이벤트 로그 (Event Log — HDFS/S3 영구 저장)]
+    │
+    ▼
+[Spark History Server (포트 18080 — 사후 분석 UI)]
+    │
+    ▼
+[SQL 탭 실행 계획 시각화 (AQE 재최적화 확인)]
+    │
+    ▼
+[Prometheus / Grafana 연계 — 클러스터 메트릭 통합 대시보드]
+```
 Spark 작업 완료 후 사후 분석은 History Server가 담당하며, 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 기반으로 SQL [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)의 병목을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하고 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)/Grafana와 연계해 운영 인텔리전스를 완성한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

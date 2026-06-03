@@ -34,18 +34,15 @@ Accuracy가 높아도 소수 클래스를 전혀 탐지 못하는 상황을 <str
 
 ### [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) ([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)) 기반 지표 체계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">예측 결과 (Predicted)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Positive</div><div class="kb-diagram-cell">Negative</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 Positive</div><div class="kb-diagram-cell">TP (참양성)</div><div class="kb-diagram-cell">FN (거짓음성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 Negative</div><div class="kb-diagram-cell">FP (거짓양성)</div><div class="kb-diagram-cell">TN (참음성)</div></div>
-</div>
-</div>
-
-
+```
+                     예측 결과 (Predicted)
+                  ┌──────────────┬──────────────┐
+                  │  Positive    │  Negative    │
+┌─────────────────┼──────────────┼──────────────┤
+│ 실제  Positive  │   TP (참양성)│   FN (거짓음성)│
+│ 결과  Negative  │   FP (거짓양성)│  TN (참음성) │
+└─────────────────┴──────────────┴──────────────┘
+```
 
 ### 핵심 지표 공식
 
@@ -60,76 +57,68 @@ Accuracy가 높아도 소수 클래스를 전혀 탐지 못하는 상황을 <str
 
 ### 정밀도-[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 트레이드오프 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램)
 
+```
+임계값(Threshold)를 낮추면 → 더 많이 양성 예측 → Recall ↑, Precision ↓
+임계값(Threshold)를 높이면 → 더 적게 양성 예측 → Recall ↓, Precision ↑
 
+  P/R
+  1.0 │ P ─────╮
+      │        ╰──────────────────
+      │
+  0.5 │         ╭─────────────────
+      │ R ──────╯
+  0.0 └──────────────────────────── Threshold
+      0                           1.0
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">임계값(Threshold)를 낮추면 → 더 많이 양성 예측 → Recall ↑, Precision ↓</div>
-<div class="kb-diagram-note">임계값(Threshold)를 높이면 → 더 적게 양성 예측 → Recall ↓, Precision ↑</div>
-<div class="kb-diagram-note">P/R</div>
-<div class="kb-diagram-note">1.0 │ P</div>
-<div class="kb-diagram-note">0.5 │</div>
-<div class="kb-diagram-note">R</div>
-<div class="kb-diagram-note">0.0 Threshold</div>
-<div class="kb-diagram-note">0 1.0</div>
-<div class="kb-diagram-note">↑ 임계값 높일수록: Precision ↑, Recall ↓</div>
-<div class="kb-diagram-note">↓ 임계값 낮출수록: Recall ↑, Precision ↓</div>
-<div class="kb-diagram-note">→ 비즈니스 맥락에 맞는 임계값 선택이 핵심</div>
-</div>
-</div>
-
-
+  ↑ 임계값 높일수록: Precision ↑, Recall ↓
+  ↓ 임계값 낮출수록: Recall ↑, Precision ↓
+  → 비즈니스 맥락에 맞는 임계값 선택이 핵심
+```
 
 ### ROC 커브 (Receiver Operating Characteristic Curve)
 
 모든 임계값에 대해 TPR(=[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)) vs FPR을 그린 곡선이다.
 
+```
+  TPR (Recall)
+  1.0 │          ╭─────────────── 이상적 분류기 (AUC=1.0)
+      │        ╭─╯ ← 좋은 모델 (AUC~0.9)
+  0.7 │      ╭─╯
+      │    ╭─╯
+  0.5 │  ╭─╯              ← 랜덤 분류기 (AUC=0.5, 대각선)
+      │╭─╯
+  0.0 └──────────────────── FPR
+      0     0.3   0.7    1.0
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">TPR (Recall)</div>
-<div class="kb-diagram-note">1.0 │ 이상적 분류기 (AUC=1.0)</div>
-<div class="kb-diagram-note">─ ← 좋은 모델 (AUC~0.9)</div>
-<div class="kb-diagram-note">0.7 │ ─</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">0.5 │ ─ ← 랜덤 분류기 (AUC=0.5, 대각선)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">0.0 FPR</div>
-<div class="kb-diagram-note">0 0.3 0.7 1.0</div>
-<div class="kb-diagram-note">AUC (Area Under Curve):</div>
-<div class="kb-diagram-note">AUC = 0.5 → 랜덤 수준 (무의미)</div>
-<div class="kb-diagram-note">AUC = 0.7 → 보통 수준</div>
-<div class="kb-diagram-note">AUC = 0.9 → 우수 수준</div>
-<div class="kb-diagram-note">AUC = 1.0 → 완벽 분류기</div>
-</div>
-</div>
-
-
+  AUC (Area Under Curve):
+    AUC = 0.5  → 랜덤 수준 (무의미)
+    AUC = 0.7  → 보통 수준
+    AUC = 0.9  → 우수 수준
+    AUC = 1.0  → 완벽 분류기
+```
 
 ### [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 커브 (Precision-[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) Curve) vs ROC 커브
 
+```
+  Precision
+  1.0 │──────╮
+      │       ╰──────────────── PR 커브
+      │                         (불균형 데이터에서 더 정직)
+  0.5 │
+      │
+  0.0 └──────────────────────── Recall
+      0                       1.0
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Precision</div>
-<div class="kb-diagram-note">1.0 │</div>
-<div class="kb-diagram-note">PR 커브</div>
-<div class="kb-diagram-note">(불균형 데이터에서 더 정직)</div>
-<div class="kb-diagram-note">0.5</div>
-<div class="kb-diagram-note">0.0 Recall</div>
-<div class="kb-diagram-note">0 1.0</div>
-<div class="kb-diagram-note">ROC 커브 vs PR 커브 선택 기준:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황</div><div class="kb-diagram-cell">권장 지표</div><div class="kb-diagram-cell">이유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">균형 데이터</div><div class="kb-diagram-cell">ROC-AUC</div><div class="kb-diagram-cell">양 클래스 동등</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불균형 데이터</div><div class="kb-diagram-cell">PR-AUC</div><div class="kb-diagram-cell">소수 클래스 집중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소수 클래스 탐지 중요</div><div class="kb-diagram-cell">PR-AUC</div><div class="kb-diagram-cell">TN 과대평가 방지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전반적 분류기 비교</div><div class="kb-diagram-cell">ROC-AUC</div><div class="kb-diagram-cell">널리 쓰임</div></div>
-</div>
-</div>
-
-
+  ROC 커브 vs PR 커브 선택 기준:
+  ┌────────────────────────┬──────────────┬──────────────┐
+  │ 상황                   │ 권장 지표    │ 이유         │
+  ├────────────────────────┼──────────────┼──────────────┤
+  │ 균형 데이터             │ ROC-AUC      │ 양 클래스 동등 │
+  │ 불균형 데이터           │ PR-AUC       │ 소수 클래스 집중│
+  │ 소수 클래스 탐지 중요   │ PR-AUC       │ TN 과대평가 방지│
+  │ 전반적 분류기 비교      │ ROC-AUC      │ 널리 쓰임    │
+  └────────────────────────┴──────────────┴──────────────┘
+```
 
 📢 **섹션 요약 비유**: ROC 커브는 모든 문턱값에서 "얼마나 잘 구별하나"를 종합 평가하는 성적표다. AUC는 그 성적표의 최종 점수로, 1점에 가까울수록 뛰어난 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다.
 
@@ -147,18 +136,13 @@ Accuracy가 높아도 소수 클래스를 전혀 탐지 못하는 상황을 <str
 
 ### Fβ Score — 정밀도와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 가중 조합
 
+```
+Fβ = (1 + β²) × Precision × Recall / (β² × Precision + Recall)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Fβ = (1 + β²) × Precision × Recall / (β² × Precision + Recall)</div>
-<div class="kb-diagram-note">β = 1 → F1 (P·R 동등 가중)</div>
-<div class="kb-diagram-note">β = 2 → F2 (Recall 2배 중요, 미탐 비용 높을 때)</div>
-<div class="kb-diagram-note">β = 0.5 → F0.5 (Precision 2배 중요, 오탐 비용 높을 때)</div>
-</div>
-</div>
-
-
+  β = 1   → F1 (P·R 동등 가중)
+  β = 2   → F2 (Recall 2배 중요, 미탐 비용 높을 때)
+  β = 0.5 → F0.5 (Precision 2배 중요, 오탐 비용 높을 때)
+```
 
 📢 **섹션 요약 비유**: 정밀도는 "낚시 그물에 잡힌 것 중 원하는 물고기 비율"이고, [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)은 "바다에 있는 원하는 물고기 중 내가 잡은 비율"이다. 그물을 크게 치면 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)은 높아지지만 정밀도는 낮아진다.
 
@@ -166,24 +150,21 @@ Accuracy가 높아도 소수 클래스를 전혀 탐지 못하는 상황을 <str
 
 ### 최적 임계값 (Optimal Threshold) 결정 방법
 
+```
+방법 1: Youden's J Index (ROC 기반)
+  J = Sensitivity + Specificity - 1 = Recall + (1-FPR) - 1
+  → J 최대화 임계값 선택
 
+방법 2: F1 최대화 (PR 기반)
+  → Precision·Recall이 균형을 이루는 임계값
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">방법 1: Youden's J Index (ROC 기반)</div>
-<div class="kb-diagram-note">J = Sensitivity + Specificity - 1 = Recall + (1-FPR) - 1</div>
-<div class="kb-diagram-note">→ J 최대화 임계값 선택</div>
-<div class="kb-diagram-note">방법 2: F1 최대화 (PR 기반)</div>
-<div class="kb-diagram-note">→ Precision·Recall이 균형을 이루는 임계값</div>
-<div class="kb-diagram-note">방법 3: 비용 기반 (Cost-Based)</div>
-<div class="kb-diagram-note">Cost = C_FP × FP + C_FN × FN</div>
-<div class="kb-diagram-note">→ 비즈니스 비용을 최소화하는 임계값 선택</div>
-<div class="kb-diagram-note">방법 4: 도메인 정책 기준</div>
-<div class="kb-diagram-note">암 진단: Recall ≥ 0.95 제약 하에 Precision 최대화</div>
-</div>
-</div>
+방법 3: 비용 기반 (Cost-Based)
+  Cost = C_FP × FP + C_FN × FN
+  → 비즈니스 비용을 최소화하는 임계값 선택
 
-
+방법 4: 도메인 정책 기준
+  암 진단: Recall ≥ 0.95 제약 하에 Precision 최대화
+```
 
 ### 기술사 판단 포인트
 
@@ -230,21 +211,18 @@ Precision·[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensit
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">혼동 행렬 (TP · TN · FP · FN)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지표: Precision · Recall · F1-Score (조화 평균)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ROC 곡선 · AUC: 임계값 독립 분류 성능</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 클래스: Macro · Micro · Weighted Average</div>
-</div>
-</div>
-
-
+```text
+혼동 행렬 (TP · TN · FP · FN)
+    │
+    ▼
+지표: Precision · Recall · F1-Score (조화 평균)
+    │
+    ▼
+ROC 곡선 · AUC: 임계값 독립 분류 성능
+    │
+    ▼
+다중 클래스: Macro · Micro · Weighted Average
+```
 2. F1은 정밀도와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 둘 다 잘 하는 사람에게 높은 점수를 주는 성적표다—하나만 잘하면 점수가 낮다.
 3. ROC AUC는 "문턱을 어디 두든 얼마나 잘 구별하나"를 한 숫자(0~1)로 표현한 것으로, 1에 가까울수록 뛰어난 AI다.
 

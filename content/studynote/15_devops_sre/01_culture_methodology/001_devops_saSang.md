@@ -26,23 +26,20 @@ tags = ["devops_sre"]
 
 아래 다이어그램은 전통적인 개발-운영의 충돌 구조에서 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)가 어떻게 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 통합되는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 IT 환경의 Wall of Confusion</div></div>
-<div class="kb-diagram-note">(단절된 장벽)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dev (개발)</div><div class="kb-diagram-cell">──(코드 투척)─▶X 혼란</div><div class="kb-diagram-cell">Ops (운영)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 잦은 변경</div><div class="kb-diagram-cell">충돌</div><div class="kb-diagram-cell">- 변경 억제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 신기능</div><div class="kb-diagram-cell">◀─(운영 장애)──</div><div class="kb-diagram-cell">- 안정성</div></div>
-<div class="kb-diagram-note">↓ 혁신적 패러다임 전환 ↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps 통합 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔄 Continuous Integration &amp; Delivery (CI/CD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan ➔ Code ➔ Build ➔ Test ➔ Release ➔ Operate</div></div>
-</div>
-</div>
-
-
+```text
+[전통적 IT 환경의 Wall of Confusion]
+┌─────────────┐       (단절된 장벽)       ┌─────────────┐
+│ Dev (개발)  │ ──(코드 투척)─▶X 혼란 │ Ops (운영)  │
+│ - 잦은 변경 │       충돌       │ - 변경 억제 │
+│ - 신기능    │ ◀─(운영 장애)── │ - 안정성    │
+└─────────────┘                    └─────────────┘
+          ↓ 혁신적 패러다임 전환 ↓
+[DevOps 통합 파이프라인]
+┌────────────────────────────────────────────────┐
+│ 🔄 Continuous Integration & Delivery (CI/CD)   │
+│ Plan ➔ Code ➔ Build ➔ Test ➔ Release ➔ Operate │
+└────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 전통적인 구조에서 개발과 운영 사이에 존재하는 '혼란의 장벽(Wall of Confusion)'이 기술 발전의 가장 큰 병목이라는 점을 보여준다. 개발자는 속도를, 운영자는 안정성을 추구하므로 필연적으로 대립하게 된다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 이 장벽을 허물고 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD라는 자동화된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 위에 양 팀을 하나의 순환 루프로 올려놓는다. 실무에서는 이러한 통합 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 없이는 아무리 좋은 클라우드 인프라를 도입해도 궁극적인 배포 병목을 해결할 수 없음을 명심해야 한다.
 
@@ -64,29 +61,27 @@ tags = ["devops_sre"]
 
 아래는 개발자의 커밋부터 프로덕션 배포까지 이어지는 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Developer</div></div>
-<div class="kb-diagram-note">1. Git Push (커밋/PR)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2. Webhook</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git Repository</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">CI Pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Source Code)</div><div class="kb-diagram-cell">(Build &amp; Unit Test)</div></div>
-<div class="kb-diagram-note">3. Push Image</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">5. Deploy</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prod Environment</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Artifact Registry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Kubernetes)</div><div class="kb-diagram-cell">(Docker Images)</div></div>
-<div class="kb-diagram-note">6. Metrics &amp; Logs</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DevOps Team</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Prometheus/ELK)</div></div>
-</div>
-</div>
-
-
+```text
+[Developer]
+    │ 1. Git Push (커밋/PR)
+    ▼
+┌──────────────────┐  2. Webhook   ┌─────────────────────┐
+│  Git Repository  │ ────────────▶ │    CI Pipeline      │
+│  (Source Code)   │               │ (Build & Unit Test) │
+└──────────────────┘               └─────────────────────┘
+                                             │ 3. Push Image
+                                             ▼
+┌──────────────────┐  5. Deploy    ┌─────────────────────┐
+│ Prod Environment │ ◀──────────── │  Artifact Registry  │
+│  (Kubernetes)    │               │  (Docker Images)    │
+└──────────────────┘               └─────────────────────┘
+         │ 6. Metrics & Logs
+         ▼
+┌──────────────────┐
+│  Observability   │ ──(피드백/Alert)──▶ [DevOps Team]
+│ (Prometheus/ELK) │
+└──────────────────┘
+```
 
 이 흐름의 핵심은 인간의 수동 개입이 최소화된 일방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송과 역방향 상태 피드백 구조에 있다. 개발자의 코드는 VCS에 반영되는 즉시 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하고, 엄격한 테스트를 통과한 결과물만이 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 적재된다. 이후 CD 도구가 이를 인지해 운영 환경에 자동 배포하며, 운영 환경에서 수집된 텔레메트리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 관측성 도구를 통해 다시 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 팀에 즉각 전달된다.
 
@@ -109,21 +104,17 @@ tags = ["devops_sre"]
 
 아래는 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)와 SRE의 상호 보완적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 나타내는 매트릭스 도식이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DevOps</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목표</div><div class="kb-diagram-note">속도 향상, 사일로 장벽 제거</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초점</div><div class="kb-diagram-note">파이프라인, CI/CD 자동화</div></div>
-<div class="kb-diagram-note">↕ (상호 보완/통제)</div>
-<div class="kb-diagram-note">SRE</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목표</div><div class="kb-diagram-note">안정성 보장, 토일(toil) 제거</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초점</div><div class="kb-diagram-note">SLO, 에러 버짓, 관측성</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────── DevOps ──────────────┐
+│ [목표] 속도 향상, 사일로 장벽 제거 │
+│ [초점] 파이프라인, CI/CD 자동화   │
+└────────────────────────────────────┘
+                  ↕ (상호 보완/통제)
+┌──────────────── SRE ───────────────┐
+│ [목표] 안정성 보장, 토일(toil) 제거 │
+│ [초점] SLO, 에러 버짓, 관측성     │
+└────────────────────────────────────┘
+```
 
 이 도식의 핵심은 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)가 '무엇을' 해야 하는지 철학과 방향성을 제시한다면, SRE는 그것을 '어떻게' 달성할 것인지 구체적인 엔지니어링 방법론을 제공한다는 점이다. 속도만을 무한정 강조하는 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 결국 시스템 붕괴를 초래할 수 있다. 반면 SRE는 100% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)이 불가능함을 인정하고, 에러 버짓이라는 정량적 통제 장치를 통해 신규 기능 배포 속도와 시스템 안정성의 적절한 타협점을 기술적으로 통제한다.
 
@@ -146,23 +137,18 @@ tags = ["devops_sre"]
 
 아래는 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 도입 시 피해야 할 치명적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps 안티패턴 : 툴옵스 병목 현상</div></div>
-<div class="kb-diagram-note">(여전히 단절됨)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dev 팀</div><div class="kb-diagram-cell">▶ Jenkins ▶</div><div class="kb-diagram-cell">Ops 팀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(코드만)</div><div class="kb-diagram-cell">(자동화)</div><div class="kb-diagram-cell">(결재/배포)</div></div>
-<div class="kb-diagram-note">결과: 도구만 바뀌었을 뿐, 부서 간 KPI 분리와 수동 승인이 남아 리드 타임 유지.</div>
-</div>
-</div>
-
-
+```text
+[DevOps 안티패턴 : 툴옵스 병목 현상]
+┌─────────┐   (여전히 단절됨)   ┌─────────┐
+│ Dev 팀  │ ───▶ Jenkins ───▶ │ Ops 팀  │
+│ (코드만)│     (자동화)      │ (결재/배포)│
+└─────────┘                   └─────────┘
+  결과: 도구만 바뀌었을 뿐, 부서 간 KPI 분리와 수동 승인이 남아 리드 타임 유지.
+```
 
 이 그림의 핵심은 실무에서 가장 흔히 저지르는 '무늬만 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)(툴옵스)' 상태를 꼬집는다. 고비용의 자동화 도구를 구축해 놓고도, 조직의 성과 지표나 프로세스는 기존의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 형태를 그대로 유지하는 경우다. 이 경우 빌드는 초 단위로 끝나지만, 운영팀의 수동 승인 병목에 막혀 최종 운영 배포까지 며칠이 소요된다.
 
-> 📢 **섹션 요약 비유**: 값비싼 최신식 요리 도구를 잔뜩 사서 주방에 놓는다고 미슐랭 식당이 되는 것이 아닙니다. 셰프(Dev)와 홀 매니저(Ops)가 원활하게 소통하고 레시피를 공유하는 문화가 먼저 바뀌어야 합니다.
+> 📢 **섹션 요약 비유**: 값비싼 최정보 요리 도구를 잔뜩 사서 주방에 놓는다고 미슐랭 식당이 되는 것이 아닙니다. 셰프(Dev)와 홀 매니저(Ops)가 원활하게 소통하고 레시피를 공유하는 문화가 먼저 바뀌어야 합니다.
 
 ---
 
@@ -185,21 +171,18 @@ tags = ["devops_sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사일로 조직</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps 문화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD 자동화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SRE/Platform Engineering</div></div>
-</div>
-</div>
-
-
+```text
+[사일로 조직]
+    │
+    ▼
+[DevOps 문화]
+    │
+    ▼
+[CI/CD 자동화]
+    │
+    ▼
+[SRE/Platform Engineering]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

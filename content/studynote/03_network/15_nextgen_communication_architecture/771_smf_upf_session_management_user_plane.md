@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 시절에는 S-GW와 P-GW가 터널([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))을 뚫는 머리 쓰는 일과, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나르는 무식한 일을 동시에 다 했습니다. 장비가 크고 무거웠습니다.
 - **5GC의 CUPS 혁명**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))은 통제(Control)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달(User Plane)을 완벽히 분리했습니다. 그 결과 탄생한 것이 제어 전담인 <strong>SMF</strong>와, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 전담인 <strong>UPF</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AMF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SMF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PCF</div></div>
-</div>
-</div>
-
-
+```text
+[AMF]
+    │
+    ▼
+[SMF]
+    │
+    └──▶ [PCF]
+```
 
 - **📢 섹션 요약 비유**: SMF는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
   2. SMF는 폰과 기지국 사이의 지도를 펼쳐보고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 지나갈 최적의 경로를 짠 뒤, <strong>아래에서 일하는 UPF 짐꾼들에게 "이쪽으로 고속 터널 뚫어!"라고 작업 지시서(제어 규칙)를 하달</strong>합니다.
   - SMF 장비 내부로는 카카오톡 영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단 1바이트도 지나가지 않습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AMF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SMF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PCF</div></div>
-</div>
-</div>
-
-
+```text
+[AMF]
+    │
+    ▼
+[SMF]
+    │
+    └──▶ [PCF]
+```
 
 - **📢 섹션 요약 비유**: SMF의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ SMF는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: AMF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SMF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PCF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: AMF]
+    │
+    ▼
+[현재 개념: SMF]
+    │
+    ├──▶ [확장 A: PCF]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 SMF는 AMF에서 출발해 현재 메커니즘을 정교화하고, 이후 PCF와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

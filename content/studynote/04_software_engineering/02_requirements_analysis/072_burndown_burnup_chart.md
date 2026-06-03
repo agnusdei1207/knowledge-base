@@ -99,41 +99,29 @@ Burnup: Completed Work ↑ + Scope
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Sprint</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Burndown / Burnup</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Visibility</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Forecasting</div>
-</div>
-</div>
-
-
+```text
+Sprint
+  ↓
+Burndown / Burnup
+  ↓
+Visibility
+  ↓
+Forecasting
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Agile</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Burndown</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Burnup</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Progress Tracking</div>
-</div>
-</div>
-
-
+```text
+Agile
+  ↓
+Burndown
+  ↓
+Burnup
+  ↓
+Progress Tracking
+```
 
 ---
 

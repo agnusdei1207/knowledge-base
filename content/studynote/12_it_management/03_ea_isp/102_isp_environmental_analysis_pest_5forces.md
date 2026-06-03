@@ -37,22 +37,21 @@ tags = ["studynote-it-management"]
 | 산업 환경 | 마이클 포터 5 Forces | 경쟁자, 신규진입, 대체재, 구매자, 공급자 | 시장의 수익성과 경쟁 강도 측정 |
 | 내부 환경 | [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) ([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)) | 본원적 활동(생산/영업), 지원 활동(HR/IT) | 자사의 경쟁 우위 원천 및 병목 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경 분석의 3단계 줌인 (Zoom-in) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: PEST 분석</div><div class="kb-diagram-note">통제 불가능한 거시 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정치적 규제, 경제 금리, 인구 구조 변화, 신기술(AI) 등장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 5 Forces 분석</div><div class="kb-diagram-note">내가 속한 산업/시장 환경</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기존 경쟁사</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 구매자 협상력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 대체재 위협</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 가치 사슬 분석</div><div class="kb-diagram-note">통제 가능한 기업 내부 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기획 ─▶ 생산 ─▶ 물류 ─▶ 마케팅 (어디가 병목인가?)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             환경 분석의 3단계 줌인 (Zoom-in) 구조             │
+├──────────────────────────────────────────────────────────────┤
+│ [1단계: PEST 분석] 통제 불가능한 거시 환경                    │
+│   │ 정치적 규제, 경제 금리, 인구 구조 변화, 신기술(AI) 등장  │
+│   ▼                                                          │
+│ [2단계: 5 Forces 분석] 내가 속한 산업/시장 환경               │
+│   │ 공급자 갑질 ─▶ [기존 경쟁사] ◀─ 구매자 협상력          │
+│   │                   ▲ 대체재 위협                          │
+│   ▼                                                          │
+│ [3단계: 가치 사슬 분석] 통제 가능한 기업 내부 환경            │
+│   │ 기획 ─▶ 생산 ─▶ 물류 ─▶ 마케팅 (어디가 병목인가?)       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 가장 바깥의 넓은 우주(PEST)에서 시작해, 피 튀기는 동네 상권(5 Forces)을 거쳐, 조직 내부의 엑스레이([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))를 찍는 체계적인 흐름을 보여준다. 각 단계에서 수집된 위기와 기회 정보는 이후 SWOT 분석의 핵심 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 된다.
 
@@ -114,23 +113,21 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">거시 환경 진단 (PEST) · 폭넓은 위기와 기회 포착</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">산업 환경 진단 (5 Forces) · 수익성 및 경쟁 강도 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">내부 환경 진단 (Value Chain) · 강점과 약점 파악</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SWOT 분석 및 전략 방향 (Cross-SWOT) 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">핵심 성공 요인 (CSF) 식별 ─▶ 정보화 전략 계획 (ISP) 수립</div>
-</div>
-</div>
-
-
+```text
+거시 환경 진단 (PEST) · 폭넓은 위기와 기회 포착
+    │
+    ▼
+산업 환경 진단 (5 Forces) · 수익성 및 경쟁 강도 분석
+    │
+    ▼
+내부 환경 진단 (Value Chain) · 강점과 약점 파악
+    │
+    ▼
+SWOT 분석 및 전략 방향 (Cross-SWOT) 도출
+    │
+    ▼
+핵심 성공 요인 (CSF) 식별 ─▶ 정보화 전략 계획 (ISP) 수립
+```
 
 이 흐름도는 "넓은 환경 파악 → 좁은 환경 파악 → 내부 파악 → 종합 진단 → 최종 IT 마스터플랜 수립"으로 이어지는 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 기승전결을 보여준다.
 

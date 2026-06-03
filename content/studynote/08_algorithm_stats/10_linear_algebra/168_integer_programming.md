@@ -87,19 +87,17 @@ IP 문제: min cᵀx, x ∈ ℤⁿ
 
 고모리 절삭 (Gomory Cuts): LP 완화 해에서 정수해만 남기는 추가 제약 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
+```
+LP 완화 가능 영역     절삭면 추가 후
+   ────────────────   ────────────────
+  /                \ /  (잘린 모서리)  \
+ /    LP 최적●      |    LP 최적●      |
+|     (비정수)      |    (정수에 근접)  |
+ \                 / \                /
+  \               /   \             /
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">LP 완화 가능 영역 절삭면 추가 후</div>
-<div class="kb-diagram-note">/ \ / (잘린 모서리) \</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ LP 최적●</div><div class="kb-diagram-cell">LP 최적●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비정수)</div><div class="kb-diagram-cell">(정수에 근접)</div></div>
-<div class="kb-diagram-note">절삭면 = 정수 가능 영역만 남기는 선형 부등식</div>
-</div>
-</div>
-
-
+절삭면 = 정수 가능 영역만 남기는 선형 부등식
+```
 
 현대 솔버: **Branch and Cut** = [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) + 절삭면 결합.
 
@@ -211,23 +209,21 @@ IP/MILP는 <strong>현실 세계 이산 결정 문제의 수학적 언어</stron
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선형 계획법(LP)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정수 계획법(IP) 문제 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분기 한정법(Branch &amp; Bound)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">절단 평면법(Cutting Plane)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">산업 최적화 응용</div></div>
-</div>
-</div>
-
-
+```text
+[선형 계획법(LP)]
+    │
+    ▼
+[정수 계획법(IP) 문제 정의]
+    │
+    ▼
+[분기 한정법(Branch & Bound)]
+    │
+    ▼
+[절단 평면법(Cutting Plane)]
+    │
+    ▼
+[산업 최적화 응용]
+```
 
 정수 계획법은 선형 계획법을 정수 제약으로 확장하고 Branch & Bound와 Cutting Plane으로 푼다.
 

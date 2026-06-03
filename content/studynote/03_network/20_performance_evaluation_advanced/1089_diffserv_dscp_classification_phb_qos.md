@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 464번 인터넷(IP)의 기본 철학은 평등주의입니다. VIP든 흙수저든 무조건 먼저 도착한 놈 먼저 처리합니다([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/): First In First Out).
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>)</strong>: 음성(VoIP)이나 화상회의, 심장 박동기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 0.1초만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)돼도 다 깨집니다. 이 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 안 되는 놈"들을 특별 대우해주기 위해 태어난 것이 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECN 징후 큐 통지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DiffServ DSCP 분류 PHB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RSVP 자원 예약 플로우</div></div>
-</div>
-</div>
-
-
+```text
+[ECN 징후 큐 통지]
+    │
+    ▼
+[DiffServ DSCP 분류 PHB]
+    │
+    └──▶ [RSVP 자원 예약 플로우]
+```
 
 - **📢 섹션 요약 비유**: [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 과거에는 1090번의 RSVP([IntServ](/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/))라는 예약을 썼으나 망해서 이걸 씁니다.
 - **개념**: 네트워크 망으로 패킷이 들어올 때, 입구 라우터가 트래픽의 종류(음성, 비디오, 이메일)를 까보고, 패킷 **IP 헤더에 6비트짜리 계급장(DSCP) 도장을 찍어줍니다.** 그러면 망 내부의 모든 라우터들이 그 도장을 보고 각자의 큐(대기열)에서 철저하게 차별 대우(PHB)를 하여 우선순위대로 패킷을 처리하는 <strong>확장성 최고의 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 표준 아키텍처</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECN 징후 큐 통지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DiffServ DSCP 분류 PHB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RSVP 자원 예약 플로우</div></div>
-</div>
-</div>
-
-
+```text
+[ECN 징후 큐 통지]
+    │
+    ▼
+[DiffServ DSCP 분류 PHB]
+    │
+    └──▶ [RSVP 자원 예약 플로우]
+```
 
 - **📢 섹션 요약 비유**: [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ECN 징후 큐 통지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DiffServ DSCP 분류 PHB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RSVP 자원 예약 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ECN 징후 큐 통지]
+    │
+    ▼
+[현재 개념: DiffServ DSCP 분류 PHB]
+    │
+    ├──▶ [확장 A: RSVP 자원 예약 플로우]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB는 ECN 징후 큐 통지에서 출발해 현재 메커니즘을 정교화하고, 이후 RSVP 자원 예약 플로우와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

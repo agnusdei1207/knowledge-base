@@ -31,18 +31,18 @@ DID는 "내 신원은 내가 들고 다닌다"는 철학을 기술로 만든 것
 
 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 생태계는 Issuer, Holder, Verifier의 삼각형으로 이해하면 쉽다. Issuer는 VC (Verifiable Credential)를 발급하고, Holder는 이를 지갑에 저장한다. Verifier는 Holder가 제출한 VP를 보고 서명과 신뢰 근거를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DID / VC / VP 신뢰 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Issuer ── 발급 ──▶ VC ── 저장 ──▶ Holder Wallet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DID Document / Public Key VP 생성(선택적 공개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 근거 ▶ Verifier</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                   DID / VC / VP 신뢰 흐름                   │
+├──────────────────────────────────────────────────────────────┤
+│ Issuer ── 발급 ──▶ VC ── 저장 ──▶ Holder Wallet            │
+│   ▲                                   │                     │
+│   │                                   ▼                     │
+│ DID Document / Public Key        VP 생성(선택적 공개)       │
+│   │                                   │                     │
+│   └──────────── 검증 근거 ───────────▶ Verifier             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
@@ -120,23 +120,21 @@ DID의 가장 큰 효과는 사용자 중심의 신원 통제다. 사용자는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중앙집중형 ID</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">연합형 SSO</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DID / SSI</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VC (Verifiable Credential)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VP (Verifiable Presentation)</div>
-</div>
-</div>
-
-
+```text
+중앙집중형 ID
+    │
+    ▼
+연합형 SSO
+    │
+    ▼
+DID / SSI
+    │
+    ▼
+VC (Verifiable Credential)
+    │
+    ▼
+VP (Verifiable Presentation)
+```
 
 이 흐름은 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중심 신원"이 "사용자 중심 신원"으로 이동한 과정을 보여준다.
 

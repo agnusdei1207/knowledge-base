@@ -29,26 +29,26 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/">Device Driver</a> 계층 분리</strong>: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 본체와 하드웨어 사이에 '디바이스 드라이버'라는 번역기를 끼워 넣음.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">Virtual File System</a>) 표준화</strong>: "드라이버야, 네가 키보드든 SSD든 상관 안 할 테니 나한테 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 줄 땐 딱 2가지 폼(블록/문자)으로만 포장해서 올려라!"라며 OS가 인터페이스를 천하통일함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 장치(Block) vs 문자 장치(Character)의 동작 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 블록 장치 (Block Device) - 랜덤 액세스의 낭만</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드 디스크 (HDD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 0</div><div class="kb-diagram-cell">블록 1</div><div class="kb-diagram-cell">블록 2</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">블록 999</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (Seek &amp; Read)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ OS의 지시: "블록 0번 읽은 다음에, 바로 블록 999번 긁어와!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 특징: 버퍼 캐시(Page Cache)에 임시 저장 후 파일로 예쁘게 조립됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 문자 장치 (Character Device) - 순차적 스트림의 눈물</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">키보드 (Keyboard)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 스트림: 'H' ──▶ 'E' ──▶ 'L' ──▶ 'L' ──▶ 'O'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 OS의 지시 불가: "야 키보드, 아까 입력한 'H' 다시 한번 줘봐!" (불가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 특징: 큐(Queue)나 파이프(Pipe)에 담겨서 들어온 순서대로 처리되고 끝.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│        블록 장치(Block) vs 문자 장치(Character)의 동작 시각화             │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│ ▶ 1. 블록 장치 (Block Device) - 랜덤 액세스의 낭만                        │
+│   [ 하드 디스크 (HDD) ]                                                   │
+│   블록 0 | 블록 1 | 블록 2 | ... | 블록 999                               │
+│     │        ▲                                │                           │
+│     └────────┴── (Seek & Read) ───────────────┘                           │
+│   ✅ OS의 지시: "블록 0번 읽은 다음에, 바로 블록 999번 긁어와!"           │
+│   ✅ 특징: 버퍼 캐시(Page Cache)에 임시 저장 후 파일로 예쁘게 조립됨.     │
+│                                                                           │
+│ ▶ 2. 문자 장치 (Character Device) - 순차적 스트림의 눈물                  │
+│   [ 키보드 (Keyboard) ]                                                   │
+│   입력 스트림: 'H' ──▶ 'E' ──▶ 'L' ──▶ 'L' ──▶ 'O'                        │
+│   💥 OS의 지시 불가: "야 키보드, 아까 입력한 'H' 다시 한번 줘봐!" (불가능)│
+│   ✅ 특징: 큐(Queue)나 파이프(Pipe)에 담겨서 들어온 순서대로 처리되고 끝. │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 핵심은 <strong>'뒤로 가기(Rewind/Seek)'가 되느냐 마느냐</strong>다. [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)는 언제든 원하는 주소로 바늘(Head)을 옮길 수 있어서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EXT4, NTFS)을 얹을 수 있다. 반면 [문자 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/)는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 얹을 수 없고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착하는 그 즉시([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 앱이 주워 먹지 않으면 영원히 증발해 버리는(Overrun) 야생의 특성을 지닌다.
 
 - **📢 섹션 요약 비유**: [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)는 마트 진열대에 올려진 통조림(블록)입니다. 내가 언제든 3번 칸으로 가서 옥수수 통조림을 집어올 수 있죠. [문자 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/)는 회전초밥집의 초밥(스트림)입니다. 내 앞을 지나갈 때 냉큼 집어먹지 않으면 주방으로 들어가 영원히 사라져버립니다. 되돌리기(Seek)가 불가능한 시간의 야속함입니다.
@@ -101,18 +101,15 @@ OS는 편애를 심하게 한다. [블록 장치](/knowledge-base/studynote/02_o
 - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들의 결론: "얘는 둘 다 안 맞아. 아예 족보를 새로 파자!"
 - 그래서 [네트워크 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/444_network_device/)는 `/dev` 밑에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 존재하지 않고, <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">Socket</a>)</strong>이라는 완전히 독립된 제3의 통신 인터페이스([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 계층을 부여받아 `ifconfig`나 `ip addr`로 관리되는 독자 노선을 걷게 되었다. (후속 키워드에서 상세 설명)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치 종류</div><div class="kb-diagram-cell">데이터 단위</div><div class="kb-diagram-cell">주소(Seek)</div><div class="kb-diagram-cell">OS 커널 인터페이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block</div><div class="kb-diagram-cell">4KB 덩어리</div><div class="kb-diagram-cell">있음 (섹터)</div><div class="kb-diagram-cell">VFS / 버퍼 캐시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Character</div><div class="kb-diagram-cell">1 Byte 흐름</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">Line Discipline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network</div><div class="kb-diagram-cell">Packet 덩어리</div><div class="kb-diagram-cell">없음 (IP/MAC)</div><div class="kb-diagram-cell">Socket / TCP/IP</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────┐
+│ 장치 종류  │ 데이터 단위   │ 주소(Seek)  │ OS 커널 인터페이스 │
+├──────────┼────────────┼────────────┼──────────────────────────┤
+│ Block    │ 4KB 덩어리  │ 있음 (섹터)   │ VFS / 버퍼 캐시      │
+│ Character│ 1 Byte 흐름│ 없음        │ Line Discipline         │
+│ Network  │ Packet 덩어리│ 없음 (IP/MAC)│ Socket / TCP/IP      │
+└──────────┴────────────┴────────────┴──────────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 하드웨어의 모든 통신은 이 3가지 템플릿 중 하나로 완벽하게 귀결된다. 어떤 기상천외한 하드웨어(예: 최신 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 가속기, [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 칩셋)를 USB나 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 슬롯에 꽂아도, 드라이버 개발자는 이 3개 중 하나의 껍데기를 골라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 등록해야만 OS가 그 장비를 사람 취급해 준다.
 
 - **📢 섹션 요약 비유**: 세상의 탈것을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할 때, "지정 좌석이 있고 예약되는 기차/비행기([블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/))"와 "길거리에서 손 흔들면 타는 택시([문자 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/))"로 나눴습니다. 그런데 "바다 위를 달리는 배(네트워크 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 장치)"가 등장하자 기존 도로교통법([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/))으로 묶을 수 없어 아예 해상법([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이라는 새로운 법전을 판 것과 같습니다.
@@ -166,19 +163,15 @@ I/O 장치의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_clas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 기반 메모리 할당 트레이싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 장치의 분류</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 장치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">문자 장치</div></div>
-</div>
-</div>
-
-
+```text
+[eBPF 기반 메모리 할당 트레이싱]
+    │
+    ▼
+[I/O 장치의 분류]
+    │
+    ├──▶ [블록 장치]
+    └──▶ [문자 장치]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

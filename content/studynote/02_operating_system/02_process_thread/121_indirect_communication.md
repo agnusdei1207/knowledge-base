@@ -24,26 +24,39 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1970년대 CMU의 Mach 마이크로커널이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 기반 간접 통신을 처음으로 대규모로 구현하였다. 이후 Microsoft Windows의 LPC/[RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/), QNX의 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/), 그리고 Java Message [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (JMS) 표준에 이르기까지 간접 통신은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템과 느슨한 결합 아키텍처의 핵심 전송 모델로 발전하였다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">간접 통신의 우편함(Mailbox) 기반 동작 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender 1</div><div class="kb-diagram-cell">send(M, msg1)</div><div class="kb-diagram-cell">Sender 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mailbox M</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">msg1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">msg2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">msg3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receiver 1</div><div class="kb-diagram-cell">Receiver 2</div><div class="kb-diagram-cell">Receiver 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">recv(M,msg)</div><div class="kb-diagram-cell">recv(M,msg)</div><div class="kb-diagram-cell">recv(M,msg)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1:N 통신</div><div class="kb-diagram-note">Sender가 Mailbox에 1번 보내면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N명의 Receiver가 모두 수신 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 Sender와 Receiver는 서로의 존재를 모름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오직 Mailbox M이라는 ID만 공유</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │         간접 통신의 우편함(Mailbox) 기반 동작 원리                  │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │  ┌──────────┐                      ┌──────────┐                     │
+  │  │ Sender 1 │   send(M, msg1)      │ Sender 2 │                     │
+  │  └────┬─────┘─────────────┐        └────┬─────┘                     │
+  │       │                   │              │                          │
+  │       │                   ▼              │                          │
+  │       │         ┌─────────────────┐      │                          │
+  │       │         │   Mailbox M     │      │                          │
+  │       │         │ ┌─────────────┐ │      │                          │
+  │       │         │ │  msg1       │ │      │                          │
+  │       │         │ │  msg2       │ │      │                          │
+  │       │         │ │  msg3       │ │      │                          │
+  │       │         │ └─────────────┘ │      │                          │
+  │       │         └────────┬────────┘      │                          │
+  │       │                  │               │                          │
+  │       │        ┌─────────┼─────────┐     │                          │
+  │       │        ▼         ▼         ▼     │                          │
+  │       │  ┌──────────┐ ┌──────────┐ ┌──────────┐                     │
+  │       │  │Receiver 1│ │Receiver 2│ │Receiver 3│                     │
+  │       │  │recv(M,msg)│ │recv(M,msg)│ │recv(M,msg)│                  │
+  │       │  └──────────┘ └──────────┘ └──────────┘                     │
+  │       │                                                             │
+  │  [1:N 통신] Sender가 Mailbox에 1번 보내면,                          │
+  │            N명의 Receiver가 모두 수신 가능                          │
+  │                                                                     │
+  │  💡 Sender와 Receiver는 서로의 존재를 모름                          │
+  │     오직 Mailbox M이라는 ID만 공유                                  │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 다이어그램은 간접 통신이 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)과 근본적으로 다른 점을 명확히 보여준다. 송신자(Sender 1, 2)는 자신의 메시지를 어느 프로세스에게 보내는지 알지 못한다. 단지 우편함 M이라는 식별자에 메시지를 넣을 뿐이다. 반대로 수신자(Receiver 1, 2, 3)도 메시지가 누구로부터 왔는지 알 필요 없이 우편함 M을 확인하기만 한다. 이러한 디커플링(Decoupling) 덕분에 시스템의 각 구성 요소를 독립적으로 개발, 배포, 교체할 수 있다. 예를 들어, 새로운 Receiver 4를 추가하더라도 Sender의 코드는 전혀 변경할 필요가 없다. 이는 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추는 핵심 원리와 정확히 일치한다.
 
@@ -65,27 +78,31 @@ tags = ["studynote-operating-system"]
 
 ### 통신 토폴로지: 우편함 조합에 의한 다양한 패턴
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우편함(Mailbox) 조합으로 구현하는 4가지 통신 토폴로지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1:1 전용 우편함</div><div class="kb-diagram-node">1:N 발행 우편함</div><div class="kb-diagram-node">N:1 집중 우편함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender Mailbox Receiver Publisher Subscribers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">MB-A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">MB-B</div><div class="kb-diagram-cell">── R1</div><div class="kb-diagram-cell">R2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개인 사서함) (게시판/공지사항)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">N:N 공유 우편함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender1 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender2 ─ ─▶ ──▶ Receiver1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender3 ─</div><div class="kb-diagram-cell">MB-C</div><div class="kb-diagram-cell">Receiver2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receiver3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(그룹 채팅방)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 모든 패턴이 send(Mailbox_ID, msg) / receive(Mailbox_ID, msg)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이라는 동일한 API로 구현됨 (인터페이스 통일성)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     우편함(Mailbox) 조합으로 구현하는 4가지 통신 토폴로지           │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │  [1:1 전용 우편함]    [1:N 발행 우편함]    [N:1 집중 우편함]        │
+  │                                                                     │
+  │  Sender    Mailbox    Receiver    Publisher   Subscribers           │
+  │    │    ┌──────┐    │        │  ┌──────┐  ┌──┤ ┌──┤                 │
+  │    └───▶│ MB-A │───▶│        └─▶│ MB-B │──┤R1│ │R2│                 │
+  │         └──────┘              └──────┘  └──┘ └──┘                   │
+  │  (개인 사서함)             (게시판/공지사항)                        │
+  │                                                                     │
+  │  [N:N 공유 우편함]                                                  │
+  │                                                                     │
+  │  Sender1 ─┐                                                         │
+  │  Sender2 ─┼─▶ ┌──────┐ ──▶ Receiver1                                │
+  │  Sender3 ─┘   │ MB-C │     Receiver2                                │
+  │               └──────┘     Receiver3                                │
+  │  (그룹 채팅방)                                                      │
+  │                                                                     │
+  │  💡 모든 패턴이 send(Mailbox_ID, msg) / receive(Mailbox_ID, msg)    │
+  │    이라는 동일한 API로 구현됨 (인터페이스 통일성)                   │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 간접 통신의 가장 강력한 장점은 동일한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)(`send/receive`)로 다양한 통신 토폴로지를 구현할 수 있다는 점이다. 1:1 통신은 두 프로세스가 공유하는 전용 우편함(MB-A)을 사용하면 되고, 1:N 통신(발행-구독 패턴)은 하나의 우편함(MB-B)에 여러 수신자가 구독(Subscribe)하도록 설정하면 된다. N:1 통신([로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) 패턴)은 여러 송신자가 하나의 우편함(MB-C)에 메시지를 보내고, 수신자 중 하나만 꺼내가도록 구현한다. N:N 통신은 그룹 우편함을 사용하여 다자간 채팅 시스템을 구현할 수 있다. 이러한 유연성은 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)에서는 불가능하며, 우편함(중간 매개체)이라는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층이 제공하는 근본적인 이점이다.
 
@@ -165,19 +182,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">직접 통신 (Direct Communication)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">간접 통신 (Indirect Communication)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파이프 (Pipe)</div></div>
-</div>
-</div>
-
-
+```text
+[직접 통신 (Direct Communication)]
+    │
+    ▼
+[간접 통신 (Indirect Communication)]
+    │
+    ├──▶ [동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)]
+    └──▶ [파이프 (Pipe)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

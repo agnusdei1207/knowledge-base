@@ -18,27 +18,27 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Masked Self-Attention</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: "I love you &lt;EOS&gt;"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attention Matrix (마스킹 전):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I love you &lt;EOS&gt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">I</div><div class="kb-diagram-node">0.5  0.3   0.1  0.1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">love</div><div class="kb-diagram-node">0.2  0.4   0.3  0.1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">you</div><div class="kb-diagram-node">0.1  0.2   0.5  0.2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Causal Mask (하삼각):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I love you &lt;EOS&gt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">I</div><div class="kb-diagram-node">✓    ✗     ✗    ✗</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">love</div><div class="kb-diagram-node">✓    ✓     ✗    ✗</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">you</div><div class="kb-diagram-node">✓    ✓     ✓    ✗</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"love" 예측 시 "I"만 참조 (미래 차단!)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Masked Self-Attention                              │
+├───────────────────────────────────────────────────────┤
+│  입력: "I love you <EOS>"                             │
+│                                                       │
+│  Attention Matrix (마스킹 전):                        │
+│       I    love  you  <EOS>                           │
+│  I  [ 0.5  0.3   0.1  0.1 ]                          │
+│  love[ 0.2  0.4   0.3  0.1 ]                         │
+│  you [ 0.1  0.2   0.5  0.2 ]                         │
+│                                                       │
+│  Causal Mask (하삼각):                                │
+│       I    love  you  <EOS>                           │
+│  I  [ ✓    ✗     ✗    ✗   ]                          │
+│  love[ ✓    ✓     ✗    ✗   ]                         │
+│  you [ ✓    ✓     ✓    ✗   ]                         │
+│                                                       │
+│  "love" 예측 시 "I"만 참조 (미래 차단!)              │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Masked Self-Attention은 시험에서 <strong>다음 문제의 답을 못 보게 가리는 것</strong>이다. 답을 보면 실력 측정이 안 되니까.
 
@@ -94,23 +94,21 @@ Masked Self-Attention은 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Self-Attention (Transformer, 2017)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Masked Self-Attention (GPT-1, 2018)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KV Cache 최적화 (2020~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sliding Window Attention (Mistral, 2023)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Sparse + Masked — 효율적 긴 시퀀스 생성</div></div>
-</div>
-</div>
-
-
+```text
+[Self-Attention (Transformer, 2017)]
+    │
+    ▼
+[Masked Self-Attention (GPT-1, 2018)]
+    │
+    ▼
+[KV Cache 최적화 (2020~)]
+    │
+    ▼
+[Sliding Window Attention (Mistral, 2023)]
+    │
+    ▼
+[현재: Sparse + Masked — 효율적 긴 시퀀스 생성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Masked Self-Attention은 시험에서 **다음 문제의 답을 가리는** 거예요.

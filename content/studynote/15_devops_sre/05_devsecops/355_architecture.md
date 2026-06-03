@@ -43,24 +43,28 @@ CXL은 2019년 Intel 주도로 AMD, ARM, Google, Microsoft, Meta 등이 참여�
 | Type 2  | [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).cache + [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).mem: 가속기 자체 메모리  | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 메모리 통합 |
 | Type 3  | [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/).mem: 순수 메모리 확장 장치            | [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)/PMem [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) 확장  |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CXL 메모리 풀링 서버 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버1 서버2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU+로컬DRAM</div><div class="kb-diagram-cell">CPU+로컬DRAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64GB DDR5</div><div class="kb-diagram-cell">64GB DDR5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CXL.mem</div><div class="kb-diagram-cell">CXL.mem</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+--------v--------+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CXL 메모리 풀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM: 4TB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMem: 16TB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이턴시: ~250ns</div></div>
-</div>
-</div>
-
-
+```text
++-----------------------------------------+
+|   CXL 메모리 풀링 서버 아키텍처           |
++-----------------------------------------+
+|                                         |
+|  서버1              서버2               |
+|  +---------------+  +---------------+  |
+|  | CPU+로컬DRAM  |  | CPU+로컬DRAM  |  |
+|  |  64GB DDR5   |  |  64GB DDR5   |  |
+|  +------+--------+  +------+--------+  |
+|         | CXL.mem         | CXL.mem    |
+|         +--------+--------+            |
+|                  |                     |
+|         +--------v--------+            |
+|         | CXL 메모리 풀   |            |
+|         | DRAM: 4TB       |            |
+|         | PMem: 16TB      |            |
+|         | 레이턴시: ~250ns |            |
+|         +-----------------+            |
+|                                         |
++-----------------------------------------+
+```
 
 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 토폴로지: [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 메모리는 OS에 별도 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드로 노출된다. Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 numactl, memkind [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 통해 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 메모리와 로컬 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 간의 메모리 배치를 제어할 수 있다.
 

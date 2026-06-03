@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **구조**: 서울 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)) 라우터에 100개 지점(Spoke)이 방사형으로 터널([GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) over [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))을 뚫어놓은 구조입니다.
 - **재앙**: 지점과 지점끼리(Spoke-to-Spoke) 대용량 파일을 주고받으려 하면 무조건 본사 라우터([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))를 거쳐서 가야 합니다. 본사 라우터의 트래픽이 터져버리고, 지점 간 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Delay)이 미친 듯이 치솟습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GRE 일반 캡슐화 포맷 오버헤드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMVPN 동적 라우팅 결합형 지점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MPLS VPN L3 경로 격리 라벨 스위치</div></div>
-</div>
-</div>
-
-
+```text
+[GRE 일반 캡슐화 포맷 오버헤드]
+    │
+    ▼
+[DMVPN 동적 라우팅 결합형 지점]
+    │
+    └──▶ [MPLS VPN L3 경로 격리 라벨 스위치]
+```
 
 - **📢 섹션 요약 비유**: [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 시스코가 개발한 기술로, 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에만 스태틱 터널을 뚫어두면, <strong>지점(Spoke)과 지점 간에 트래픽이 발생할 때만 실시간으로(동적으로) 1:1 다이렉트 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 터널을 뚫어서 통신하고 끝나면 터널을 허물어버리는 지능형 멀티포인트 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 아키텍처</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GRE 일반 캡슐화 포맷 오버헤드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMVPN 동적 라우팅 결합형 지점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MPLS VPN L3 경로 격리 라벨 스위치</div></div>
-</div>
-</div>
-
-
+```text
+[GRE 일반 캡슐화 포맷 오버헤드]
+    │
+    ▼
+[DMVPN 동적 라우팅 결합형 지점]
+    │
+    └──▶ [MPLS VPN L3 경로 격리 라벨 스위치]
+```
 
 - **📢 섹션 요약 비유**: [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ DMVPN의 절대적인 뇌(심장)입니다. (ARP와 비슷한 역할을 합니�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: GRE 일반 캡슐화 포맷 오버헤드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DMVPN 동적 라우팅 결합형 지점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MPLS VPN L3 경로 격리 라벨 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: GRE 일반 캡슐화 포맷 오버헤드]
+    │
+    ▼
+[현재 개념: DMVPN 동적 라우팅 결합형 지점]
+    │
+    ├──▶ [확장 A: MPLS VPN L3 경로 격리 라벨 스위치]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점는 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드에서 출발해 현재 메커니즘을 정교화하고, 이후 [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

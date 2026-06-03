@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 루프백 주소는 우체국 밖으로 배달 나가지 않고, 회사 내부 1층 안내데스크에 마련된 <strong>"부서 간 수발신 전용 내부 우편함"</strong>과 같습니다. 영업부에서 총무부로 서류를 보낼 때 굳이 우체국(인터넷)에 택배를 접수할 필요 없이, 사내 우편함(127.0.0.1)에 넣으면 1초 만에 바로 옆 부서로 전달됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사설 IP 영역: 10.x, 172.16.x…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">루프백 IP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">APIPA / 링크 로컬 주소</div></div>
-</div>
-</div>
-
-
+```text
+[사설 IP 영역: 10.x, 172.16.x…]
+    │
+    ▼
+[루프백 IP]
+    │
+    └──▶ [APIPA / 링크 로컬 주소]
+```
 
 - **📢 섹션 요약 비유**: <strong> <code>127.0.0.1</code>은 컴퓨터의 </strong>"메아리 동굴"**입니다. 바깥세상으로 소리를 지르는 것이 아니라 동굴 벽([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 향해 소리를 지르면, 정확하게 0.001초 만에 자기 귀로 똑같은 소리가 되돌아오는 셀프 테스트 도구입니다.
 
@@ -49,23 +45,26 @@ tags = ["studynote-network"]
 2. 목적지 IP가 `127.x.x.x`인 것을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 윈도우/리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은, 이 패킷을 2계층([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), 랜카드 드라이버)으로 내려보내지 않는다.
 3. 곧바로 방향을 180도 꺾어서 다시 3계층의 '수신 파트(Rx)'로 끌어올린다. (즉, 랜카드 하드웨어는 불도 켜지지 않으며 물리적 통신이 0% 발생한다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">루프백 주소(127.0.0.1)의 내부 U턴 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC 내부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 프로그램 (웹 브라우저) ──▶ "http://127.0.0.1 접속!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (데이터 보냄)</div><div class="kb-diagram-cell">(데이터 받음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP/IP 프로토콜 스택 (운영체제 커널)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(목적지가 127번이네? 랜카드로 안 보내!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶(내부 U턴!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 단절 선 (아래로는 절대 안 내려감)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리적 랜카드 (NIC)</div><div class="kb-diagram-note">── (랜선 뽑혀있어도 통신 성공!)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                루프백 주소(127.0.0.1)의 내부 U턴 구조          │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 PC 내부 ]                                              │
+ │                                                             │
+ │   응용 프로그램 (웹 브라우저) ──▶ "http://127.0.0.1 접속!"     │
+ │       │                                        ▲             │
+ │       ▼ (데이터 보냄)                           │ (데이터 받음)   │
+ │   [ TCP/IP 프로토콜 스택 (운영체제 커널) ]               │             │
+ │       │ (목적지가 127번이네? 랜카드로 안 보내!)      │             │
+ │       └────────────▶(내부 U턴!)───────────────┘             │
+ │                                                             │
+ │ ───────────── 물리적 단절 선 (아래로는 절대 안 내려감) ───────────── │
+ │                                                             │
+ │   [ 물리적 랜카드 (NIC) ] ── (랜선 뽑혀있어도 통신 성공!)         │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. A 클래스 하나를 통째로 낭비한 사연 (`127.0.0.0/8`)
 루프백 테스트를 하는 데는 `127.0.0.1` 주소 딱 1개면 충분하다.
@@ -127,19 +126,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 사설 IP 영역: 10.x, 172.16.x…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 루프백 IP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: APIPA / 링크 로컬 주소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 사설 IP 영역: 10.x, 172.16.x…]
+    │
+    ▼
+[현재 개념: 루프백 IP]
+    │
+    ├──▶ [확장 A: APIPA / 링크 로컬 주소]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 루프백 IP는 사설 IP 영역: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x, 172.16.x…에서 출발해 현재 메커니즘을 정교화하고, 이후 APIPA / [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

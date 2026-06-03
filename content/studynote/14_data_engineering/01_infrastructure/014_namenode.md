@@ -25,28 +25,25 @@ tags = ["data_engineering"]
 
 다음의 도입 다이어그램은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(장부) 관리의 중앙 집중화와 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화라는 네임노드의 절묘한 구조적 분리 사상을 보여준다.
 
+```text
+[네임노드 메타데이터 맵핑과 실제 데이터 전송 경로의 완벽한 분리(Decoupling)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네임노드 메타데이터 맵핑과 실제 데이터 전송 경로의 완벽한 분리(Decoupling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">📝 NameNode (마스터)</div></div>
-<div class="kb-diagram-note">(오직 RAM에서 장부만 관리)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일경로 : /user/data/sales.csv</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록번호 : Blk_1001, Blk_1002</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록위치 : Blk_1001 -&gt; DataNode 2,5</div></div>
-<div class="kb-diagram-note">주소지 조회 (RPC) ↗</div>
-<div class="kb-diagram-note">Heartbeat &amp; Block Report 주기적 보고</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS Client</div></div>
-<div class="kb-diagram-note">(Spark, Hive 등) │ ▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DataNode 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DataNode 2</div><div class="kb-diagram-note">(Blk_1001 보유)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">실제 거대 파일 직접 전송 &gt;</div><div class="kb-diagram-node">DataNode 5</div><div class="kb-diagram-note">(Blk_1001 보유)</div></div>
-<div class="kb-diagram-note">(NameNode를 거치지 않고 직접 통신!)</div>
-</div>
-</div>
-
-
+                      [ 📝 NameNode (마스터) ]
+                      (오직 RAM에서 장부만 관리)
+                 ┌────────────────────────────────────┐
+                 │ 파일경로 : /user/data/sales.csv      │
+                 │ 블록번호 : Blk_1001, Blk_1002        │
+                 │ 블록위치 : Blk_1001 -> DataNode 2,5  │
+                 └─────────────────▲──────────────────┘
+            주소지 조회 (RPC) ↗      │ 
+                              │ Heartbeat & Block Report 주기적 보고
+      [HDFS Client]           │      │
+      (Spark, Hive 등)        │      ▼
+          │                   │  [ DataNode 1 ]
+          │                   │  [ DataNode 2 ] (Blk_1001 보유)
+          └────── 실제 거대 파일 직접 전송 ─────>  [ DataNode 5 ] (Blk_1001 보유)
+                 (NameNode를 거치지 않고 직접 통신!)
+```
 
 이 구조의 핵심은 네임노드의 RAM 크기가 클러스터 전체가 저장할 수 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 총개수를 결정짓는다는 사실이다. 빠른 라우팅을 위해 네임노드는 이 거대한 장부를 하드디스크가 아닌 빠른 메모리(RAM) 상에 띄워둔다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개당 약 150바이트를 차지하므로, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 개수가 수억 개로 늘어나면 네임노드의 메모리가 고갈되어 전체 클러스터가 더 이상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 수 없는 치명적인 하드 리밋(Hard Limit)에 직면하게 된다.
 
@@ -68,26 +65,22 @@ tags = ["data_engineering"]
 
 아래의 흐름도는 네임노드에 치명적인 약점이자 아킬레스건이었던 '메모리-디스크 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)' 과정을 [SNN](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/)(Secondary NameNode)이 어떻게 병합(Checkpoint)하여 해결하는지 시각화한다.
 
+```text
+[FsImage와 EditLog의 무한 증식 방지를 위한 SNN 체크포인트 병합 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FsImage와 EditLog의 무한 증식 방지를 위한 SNN 체크포인트 병합 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Active NameNode</div><div class="kb-diagram-node">Secondary NameNode (도우미)</div></div>
-<div class="kb-diagram-note">RAM : Namespace 유지</div>
-<div class="kb-diagram-note">Disk:</div>
-<div class="kb-diagram-tree-item" style="--depth:2">FsImage (오래된 기준점) --------(다운로드)--------</div>
-<div class="kb-diagram-tree-item" style="--depth:2">EditLog (실시간 변경 무한히 쌓임) --(다운로드)---- ─</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리에서 두 파일 병합 연산!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── (새로운 압축 스냅샷 덮어쓰기 반환!) &lt;</div><div class="kb-diagram-node">FsImage.new 생성</div></div>
-<div class="kb-diagram-note">Disk 업데이트:</div>
-<div class="kb-diagram-tree-item" style="--depth:2">FsImage.new (새로운 기준점으로 교체됨)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">EditLog (비워짐! 새로 시작)</div>
-<div class="kb-diagram-note">(주기적, 예: 1시간마다 반복)</div>
-</div>
-</div>
-
-
+   [Active NameNode]                               [Secondary NameNode (도우미)]
+   RAM : Namespace 유지                                           
+   Disk:                                                          
+     ├── FsImage (오래된 기준점) --------(다운로드)--------┐        
+     └── EditLog (실시간 변경 무한히 쌓임) --(다운로드)----┼─┐     
+                                                          │ │ [메모리에서 두 파일 병합 연산!]
+     ┌── (새로운 압축 스냅샷 덮어쓰기 반환!) <─────────[FsImage.new 생성]
+     │                                                    
+   Disk 업데이트:                                         
+     ├── FsImage.new (새로운 기준점으로 교체됨)           
+     └── EditLog (비워짐! 새로 시작)                      
+                                                  (주기적, 예: 1시간마다 반복)
+```
 
 이 그림의 핵심은 네임노드의 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이다. 네임노드는 속도를 위해 변경 사항을 RAM에 즉시 적용하면서, 만약의 사태를 대비해 디스크의 EditLog에 '추가/삭제' 기록만 한 줄씩 순차적으로 쓴다. 만약 이 EditLog가 수십 기가바이트로 커진 상태에서 네임노드가 재부팅되면, FsImage 기준점에 그 수많은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 하나하나 덧붙여(Replay) RAM을 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 데 수 시간의 끔찍한 부팅 시간이 걸린다. 이를 막기 위해 Secondary NameNode가 백그라운드에서 주기적으로 두 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 가져와 최신 FsImage [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)으로 병합(Checkpoint)하여 깎아주는 헌신적인 역할을 수행한다. (참고로 SNN은 이름과 달리 네임노드 장애 시 대신 나서는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 장비가 아니라, 단순한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 도우미이다.)
 
@@ -108,24 +101,26 @@ tags = ["data_engineering"]
 
 아래 다이어그램은 최신 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) HA 클러스터가 어떻게 한 사령관이 죽어도 즉시 부사령관이 통제권을 쥐는지 구조적으로 보여준다.
 
+```text
+[NameNode HA (고가용성) 클러스터와 JournalNode의 상태 동기화 구조]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NameNode HA (고가용성) 클러스터와 JournalNode의 상태 동기화 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ZooKeeper Quorum (상태 감시자, 누가 Active인지 투표)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(헬스 체크)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active NameNode</div><div class="kb-diagram-cell">&lt;--- 차단 ---</div><div class="kb-diagram-cell">Standby NameNode</div><div class="kb-diagram-cell">(Active가 죽으면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(현재 실제 사령관)</div><div class="kb-diagram-cell">(Fencing)</div><div class="kb-diagram-cell">(대기 중인 부사령관)</div><div class="kb-diagram-cell">즉시 권한 승계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(EditLog 실시간 쓰기)</div><div class="kb-diagram-cell">(EditLog 실시간 읽기/반영)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">JournalNode 1</div><div class="kb-diagram-node">JournalNode 2</div><div class="kb-diagram-node">JournalNode 3</div></div>
-<div class="kb-diagram-note">(양쪽의 장부를 0.1초 단위로 똑같이 일치시키는 중계 공유 디스크 역할)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Block Report 양쪽 모두 전송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DataNode 1</div><div class="kb-diagram-node">DataNode N</div></div>
-</div>
-</div>
-
-
+   [ ZooKeeper Quorum (상태 감시자, 누가 Active인지 투표) ]
+         │ (헬스 체크)                         │ 
+         ▼                                   ▼ 
+┌────────────────────┐              ┌────────────────────┐
+│ Active NameNode    │ <--- 차단 ---│ Standby NameNode   │ (Active가 죽으면 
+│ (현재 실제 사령관) │ (Fencing)  │ (대기 중인 부사령관) │ 즉시 권한 승계)
+└────────┬───────────┘              └──────────┬─────────┘
+         │ (EditLog 실시간 쓰기)               │ (EditLog 실시간 읽기/반영)
+         ▼                                   ▼
+  ======================================================
+  [ JournalNode 1 ]   [ JournalNode 2 ]   [ JournalNode 3 ]
+  (양쪽의 장부를 0.1초 단위로 똑같이 일치시키는 중계 공유 디스크 역할)
+  ======================================================
+         ▲                                   ▲
+         │ (Block Report 양쪽 모두 전송)       │
+    [DataNode 1]                        [DataNode N]
+```
 
 A 방식([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.x)은 단순하지만 심장(NameNode)이 멈추면 몸 전체가 썩어 들어간다. 이를 극복한 B 방식([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) HA)은 2개의 뇌([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)/Standby)를 두되, 그 뇌 사이에 저널노드(JournalNode)라는 외부 기억 장치를 연결하여 실시간으로 텔레파시(EditLog [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))를 보낸다. 특히 Standby는 평소에 놀고 있는 것이 아니라, DataNode들로부터 블록 리포트도 똑같이 받아보며 RAM 상태를 Active와 완벽히 100% 동일하게 예열(Warm-up)해 둔다. 따라서 Active가 죽는 순간, Standby는 부팅 과정 없이 0.1초 만에 자신이 지휘관임을 선포하고 클라이언트의 요청을 무중단으로 받아내는 마법 같은 고가용성을 창출한다.
 
@@ -141,24 +136,19 @@ A 방식([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_
 2. <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/">스플릿 브레인</a> (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/">Split Brain</a>)과 펜싱 (Fencing) 적용</strong>: HA 구조에서 네트워크 단절로 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 노드는 살아있는데 Standby 노드와 주키퍼만 끊어지는 상황이 발생할 수 있다. 이때 Standby는 "Active가 죽었네? 이제부터 내가 대장이다"라고 판단하여 둘 다 Active가 되는 최악의 재앙(장부가 두 갈래로 쪼개져 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 영구 파손됨)이 벌어진다. 이를 방지하기 위해 주키퍼는 승급을 결정하기 전, 기존 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 노드의 전원(PDU)을 물리적으로 차단해 버리거나 네트워크 포트를 죽여버리는 '펜싱(Fencing)' 스크립트를 무조건 성공시켜야만 권한을 이양하도록 안전장치를 설정해야 한다.
 3. <strong>연합 (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/">HDFS</a> <a href="/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/">Federation</a>) 도입 판단</strong>: 메인 네임노드 1대의 RAM 128GB조차 가득 차는 극대형 클러스터(수만 대 수준)에서는 아무리 병합을 해도 한계가 온다. 이때는 네임노드를 여러 개 두어, `/user` [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 네임노드 A가, `/logs` [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 네임노드 B가 관리하도록 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 트리를 쪼개는 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/) 아키텍처를 도입해야 한다.
 
+```text
+[네임노드 장애 대응 및 OOM 징후 방어 의사결정 트리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네임노드 장애 대응 및 OOM 징후 방어 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네임노드 대시보드 경고: Heap Memory 90% 초과, 잦은 Full GC 발생</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터노드 추가 증설로 해결 가능한가?</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">(No!) ──&gt; 디스크 용량 부족이 아니라, "파일 개수 과다"가 원인임. 워커 추가는 돈 낭비!</div>
-<div class="kb-diagram-tree-item" style="--depth:1">(조치 진입)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네임스페이스 분석 (fsimage 파싱 도구 활용)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">(작은 파일이 문제) ──&gt; Spark/Hive로 일배치 병합(Compaction) 잡 예약 수행</div>
-<div class="kb-diagram-tree-item" style="--depth:1">(물리적 파일 수 자체가 거대함) ──&gt; 램(RAM) 스케일 업 또는 HDFS Federation 구조로 아키텍처 재설계</div>
-</div>
-</div>
-
-
+[네임노드 대시보드 경고: Heap Memory 90% 초과, 잦은 Full GC 발생]
+       ↓
+[데이터노드 추가 증설로 해결 가능한가?]
+  ├─ (No!) ──> 디스크 용량 부족이 아니라, "파일 개수 과다"가 원인임. 워커 추가는 돈 낭비!
+  └─ (조치 진입)
+         ↓
+ [네임스페이스 분석 (fsimage 파싱 도구 활용)]
+  ├─ (작은 파일이 문제) ──> Spark/Hive로 일배치 병합(Compaction) 잡 예약 수행
+  └─ (물리적 파일 수 자체가 거대함) ──> 램(RAM) 스케일 업 또는 HDFS Federation 구조로 아키텍처 재설계
+```
 
 이 판단의 핵심은 네임노드는 '[스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)(고성능 단일 서버)'의 영역에 갇혀 있다는 점이다. [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리는 훌륭한 스케일 아웃이지만, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 통제하는 네임노드는 메모리 공유의 복잡성 때문에 스케일 아웃이 불가능에 가깝다. 따라서 네임노드 자체의 하드웨어 스펙은 클러스터에서 가장 극단적으로 높은 CPU와 대용량 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) RAM을 장착한 최고가 서버를 투입하는 것이 실무적 정석이다.
 
@@ -192,23 +182,21 @@ A 방식([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS (Hadoop Distributed File System) — 블록 분산 저장·복제 파일 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네임노드 (NameNode) — 파일 메타데이터·블록 매핑 중앙 관리 마스터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터노드 (DataNode) — 실제 블록 저장·체크섬 검증·하트비트 전송</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS HA (High Availability) — 액티브/스탠바이 NameNode 이중화, SPOF 제거</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오브젝트 스토리지 (Object Storage) — S3 호환, NameNode 없는 무한 확장 대안</div></div>
-</div>
-</div>
-
-
+```text
+[HDFS (Hadoop Distributed File System) — 블록 분산 저장·복제 파일 시스템]
+    │
+    ▼
+[네임노드 (NameNode) — 파일 메타데이터·블록 매핑 중앙 관리 마스터]
+    │
+    ▼
+[데이터노드 (DataNode) — 실제 블록 저장·체크섬 검증·하트비트 전송]
+    │
+    ▼
+[HDFS HA (High Availability) — 액티브/스탠바이 NameNode 이중화, SPOF 제거]
+    │
+    ▼
+[오브젝트 스토리지 (Object Storage) — S3 호환, NameNode 없는 무한 확장 대안]
+```
 
 이 흐름은 HDFS의 마스터-슬레이브 구조에서 NameNode의 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 문제를 HA [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)로 해결하고, 궁극적으로 NameNode 없는 오브젝트 스토리지가 새로운 빅데이터 스토리지 표준으로 부상하는 발전 과정을 보여준다.
 

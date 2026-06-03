@@ -42,20 +42,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 두 패턴의 호출 흐름 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Who owns service instance selection?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client-side Discovery</div><div class="kb-diagram-cell">Server-side Discovery</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller -&gt; Registry</div><div class="kb-diagram-cell">Caller -&gt; Proxy / LB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller gets instance list</div><div class="kb-diagram-cell">Proxy -&gt; Registry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller selects one target</div><div class="kb-diagram-cell">Proxy selects one target</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller -&gt; Target instance</div><div class="kb-diagram-cell">Proxy -&gt; Target instance</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 Who owns service instance selection?                │
+├──────────────────────────────┬───────────────────────────────────────┤
+│ Client-side Discovery        │ Server-side Discovery                │
+├──────────────────────────────┼───────────────────────────────────────┤
+│ Caller -> Registry           │ Caller -> Proxy / LB                 │
+│ Caller gets instance list    │ Proxy -> Registry                    │
+│ Caller selects one target    │ Proxy selects one target             │
+│ Caller -> Target instance    │ Proxy -> Target instance             │
+└──────────────────────────────┴───────────────────────────────────────┘
+```
 
 클라이언트 사이드는 소프트웨어 개발 키트 (SDK, Software Development Kit)나 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 품질이 곧 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질로 이어진다. 예를 들어 넷플릭스 유레카 (Eureka)와 리본 (Ribbon) 조합처럼, 클라이언트가 인스턴스 목록을 캐시하고 자체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 선택할 수 있다. 반면 서버 사이드는 [인그레스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) ([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)), 리버스 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), Envoy, 클라우드 로드밸런서가 중앙에서 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용해 애플리케이션 코드를 단순화한다.
 
@@ -139,23 +137,20 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정적 IP / 설정 파일 의존</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 레지스트리 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:2">클라이언트 사이드 디스커버리</div>
-<div class="kb-diagram-note">─ App 내부 로드밸런싱</div>
-<div class="kb-diagram-tree-item" style="--depth:2">서버 사이드 디스커버리</div>
-<div class="kb-diagram-tree-item" style="--depth:5">Proxy / Gateway / Mesh</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Kubernetes Service · Service Mesh · Policy-driven traffic</div>
-</div>
-</div>
-
-
+```text
+정적 IP / 설정 파일 의존
+    │
+    ▼
+서비스 레지스트리 도입
+    │
+    ├─ 클라이언트 사이드 디스커버리
+    │      └─ App 내부 로드밸런싱
+    └─ 서버 사이드 디스커버리
+           └─ Proxy / Gateway / Mesh
+    │
+    ▼
+Kubernetes Service · Service Mesh · Policy-driven traffic
+```
 
 이 흐름은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 고정 주소 기반 통신에서, 상태 기반 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)과 플랫폼 자동화 중심으로 발전하는 과정을 보여 준다.
 

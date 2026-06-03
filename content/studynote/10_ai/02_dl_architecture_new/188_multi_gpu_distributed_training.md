@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 문제는 수백 대의 GPU를 어떻게 효율적으로 갈구며 일을 시킬 것인가다. 일의 성격에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 산더미를 쪼개서 나눠줄지(<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Parallelism</strong>), 아니면 거대한 프랑켄슈타인의 뇌 자체를 4등분 해서 수술대 4곳에 따로 눕혀놓고 훈련시킬지(**Model Parallelism**) 치열한 아키텍처 분기점이 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 1명의 제빵사([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1대)가 감당 못 할 100만 개의 빵 주문이 들어왔다. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화</strong>는 똑같은 오븐(모델)을 가진 100명의 제빵사를 고용해, 반죽([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 1만 개씩을 나눠주고 다 구운 빵(기울기)을 마지막에 한 곳에 모으는 다구리 전술이다. 반면 빵 1개의 크기가 너무 거대해서 오븐 1개에 안 들어간다면? <strong>모델 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화</strong>를 써서 1번 요리사는 반죽만(모델 앞부분), 2번 요리사는 굽기만(중간 부분), 3번 요리사는 포장만(뒷부분) 하도록 거대한 빵의 제작 공정 자체를 여러 오븐에 찢어버리는 컨베이어 벨트 전술이다.
 
@@ -46,30 +43,28 @@ tags = ["studynote-ai"]
 
 멀티 GPU를 다루는 두 가지 절대적 축인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화(DP)와 모델 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화(MP/[PP](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/))의 동작 메커니즘을 뜯어보자.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티 GPU 훈련을 지배하는 양대 분산 아키텍처 (DDP vs PP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 데이터 병렬화 (Data Parallelism / DDP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 상황: 모델 뇌는 작은데, 데이터가 미친 듯이 많을 때.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: 4대의 GPU에 똑같은 '쌍둥이 뇌(Model)' 4개를 복사해 둠!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거대한 데이터 더미를 1/4씩 쪼개서 각 GPU에 던져줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 동기화(All-Reduce): 각 GPU가 따로 공부한 깨달음(Gradient 오차)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가운데서 하나로 합쳐서(평균 내서), 다시 4대의 뇌에 똑같이 덮어씀.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 무기: PyTorch의 Distributed Data Parallel (DDP) 표준!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 파이프라인 모델 병렬화 (Pipeline Model Parallelism / PP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 상황: 모델 뇌 자체가 100층짜리 트랜스포머라 GPU 1대에 안 들어갈 때.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: 신경망 뇌를 찢어발김!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ GPU 0번: 1~30층 담당 (사진 보고 귀 찾기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ GPU 1번: 31~60층 담당 (눈, 코 찾기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ GPU 2번: 61~100층 담당 (최종 고양이 판별!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 동기화: GPU 0번이 계산 끝나면 ─▶ 1번으로 바통 터치(통신 넘김) ─▶ 2번으로 넘김</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨베이어 벨트처럼 뇌의 기억 조각이 통신선을 타고 릴레이 뜀!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           멀티 GPU 훈련을 지배하는 양대 분산 아키텍처 (DDP vs PP)     │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 데이터 병렬화 (Data Parallelism / DDP)]                 │
+│   * 상황: 모델 뇌는 작은데, 데이터가 미친 듯이 많을 때.                   │
+│   * 원리: 4대의 GPU에 똑같은 '쌍둥이 뇌(Model)' 4개를 복사해 둠!          │
+│          거대한 데이터 더미를 1/4씩 쪼개서 각 GPU에 던져줌.              │
+│   * 동기화(All-Reduce): 각 GPU가 따로 공부한 깨달음(Gradient 오차)을   │
+│          가운데서 하나로 합쳐서(평균 내서), 다시 4대의 뇌에 똑같이 덮어씀.     │
+│   * 무기: PyTorch의 Distributed Data Parallel (DDP) 표준!       │
+│                                                              │
+│  [2. 파이프라인 모델 병렬화 (Pipeline Model Parallelism / PP)] │
+│   * 상황: 모델 뇌 자체가 100층짜리 트랜스포머라 GPU 1대에 안 들어갈 때.      │
+│   * 원리: 신경망 뇌를 찢어발김!                                   │
+│      ─▶ GPU 0번: 1~30층 담당 (사진 보고 귀 찾기)                │
+│      ─▶ GPU 1번: 31~60층 담당 (눈, 코 찾기)                     │
+│      ─▶ GPU 2번: 61~100층 담당 (최종 고양이 판별!)                 │
+│   * 동기화: GPU 0번이 계산 끝나면 ─▶ 1번으로 바통 터치(통신 넘김) ─▶ 2번으로 넘김│
+│            컨베이어 벨트처럼 뇌의 기억 조각이 통신선을 타고 릴레이 뜀!        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (통신 병목과 링-올리듀스)**:
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화(DDP)의 약점은 4대의 GPU가 각자 훈련한 깨달음(Gradient)을 하나로 뭉칠 때 중앙 컨트롤 타워가 터져버린다는 것이다. 이를 막기 위해 최신 아키텍처는 중앙 서버를 폭파해 버리고, 4대의 GPU가 서로 동그란 원(Ring) 모양으로 손을 잡고 릴레이로 옆 사람에게만 자신의 깨달음을 전달해 순식간에 4명 모두 똑같은 뇌 지식을 공유하게 만드는 **링 올리듀스 (Ring All-Reduce / NCCL)** [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 수학 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 태워 통신 병목을 0으로 박살 냈다.

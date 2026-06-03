@@ -34,20 +34,20 @@ tags = ["studynote-ai"]
 
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손실 함수 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회귀용</div><div class="kb-diagram-cell">분류용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSE (Mean Squared Error)</div><div class="kb-diagram-cell">Binary Cross-Entropy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAE (Mean Absolute Err)</div><div class="kb-diagram-cell">Categorical Cross-Entropy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Huber Loss</div><div class="kb-diagram-cell">Focal Loss (불균형 클래스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RMSE</div><div class="kb-diagram-cell">KL Divergence</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   손실 함수 분류                                  │
+│                                                                 │
+│  ┌─────────────────────────┐  ┌──────────────────────────────┐ │
+│  │         회귀용           │  │           분류용              │ │
+│  ├─────────────────────────┤  ├──────────────────────────────┤ │
+│  │ MSE (Mean Squared Error)│  │ Binary Cross-Entropy         │ │
+│  │ MAE (Mean Absolute Err) │  │ Categorical Cross-Entropy    │ │
+│  │ Huber Loss              │  │ Focal Loss (불균형 클래스)    │ │
+│  │ RMSE                    │  │ KL Divergence                │ │
+│  └─────────────────────────┘  └──────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 요리 채점 기준 — 맛이 목표와 얼마나 다른지(오차)를 측정하는데, 달콤함을 겨루는 대회(회귀)와 국가 음식 맞추기 대회([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/))는 다른 채점 기준([손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/))이 필요하다.
 
@@ -117,22 +117,21 @@ yᵢₖ: 클래스 k에 대한 원핫 인코딩 (0 또는 1)
 
 ### [MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/) vs [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/): [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 왜 CE가 더 나은가?
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSE vs Cross-Entropy 기울기 비교 (분류 문제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류 출력층: Sigmoid + MSE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂MSE/∂W = (ŷ - y) × σ'(z) × x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ σ'(z)은 포화 구간에서 ≈ 0 → 기울기 소멸!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류 출력층: Sigmoid + BCE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂BCE/∂W = (ŷ - y) × x ← σ'(z) 항이 제거됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 항상 명확한 기울기 (포화 구간에서도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Softmax + CCE도 동일: ∂CCE/∂W = (ŷ - y) × x</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────────┐
+│          MSE vs Cross-Entropy 기울기 비교 (분류 문제)               │
+│                                                                    │
+│  분류 출력층: Sigmoid + MSE                                         │
+│  ∂MSE/∂W = (ŷ - y) × σ'(z) × x                                    │
+│               ↑ σ'(z)은 포화 구간에서 ≈ 0 → 기울기 소멸!            │
+│                                                                    │
+│  분류 출력층: Sigmoid + BCE                                         │
+│  ∂BCE/∂W = (ŷ - y) × x   ← σ'(z) 항이 제거됨!                     │
+│               ↑ 항상 명확한 기울기 (포화 구간에서도)                  │
+│                                                                    │
+│  Softmax + CCE도 동일: ∂CCE/∂W = (ŷ - y) × x                      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 수학적 이유: BCE와 CE의 미분에서 [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)/Softmax의 도함수가 상쇄되어 깔끔한 기울기가 남는다.
 
@@ -144,23 +143,19 @@ yᵢₖ: 클래스 k에 대한 원핫 인코딩 (0 또는 1)
 
 ### KL 발산 ([KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/))과 [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
+```
+KL 발산 (Kullback-Leibler Divergence):
+DKL(P||Q) = Σ P(x) log(P(x)/Q(x))
+           = Σ P(x) log P(x) - Σ P(x) log Q(x)
+           = -H(P) + H(P, Q)
 
+여기서:
+  H(P)    : P의 엔트로피 (Entropy, 고정값)
+  H(P, Q) : 크로스 엔트로피 (P를 기준으로 Q 평가)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">KL 발산 (Kullback-Leibler Divergence):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DKL(P</div><div class="kb-diagram-cell">Q) = Σ P(x) log(P(x)/Q(x))</div></div>
-<div class="kb-diagram-note">= Σ P(x) log P(x) - Σ P(x) log Q(x)</div>
-<div class="kb-diagram-note">= -H(P) + H(P, Q)</div>
-<div class="kb-diagram-note">여기서:</div>
-<div class="kb-diagram-note">H(P) : P의 엔트로피 (Entropy, 고정값)</div>
-<div class="kb-diagram-note">H(P, Q) : 크로스 엔트로피 (P를 기준으로 Q 평가)</div>
-<div class="kb-diagram-note">→ KL 발산 최소화 = 크로스 엔트로피 최소화 (P 고정 시)</div>
-<div class="kb-diagram-note">→ 분류 학습은 예측 분포 Q를 실제 분포 P에 가깝게 만드는 것</div>
-</div>
-</div>
-
-
+→ KL 발산 최소화 = 크로스 엔트로피 최소화 (P 고정 시)
+→ 분류 학습은 예측 분포 Q를 실제 분포 P에 가깝게 만드는 것
+```
 
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 종합 비교
 
@@ -188,23 +183,17 @@ yᵢₖ: 클래스 k에 대한 원핫 인코딩 (0 또는 1)
 
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 선택 가이드
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문제 유형 결정 트리:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">연속값 예측 (회귀)?</div>
-<div class="kb-diagram-note">── 이상치 있음? → Huber Loss 또는 MAE</div>
-<div class="kb-diagram-note">── 이상치 없음? → MSE</div>
-<div class="kb-diagram-tree-item" style="--depth:0">클래스 예측 (분류)?</div>
-<div class="kb-diagram-tree-item" style="--depth:3">이진 (0/1)? → Binary CE + Sigmoid</div>
-<div class="kb-diagram-tree-item" style="--depth:3">다중 클래스? → Categorical CE + Softmax</div>
-<div class="kb-diagram-tree-item" style="--depth:3">다레이블? → Binary CE × K개 + Sigmoid</div>
-<div class="kb-diagram-tree-item" style="--depth:3">클래스 불균형? → Focal Loss</div>
-</div>
-</div>
-
-
+```
+문제 유형 결정 트리:
+├── 연속값 예측 (회귀)?
+│     ├── 이상치 있음? → Huber Loss 또는 MAE
+│     └── 이상치 없음? → MSE
+└── 클래스 예측 (분류)?
+      ├── 이진 (0/1)? → Binary CE + Sigmoid
+      ├── 다중 클래스? → Categorical CE + Softmax
+      ├── 다레이블? → Binary CE × K개 + Sigmoid
+      └── 클래스 불균형? → Focal Loss
+```
 
 - **📢 섹션 요약 비유**: [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 선택은 병원에서 올바른 검사 기준 사용 — 혈당 검사([MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/))로 골밀도([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제)를 측정하면 엉뚱한 결과가 나오듯, 문제 유형에 맞는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)를 써야 정확한 학습이 된다.
 
@@ -214,21 +203,20 @@ yᵢₖ: 클래스 k에 대한 원핫 인코딩 (0 또는 1)
 
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)별 특성 요약
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSE vs Cross-Entropy 특성 비교 요약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSE (회귀): Cross-Entropy (분류):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L = Σ(y-ŷ)²/n</div><div class="kb-diagram-cell">L = -Σ y·log(ŷ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">볼록 함수 ✓</div><div class="kb-diagram-cell">볼록 함수 ✓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상치 민감 ⚠</div><div class="kb-diagram-cell">이상치 영향 적음 ✓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류에 느림 ❌</div><div class="kb-diagram-cell">분류에 최적 ✓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기울기: 연속 ✓</div><div class="kb-diagram-cell">기울기: ŷ-y (간단) ✓</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│              MSE vs Cross-Entropy 특성 비교 요약                   │
+│                                                                  │
+│  MSE (회귀):                Cross-Entropy (분류):                 │
+│  ┌──────────────────┐       ┌──────────────────────────────┐    │
+│  │ L = Σ(y-ŷ)²/n   │       │ L = -Σ y·log(ŷ)              │    │
+│  │ 볼록 함수 ✓      │       │ 볼록 함수 ✓                   │    │
+│  │ 이상치 민감 ⚠   │       │ 이상치 영향 적음 ✓             │    │
+│  │ 분류에 느림 ❌   │       │ 분류에 최적 ✓                 │    │
+│  │ 기울기: 연속 ✓   │       │ 기울기: ŷ-y (간단) ✓          │    │
+│  └──────────────────┘       └──────────────────────────────┘    │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 ### 기대효과
 

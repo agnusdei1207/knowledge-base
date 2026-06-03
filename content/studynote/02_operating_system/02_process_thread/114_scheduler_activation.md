@@ -26,28 +26,35 @@ tags = ["studynote-operating-system"]
 
 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 액티베이션이 등장하게 된 문제적 상황과 해결 방향을 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러 액티베이션 이전: 다대다 모델의 치명적 블로킹 문제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 공간 (User Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UT-1 ─(블로킹 I/O 호출)──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UT-2 ─(실행 준비 완료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UT-3 ─(실행 준비 완료)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 스레드 라이브러리</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">커널로부터 아무 통보도 받지 못함! │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mode Boundary</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 공간 (Kernel Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LWP-1 ─(UT-1의 시스템 콜 처리 중, Block 상태)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LWP-2 ─(유휴, 할당되지 않음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 커널은 유저 라이브러리에게 "UT-1이 막혔다"고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알려주지 않으므로, UT-2, UT-3은 실행될 기회를 잃음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: 스케줄러 액티베이션 → 커널이 유저 라이브러리에게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"UT-1이 블로킹됨, 다른 UT를 LWP에 할당하라!"고 통보</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│     스케줄러 액티베이션 이전: 다대다 모델의 치명적 블로킹 문제       │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [사용자 공간 (User Space)]                                           │
+│  ┌────────────────────────────────────────────────────────┐          │
+│  │  UT-1 ─(블로킹 I/O 호출)──┐                             │         │
+│  │  UT-2 ─(실행 준비 완료)    │                             │        │
+│  │  UT-3 ─(실행 준비 완료)    │                             │        │
+│  │         ┌──────────────────┘                             │        │
+│  │         ▼                                                │        │
+│  │  [유저 스레드 라이브러리] ← 커널로부터 아무 통보도 받지 못함!  │  │
+│  └─────────┬──────────────────────────────────────────────┘          │
+│ ──────────┼───── Mode Boundary ────────────────────────────          │
+│           ▼                                                          │
+│ [커널 공간 (Kernel Space)]                                           │
+│  ┌────────┴────────────────────────────────────────────────┐         │
+│  │  LWP-1 ─(UT-1의 시스템 콜 처리 중, Block 상태)             │      │
+│  │  LWP-2 ─(유휴, 할당되지 않음)                              │      │
+│  │                                                        │          │
+│  │  문제: 커널은 유저 라이브러리에게 "UT-1이 막혔다"고          │    │
+│  │       알려주지 않으므로, UT-2, UT-3은 실행될 기회를 잃음!    │    │
+│  └────────────────────────────────────────────────────────┘          │
+│                                                                      │
+│  해결: 스케줄러 액티베이션 → 커널이 유저 라이브러리에게              │
+│        "UT-1이 블로킹됨, 다른 UT를 LWP에 할당하라!"고 통보           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 액티베이션이 도입되기 전 [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 모델의 핵심 결함을 보여준다. 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) UT-1이 블로킹 시스템 콜을 호출하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 LWP-1을 Wait 큐로 이동시킨다. 그러나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 유저 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에게 이 사실을 통보하지 않으므로, 유저 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)는 여전히 UT-1이 실행 중이라고 착각하고 UT-2, UT-3을 LWP에 할당하지 않는다. 결과적으로 UT-2와 UT-3은 실행 가능(Runnable) 상태임에도 CPU를 할당받지 못하는 자원 낭비가 발생한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 액티베이션은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이벤트 발생 시 즉각적으로 유저 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에 업콜을 보내, 유저 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 다른 UT를 남은 LWP에 즉시 재할당할 수 있도록 하는 통지 메커니즘이다.
 
@@ -72,33 +79,43 @@ tags = ["studynote-operating-system"]
 
 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 액티베이션의 핵심은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이벤트를 감지하고 유저 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에 제어권을 넘겨주는 업콜 ([Upcall](/knowledge-base/studynote/02_operating_system/02_process_thread/115_upcall/)) 과정이다. 다음은 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 블로킹 시스템 콜을 호출했을 때의 전체 동작 흐름이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러 액티베이션 업콜 동작 흐름 (블로킹 시나리오)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. UT-A가 LWP-1 위에서 블로킹 시스템 콜(read) 호출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Space</div><div class="kb-diagram-node">Kernel Space</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UT-A ▶</div><div class="kb-diagram-cell">커널</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(LWP-1 위 실행)</div><div class="kb-diagram-cell">read()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 커널: "I/O 미완료, LWP-1을 Block"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LWP-1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 커널이 업콜 발생!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">업콜 핸들러 실행</div><div class="kb-diagram-note">(LWP-2 위에서) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a. UT-A의 상태를 '대기'로 표시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">b. 레디 큐에서 UT-B를 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c. UT-B를 LWP-2에 할당하여 실행 재개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. I/O 완료 시 → 다시 업콜!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a. UT-A의 상태를 '레디'로 복원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">b. 다음 가용 LWP에 UT-A 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 커널이 이벤트를 유저 라이브러리에 즉시 통보하여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 블로킹이 다른 스레드에 영향을 주지 않음</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│      스케줄러 액티베이션 업콜 동작 흐름 (블로킹 시나리오)           │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ 1. UT-A가 LWP-1 위에서 블로킹 시스템 콜(read) 호출                  │
+│    ┌─────────────────────────────────────────┐                      │
+│    │  [User Space]       [Kernel Space]       │                     │
+│    │                    ┌──────────┐          │                     │
+│    │  UT-A ────────────▶│ 커널     │          │                     │
+│    │  (LWP-1 위 실행)   │ read()   │          │                     │
+│    │                    │ 처리     │          │                     │
+│    │                    └────┬─────┘          │                     │
+│    │                         │                │                     │
+│    │  2. 커널: "I/O 미완료, LWP-1을 Block"     │                    │
+│    │                    ┌────▼─────┐          │                     │
+│    │                    │ LWP-1    │          │                     │
+│    │                    │ Block!   │          │                     │
+│    │                    └────┬─────┘          │                     │
+│    │                         │                │                     │
+│    │  3. 커널이 업콜 발생!    │                │                    │
+│    │  ┌──────────────────────┘                │                     │
+│    │  ▼                                       │                     │
+│    │  [업콜 핸들러 실행] (LWP-2 위에서)          │                  │
+│    │   a. UT-A의 상태를 '대기'로 표시            │                  │
+│    │   b. 레디 큐에서 UT-B를 선택               │                   │
+│    │   c. UT-B를 LWP-2에 할당하여 실행 재개      │                  │
+│    │                                           │                    │
+│    │  4. I/O 완료 시 → 다시 업콜!               │                   │
+│    │   a. UT-A의 상태를 '레디'로 복원            │                  │
+│    │   b. 다음 가용 LWP에 UT-A 할당              │                  │
+│    └─────────────────────────────────────────┘                      │
+│                                                                     │
+│ 핵심: 커널이 이벤트를 유저 라이브러리에 즉시 통보하여               │
+│      스레드 블로킹이 다른 스레드에 영향을 주지 않음                 │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 흐름도는 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 액티베이션이 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 블로킹을 어떻게 투명하게 처리하는지를 단계별로 보여준다. 핵심은 3단계에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 LWP-1을 블로킹시키는 것으로 끝나지 않고, 유저 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에 업콜을 발생시켜 "UT-A가 막혔으니 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 이 LWP(또는 다른 LWP)에 올려"라고 지시한다는 점이다. 업콜 핸들러는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 보장한 별도의 LWP(여기서는 LWP-2) 위에서 실행되므로, 블로킹된 LWP-1과 무관하게 안전하게 동작한다. I/O가 완료되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 다시 업콜을 보내 UT-A를 레디 상태로 복원하고 가용 LWP에 재할당한다. 이 양방향 통신 덕분에 유저 수준 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 가벼움을 유지하면서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수준의 블로킹 격리를 동시에 달성할 수 있다.
 
@@ -125,29 +142,31 @@ tags = ["studynote-operating-system"]
 
 세 가지 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 모델이 블로킹 상황에 어떻게 반응하는지를 시각적으로 비교한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세 가지 스레드 모델의 블로킹 처리 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: UT-1이 블로킹 I/O 호출, UT-2는 실행 준비 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다대일 (N:1)</div><div class="kb-diagram-cell">일대일 (1:1)</div><div class="kb-diagram-cell">다대다 + SA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Scheduler Act.)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UT-1 ─(Block)──</div><div class="kb-diagram-cell">KLT-1──(Block)</div><div class="kb-diagram-cell">UT-1 ─(Block)──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UT-2 ─(Block!)</div><div class="kb-diagram-cell">KLT-2── UT-2 ◀─</div><div class="kb-diagram-cell">UT-2 ──▶ LWP-2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">실행 가능!</div><div class="kb-diagram-cell">업콜로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 차단!</div><div class="kb-diagram-cell">자동 재할당!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KLT 생성 비용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널은 1개만</div><div class="kb-diagram-cell">무거움</div><div class="kb-diagram-cell">LWP 동적 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인식</div><div class="kb-diagram-cell">비용 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N:1 = 빠르지만 블로킹 치명적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1:1 = 안전하지만 무거움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M:N+SA = 둘의 장점 결합 (가벼움 + 안전)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│           세 가지 스레드 모델의 블로킹 처리 비교                       │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  [상황: UT-1이 블로킹 I/O 호출, UT-2는 실행 준비 완료]                 │
+│                                                                        │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌──────────────────┐        │
+│  │  다대일 (N:1)    │  │  일대일 (1:1)    │  │ 다대다 + SA       │     │
+│  │                 │  │                 │  │  (Scheduler Act.)│        │
+│  │ UT-1 ─(Block)──│  │ KLT-1──(Block)  │  │ UT-1 ─(Block)── │          │
+│  │ UT-2 ─(Block!) │  │ KLT-2── UT-2 ◀─│  │ UT-2 ──▶ LWP-2  │           │
+│  │       ▲        │  │        실행 가능! │  │       업콜로      │      │
+│  │    전체 차단!   │  │                 │  │    자동 재할당!   │       │
+│  │                 │  │  KLT 생성 비용   │  │                  │       │
+│  │  커널은 1개만   │  │  무거움         │  │  LWP 동적 할당    │       │
+│  │  인식           │  │                 │  │  비용 최적화      │       │
+│  └─────────────────┘  └─────────────────┘  └──────────────────┘        │
+│                                                                        │
+│  평가:                                                                 │
+│  N:1  = 빠르지만 블로킹 치명적                                         │
+│  1:1  = 안전하지만 무거움                                              │
+│  M:N+SA = 둘의 장점 결합 (가벼움 + 안전)                               │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 비교도는 세 가지 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 모델이 동일한 블로킹 상황에서 어떻게 다르게 동작하는지를 명확히 보여준다. [다대일](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/) 모델에서는 UT-1의 블로킹이 프로세스 전체를 멈추게 하여 UT-2도 실행 불가능해진다. [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 모델에서는 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 독립적인 KLT에 매핑되므로 UT-2는 정상 실행되지만, 모든 UT에 대해 KLT를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해야 하므로 메모리와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드가 크다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 액티베이션이 추가된 [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) 모델에서는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 업콜을 통해 유저 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)에 UT-1의 블로킹을 통보하고, 유저 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 UT-2를 가용한 LWP에 재할당하여 블로킹의 영향을 완벽히 격리한다. 동시에 LWP를 필요한 만큼만 유지하여 자원 효율까지 확보한다.
 
@@ -171,26 +190,35 @@ tags = ["studynote-operating-system"]
 
 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 액티베이션 기반 시스템의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 위한 의사결정 흐름을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러 액티베이션 기반 시스템 최적화 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 작업 처리 아키텍처 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시 실행해야 할 논리 스레드 수가 코어 수를 크게 초과하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다대다 (M:N) + 스케줄러 액티베이션 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ LWP 수 = 코어 수 * (1 + I/O비율)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (코어 수 이하)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 바운드 작업이 주를 이루는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">일대일 (1:1) + 비동기 I/O 결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 구현 단순성 우선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (CPU 연산 위주)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코어 수와 동일한 스레드 수 + Lock-free 병렬화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: M:N 모델의 효율은 LWP 수를 코어 수에 맞추는 데 있음</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        스케줄러 액티베이션 기반 시스템 최적화 의사결정 트리           │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│   [다중 작업 처리 아키텍처 설계]                                      │
+│                │                                                      │
+│                ▼                                                      │
+│       동시 실행해야 할 논리 스레드 수가 코어 수를 크게 초과하는가?    │
+│          ├─ 예 ─────▶ [다대다 (M:N) + 스케줄러 액티베이션 채택]       │
+│          │                     │                                      │
+│          │                     └─▶ LWP 수 = 코어 수 * (1 + I/O비율)   │
+│          │                                                            │
+│          └─ 아니오 (코어 수 이하)                                     │
+│                │                                                      │
+│                ▼                                                      │
+│       I/O 바운드 작업이 주를 이루는가?                                │
+│          ├─ 예 ─────▶ [일대일 (1:1) + 비동기 I/O 결합]                │
+│          │                     │                                      │
+│          │                     └─▶ 구현 단순성 우선                   │
+│          │                                                            │
+│          └─ 아니오 (CPU 연산 위주)                                    │
+│                │                                                      │
+│                ▼                                                      │
+│       [코어 수와 동일한 스레드 수 + Lock-free 병렬화]                 │
+│                                                                       │
+│  핵심: M:N 모델의 효율은 LWP 수를 코어 수에 맞추는 데 있음            │
+└───────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 의사결정 트리는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 모델 선택의 기준을 워크로드 특성과 코어 수에 따라 명확히 구분한다. 동시에 수만 개 이상의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 관리해야 하는 I/O 집약적 워크로드(예: 채팅 서버, 웹 서버)에서는 [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) 모델과 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 액티베이션의 조합이 최적이다. 핵심은 LWP의 수를 물리 코어 수에 맞추는 것이다. I/O 대기 중인 LWP가 많다면 코어 수보다 약간 더 할당하지만, CPU 연산이 주를 이루는 상황에서는 LWP를 코어 수 이상으로 늘리는 것은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스케줄링 오버헤드만 증가시킨다.
 
@@ -235,19 +263,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 로컬 저장소 (TLS, Thread-Local Storage)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상향 호출 (Upcall)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">협력적 프로세스 (Cooperating Process) vs 독립적 프로세스 (Independent Process)</div></div>
-</div>
-</div>
-
-
+```text
+[스레드 로컬 저장소 (TLS, Thread-Local Storage)]
+    │
+    ▼
+[스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)]
+    │
+    ├──▶ [상향 호출 (Upcall)]
+    └──▶ [협력적 프로세스 (Cooperating Process) vs 독립적 프로세스 (Independent Process)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -25,20 +25,18 @@ tags = ["studynote-security"]
 
 이 그림은 기존 OCSP와 스테이플링의 차이를 단순화해 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Direct OCSP vs stapled OCSP response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Direct OCSP:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser ──▶ Server ──▶ Browser ──▶ CA responder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stapling:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server ──▶ CA responder (pre-fetch)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser ──▶ Server + stapled OCSP response</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              Direct OCSP vs stapled OCSP response               │
+├──────────────────────────────────────────────────────────────────┤
+│ Direct OCSP:                                                    │
+│ Browser ──▶ Server ──▶ Browser ──▶ CA responder                 │
+│                                                                  │
+│ Stapling:                                                        │
+│ Server ──▶ CA responder  (pre-fetch)                            │
+│ Browser ──▶ Server + stapled OCSP response                      │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 즉 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 스테이플링의 핵심은 브라우저가 매번 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 전화를 거는 구조를, 서버가 미리 서류를 떼어 와 제시하는 구조로 바꾼 데 있다. 덕분에 인증서 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 더 빠르고 조용해진다.
 
@@ -58,20 +56,17 @@ tags = ["studynote-security"]
 
 아래 흐름은 스테이플링이 실제 핸드셰이크에 어떻게 끼어드는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stapled response in handshake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Server fetches OCSP response from CA and caches it</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) ClientHello + status_request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) ServerHello + certificate + stapled OCSP response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Client verifies signature, cert match, thisUpdate/nextUpdate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) TLS session continues</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│                  Stapled response in handshake                  │
+├──────────────────────────────────────────────────────────────────┤
+│ 1) Server fetches OCSP response from CA and caches it           │
+│ 2) ClientHello + status_request                                 │
+│ 3) ServerHello + certificate + stapled OCSP response            │
+│ 4) Client verifies signature, cert match, thisUpdate/nextUpdate │
+│ 5) TLS session continues                                         │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 보안 포인트는 서버가 응답 내용을 마음대로 조작할 수 없다는 점이다. [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 응답은 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 또는 위임된 응답자에 의해 전자서명되어 있으므로, 서버는 그 서명된 답변을 전달할 뿐이다. 다만 응답이 오래되었거나 누락되면, 스테이플링을 지원해도 기대한 보안 효과가 떨어질 수 있다.
 
@@ -144,23 +139,21 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">인증서 해지 검증 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OCSP (Online Certificate Status Protocol)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OCSP 스테이플링 (OCSP Stapling)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Must-Staple · 자동 갱신 · 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">짧은 수명 인증서 · CRLite · 고도화된 검증 체계</div>
-</div>
-</div>
-
-
+```text
+인증서 해지 검증 필요
+    │
+    ▼
+OCSP (Online Certificate Status Protocol)
+    │
+    ▼
+OCSP 스테이플링 (OCSP Stapling)
+    │
+    ▼
+Must-Staple · 자동 갱신 · 모니터링
+    │
+    ▼
+짧은 수명 인증서 · CRLite · 고도화된 검증 체계
+```
 
 이 흐름은 "직접 질의"에서 "서버 대행"을 거쳐 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·자동화 중심 운영"으로 발전하는 방향을 보여준다.
 

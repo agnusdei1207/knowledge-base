@@ -23,21 +23,23 @@ tags = ["security"]
 
 이 그림은 웹 어플리케이션을 겨냥한 주요 공격 지점과 방어 레이어를 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web Application Security Layers</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WAF (Web Firewall)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Filter)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Input Validation</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DataBase</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Secure Query</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* OWASP: 웹 보안 취약점의 표준 가이드라인 제공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* WAF: HTTP 페이로드 분석을 통한 지능형 차단</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Web Application Security Layers             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Client ] ────▶ [ WAF (Web Firewall) ] ────▶ [ Server ]  │
+│       │                   ▲ (Filter)               │        │
+│       │                   │                        │        │
+│       └──── (XSS/CSRF) ───┼──▶ [ Input Validation ]┘        │
+│                                         │                   │
+│   [ DataBase ] ◀─── (SQL Injection) ───┴── [ Secure Query ] │
+│                                                             │
+│   * OWASP: 웹 보안 취약점의 표준 가이드라인 제공            │
+│   * WAF: HTTP 페이로드 분석을 통한 지능형 차단              │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '입력값 검증 (Input Validation)'이다. 모든 보안 사고의 시작은 공격자가 보낸 '나쁜 입력값'을 서버가 그대로 믿고 실행하는 데서 발생한다. 실무에서는 이러한 검증 로직을 소스 코드 수준에 내재화하는 <strong>시큐어 SDLC</strong>가 보안의 핵심이 된다.
 
@@ -72,21 +74,24 @@ tags = ["security"]
 
 이 구조도는 <strong>OAuth 2.0</strong>을 이용한 안전한 API 인증 및 인가 아키텍처를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAuth 2.0 Authorization Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Resource Owner</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Auth Serv</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) Grant Code ◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client App</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Resource</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 비밀번호를 직접 공유하지 않고 '토큰'으로 권한 위임</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 OAuth 2.0 Authorization Flow                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Resource Owner ] ──── (1) Auth Request ──▶ [ Auth Serv ]│
+│   (User)                                          │         │
+│          ▲                                        ▼         │
+│          └─────────────── (2) Grant Code ◀────────┘         │
+│                                                             │
+│   [ Client App ] ──────── (3) Access Token ◀──────┘         │
+│          │                                                  │
+│          └─────────────── (4) API Call With Token ──▶ [Resource]│
+│                                                             │
+│   * 핵심: 비밀번호를 직접 공유하지 않고 '토큰'으로 권한 위임│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '권한의 대리 행사'이다. 사용자의 아이디와 비밀번호를 앱에 직접 주지 않고, 특정 기간만 유효한 <strong>Access Token</strong>을 발행하여 보안 사고의 파급 효과를 최소화한다. 실무에서는 이 토큰 내부에 사용자 정보를 담는 <strong>JWT (JSON Web Token)</strong>가 널리 쓰인다.
 
@@ -132,20 +137,21 @@ tags = ["security"]
 
 이 도식은 보안 사고 발생 시 기술사가 지휘해야 할 '웹 취약점 조치 프로세스'를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vulnerability Remediation Cycle</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Discovery</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Triage</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Remediation</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Scanner/BugBounty) (Risk Score) (Patching)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Regression Test</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Triage 기준: CVSS (Common Vulnerability Scoring System)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 패치 후 다른 기능이 망가지지 않았는지 반드시 확인</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Vulnerability Remediation Cycle               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Discovery ] ──▶ [ Triage ] ──▶ [ Remediation ] ──┐      │
+│   (Scanner/BugBounty) (Risk Score)   (Patching)      │      │
+│          ▲                                           │      │
+│          └─────── [ Regression Test ] ◀──────────────┘      │
+│                                                             │
+│   * Triage 기준: CVSS (Common Vulnerability Scoring System) │
+│   * 핵심: 패치 후 다른 기능이 망가지지 않았는지 반드시 확인 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 보안 판단은 '방역 감독관'과 같습니다. 식당(웹 서비스)이 오픈하기 전 위생 검사(취약점 진단)를 하고, 식중독 사고(해킹)가 나면 원인 식재료(오염된 코드)를 찾아내어 전량 폐기하고 주방 설비를 소독(패치)하는 총괄 책임자입니다.
 

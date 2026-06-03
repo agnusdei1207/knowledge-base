@@ -30,24 +30,25 @@ tags = ["studynote-bigdata"]
 
 ### [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 그래프 알고리즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중심성 알고리즘</div><div class="kb-diagram-cell">커뮤니티 탐지</div><div class="kb-diagram-cell">경로 알고리즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PageRank</div><div class="kb-diagram-cell">Louvain</div><div class="kb-diagram-cell">BFS (너비 우선 탐색)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(연결 권위도)</div><div class="kb-diagram-cell">(모듈러리티 최적화)</div><div class="kb-diagram-cell">(최단 홉 수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Betweenness</div><div class="kb-diagram-cell">Label Propagation</div><div class="kb-diagram-cell">Dijkstra</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(매개 중심성)</div><div class="kb-diagram-cell">(레이블 전파)</div><div class="kb-diagram-cell">(가중 최단 경로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eigenvector</div><div class="kb-diagram-cell">Girvan-Newman</div><div class="kb-diagram-cell">A* (휴리스틱)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(고유벡터 중심성)</div><div class="kb-diagram-cell">(엣지 제거)</div><div class="kb-diagram-cell">(GPS 내비게이션)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삼각형 수 (Triangle Count): 군집 계수 → 사기 탐지, 커뮤니티 밀도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WCC (Weakly Connected Component): 연결 요소 탐지 → 고립 클러스터</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    핵심 그래프 알고리즘                               │
+├─────────────────────┬──────────────────────┬─────────────────────────┤
+│  중심성 알고리즘    │  커뮤니티 탐지        │  경로 알고리즘          │
+├─────────────────────┼──────────────────────┼─────────────────────────┤
+│  PageRank           │  Louvain             │  BFS (너비 우선 탐색)   │
+│  (연결 권위도)      │  (모듈러리티 최적화) │  (최단 홉 수)           │
+│                     │                      │                         │
+│  Betweenness        │  Label Propagation   │  Dijkstra               │
+│  (매개 중심성)      │  (레이블 전파)       │  (가중 최단 경로)       │
+│                     │                      │                         │
+│  Eigenvector        │  Girvan-Newman       │  A* (휴리스틱)          │
+│  (고유벡터 중심성)  │  (엣지 제거)         │  (GPS 내비게이션)       │
+├─────────────────────┴──────────────────────┴─────────────────────────┤
+│  삼각형 수 (Triangle Count): 군집 계수 → 사기 탐지, 커뮤니티 밀도   │
+│  WCC (Weakly Connected Component): 연결 요소 탐지 → 고립 클러스터   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 ### PageRank 원리
 
@@ -142,23 +143,21 @@ N = 전체 노드 수
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 이론 (Graph Theory) — 정점(Vertex)·간선(Edge)으로 관계를 수학적 표현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 분석 (Graph Analytics) — PageRank·커뮤니티 탐지·최단 경로 등 관계 패턴 발굴</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark GraphX / Pregel — 대규모 그래프의 분산 병렬 처리 프레임워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지식 그래프 (Knowledge Graph) — RDF/OWL 기반 엔티티-관계 구조화, 의미 추론</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GNN (Graph Neural Network) — 그래프 구조 + 딥러닝, 분자설계·사기탐지·추천시스템 적용</div></div>
-</div>
-</div>
-
-
+```text
+[그래프 이론 (Graph Theory) — 정점(Vertex)·간선(Edge)으로 관계를 수학적 표현]
+    │
+    ▼
+[그래프 분석 (Graph Analytics) — PageRank·커뮤니티 탐지·최단 경로 등 관계 패턴 발굴]
+    │
+    ▼
+[Apache Spark GraphX / Pregel — 대규모 그래프의 분산 병렬 처리 프레임워크]
+    │
+    ▼
+[지식 그래프 (Knowledge Graph) — RDF/OWL 기반 엔티티-관계 구조화, 의미 추론]
+    │
+    ▼
+[GNN (Graph Neural Network) — 그래프 구조 + 딥러닝, 분자설계·사기탐지·추천시스템 적용]
+```
 
 이 흐름은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론의 수학적 기반에서 출발해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 프레임워크로 대규모 분석을 가능케 하고, [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)의 의미 추론과 GNN의 딥러닝 결합으로 진화하는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 기술의 핵심 계보를 보여준다.
 

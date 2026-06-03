@@ -22,21 +22,18 @@ tags = ["studynote-data-engineering"]
 
 ### 과적합 발생 원인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">훈련 데이터 과적합 진단</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 손실 (Train Loss)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘↘↘↘↘↘↘↘ (계속 감소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 손실 (Validation Loss)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘↘ 최적점 ↗↗↗↗↗↗ (증가 시작)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">여기서 멈춰야 함 = Early Stopping</div></div>
-</div>
-</div>
-
-
+```
+훈련 데이터 과적합 진단
+┌───────────────────────────────────────┐
+│  훈련 손실 (Train Loss)               │
+│   ↘↘↘↘↘↘↘↘ (계속 감소)               │
+│                                       │
+│  검증 손실 (Validation Loss)          │
+│   ↘↘  최적점  ↗↗↗↗↗↗ (증가 시작)     │
+│       ★──────────────                │
+│    [여기서 멈춰야 함 = Early Stopping] │
+└───────────────────────────────────────┘
+```
 
 **과적합 징후**: 훈련 정확도 99%, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 정확도 70% — 30%p 격차
 
@@ -79,19 +76,16 @@ L_total = L_original + λ·Σw_i²
 
 ### L1 vs L2 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">L2 제약 (원형) L1 제약 (다이아몬드)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">등고선 등고선</div>
-<div class="kb-diagram-note">★ (꼭짓점 = w=0 가능)</div>
-<div class="kb-diagram-note">손실+원형 교차점 손실+다이아몬드 교차점</div>
-<div class="kb-diagram-note">→ 가중치 분산 감소 → 가중치 희소화 (0 포함)</div>
-</div>
-</div>
-
-
+```
+        L2 제약 (원형)              L1 제약 (다이아몬드)
+           │                              │
+      ┌────┼────┐                    ┌────┼────┐
+    ─── 등고선    ───               ─── 등고선    ───
+      └────┼────┘                    └──←─┼→──┘
+           │                              ★ (꼭짓점 = w=0 가능)
+    손실+원형 교차점                 손실+다이아몬드 교차점
+    → 가중치 분산 감소               → 가중치 희소화 (0 포함)
+```
 
 | 구분 | L1 ([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) | L2 (Ridge) | [Elastic Net](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/) |
 |:---|:---|:---|:---|
@@ -105,21 +99,21 @@ L_total = L_original + λ·Σw_i²
 
 훈련 시 각 뉴런을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) p로 무작위 비활성화한다.
 
+```
+훈련 단계 (p=0.5)
+┌─────────────────────────────────┐
+│ 입력  →  [○] [×] [○] [×] [○]  │  ← × 비활성화 뉴런
+│          [×] [○] [×] [○] [×]  │
+│                   ↓             │
+│              출력 (×2 스케일)   │
+└─────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">훈련 단계 (p=0.5)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">×</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">×</div><div class="kb-diagram-node">○</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">× 비활성화 뉴런</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">×</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">×</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">×</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력 (×2 스케일)</div></div>
-<div class="kb-diagram-note">추론 단계</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">모든 뉴런 활성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">가중치 ×(1-p) 스케일링</div></div>
-</div>
-</div>
-
-
+추론 단계
+┌─────────────────────────────────┐
+│ 입력  →  [○] [○] [○] [○] [○]  │  ← 모든 뉴런 활성
+│          [○] [○] [○] [○] [○]  │  ← 가중치 ×(1-p) 스케일링
+└─────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/">앙상블</a> 효과</strong>: 매 배치마다 다른 부분 네트워크 훈련 → 암묵적 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)
 - 은닉층: p=0.5, 입력층: p=0.1~0.2가 일반적
@@ -174,30 +168,28 @@ for epoch in range(max_epochs):
 
 ### 과적합 진단 및 처방 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">훈련 완료 후 검진</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">훈련 정확도 높은가?</div>
-<div class="kb-diagram-note">YES NO</div>
-<div class="kb-diagram-note">검증 정확도 모델 용량</div>
-<div class="kb-diagram-note">낮은가? 부족 → 복잡도 증가</div>
-<div class="kb-diagram-note">YES NO</div>
-<div class="kb-diagram-note">과적합 과소적합도</div>
-<div class="kb-diagram-note">발생! 아님 (정상)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">처방 선택:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">데이터 증강 우선</div>
-<div class="kb-diagram-tree-item" style="--depth:0">드롭아웃 추가 (p=0.3~0.5)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">L2 정규화 (λ=1e-4~1e-2)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">배치 크기 증가</div>
-<div class="kb-diagram-tree-item" style="--depth:0">조기 종료 활성화</div>
-</div>
-</div>
-
-
+```
+훈련 완료 후 검진
+         ↓
+  훈련 정확도 높은가?
+     /        \
+   YES          NO
+    ↓           ↓
+검증 정확도   모델 용량
+ 낮은가?      부족 → 복잡도 증가
+   /  \
+ YES   NO
+  ↓     ↓
+과적합  과소적합도
+발생!    아님 (정상)
+  ↓
+처방 선택:
+├── 데이터 증강 우선
+├── 드롭아웃 추가 (p=0.3~0.5)
+├── L2 정규화 (λ=1e-4~1e-2)
+├── 배치 크기 증가
+└── 조기 종료 활성화
+```
 
 ### λ ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도) 튜닝 가이드
 
@@ -215,20 +207,17 @@ for epoch in range(max_epochs):
 
 ### [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 적용 효과 정량적 예시
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">과적합 모델 vs 정규화 모델 비교</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지표</div><div class="kb-diagram-cell">과적합 모델</div><div class="kb-diagram-cell">L2+Dropout 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 정확도</div><div class="kb-diagram-cell">99.5%</div><div class="kb-diagram-cell">97.2%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 정확도</div><div class="kb-diagram-cell">72.1%</div><div class="kb-diagram-cell">93.8%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반화 갭</div><div class="kb-diagram-cell">27.4%p</div><div class="kb-diagram-cell">3.4%p</div></div>
-<div class="kb-diagram-note">→ 훈련 정확도 약간 감소, 검증 성능 대폭 향상</div>
-</div>
-</div>
-
-
+```
+과적합 모델 vs 정규화 모델 비교
+┌──────────────────────────────────────────────┐
+│ 지표        │ 과적합 모델 │ L2+Dropout 적용 │
+├─────────────┼─────────────┼─────────────────┤
+│ 훈련 정확도 │   99.5%     │    97.2%        │
+│ 검증 정확도 │   72.1%     │    93.8%        │
+│ 일반화 갭   │   27.4%p    │     3.4%p       │
+└──────────────────────────────────────────────┘
+→ 훈련 정확도 약간 감소, 검증 성능 대폭 향상
+```
 
 ### 기술사 시험 핵심 포인트
 
@@ -259,23 +248,19 @@ for epoch in range(max_epochs):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">과적합 (Overfitting) 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정규화 기법</div>
-<div class="kb-diagram-tree-item" style="--depth:2">L1 (Lasso): 가중치 0으로 만듦 → 피처 선택</div>
-<div class="kb-diagram-tree-item" style="--depth:2">L2 (Ridge): 가중치를 작게 유지</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Dropout: 랜덤 뉴런 비활성화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Early Stopping: 검증 손실 증가 시 학습 중단</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 증강 · Batch Normalization · Weight Decay</div>
-</div>
-</div>
-
-
+```text
+과적합 (Overfitting) 발생
+    │
+    ▼
+정규화 기법
+    ├─► L1 (Lasso): 가중치 0으로 만듦 → 피처 선택
+    ├─► L2 (Ridge): 가중치를 작게 유지
+    ├─► Dropout: 랜덤 뉴런 비활성화
+    └─► Early Stopping: 검증 손실 증가 시 학습 중단
+    │
+    ▼
+데이터 증강 · Batch Normalization · Weight Decay
+```
 2. [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)은 팀 스포츠 훈련에서 매번 다른 선수를 쉬게 해서 아무도 혼자 게임을 이길 수 없게 만드는 훈련법이야.
 3. [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)는 시험 공부할 때 "딱 이 성적이면 충분해, 더 하면 오히려 헷갈려!"라며 적당한 순간에 멈추는 지혜야.
 

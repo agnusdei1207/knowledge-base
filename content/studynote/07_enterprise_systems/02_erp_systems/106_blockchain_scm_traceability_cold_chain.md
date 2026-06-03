@@ -36,21 +36,22 @@ tags = ["enterprise_systems"]
 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 원장 (Ledger)</strong> | 농장-항구-창고-마트가 동일한 원장 실시간 공유 | 해시 연쇄를 통한 조작 불가 (Immutability) |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a></strong> | "온도가 0도를 넘으면 즉시 대금 결제 정지" 코드 실행 | 중개인 없는 조건부 강제 실행 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) is Law) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인 콜드체인(Cold Chain) 이력 추적 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원산지 농장</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">해운사 트럭</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">항구 냉동 창고</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">최종 마트</div></div>
-<div class="kb-diagram-note">─ 블록 1 ─ ─ 블록 2 ─ ─ 블록 3 ─ ─ 블록 4 ─</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출하량</div><div class="kb-diagram-cell">◀─해시─</div><div class="kb-diagram-cell">온도:-20</div><div class="kb-diagram-cell">◀─해시─</div><div class="kb-diagram-cell">온도:-18</div><div class="kb-diagram-cell">◀─해시─</div><div class="kb-diagram-cell">최종인수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소유권 A</div><div class="kb-diagram-cell">소유권 B</div><div class="kb-diagram-cell">소유권 C</div><div class="kb-diagram-cell">QR 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 트럭 기사가 냉동기를 끄고 '블록 2'를 조작하려 하면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 해시값이 깨져 블록 3, 4가 붕괴되고 네트워크가 수정을 거부함!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           블록체인 콜드체인(Cold Chain) 이력 추적 흐름         │
+├──────────────────────────────────────────────────────────────┤
+│ [원산지 농장] ➔ [해운사 트럭] ➔ [항구 냉동 창고] ➔ [최종 마트] │
+│      │               │                │                 │
+│      ▼               ▼                ▼                 ▼
+│ ┌─ 블록 1 ─┐     ┌─ 블록 2 ─┐     ┌─ 블록 3 ─┐      ┌─ 블록 4 ─┐
+│ │ 출하량   │◀─해시─│ 온도:-20 │◀─해시─│ 온도:-18 │◀─해시─│ 최종인수 │
+│ │ 소유권 A │     │ 소유권 B │     │ 소유권 C │      │ QR 생성  │
+│ └──────────┘     └──────────┘     └──────────┘      └──────────┘
+│                                                              │
+│  ※ 트럭 기사가 냉동기를 끄고 '블록 2'를 조작하려 하면?           │
+│  ➔ 해시값이 깨져 블록 3, 4가 붕괴되고 네트워크가 수정을 거부함! │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심 메커니즘은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>'합의(Consensus)'</strong>를 거쳐 한 번 블록에 기록되면, 그 누구의 슈퍼 관리자 권한으로도 이전 온도를 수정할 수 없다는 데 있다. 즉, 시스템이 거짓말 자체를 허용하지 않는 수학적 신뢰 지대를 형성한다.
 
@@ -110,23 +111,21 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 SCM · 파편화된 개별 ERP 장부 (신뢰 부재)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RFID / 바코드 도입 · 단순 추적 자동화 (하지만 조작은 여전히 가능)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블록체인 SCM 이력 추적 · 분산 원장을 통한 위·변조 불가능성 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IoT 센서 결합 (Cold Chain) · 스마트 컨트랙트를 통한 실시간 자동 대응</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디지털 트윈 기반 물류망 (Digital Twin SCM) · 3D 가상화 및 예측 시뮬레이션</div>
-</div>
-</div>
-
-
+```text
+전통적 SCM · 파편화된 개별 ERP 장부 (신뢰 부재)
+    │
+    ▼
+RFID / 바코드 도입 · 단순 추적 자동화 (하지만 조작은 여전히 가능)
+    │
+    ▼
+블록체인 SCM 이력 추적 · 분산 원장을 통한 위·변조 불가능성 확보
+    │
+    ▼
+IoT 센서 결합 (Cold Chain) · 스마트 컨트랙트를 통한 실시간 자동 대응
+    │
+    ▼
+디지털 트윈 기반 물류망 (Digital Twin SCM) · 3D 가상화 및 예측 시뮬레이션
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,6 +140,6 @@ tags = ["enterprise_systems"]
 **진행 상황**: 106 / 482
 
 ← **이전**: [105. 디지털 공급망 (Digital Supply Chain) 및 SCM 컨트롤 타워 - 글로벌 물류 가시성 확보](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/105_digital_supply_chain_scm_control_tower/)
-**다음**: [107. CRM (Customer Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) →
+**다음**: [107. CRM (C고객 Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) →
 
 ---

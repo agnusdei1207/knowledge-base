@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 벤더 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(시스코 등)를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에 처음 들여오면 관리자가 시리얼 콘솔(Console) 케이블을 1:1로 꽂고 노트북을 연결해 검은 화면에서 수백 줄의 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 설치 명령어를 쳐넣어야 했습니다. (극강의 병목, 휴먼 에러 발생 지점)
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대 들어오면 설치하는 데만 몇 주가 걸리는 인건비 지옥이었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SONiC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ONIE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
-</div>
-</div>
-
-
+```text
+[SONiC]
+    │
+    ▼
+[ONIE]
+    │
+    └──▶ [BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
+```
 
 - **📢 섹션 요약 비유**: ONIE는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)([오픈 컴퓨트 프로젝트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/)) 진영에서 제정한 표준으로, 공장에서 막 찍혀 나온 텅 빈 <strong>화이트박스(Bare-metal) <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>에 전원을 켜자마자 작동하여, 네트워크를 통해 자동으로 원하는 네트워크 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(NOS, 예: <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/883_sonic_software_for_open_networking_in_the_cloud/">SONiC</a>, Cumulus) 이미지를 다운로드받고 깡통에 이식(설치)해 주는 소형 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/">부트로더</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/">Bootloader</a>) 기반 독립 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 설치 프레임워크</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SONiC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ONIE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
-</div>
-</div>
-
-
+```text
+[SONiC]
+    │
+    ▼
+[ONIE]
+    │
+    └──▶ [BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
+```
 
 - **📢 섹션 요약 비유**: ONIE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ ONIE는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SONiC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ONIE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SONiC]
+    │
+    ▼
+[현재 개념: ONIE]
+    │
+    ├──▶ [확장 A: BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 ONIE는 SONiC에서 출발해 현재 메커니즘을 정교화하고, 이후 BGP-EVPN [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 컨트롤러 스파인/리프…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -45,22 +45,29 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)에서 하드웨어 격리 경계가 어디에 놓이는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버리스 하드웨어 격리: 빠른 시작과 강한 경계를 동시에 확보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Function Image / Snapshot Pool</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MicroVM Manager / Jailer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tenant A Tenant B Tenant C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MicroVM MicroVM MicroVM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VT-x / AMD-V + EPT / NPT + IOMMU + Virtio</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical CPU / Memory / NIC / Storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 포인트: cold start · 장치 에뮬레이션 · snapshot 위생 · 부채널 노출</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│            서버리스 하드웨어 격리: 빠른 시작과 강한 경계를 동시에 확보      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Function Image / Snapshot Pool                                            │
+│             │                                                              │
+│             ▼                                                              │
+│      [MicroVM Manager / Jailer]                                            │
+│         │            │            │                                         │
+│         ▼            ▼            ▼                                         │
+│     Tenant A      Tenant B      Tenant C                                   │
+│     MicroVM       MicroVM       MicroVM                                    │
+│         │            │            │                                         │
+│         └──────┬─────┴─────┬──────┘                                         │
+│                ▼           ▼                                                │
+│      VT-x / AMD-V + EPT / NPT + IOMMU + Virtio                             │
+│                │                                                            │
+│                ▼                                                            │
+│      Physical CPU / Memory / NIC / Storage                                 │
+│                                                                            │
+│ 병목 포인트: cold start · 장치 에뮬레이션 · snapshot 위생 · 부채널 노출     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 것은 하드웨어가 격리를 "자동으로" 완성해 주는 것이 아니라, 소프트웨어가 최소한의 장치 모델과 빠른 재개 경로를 위에 얹어야 진짜 효과가 난다는 점이다. 예를 들어 EPT/NPT가 있어도 불필요한 가상 장치가 많으면 시작 시간이 길어지고, IOMMU가 없으면 장치 직결이 다른 테넌트 메모리 침범 위험을 남길 수 있다.
 
@@ -137,25 +144,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 커널 컨테이너</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VT-x / AMD-V 기반 경량 가상화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EPT / NPT 기반 MicroVM 격리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Snapshot / Restore 기반 빠른 재개</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IOMMU · 최소 virtio 장치 경로</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Confidential Serverless / 하드웨어 attestation</div>
-</div>
-</div>
-
-
+```text
+공유 커널 컨테이너
+        │
+        ▼
+VT-x / AMD-V 기반 경량 가상화
+        │
+        ▼
+EPT / NPT 기반 MicroVM 격리
+        │
+        ▼
+Snapshot / Restore 기반 빠른 재개
+        │
+        ▼
+IOMMU · 최소 virtio 장치 경로
+        │
+        ▼
+Confidential Serverless / 하드웨어 attestation
+```
 
 이 흐름은 단순 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 격리에서 출발해, [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와 빠른 재개 기술을 거쳐, 더 강한 기밀 실행 환경으로 나아가는 과정을 보여 준다.
 

@@ -27,25 +27,26 @@ tags = ["studynote-operating-system"]
   2. **가상 메모리의 각성**: "어차피 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템이 디스크에서 램으로 4KB씩 기가 막히게 잘 퍼오는데, 굳이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O를 따로 만들 필요가 있나?"
   3. **mmap의 탄생**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 주소를 냅다 프로세스의 가상 주소 공간에 꽂아버려([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)), 프로세스가 램 변수를 건드리듯 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 조작하면 하드웨어가 알아서 폴트([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 터뜨려 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 로드하게 만드는 천재적 융합이 일어났다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 지원 메모리 (File-backed)의 쿨(Cool)한 램 반환 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 16GB RAM이 꽉 차서 OS가 메모리를 비우려 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 타겟 A: 익명 메모리 (힙/스택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "이거 버리면 데이터 날아가니 스왑 파티션에 기록(Write)해라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 징벌: 디스크 쓰기 속도 때문에 8 밀리초 이상 렉 발생 ☠️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 타겟 B: 파일 지원 메모리 (읽기 전용 코드 / Clean)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "이거 원본 파일에 그대로 있잖아? 그냥 램에서 1초 만에 지워!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쾌감: 디스크 기록 0회! 0.0001초 만에 램 확보 완료 🚀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 타겟 C: 파일 지원 메모리 (수정된 데이터 / Dirty)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "원본에서 퍼왔는데 메모리에서 값을 바꿨네? 원본 파일에 덮어써!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 백그라운드 데몬(pdflush)이 원본 파일(.txt)에 동기화함.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│        파일 지원 메모리 (File-backed)의 쿨(Cool)한 램 반환 구조        │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 상황: 16GB RAM이 꽉 차서 OS가 메모리를 비우려 함 ]                   │
+│                                                                        │
+│ ▶ 1. 타겟 A: 익명 메모리 (힙/스택)                                     │
+│   - OS: "이거 버리면 데이터 날아가니 스왑 파티션에 기록(Write)해라!"   │
+│   - 징벌: 디스크 쓰기 속도 때문에 8 밀리초 이상 렉 발생 ☠️             │
+│                                                                        │
+│ ▶ 2. 타겟 B: 파일 지원 메모리 (읽기 전용 코드 / Clean)                 │
+│   - OS: "이거 원본 파일에 그대로 있잖아? 그냥 램에서 1초 만에 지워!"   │
+│   - 쾌감: 디스크 기록 0회! 0.0001초 만에 램 확보 완료 🚀               │
+│                                                                        │
+│ ▶ 3. 타겟 C: 파일 지원 메모리 (수정된 데이터 / Dirty)                  │
+│   - OS: "원본에서 퍼왔는데 메모리에서 값을 바꿨네? 원본 파일에 덮어써!"│
+│   - 결과: 백그라운드 데몬(pdflush)이 원본 파일(.txt)에 동기화함.       │
+└────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 리눅스가 램 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)) 상황을 귀신같이 피하면서 버티는 진짜 이유다. 리눅스의 램에는 사실 내가 실행한 수많은 프로그램의 '실행 코드([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)-backed)'들이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache) 형태로 가득 차 있다. 램이 모자라는 순간, OS는 이 코드들을 스왑 디스크에 쓰는 수고 없이 그냥 램 매핑만 툭툭 끊어버려 순식간에 수 기가바이트의 빈 램(Free Frame)을 창출해 낸다.
 
 - **📢 섹션 요약 비유**: 마트(램)에서 진열대 자리가 모자랄 때, 유통기한이 없는 캔커피(Clean [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 메모리)는 굳이 창고에 다시 넣을 필요 없이 그냥 버려도 공장에서 다시 찍어냅니다. 하지만 손님이 주문해서 막 튀겨낸 치킨([익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/))은 버리면 끝이니 무조건 보온 창고(스왑)에 넣고 살려야 하는 폐기 우선순위입니다.
@@ -100,17 +101,14 @@ tags = ["studynote-operating-system"]
 - 그러다 카톡이 "램 2GB 줘!"라고 요청하면? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 0.001초의 망설임도 없이 꽉 찬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시 중 Clean 한 놈들을 2GB치 찢어버리고 카톡에게 던져준다.
 - 즉, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 지원 메모리는 OS의 가장 거대하고 유연한 완충 지대(Shock Absorber)</strong>로서, 시스템의 체감 속도를 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 속도에서 RAM 속도로 끌어올려 주는 기적의 캐시다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램 부족 시</div><div class="kb-diagram-cell">Clean 파일</div><div class="kb-diagram-cell">Dirty 파일</div><div class="kb-diagram-cell">익명(스택/힙)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS의 조치</div><div class="kb-diagram-cell">1순위 사살</div><div class="kb-diagram-cell">2순위 디스크 씀</div><div class="kb-diagram-cell">3순위 스왑 씀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 시간</div><div class="kb-diagram-cell">🚀 로켓 속도</div><div class="kb-diagram-cell">🐢 느려짐</div><div class="kb-diagram-cell">☠️ 지옥의 렉</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────┐
+│ 램 부족 시 │ Clean 파일 │ Dirty 파일 │ 익명(스택/힙)       │
+├──────────┼────────────┼────────────┼───────────────────────┤
+│ OS의 조치  │ 1순위 사살   │ 2순위 디스크 씀│ 3순위 스왑 씀 │
+│ 지연 시간  │ 🚀 로켓 속도 │ 🐢 느려짐    │ ☠️ 지옥의 렉    │
+└──────────┴────────────┴────────────┴───────────────────────┘
+```
 **[매트릭스 해설]** 리눅스의 메모리 회수(Reclaim) 정책의 뼈대다. 가장 싸고 버리기 쉬운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시(Clean)부터 죽여서 램을 확보한다. 만약 Clean 캐시가 다 말라서 [익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)를 스왑으로 밀어내야 하는 순간이 오면, 그때부터 시스템은 멈추기([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 시작한다.
 
 - **📢 섹션 요약 비유**: 통장(램)에 돈이 꽉 차 있을 때, 위기가 닥치면 당장 쓸데없는 취미생활(Clean [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 예산부터 1초 만에 확 깎아버립니다. 그다음엔 적금(Dirty [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 깨야 하고, 최악의 경우엔 집([익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) 스왑)까지 팔아야 하는 자산 관리의 우선순위입니다.
@@ -166,19 +164,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">익명 메모리 (Anonymous Memory)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 지원 메모리 (File-backed Memory)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">쓰기 시 복사 (COW, Copy-on-Write)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">vfork()</div></div>
-</div>
-</div>
-
-
+```text
+[익명 메모리 (Anonymous Memory)]
+    │
+    ▼
+[파일 지원 메모리 (File-backed Memory)]
+    │
+    ├──▶ [쓰기 시 복사 (COW, Copy-on-Write)]
+    └──▶ [vfork()]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

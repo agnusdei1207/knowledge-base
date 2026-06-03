@@ -30,20 +30,19 @@ tags = ["studynote-computer-architecture"]
 
 고속 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 구형파([Square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/) [Wave](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)) 형태를 띠며, 수많은 고주파 성분의 합으로 이루어져 있다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 전송 선로를 이동할 때, 선로의 폭, 절연체의 두께, 유전율 등에 의해 고유한 특성 임피던스 ($Z_0$)가 결정된다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임피던스 불일치에 따른 신호 반사 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신단 TX</div><div class="kb-diagram-note">임피던스 불연속점</div><div class="kb-diagram-node">수신단 RX</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Z = 50Ω</div><div class="kb-diagram-cell">Z = 100Ω</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 펄스 신호 ▶ (장벽 충돌) ──▶ 왜곡된 신호 통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">___/‾‾‾\___</div><div class="kb-diagram-cell">___/‾\^/\__</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 반사파 (Echo)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           임피던스 불일치에 따른 신호 반사 메커니즘        │
+├──────────────────────────────────────────────────────────────┤
+│  [송신단 TX]          임피던스 불연속점         [수신단 RX]      │
+│  Z = 50Ω                   │                 Z = 100Ω      │
+│                            ▼                                │
+│   정상 펄스 신호 ────▶    (장벽 충돌)   ──▶ 왜곡된 신호 통과    │
+│   ___/‾‾‾\___             │         ___/‾\^/\__            │
+│                            │                                │
+│                 ◀──── 반사파 (Echo)                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 송신단의 임피던스와 전송 선로, 그리고 수신단의 임피던스가 모두 일치(Matching)해야만 반사 계수($\Gamma$)가 0이 되어 전력이 100% 전달된다. 만약 임피던스가 어긋나면 반사파가 원래 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 겹쳐져 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 심하게 출렁이는 링잉(Ringing) 현상이 발생하고, 통신 품질을 나타내는 아이 패턴(Eye Pattern)이 완전히 감겨버리게 된다.
 
@@ -103,23 +102,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">반사 계수 (Reflection Coefficient)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">종단 저항 (ODT, On-Die Termination)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전력 무결성 (PI, Power Integrity)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차동 신호 (Differential Signaling)</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[반사 계수 (Reflection Coefficient)]
+    │
+    ▼
+[종단 저항 (ODT, On-Die Termination)]
+    │
+    ▼
+[전력 무결성 (PI, Power Integrity)]
+    │
+    ▼
+[차동 신호 (Differential Signaling)]
+```
 
 이 흐름도는 :---에서 출발해 차동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) (Differential Signaling)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

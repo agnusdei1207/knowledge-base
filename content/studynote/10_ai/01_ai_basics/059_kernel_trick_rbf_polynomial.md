@@ -31,21 +31,15 @@ tags = ["studynote-ai"]
 
 핵심은 특징 사상([feature map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) Φ를 직접 계산하지 않고, 그 내적을 대신 계산하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 K를 쓰는 데 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 x, z</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">커널 함수 K(x, z)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">고차원 내적과 같은 값</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SVM 초평면 분리</div>
-</div>
-</div>
-
-
+```text
+입력 x, z
+   ↓
+커널 함수 K(x, z)
+   ↓
+고차원 내적과 같은 값
+   ↓
+SVM 초평면 분리
+```
 
 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | 특징 | 쓰임 |
 | :-- | :-- | :-- |
@@ -113,43 +107,31 @@ RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architect
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비선형 데이터</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">커널 함수 K</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SVM 초평면</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">비선형 분류</div>
-</div>
-</div>
-
-
+```text
+비선형 데이터
+   ↓
+커널 함수 K
+   ↓
+SVM 초평면
+   ↓
+비선형 분류
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">선형 분류 한계</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">특징 공간 확장</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">커널 트릭</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Polynomial / RBF 커널</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">비선형 패턴 분류</div>
-</div>
-</div>
-
-
+```text
+선형 분류 한계
+   ↓
+특징 공간 확장
+   ↓
+커널 트릭
+   ↓
+Polynomial / RBF 커널
+   ↓
+비선형 패턴 분류
+```
 
 ---
 

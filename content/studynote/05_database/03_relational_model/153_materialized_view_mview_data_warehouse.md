@@ -39,30 +39,33 @@ tags = ["studynote-database"]
 
 일반 뷰의 런타임 렌더링 랙 지옥을 ➔ 디스크 I/O 1방 컷으로 뒤집어버리는 아키텍처 패러다임 시프트 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 View(가짜) vs MVIEW(진짜 쇳덩이 박제) 조회 역학 십자 비교 도해 ✨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🪟</div><div class="kb-diagram-node">일반 복합 View 의 참사 (조회 쿼리 랙: 5분 소요 🐌 뻗음 💥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 사장님: "SELECT * FROM 부서별_총매출_뷰" 쿼리 1방 쏨 툭 ㅋ.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ DB 뇌(옵티마이저): "아, 이건 껍데기지? 뷰 뱃속의 원본 쿼리로 변환 전개!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 디스크 I/O 타죽음: 1억 건 원본 테이블을 쌩으로 다 퍼 올려서(Full Scan)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">믹서기에 넣고 미친 듯이 <code>SUM</code> 치고 메모리 정렬(Sort)함. DB 서버 뻗기 직전 💀.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ 사장님: 5분 뒤에 커피 1잔 마시고 담배 피고 오니까 화면 간신히 뜸.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 메스: 물리적 박제(Materialize) 결단</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🧱</div><div class="kb-diagram-node">구체화된 뷰 MVIEW 의 기적 (조회 쿼리 스피드: 0.01초 광속 컷 🚀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(어젯밤 새벽 3시 🌙) DBA가 원본 1억 건을 미리 1,000줄로 쫙 쪼그라뜨려서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">별도의 하드디스크 파티션 공간에 <code>MVIEW_매출</code> 이라는 진짜 쇳덩이로 영구 저장 쾅!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 사장님: "SELECT * FROM 부서별_총매출_MVIEW" 쿼리 1방 쏨 툭 ㅋ.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ DB 뇌(옵티마이저): 원본 1억 건 쳐다보지도 않음 스킵 차단 패스 컷!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어젯밤 만들어둔 1,000줄짜리 'MVIEW 콘크리트 테이블' 로 다이렉트 직행 록온!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 디스크 I/O: 걍 1,000줄만 스윽 읽음. 블록 I/O 1방 광속 쾌속 돌파.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ 사장님: 엔터 치자마자 0.001초 찰나에 대시보드 화면 팍! 번개처럼 뜸 ✨.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          일반 View(가짜) vs MVIEW(진짜 쇳덩이 박제) 조회 역학 십자 비교 도해 ✨ │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🪟 [ 일반 복합 View 의 참사 (조회 쿼리 랙: 5분 소요 🐌 뻗음 💥) ]        │
+│                                                             │
+│ 1️⃣ 사장님: "SELECT * FROM 부서별_총매출_뷰" 쿼리 1방 쏨 툭 ㅋ.       │
+│ 2️⃣ DB 뇌(옵티마이저): "아, 이건 껍데기지? 뷰 뱃속의 원본 쿼리로 변환 전개!" │
+│ 3️⃣ 디스크 I/O 타죽음: 1억 건 원본 테이블을 쌩으로 다 퍼 올려서(Full Scan)  │
+│    믹서기에 넣고 미친 듯이 `SUM` 치고 메모리 정렬(Sort)함. DB 서버 뻗기 직전 💀.│
+│ 4️⃣ 사장님: 5분 뒤에 커피 1잔 마시고 담배 피고 오니까 화면 간신히 뜸.       │
+│                                                             │
+│        ======= [ 🛡️ 아키텍트의 메스: 물리적 박제(Materialize) 결단 ] ========│
+│                                                             │
+│ 🧱 [ 구체화된 뷰 MVIEW 의 기적 (조회 쿼리 스피드: 0.01초 광속 컷 🚀) ]   │
+│                                                             │
+│  (어젯밤 새벽 3시 🌙) DBA가 원본 1억 건을 미리 1,000줄로 쫙 쪼그라뜨려서   │
+│  별도의 하드디스크 파티션 공간에 `MVIEW_매출` 이라는 진짜 쇳덩이로 영구 저장 쾅!│
+│                                                             │
+│ 1️⃣ 사장님: "SELECT * FROM 부서별_총매출_MVIEW" 쿼리 1방 쏨 툭 ㅋ.     │
+│ 2️⃣ DB 뇌(옵티마이저): 원본 1억 건 쳐다보지도 않음 스킵 차단 패스 컷!!        │
+│    어젯밤 만들어둔 1,000줄짜리 'MVIEW 콘크리트 테이블' 로 다이렉트 직행 록온! │
+│ 3️⃣ 디스크 I/O: 걍 1,000줄만 스윽 읽음. 블록 I/O 1방 광속 쾌속 돌파.       │
+│ 4️⃣ 사장님: 엔터 치자마자 0.001초 찰나에 대시보드 화면 팍! 번개처럼 뜸 ✨.    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">아키텍트의 팩폭 딜레마: 언제 갱신(Refresh [동기화</a>) 할 것인가? 💥]</strong>
 MVIEW는 어젯밤 기준의 굳어버린 화석 쇳덩이다. 오늘 아침 9시 1분에 들어온 신규 100만 원어치 결제 주문은 저 화석 껍데기 안에 반영되어 있지 않다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 Staleness 파국). 이 오차를 어떻게 척살할까?
@@ -85,29 +88,34 @@ MVIEW는 어젯밤 기준의 굳어버린 화석 쇳덩이다. 오늘 아침 9�
 | **COMPLETE Refresh (완전 갱신 💥)** | **[무식함의 극치 💀]** 기존 MVIEW 콘크리트 벽을 해머로 산산조각(`TRUNCATE`) 낸다. 그리고 1억 건 원본 테이블을 통째로 처음부터 다시 쌩으로 다 퍼 올려서 조인 쳐 ➔ 새로운 콘크리트 벽을 통째로 들이붓는다. | 매일 밤 서버 디스크 I/O가 피를 토하며 배치 작업이 3시간씩 걸림. 걍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 싹 다 갈아엎어야 할 때 최후의 쇳덩이 수단으로만 씀. |
 | **FAST Refresh (고속 증분 갱신 🚀)** | **[아키텍트의 예술 십자 융합 ✨]** 원본 테이블 1억 건 쳐다보지도 않음! 낮 동안 원본에 새로 들어온 `INSERT` 5건 찌끄레기 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만 쏙 핀셋으로 빼서 ➔ 기존 MVIEW 콘크리트 벽면에 더하기(+5) 연산으로 <strong>'색칠만 살짝 덧칠'</strong>하고 1초 컷 퇴근함 쾅!! | **[MVIEW LOG (찌꺼기 수집통)]** 이라는 보조 테이블을 원본 옆에 몰래 파둬야만 작동하는 궁극의 축지법(Delta) 오토 마법. 0.1초 만에 갱신 끝! |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: FAST REFRESH (고속 증분 갱신)의 톱니바퀴 텔레포트 ✨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 세계: OLTP 거래 DB 핏줄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 🗄️ <code>주문_테이블 (10억 건 쇳덩이)</code> ➔ 고객이 낮 12시에 1건 신규 주문(INSERT) 쾅!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (오라클 엔진이 몰래 트랜잭션 낚아채서 쓰레기통에 복사 툭 던짐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣ 🗑️ <code>MVIEW LOG (찌꺼기 수집통 텐트)</code> ➔</div><div class="kb-diagram-node">로그: 낮 12시, +5만원 추가 됨 ㅋ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이 찌꺼기 통은 오직 신규/수정/삭제된 방금 그 '변화량(Delta)' 팩트만 담고 있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">새벽 3시 🌙 스케줄러 갱신(Refresh) 발동!</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타겟 세계: OLAP 통계 DB (MVIEW 박제 콘크리트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 🧱 <code>MVIEW_통계</code> 갱신 봇: "야 10억 건 테이블 보지 마 무거워 타죽어 컷!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ "저기 조그만 찌꺼기 수집통(<code>MVIEW LOG</code>) 열어봐! 뭐 들었어?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 로그 통 왈: "어제 이후로 +5만 원 결제 1건 딸랑 들어왔음 ㅋ!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ 🌟 덧칠 마법 (Delta Apply 쾌속 록온):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 갱신 엔진이 기존 MVIEW 콘크리트 총합계 숫자에 5만 원만 쓱 더해버림(+5).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 10억 건 조인 생략! ➔ 연산 시간 3시간 ➔ 0.01초 컷 압살 수직 단축 🚀!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 덧칠 끝나면 <code>MVIEW LOG</code> 쓰레기통은 다시 깨끗하게 싹 비움 (Truncate 소각).</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: FAST REFRESH (고속 증분 갱신)의 톱니바퀴 텔레포트 ✨ │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [ 원본 세계: OLTP 거래 DB 핏줄 ]                                │
+  │                                                             │
+  │ 1️⃣ 🗄️ `주문_테이블 (10억 건 쇳덩이)` ➔ 고객이 낮 12시에 1건 신규 주문(INSERT) 쾅!│
+  │          │                                                  │
+  │          ▼ (오라클 엔진이 몰래 트랜잭션 낚아채서 쓰레기통에 복사 툭 던짐)    │
+  │                                                             │
+  │ 2️⃣ 🗑️ `MVIEW LOG (찌꺼기 수집통 텐트)` ➔ [로그: 낮 12시, +5만원 추가 됨 ㅋ]│
+  │    (이 찌꺼기 통은 오직 신규/수정/삭제된 방금 그 '변화량(Delta)' 팩트만 담고 있음)│
+  │                                                             │
+  │        ======= [ 새벽 3시 🌙 스케줄러 갱신(Refresh) 발동! ] ======== │
+  │                                                             │
+  │ [ 타겟 세계: OLAP 통계 DB (MVIEW 박제 콘크리트) ]                 │
+  │                                                             │
+  │ 3️⃣ 🧱 `MVIEW_통계` 갱신 봇: "야 10억 건 테이블 보지 마 무거워 타죽어 컷!!" │
+  │    ➔ "저기 조그만 찌꺼기 수집통(`MVIEW LOG`) 열어봐! 뭐 들었어?"           │
+  │    ➔ 로그 통 왈: "어제 이후로 +5만 원 결제 1건 딸랑 들어왔음 ㅋ!"         │
+  │                                                             │
+  │ 4️⃣ 🌟 덧칠 마법 (Delta Apply 쾌속 록온):                       │
+  │   - 갱신 엔진이 기존 MVIEW 콘크리트 총합계 숫자에 5만 원만 쓱 더해버림(+5).│
+  │   - 10억 건 조인 생략! ➔ 연산 시간 3시간 ➔ 0.01초 컷 압살 수직 단축 🚀!!│
+  │   - 덧칠 끝나면 `MVIEW LOG` 쓰레기통은 다시 깨끗하게 싹 비움 (Truncate 소각).│
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 단점 요약 비유**: 완전 갱신(Complete)은 놀이공원 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 수를 어제 100명에서 오늘 101명으로 갱신하기 위해, <strong>처음부터 1번 손님, 2번 손님... 101번 손님까지 <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 돌려가며 미련하게 전부 다 다시 세어보는 미친 짓</strong>입니다(3시간 뻗음 💥). <strong>고속 증분 갱신(Fast)</strong>은 어젯밤까지 100명이었다는 팩트를 믿고, 입구에 둔 쪽지(MVIEW LOG)에 적힌 "오늘 아침 1명 왔음 ㅋ" 메모만 딱 보고 **"아하 100+1=101명이네 쾅!"** 이라고 1초 만에 덧셈 덧칠하고 끝내는 천재들의 다이어트 계산법입니다 🚀.
 
@@ -167,23 +175,21 @@ MVIEW가 위대한 진짜 이유는 개발자가 소스 코드를 단 1줄도 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">쌩 테이블 다이렉트 무지성 풀스캔 조인 시대 💀 / 사장님이 매달 1일 아침 10년 치 통계 대시보드 쿼리 돌리면 ➔ 10억 건 테이블 풀스캔 도느라 DB 램 터지고 CPU 용광로 불타올라 10분간 쇼핑몰 유저 결제 올스탑 셧다운 파국 💥 멸망 터짐!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">일반 복합 View 껍데기 캡슐화 튜닝 시도 / "야 쿼리 존나 복잡하니까 View 껍데기 1장으로 예쁘게 묶어서 쳐 ㅋ" ➔ 보안은 막았는데 어차피 가짜 창문이라 런타임에 10억 건 쌩으로 돌리는(Performance 랙 타죽음) 물리 법칙 한계는 절대 해결 못 함 뻗음 💀.</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MVIEW (구체화된 뷰) 물리적 캐시 쇳덩이 박제 대관식 🚀 / 아키텍트 분노 도끼 🪓 "씨발 10억 건 맨날 갈지 마! 어젯밤에 1,000줄로 요약 조인 다 쳐서 진짜 하드디스크 콘크리트로 쾅쾅 굳혀 물리 저장(Materialize) 록온 박아라 쾅!! 0.01초 컷 조회 스피드 천하 통일 ✨!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MVIEW LOG 기반 고속 갱신 (FAST REFRESH) &amp; Query Rewrite 융합 🛡️ / "매일 밤 10억 건 새로 굳히기 랙 뻗으니까 ➔ 낮에 들어온 5건 찌끄레기 로그(Delta)만 핀셋으로 뽑아 1초 컷 덧칠 핑퐁 치고 ➔ 자바 소스코드 수정 1도 없이 옵티마이저가 오토 가로채기(Rewrite) 투명 쉴드 쳐라 쾅!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Streaming MView 및 빅데이터(Snowflake/CQRS) 클라우드 영혼 빙의 (현재) ✨ / 무거운 오라클 DB 쇳덩이 벗어던짐 ➔ 데이터가 카프카 이벤트 스트리밍으로 1초마다 흐르는 찰나에 그 흐르는 실시간 데이터 찌끄레기를 낚아채서 1초 컷 무한 오토 MView 실시간 덧칠 자동 동기화 업데이트 펌핑 쳐버리는 극강 초지능 무결점 OLAP 우주 생태계 제국 달성 🚀</div>
-</div>
-</div>
-
-
+```text
+쌩 테이블 다이렉트 무지성 풀스캔 조인 시대 💀 / 사장님이 매달 1일 아침 10년 치 통계 대시보드 쿼리 돌리면 ➔ 10억 건 테이블 풀스캔 도느라 DB 램 터지고 CPU 용광로 불타올라 10분간 쇼핑몰 유저 결제 올스탑 셧다운 파국 💥 멸망 터짐!
+    │
+    ▼
+일반 복합 View 껍데기 캡슐화 튜닝 시도 / "야 쿼리 존나 복잡하니까 View 껍데기 1장으로 예쁘게 묶어서 쳐 ㅋ" ➔ 보안은 막았는데 어차피 가짜 창문이라 런타임에 10억 건 쌩으로 돌리는(Performance 랙 타죽음) 물리 법칙 한계는 절대 해결 못 함 뻗음 💀.
+    │
+    ▼
+MVIEW (구체화된 뷰) 물리적 캐시 쇳덩이 박제 대관식 🚀 / 아키텍트 분노 도끼 🪓 "씨발 10억 건 맨날 갈지 마! 어젯밤에 1,000줄로 요약 조인 다 쳐서 진짜 하드디스크 콘크리트로 쾅쾅 굳혀 물리 저장(Materialize) 록온 박아라 쾅!! 0.01초 컷 조회 스피드 천하 통일 ✨!"
+    │
+    ▼
+MVIEW LOG 기반 고속 갱신 (FAST REFRESH) & Query Rewrite 융합 🛡️ / "매일 밤 10억 건 새로 굳히기 랙 뻗으니까 ➔ 낮에 들어온 5건 찌끄레기 로그(Delta)만 핀셋으로 뽑아 1초 컷 덧칠 핑퐁 치고 ➔ 자바 소스코드 수정 1도 없이 옵티마이저가 오토 가로채기(Rewrite) 투명 쉴드 쳐라 쾅!!"
+    │
+    ▼
+Streaming MView 및 빅데이터(Snowflake/CQRS) 클라우드 영혼 빙의 (현재) ✨ / 무거운 오라클 DB 쇳덩이 벗어던짐 ➔ 데이터가 카프카 이벤트 스트리밍으로 1초마다 흐르는 찰나에 그 흐르는 실시간 데이터 찌끄레기를 낚아채서 1초 컷 무한 오토 MView 실시간 덧칠 자동 동기화 업데이트 펌핑 쳐버리는 극강 초지능 무결점 OLAP 우주 생태계 제국 달성 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

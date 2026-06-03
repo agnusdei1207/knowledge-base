@@ -30,7 +30,7 @@ tags = ["studynote-ict-convergence"]
 <strong>하늘이 찢어져도 당장 그 시스코 쇳덩이 박스 모.조.리. 전기 뽑고 다 가위로 찢어 소각해!!! 그리고 걍 싼값 범용 x86 깡통 서버 1만 대 사와서 그 위에 K8s 클라우드 깔고!! 통신 기능 100개를 모조리 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">마이크로서비스 [도커</a> 앱(App)] 소프트웨어로 통째 변환 렌더링 쳐서 허공에 뿅 띄워 쑤셔 박아버려 쾅!!!</strong>"
 통신(Telco) 쇳덩이 인프라가 ➔ 소프트웨어 웹 클라우드(Web Tech) 생태계로 100% 영혼 변태 융합 승천을 이룩한 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 최강의 개국 공신 헌법, 그것이 SBA([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Based [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))다.
 
-- **📢 섹션 요약 비유**: <strong>4G <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/">EPC</a>(과거 쇳덩이 망)</strong>는 <strong>'부품 용접된 일체형 붐박스 오디오'</strong>입니다. 카세트 렌즈 1개 고장 나면 기계 껍데기 전체를 10만 원 주고 통째로 버리고 1달 기다려 새로 사야 합니다([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 셧다운 💥). <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> SBA(클라우드 융합 망)</strong>는 <strong>'최신형 스마트폰 앱(App)'</strong>입니다!! 기계(깡통 하드웨어)는 그냥 1대 놔두고, 그 안에 '음악 앱([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))', '유튜브 앱([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))'을 따로따로 다운받아 띄우는 겁니다. 음악 앱 1개 랙 걸려 뻗어 멈춰도? 0.1초 만에 강제 종료(Kill) 치고 앱 1개 껐다 켜면([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 재시작 무정단 부활 쾌속) ➔ 카톡(딴 기능)은 1도 랙 안 걸리고 100% 멀쩡히 쌩쌩 생존해 돌아가는 극강의 독립 파편화 방어막 텐트 마법입니다 🚀!
+- **📢 섹션 요약 비유**: <strong>4G <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/">EPC</a>(과거 쇳덩이 망)</strong>는 <strong>'부품 용접된 일체형 붐박스 오디오'</strong>입니다. 카세트 렌즈 1개 고장 나면 기계 껍데기 전체를 10만 원 주고 통째로 버리고 1달 기다려 새로 사야 합니다([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 셧다운 💥). <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> SBA(클라우드 융합 망)</strong>는 <strong>'최새로운 유형의 스마트폰 앱(App)'</strong>입니다!! 기계(깡통 하드웨어)는 그냥 1대 놔두고, 그 안에 '음악 앱([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))', '유튜브 앱([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))'을 따로따로 다운받아 띄우는 겁니다. 음악 앱 1개 랙 걸려 뻗어 멈춰도? 0.1초 만에 강제 종료(Kill) 치고 앱 1개 껐다 켜면([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 재시작 무정단 부활 쾌속) ➔ 카톡(딴 기능)은 1도 랙 안 걸리고 100% 멀쩡히 쌩쌩 생존해 돌아가는 극강의 독립 파편화 방어막 텐트 마법입니다 🚀!
 
 ---
 
@@ -38,32 +38,38 @@ tags = ["studynote-ict-convergence"]
 
 SBA는 기능의 모듈화(찢기)와 통신 핏줄의 개방([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))이라는 쌍칼을 쥐고 낡은 관료제 코어망을 도륙 냈다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SBA 클라우드 네이티브 뇌 구조: K8s 서비스 핑퐁 대통합 렌더링 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">과거 4G LTE 쇳덩이 시대 (P2P 강결합 스파게티 지옥 💥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- MME 장비 ↔ HSS 장비 ↔ SGW 장비 (존나 굵은 전용선 물리 케이블 1:1 직통 납땜)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 파국: MME 쇳덩이 불타 죽거나 새로 라인 증설하려면? 인부 와서 벽 뚫고 랜선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100가닥 뜯어고쳐야 함. 재작업 3달 걸림 (SPOF 서버 마비 대참사 💀).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 메스: 선 싹 다 가위로 찢어발겨 끊어 ✂️</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">궁극의 TO-BE (5G SBA / Service Based Interface 허공 핑퐁 융합 ✨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(허공 버스망) ➔</div><div class="kb-diagram-node">NRF (네트워크 리포지토리 / K8s 유레카 디스커버리 중앙 뇌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP/2 REST API (JSON 껍데기 핑퐁 다이렉트 통신 콜 🚀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">AMF</div><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">SMF</div><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">UDM</div><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">PCF</div><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">UPF 펌프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증 봇) (세션 봇) (DB 금고) (요금 봇) (데이터 근육)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: 5G 코어망(SBA)은 쇳덩이가 아니다! AWS 클라우드 K8s 도커(Docker)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위에 둥둥 떠 있는 '가벼운 마이크로서비스 앱 컨테이너 봇 군단'이다!! 트래픽 터지면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AMF 인증 봇</div><div class="kb-diagram-note">1마리를 0.01초 만에 100마리로 스케일 아웃(Scale-out 증식) 치고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">죽으면 즉각 삭제 롤백 스위칭 때린다 쾅! 그리고 얘네들끼리 1:1 전용선 쇳덩이 납땜 따위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1바이트도 없고!! 전부 저 위에 허공 버스(NRF 전화번호부 뇌) 찔러서 IP 최신 주소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 매핑(Dynamic Binding) 따와서 JSON REST 통신 치고 쿨하게 뒤돌아 헤어지는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% IT 웹(Web) 클라우드 무정단(Zero-downtime) 우주 쾌속 생태계 강림이다 쾅!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          SBA 클라우드 네이티브 뇌 구조: K8s 서비스 핑퐁 대통합 렌더링 도해 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 💀 [ 과거 4G LTE 쇳덩이 시대 (P2P 강결합 스파게티 지옥 💥) ]            │
+│   - MME 장비 ↔ HSS 장비 ↔ SGW 장비 (존나 굵은 전용선 물리 케이블 1:1 직통 납땜)│
+│   ➔ 파국: MME 쇳덩이 불타 죽거나 새로 라인 증설하려면? 인부 와서 벽 뚫고 랜선 │
+│      100가닥 뜯어고쳐야 함. 재작업 3달 걸림 (SPOF 서버 마비 대참사 💀).     │
+│                                                             │
+│        ======= [ 🛡️ 아키텍트의 메스: 선 싹 다 가위로 찢어발겨 끊어 ✂️ ] ========│
+│                                                             │
+│ 🚀 [ 궁극의 TO-BE (5G SBA / Service Based Interface 허공 핑퐁 융합 ✨) ]│
+│                                                             │
+│  (허공 버스망) ➔ [ NRF (네트워크 리포지토리 / K8s 유레카 디스커버리 중앙 뇌) ] │
+│     |         ▲         ▲          ▲          ▲             │
+│     |    HTTP/2 REST API (JSON 껍데기 핑퐁 다이렉트 통신 콜 🚀)           │
+│     ▼         ▼         ▼          ▼          ▼             │
+│  ┌────────┬────────┬─────────┬────────┬─────────┐ │
+│  │        │        │         │        │         │ │
+│ 📦[AMF] 📦[SMF] 📦[UDM]  📦[PCF] 📦[UPF 펌프]│ │
+│ (인증 봇)  (세션 봇)  (DB 금고)  (요금 봇)  (데이터 근육)│ │
+│                                                             │
+│ 🌟 아키텍트 극딜: 5G 코어망(SBA)은 쇳덩이가 아니다! AWS 클라우드 K8s 도커(Docker) │
+│   위에 둥둥 떠 있는 '가벼운 마이크로서비스 앱 컨테이너 봇 군단'이다!! 트래픽 터지면 │
+│   [AMF 인증 봇] 1마리를 0.01초 만에 100마리로 스케일 아웃(Scale-out 증식) 치고, │
+│   죽으면 즉각 삭제 롤백 스위칭 때린다 쾅! 그리고 얘네들끼리 1:1 전용선 쇳덩이 납땜 따위  │
+│   1바이트도 없고!! 전부 저 위에 허공 버스(NRF 전화번호부 뇌) 찔러서 IP 최신 주소   │
+│   동적 매핑(Dynamic Binding) 따와서 JSON REST 통신 치고 쿨하게 뒤돌아 헤어지는 │
+│   100% IT 웹(Web) 클라우드 무정단(Zero-downtime) 우주 쾌속 생태계 강림이다 쾅!! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">다이어그램 해설 (SBA 5대 [마이크로서비스</a> 핵심 천왕 봇)]</strong>
 과거 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 시절엔 이 모든 기능이 `MME`라는 냉장고 쇳덩이 1대 뱃속에 강결합 스파게티로 떡칠 비벼져 용접되어 있었다. 1놈 로직이 CPU 100% 쳐먹으면 기계 통째로 타 죽어 같이 연쇄 셧다운 동반 자살([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))했다. 
@@ -149,23 +155,21 @@ SBA([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">4G (LTE) EPC / 낡은 시스코 노키아 쇳덩이 라우터 박스에 의존. P2P 강결합 1:1 케이블 떡칠 ➔ 트래픽 터지면 장비 증설 3달 걸려 국가망 셧다운 대국민 사과 파국 💥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">5G NSA 과도기 / 통신사 투자금 아끼려고 앞단 안테나만 5G로 껍데기 세우고 뇌는 LTE(EPC) 쇳덩이 재활용 짬뽕 ➔ 폰 양다리 배터리 타 죽고 핑 널뛰기 발광</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">5G SA SBA 클라우드 융합 대관식 🚀 / 낡은 LTE 쇳덩이 영구 소각! 100% K8s 도커 컨테이너 마이크로서비스 앱으로 뇌(5GC)를 허공에 무한 복제 띄워 록온 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HTTP/2 REST API + JSON 대통합 / 통신 아재들의 낡은 전용 프로토콜 쓰레기통 처박고 ➔ 1,000만 웹 코더가 쓰는 오픈 인터넷 언어로 글로벌 IT 융합 흡수 합병</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">6G 자율 제어 통신망 (Autonomous Network) 미래 / AI 딥러닝 봇(NWDAF)이 심장에 쳐박혀 ➔ 24시간 내내 인간 개입 0% 없이 지 맘대로 트래픽 밸런싱 스케일 아웃 오토 힐링 자동 자가 호흡 변태 스위칭 달성</div>
-</div>
-</div>
-
-
+```text
+4G (LTE) EPC / 낡은 시스코 노키아 쇳덩이 라우터 박스에 의존. P2P 강결합 1:1 케이블 떡칠 ➔ 트래픽 터지면 장비 증설 3달 걸려 국가망 셧다운 대국민 사과 파국 💥 💀
+    │
+    ▼
+5G NSA 과도기 / 통신사 투자금 아끼려고 앞단 안테나만 5G로 껍데기 세우고 뇌는 LTE(EPC) 쇳덩이 재활용 짬뽕 ➔ 폰 양다리 배터리 타 죽고 핑 널뛰기 발광
+    │
+    ▼
+5G SA SBA 클라우드 융합 대관식 🚀 / 낡은 LTE 쇳덩이 영구 소각! 100% K8s 도커 컨테이너 마이크로서비스 앱으로 뇌(5GC)를 허공에 무한 복제 띄워 록온 ✨
+    │
+    ▼
+HTTP/2 REST API + JSON 대통합 / 통신 아재들의 낡은 전용 프로토콜 쓰레기통 처박고 ➔ 1,000만 웹 코더가 쓰는 오픈 인터넷 언어로 글로벌 IT 융합 흡수 합병
+    │
+    ▼
+6G 자율 제어 통신망 (Autonomous Network) 미래 / AI 딥러닝 봇(NWDAF)이 심장에 쳐박혀 ➔ 24시간 내내 인간 개입 0% 없이 지 맘대로 트래픽 밸런싱 스케일 아웃 오토 힐링 자동 자가 호흡 변태 스위칭 달성
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

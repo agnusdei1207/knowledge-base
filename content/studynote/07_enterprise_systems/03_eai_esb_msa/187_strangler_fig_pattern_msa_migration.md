@@ -33,20 +33,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 점진적 전환 구조를 요약한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Progressive routing envelope</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Users -&gt; API Gateway -&gt; /account/* -------------&gt; Monolith</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ /review/* ---------------&gt; Review Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ /catalog/* --------------&gt; Catalog Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ /payment/* --------------&gt; Payment Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Legacy DB ---- CDC / events ----&gt; Service DBs ----&gt; Metrics / Trace</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Progressive routing envelope                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ Users -> API Gateway -> /account/* -------------> Monolith          │
+│                    ├─ /review/* ---------------> Review Service     │
+│                    ├─ /catalog/* --------------> Catalog Service    │
+│                    └─ /payment/* --------------> Payment Service    │
+│                                                                      │
+│ Legacy DB ---- CDC / events ----> Service DBs ----> Metrics / Trace │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 기술 요소는 경계 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 관측성, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이다. 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 여전히 레거시 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 직접 공유하면 배포만 분리되었을 뿐 진짜 독립성은 생기지 않는다. 그래서 점진적 전환에서는 [변경 데이터 캡처](/knowledge-base/studynote/12_it_management/05_security_compliance/218_cdc_change_data_capture/) ([Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)), 이벤트 발행, 읽기 전용 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최소화 같은 기법이 함께 논의된다.
 
@@ -130,23 +128,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 유지보수 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">API 게이트웨이 / 퍼사드 배치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기능 단위 추출과 점진적 라우팅</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 분리 · CDC · 관측성 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레거시 기능 폐기와 MSA 전환 완료</div>
-</div>
-</div>
-
-
+```text
+모놀리식 유지보수 한계
+        │
+        ▼
+API 게이트웨이 / 퍼사드 배치
+        │
+        ▼
+기능 단위 추출과 점진적 라우팅
+        │
+        ▼
+데이터 분리 · CDC · 관측성 강화
+        │
+        ▼
+레거시 기능 폐기와 MSA 전환 완료
+```
 
 이 흐름은 "전면 교체"가 아니라 "경계 장악 → 기능 추출 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 독립 → 레거시 은퇴"로 이어지는 현대화 순서를 보여 준다.
 

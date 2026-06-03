@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)([Low-Power Wide-Area Network](/knowledge-base/studynote/03_network/12_iot_wpan_edge/615_lpwan_low_power_wide_area_network/))은 수 km 이상의 넓은 지역에 배터리로 10년 이상 동작하는 수백만 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기를 연결하기 위해 설계된 저전력 광역 통신 기술 군()이다.
+> 1. **본질**: [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)([Low-Power Wide-Area Network](/knowledge-base/studynote/03_network/12_iot_wpan_edge/615_lpwan_low_power_wide_area_network/))은 수 km 이상의 넓은 지역에 배터리로 10년 이상 동작하는 수백만 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기를 연결하기 위해 설계된 저전력 광역 통신 기술 군(群)이다.
 > 2. **가치**: 비면허 대역 기반의 LoRaWAN·Sigfox는 독립 인프라로 자유 구축이 가능하며, 면허 대역 기반의 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)·[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M은 기존 이동통신 망을 활용해 신뢰도와 이동성을 보장한다.
 > 3. **판단 포인트**: 고정 저빈도 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(검침, 환경 모니터링)엔 LoRaWAN이나 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/), 이동 중 음성·중속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(반려동물 추적, 웨어러블)엔 [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/)([eMTC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/))이 최적이다.
 
@@ -36,25 +36,24 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LPWAN 기술 분류 체계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비면허(Unlicensed)</div><div class="kb-diagram-cell">면허(Licensed)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoRaWAN</div><div class="kb-diagram-cell">NB-IoT (Narrowband IoT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CSS(Chirp Spread</div><div class="kb-diagram-cell">- 3GPP Release 13</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spectrum) 변조</div><div class="kb-diagram-cell">- LTE 보호대역(200kHz) 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Star-of-Stars 토폴로지</div><div class="kb-diagram-cell">- 최대 200kbps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전송 범위 2~15km</div><div class="kb-diagram-cell">- PSM/eDRX 초저전력 모드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sigfox</div><div class="kb-diagram-cell">LTE-M (eMTC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- UNB(Ultra Narrow Band)</div><div class="kb-diagram-cell">- 3GPP Release 13</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최대 140 메시지/일</div><div class="kb-diagram-cell">- 이동성 + 음성(VoLTE) 지원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 12 바이트 페이로드 한계</div><div class="kb-diagram-cell">- 최대 1Mbps</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────┐
+│                 LPWAN 기술 분류 체계                        │
+├──────────────────────────┬────────────────────────────────┤
+│    비면허(Unlicensed)      │       면허(Licensed)            │
+├──────────────────────────┼────────────────────────────────┤
+│  LoRaWAN                 │  NB-IoT (Narrowband IoT)       │
+│  - CSS(Chirp Spread       │  - 3GPP Release 13             │
+│    Spectrum) 변조          │  - LTE 보호대역(200kHz) 활용    │
+│  - Star-of-Stars 토폴로지  │  - 최대 200kbps               │
+│  - 전송 범위 2~15km        │  - PSM/eDRX 초저전력 모드       │
+│                          │                                │
+│  Sigfox                  │  LTE-M (eMTC)                  │
+│  - UNB(Ultra Narrow Band)│  - 3GPP Release 13             │
+│  - 최대 140 메시지/일       │  - 이동성 + 음성(VoLTE) 지원    │
+│  - 12 바이트 페이로드 한계  │  - 최대 1Mbps                  │
+└──────────────────────────┴────────────────────────────────┘
+```
 
 ### [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 기술 상세 비교표
 

@@ -20,25 +20,23 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 Spark Streaming은 입력을 짧은 주기의 RDD로 변환하여 스파크 코어 엔진으로 전달합니다.
 
+```text
+[ Spark Streaming Micro-batch Architecture ]
 
+   (Input Stream)        (Spark Streaming)        (Spark Core)
+   Kafka/Flume/S3           Receiver               Engine
+   ~~~~~~~~~~~~~~       +---------------+       +-----------+
+   Data Flow (t)  --->  | Micro-batch 1 | ----> | RDD (t)   |
+   ~~~~~~~~~~~~~~       | (1 second)    |       +-----------+
+                        +---------------+       +-----------+
+                        | Micro-batch 2 | ----> | RDD (t+1) |
+                        | (1 second)    |       +-----------+
+                        +---------------+
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Streaming Micro-batch Architecture</div></div>
-<div class="kb-diagram-note">(Input Stream) (Spark Streaming) (Spark Core)</div>
-<div class="kb-diagram-note">Kafka/Flume/S3 Receiver Engine</div>
-<div class="kb-diagram-note">~~~~~~~~~~~~~~ +---------------+ +-----------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Flow (t) ---&gt;</div><div class="kb-diagram-cell">Micro-batch 1</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">RDD (t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">~~~~~~~~~~~~~~</div><div class="kb-diagram-cell">(1 second)</div><div class="kb-diagram-cell">+-----------+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Micro-batch 2</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">RDD (t+1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1 second)</div><div class="kb-diagram-cell">+-----------+</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DStream Definition</div></div>
-<div class="kb-diagram-note">DStream = Sequence of RDDs (t, t+1, t+2, ...)</div>
-<div class="kb-diagram-note">* Operation: DStream.map() internally calls RDD.map() for each batch.</div>
-</div>
-</div>
-
-
+[ DStream Definition ]
+DStream = Sequence of RDDs (t, t+1, t+2, ...)
+* Operation: DStream.map() internally calls RDD.map() for each batch.
+```
 
 **핵심 원리:**
 1. **Receiver:** 워커 노드에서 실행되며 외부 소스로부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집해 메모리에 저장하고 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하여 안정성 확보.
@@ -69,23 +67,21 @@ Spark Streaming은 빅데이터 [배치 처리](/knowledge-base/studynote/13_clo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">배치 처리(Spark Core)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 배치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Streaming(DStream)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Structured Streaming</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 분석 파이프라인</div></div>
-</div>
-</div>
-
-
+```text
+[배치 처리(Spark Core)]
+    │
+    ▼
+[마이크로 배치]
+    │
+    ▼
+[Spark Streaming(DStream)]
+    │
+    ▼
+[Structured Streaming]
+    │
+    ▼
+[실시간 분석 파이프라인]
+```
 
 Spark Streaming은 배치 중심 Spark에서 마이크로 배치와 DStream, Structured Streaming으로 진화했다.
 

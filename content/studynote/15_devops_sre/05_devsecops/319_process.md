@@ -25,20 +25,18 @@ tags = ["studynote-devops-sre"]
 
 Blameless Postmortem은 "시스템이 왜 그 실수를 가능하게 했는가?"를 묻는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blameless vs Blame 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blame Culture</div><div class="kb-diagram-cell">Blameless Culture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"누가 잘못?"</div><div class="kb-diagram-cell">"시스템 어디가 취약?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개인 처벌</div><div class="kb-diagram-cell">시스템 개선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 은폐</div><div class="kb-diagram-cell">투명한 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복 장애</div><div class="kb-diagram-cell">재발 방지 액션 이행</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│             Blameless vs Blame 비교                 │
+│                                                     │
+│  Blame Culture     │  Blameless Culture             │
+│  ─────────────── │  ─────────────────────────     │
+│  "누가 잘못?"     │  "시스템 어디가 취약?"         │
+│  개인 처벌        │  시스템 개선                   │
+│  장애 은폐        │  투명한 공유                   │
+│  반복 장애        │  재발 방지 액션 이행            │
+└─────────────────────────────────────────────────────┘
+```
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > 비행기 사고 조사는 조종사를 처벌하지 않고 항공 시스템 전체를 개선한다 — Blameless Postmortem이 같은 철학이다.
@@ -65,21 +63,15 @@ Blameless Postmortem은 "시스템이 왜 그 실수를 가능하게 했는가?"
 
 **5-Why 기법**:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">왜 서비스가 다운됐나?</div>
-<div class="kb-diagram-note">→ DB 연결 풀이 고갈됐다</div>
-<div class="kb-diagram-note">→ 왜? 쿼리 타임아웃 설정이 없었다</div>
-<div class="kb-diagram-note">→ 왜? 코드 리뷰 체크리스트에 타임아웃 항목이 없었다</div>
-<div class="kb-diagram-note">→ 왜? Runbook에 DB 설정 가이드가 없었다</div>
-<div class="kb-diagram-note">→ 왜? 스테이징 환경에서 부하 테스트를 안 했다</div>
-<div class="kb-diagram-note">→ 근본 원인: 부하 테스트 자동화 미비</div>
-</div>
-</div>
-
-
+```
+왜 서비스가 다운됐나?
+→ DB 연결 풀이 고갈됐다
+→ 왜? 쿼리 타임아웃 설정이 없었다
+→ 왜? 코드 리뷰 체크리스트에 타임아웃 항목이 없었다
+→ 왜? Runbook에 DB 설정 가이드가 없었다
+→ 왜? 스테이징 환경에서 부하 테스트를 안 했다
+→ 근본 원인: 부하 테스트 자동화 미비
+```
 
 근본 원인은 보통 "프로세스·도구·설계의 구조적 약점"이다.
 
@@ -121,19 +113,13 @@ Postmortem 리뷰:
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Blameless Postmortem</div>
-<div class="kb-diagram-tree-item" style="--depth:2">5-Why / Fish-bone → 근본 원인 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:2">타임라인 → 장애 흐름 재구성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">액션 아이템 → 재발 방지 트래킹</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Postmortem 저장소 → 조직 학습·지식 공유</div>
-</div>
-</div>
-
-
+```
+Blameless Postmortem
+    ├── 5-Why / Fish-bone → 근본 원인 분석
+    ├── 타임라인 → 장애 흐름 재구성
+    ├── 액션 아이템 → 재발 방지 트래킹
+    └── Postmortem 저장소 → 조직 학습·지식 공유
+```
 
 > 🧒 **어린이 비유**
 > 모래성이 무너지면 "네가 잘못 쌓았어!" 하지 않고 "파도가 언제 치는지 몰랐구나, 다음엔 더 뒤에 짓자"라고 말하는 것이 Blameless예요.

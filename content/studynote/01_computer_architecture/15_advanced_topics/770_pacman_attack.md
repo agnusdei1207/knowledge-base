@@ -45,21 +45,24 @@ PAC [비트](/knowledge-base/studynote/01_computer_architecture/02_data_represen
 
 아래 그림은 PACMAN이 fault를 직접 내지 않고 "캐시 흔적"으로 정답을 묻는 방식을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PACMAN speculative PAC oracle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">attacker-controlled pointer + guessed PAC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AUT* verification</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">transient window before architectural trap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ correct guess ─▶ cache line touched</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ wrong guess ─▶ no useful cache effect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">timing probe reveals whether guess was accepted</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ PACMAN speculative PAC oracle                                     │
+├────────────────────────────────────────────────────────────────────┤
+│ attacker-controlled pointer + guessed PAC                         │
+│                  │                                                 │
+│                  ▼                                                 │
+│             AUT* verification                                      │
+│                  │                                                 │
+│       transient window before architectural trap                   │
+│          │                                  │                      │
+│          ├─ correct guess ─▶ cache line touched                    │
+│          └─ wrong guess   ─▶ no useful cache effect                │
+│                  │                                                 │
+│                  ▼                                                 │
+│        timing probe reveals whether guess was accepted            │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 즉 PACMAN은 "틀리면 즉시 크래시"라는 PAC의 장점을 "틀려도 조용히 흔적만 남기고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)"으로 뒤집는다. 다만 여기서 얻는 것은 PAC 자체의 유효 여부이지, 임의의 코드 실행이 자동으로 따라오는 것은 아니다. 실제 악용에는 여전히 포인터를 원하는 위치에 배치하는 메모리 손상, 쓸 만한 gadget, 적절한 권한 경계가 함께 필요하다.
 
@@ -129,23 +132,21 @@ PACMAN을 계기로 얻는 실무적 효과는 제어 흐름 [보호](/knowledge
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 손상 취약점</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PAC (Pointer Authentication Code)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PACMAN speculative PAC oracle</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PAC 우회 가능성 + control-flow hijack 발판</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PAC + BTI + MTE + speculation barrier</div>
-</div>
-</div>
-
-
+```text
+메모리 손상 취약점
+        │
+        ▼
+PAC (Pointer Authentication Code)
+        │
+        ▼
+PACMAN speculative PAC oracle
+        │
+        ▼
+PAC 우회 가능성 + control-flow hijack 발판
+        │
+        ▼
+PAC + BTI + MTE + speculation barrier
+```
 
 이 흐름은 "포인터 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 도입"에서 끝나지 않고, "[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정 자체의 transient 안전성"까지 검토 범위가 확장되는 과정을 보여 준다.
 

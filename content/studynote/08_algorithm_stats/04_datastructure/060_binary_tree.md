@@ -20,25 +20,23 @@ tags = ["datastructure", "studynote-algorithm"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 이진 트리는 루트(Root), 부모(Parent), 자식(Child), 리프(Leaf) 노드로 구성되며, 순회(Traversal)를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리한다.
 
+```text
+[ Binary Tree Structure: Hierarchy ]
 
+          ( Root: A )
+           /       \
+       ( B )       ( C )
+       /   \           \
+    ( D ) ( E )       ( F: Leaf )
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Binary Tree Structure: Hierarchy</div></div>
-<div class="kb-diagram-note">( Root: A )</div>
-<div class="kb-diagram-note">( B ) ( C )</div>
-<div class="kb-diagram-note">( D ) ( E ) ( F: Leaf )</div>
-<div class="kb-diagram-note">1. Root: 트리의 최상위 노드</div>
-<div class="kb-diagram-note">2. Level/Height: 트리의 깊이와 높이</div>
-<div class="kb-diagram-note">3. Degree: 자식 노드의 개수 (최대 2)</div>
-<div class="kb-diagram-note">4. Traversal (순회):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Pre-order (전위): Root -&gt; L -&gt; R</div>
-<div class="kb-diagram-tree-item" style="--depth:1">In-order (중위): L -&gt; Root -&gt; R</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Post-order (후위): L -&gt; R -&gt; Root</div>
-</div>
-</div>
-
-
+1. Root: 트리의 최상위 노드
+2. Level/Height: 트리의 깊이와 높이
+3. Degree: 자식 노드의 개수 (최대 2)
+4. Traversal (순회): 
+   - Pre-order (전위): Root -> L -> R
+   - In-order (중위): L -> Root -> R
+   - Post-order (후위): L -> R -> Root
+```
 
 **[주요 트리의 종류]**
 *   **포화 이진 트리 (Full Binary Tree)**: 모든 레벨이 꽉 찬 트리.
@@ -70,23 +68,21 @@ tags = ["datastructure", "studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트리 (Tree) — 비선형 계층 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 트리 (Binary Tree) — 최대 자식 2개</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 트리 (BST, Binary Search Tree)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">균형 이진 트리 (AVL / Red-Black Tree)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B-트리 / B+트리 (B-Tree) — 데이터베이스 인덱스</div></div>
-</div>
-</div>
-
-
+```text
+[트리 (Tree) — 비선형 계층 구조]
+    │
+    ▼
+[이진 트리 (Binary Tree) — 최대 자식 2개]
+    │
+    ▼
+[이진 탐색 트리 (BST, Binary Search Tree)]
+    │
+    ▼
+[균형 이진 트리 (AVL / Red-Black Tree)]
+    │
+    ▼
+[B-트리 / B+트리 (B-Tree) — 데이터베이스 인덱스]
+```
 
 트리 자료구조가 기본 이진 트리에서 탐색 최적화와 균형 유지를 위한 고급 변형으로 발전한 흐름이다.
 

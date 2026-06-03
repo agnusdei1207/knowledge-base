@@ -43,29 +43,31 @@ tags = ["studynote-it-management"]
 
 아래 그림은 콜드 사이트에서 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 어디에서 소비되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cold site recovery chain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary site</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / DB / Files</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">backup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Off-site backup vault</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tape / object storage / immutable copy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cold site facility</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">racks + power + cooling + network only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaster declared</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; procure hardware</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; install OS / middleware</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; restore data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; validate security / DNS / VPN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; resume service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bottlenecks: supplier SLA / restore bandwidth / runbook quality</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Cold site recovery chain                                            │
+├──────────────────────────────────────────────────────────────────────┤
+│ Primary site                                                        │
+│   App / DB / Files                                                  │
+│      │ backup                                                       │
+│      ▼                                                              │
+│ Off-site backup vault                                               │
+│   tape / object storage / immutable copy                            │
+│      │                                                              │
+│      ▼                                                              │
+│ Cold site facility                                                  │
+│   racks + power + cooling + network only                            │
+│                                                                      │
+│ Disaster declared                                                   │
+│   -> procure hardware                                               │
+│   -> install OS / middleware                                        │
+│   -> restore data                                                   │
+│   -> validate security / DNS / VPN                                  │
+│   -> resume service                                                 │
+│                                                                      │
+│ Bottlenecks: supplier SLA / restore bandwidth / runbook quality     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 [Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))는 마지막 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시점에 의해 결정되고, [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))는 조달·설치·복원 시간이 합쳐져 결정된다. 그래서 콜드 사이트는 같은 시설이라도 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기와 공급 계약 조건에 따라 품질이 크게 달라진다. 시설은 같아 보여도 준비 수준은 전혀 다를 수 있다.
 
@@ -153,23 +155,21 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business Impact Analysis</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RTO / RPO 등급화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">짧은 복구 필요 -&gt; Hot / Warm Site</div>
-<div class="kb-diagram-tree-item" style="--depth:2">긴 복구 허용 -&gt; Cold Site</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Off-site backup + supplier contract + runbook</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Restore drill and cloud backup-restore evolution</div>
-</div>
-</div>
-
-
+```text
+Business Impact Analysis
+    │
+    ▼
+RTO / RPO 등급화
+    │
+    ├─ 짧은 복구 필요 -> Hot / Warm Site
+    └─ 긴 복구 허용 -> Cold Site
+    │
+    ▼
+Off-site backup + supplier contract + runbook
+    │
+    ▼
+Restore drill and cloud backup-restore evolution
+```
 
 이 흐름은 콜드 사이트가 단독 기술이 아니라, 업무 영향 분석과 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 위에서 선택되는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)임을 보여 준다.
 

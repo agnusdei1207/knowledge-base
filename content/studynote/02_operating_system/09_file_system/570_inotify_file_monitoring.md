@@ -30,31 +30,35 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a> 무한 대기 vs <code>inotify</code> 이벤트 핸들링 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭쇄 뷰</strong>:
 동일한 앱이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 변경을 감지하려 들 때, 서버 I/O 부하가 어떻게 극단적으로 갈리는지 그 렌더 체계를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"100만 번 허탕 치는 바보와, 단 1번의 귓속말로 일어나는 천재의 차이!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">모델 A: 전통적 Polling 무지성 감시 (stat() 무한 루프 장벽 늪)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 앱 (VScode)</div><div class="kb-diagram-node">OS 커널 VFS</div><div class="kb-diagram-node">디스크 (test.c)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"바뀌었어?" ──(호출 빔!)──&gt; 확인 (아니?) ──(응답)──&gt; (아니...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"지금은?" ──(호출 빔!)──&gt; 확인 (아니?) ──(응답)──&gt; (아니...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1시간 동안 CPU 100% 터트리며 백만 번 허탕 랙 발현! 배터리 광탈 파단!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">모델 B: inotify 구동 시스템 (Event-Driven 잠수 록백 ❗)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 센서 부착 빔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 유저 앱: "커널아! <code>test.c</code> 에 IN_MODIFY 센서 부착하고 나 잘게!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 수면 모드 CPU 0% 쾌조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 유저 앱: (Zzz... CPU 점유 0% 완전 대기 Block 상태 스왑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 커널 봇: (VFS 뱃속에서 조용히 <code>test.c</code>만 주시 중)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">3단계: 이벤트 폭발! 누군가 파일 수정 발생 타격!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 침입자 앱: <code>test.c</code> 파일 1줄 추가 저장 (vfs_write 발동!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 커널 봇: "야! 낚싯대 흔들린다! 이벤트 포착!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 커널 봇이 즉시 유저 앱을 번쩍 깨움 (Signal / Poll 틱 타격 록백 빔!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 유저 앱: "오! 컴파일 시작!" 0.001초만에 대응하는 $O(1)$ 초고속 스루풋!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "100만 번 허탕 치는 바보와, 단 1번의 귓속말로 일어나는 천재의 차이!" │
+  ├──────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                      │
+  │  🚨 [ 모델 A: 전통적 Polling 무지성 감시 (stat() 무한 루프 장벽 늪) ]                │
+  │     [유저 앱 (VScode)]         [OS 커널 VFS]             [디스크 (test.c)]           │
+  │       "바뀌었어?" ──(호출 빔!)──> 확인 (아니?) ──(응답)──>  (아니...)                │
+  │       "지금은?"  ──(호출 빔!)──> 확인 (아니?) ──(응답)──>  (아니...)                 │
+  │       (1시간 동안 CPU 100% 터트리며 백만 번 허탕 랙 발현! 배터리 광탈 파단!)         │
+  │                                                                                      │
+  │  =========================▼===================================                       │
+  │                                                                                      │
+  │  🔥 [ 모델 B: inotify 구동 시스템 (Event-Driven 잠수 록백 ❗) ]                      │
+  │                                                                                      │
+  │     [1단계: 센서 부착 빔]                                                            │
+  │     => 유저 앱: "커널아! `test.c` 에 IN_MODIFY 센서 부착하고 나 잘게!"               │
+  │                                                                                      │
+  │     [2단계: 수면 모드 CPU 0% 쾌조]                                                   │
+  │     => 유저 앱: (Zzz... CPU 점유 0% 완전 대기 Block 상태 스왑)                       │
+  │     => 커널 봇: (VFS 뱃속에서 조용히 `test.c`만 주시 중)                             │
+  │                                                                                      │
+  │  ✅ [3단계: 이벤트 폭발! 누군가 파일 수정 발생 타격! ]                               │
+  │     => 침입자 앱: `test.c` 파일 1줄 추가 저장 (vfs_write 발동!)                      │
+  │     => 커널 봇: "야! 낚싯대 흔들린다! 이벤트 포착!"                                  │
+  │     => 커널 봇이 즉시 유저 앱을 번쩍 깨움 (Signal / Poll 틱 타격 록백 빔!)           │
+  │     => 유저 앱: "오! 컴파일 시작!" 0.001초만에 대응하는 $O(1)$ 초고속 스루풋!        │
+  └──────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라우드 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시스템 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Dropbox, Google Drive)의 코어 뼈대 엔진이다. 앱은 자기가 직접 `stat`을 찔러보는 노동을 멈추고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 `inode` 바닥층(Subsystem)에게 "나비효과 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)" 를 걸었다. 누군가가 무심코 `vfs_write` 시스템콜을 치는 순간, 그 내부 뱃속 톱니바퀴에서 `fsnotify` 훅이 같이 딸려 돌아가며 앱에게 `event` 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 통신을 날려주는 극강 자율 통치 조율 도출.
 
@@ -134,19 +138,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스파스 파일 (Sparse File) 저장 공간 절약 기술</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 inotify 시스템 (Inotify File Monitoring)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보호 (Protection) vs 보안 (Security)의 개념 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보호 도메인 (Protection Domain)</div></div>
-</div>
-</div>
-
-
+```text
+[스파스 파일 (Sparse File) 저장 공간 절약 기술]
+    │
+    ▼
+[리눅스 inotify 시스템 (Inotify File Monitoring)]
+    │
+    ├──▶ [보호 (Protection) vs 보안 (Security)의 개념 차이]
+    └──▶ [보호 도메인 (Protection Domain)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
@@ -154,7 +154,7 @@ tags = ["studynote-operating-system"]
 
 1. 멍청한 엄마(일반 무식한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 상태 관찰 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 루프 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 늪!)는 방에 도둑(해커 프로그램 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수정 빔!) 이 들어오나 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하려고, 10분마다 하던 요리 불을 끄고 방어 가서 방문을 덜컥 열어보고 "비었네?", আবার 10분 뒤에 방문 열어보고 "비었네?" 하며 체력이 방전(CPU 타임 I/O Waste 멸망 랙!) होकर 쓰러져 아무 일도 못하는 파산을 야기했어요 덜덜 에러!
 2. 그래서 똑똑한 최신 아키텍트 건축가 로봇이 <strong>"스마트 문 열림 <a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 센서 빔! inotify 레이더망 마법 홀로그램!(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> 이벤트 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 통치 록백!)"</strong> 마법을 결속해 줬어요! 엄마는 그냥 문에 쪼그만 자석 센서(Watch Descriptor 감시 할당 록백!) 하나를 달아놔요. 그리고 소파에 편하게 코 골고 누워 잠을 잡니다. 도둑이 방문을 드르륵 여는 순간 0.1초 만에 스마트폰이 "삐용삐용!"(이벤트 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 스피드!) 울리게 되고, 엄마는 그때만 번쩍 눈을 떠서 프라이팬으로 패버리는 돈(CPU 소모율 컷!) 한 푼도 안 쓰고 거대한 방어망 껍데기를 창조해요 도출!
-3. 치명적 슬픔 단독 센서의 끔찍한 한계 물량 대참사 폭발 발생! 앗! 이 영원한 책장 센서 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 마법에도 끔찍한 모순 단점이 있어요. 만약 방이 1개가 아니라, 50만 개의 박스가 겹겹이 쌓인 창고(node_modules 자바스크립트 프로젝트 늪!) 라면? 엄마가 센서를 50만 개나 사와서([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) RAM 고갈 오링 멸망 파단!) 문마다 다 붙이다가 파산해서 쓰러져버려요(ENOSPC 시스템 한계 에러!). 그래서 현명한 엄마는 "쓰레기 폴더 구역은 레이더 감시 포기!(Ignore 옵션 튜닝 랙!)" 하는 속편한 제어 타협(Trade-off 지옥 결사 파단!)을 영원히 감당해야 하는 마법의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 튜브랍니다. 진화 랙!
+3. 치명적 슬픔 단독 센서의 끔찍한 한계 수량 대참사 폭발 발생! 앗! 이 영원한 책장 센서 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 마법에도 끔찍한 모순 단점이 있어요. 만약 방이 1개가 아니라, 50만 개의 박스가 겹겹이 쌓인 창고(node_modules 자바스크립트 프로젝트 늪!) 라면? 엄마가 센서를 50만 개나 사와서([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) RAM 고갈 오링 멸망 파단!) 문마다 다 붙이다가 파산해서 쓰러져버려요(ENOSPC 시스템 한계 에러!). 그래서 현명한 엄마는 "쓰레기 폴더 구역은 레이더 감시 포기!(Ignore 옵션 튜닝 랙!)" 하는 속편한 제어 타협(Trade-off 지옥 결사 파단!)을 영원히 감당해야 하는 마법의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 튜브랍니다. 진화 랙!
 
 ---
 

@@ -30,23 +30,28 @@ tags = ["studynote-software-engineering"]
 
   수동 릴리스 환경에서 발생하는 병목과 커뮤니케이션 오버헤드를 시각화하면, 왜 자동화가 선택이 아닌 생존의 문제인지 명확해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD 도입 전: 수작업 통합과 배포의 "병목 지옥"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">개발완료 (1개월) ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">개발완료 (1개월) ─ ─▶ "통합의 날 (Merge Day)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수동 병합)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">개발완료 (1개월) ─ │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수많은 충돌과 버그 폭발 (수주 소요)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영팀/옵스</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ "여기 빌드 파일이요, 배포 매뉴얼대로 해주세요"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 수동 스크립트 실행 ─▶ 설정 누락 ─▶ 프로덕션 장애 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 배포 리드 타임 장기화, 인간 에러(Human Error) 극대화</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         CI/CD 도입 전: 수작업 통합과 배포의 "병목 지옥"          │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [개발자 A] ─▶ 개발완료 (1개월) ─┐                            │
+  │                                │                            │
+  │  [개발자 B] ─▶ 개발완료 (1개월) ─┼─▶ "통합의 날 (Merge Day)"   │
+  │                                │        (수동 병합)         │
+  │  [개발자 C] ─▶ 개발완료 (1개월) ─┘             │               │
+  │                                             ▼               │
+  │                         [수많은 충돌과 버그 폭발 (수주 소요)] │
+  │                                             │               │
+  │                                             ▼               │
+  │  [운영팀/옵스] ◀─ "여기 빌드 파일이요, 배포 매뉴얼대로 해주세요"  │
+  │       │                                                     │
+  │       └─▶ 수동 스크립트 실행 ─▶ 설정 누락 ─▶ 프로덕션 장애 발생 │
+  │                                                             │
+  │  ─────────────────────────────────────────────────────────  │
+  │   결과: 배포 리드 타임 장기화, 인간 에러(Human Error) 극대화       │
+  └─────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 이 도식은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 선언 이전의 전통적인 개발 팀이 겪던 치명적 안티패턴을 보여준다. 개발 주기가 길어 코드를 모아서 한 번에 병합하려다 보니 '통합 지옥'에 빠지게 된다. 간신히 통합에 성공해도, 개발 환경과 운영 환경의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 차이([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/))로 인해 운영팀이 수동 배포를 진행하다가 장애를 유발한다. 개발자는 "내 로컬에선 되는데 운영팀이 잘못 배포했다"고 비난하고, 운영팀은 "개발자가 엉터리 코드를 던졌다"고 맞서는 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 현상이 팽배했다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 이 두 조직 사이의 '벽'을 허물어 자동화된 다리([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))를 놓는 철학적, 기술적 해결책이다.
 
@@ -143,30 +148,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI/CD 지속적 통합, 배포 파이프라인 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+CI/CD 지속적 통합, 배포 파이프라인 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

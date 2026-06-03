@@ -27,24 +27,23 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 활용</strong>: 어차피 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템에서는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 맘대로 꼬아놔도 매핑 테이블만 연결하면 된다. 굳이 똑같은 가상 주소를 줄 필요가 없다는 것을 깨달았다.
   3. **ASLR의 표준화**: 2001년 Linux 패치를 시작으로, 2007년 Windows Vista, 2011년 iOS/Mac까지 전 세계 모든 범용 OS가 ASLR을 기본 켜짐(Default On)으로 강제하며 메모리 해킹의 난이도를 수백 배 끌어올렸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASLR (무작위 배치) 활성화 전후의 메모리 레이아웃 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ASLR OFF (과거의 낡은 OS: 해커들의 놀이터)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">실행 1차:</div><div class="kb-diagram-node">코드 0x400</div><div class="kb-diagram-node">데이터 0x600</div><div class="kb-diagram-note">......</div><div class="kb-diagram-node">스택 0x7FF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">실행 2차:</div><div class="kb-diagram-node">코드 0x400</div><div class="kb-diagram-node">데이터 0x600</div><div class="kb-diagram-note">......</div><div class="kb-diagram-node">스택 0x7FF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 해커 왈: "야, 0x400 번지에 악성코드 점프시키면 100% 뚫림 ㅋㅋ"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ASLR ON (현대의 OS: 예측 불허의 방어막)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">실행 1차:</div><div class="kb-diagram-node">코드 0x51A</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">데이터 0x82C</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">스택 0x9FA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">실행 2차:</div><div class="kb-diagram-node">코드 0x24B</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">데이터 0x55D</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">스택 0xA1C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 해커 왈: "어디로 점프해야 돼? 주소가 다 바뀌었어 멘붕..."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 해커가 0x400으로 찔러봄 -&gt; 없는 주소네? -&gt; Segmentation Fault!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│        ASLR (무작위 배치) 활성화 전후의 메모리 레이아웃 비교      │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│ [ ASLR OFF (과거의 낡은 OS: 해커들의 놀이터) ]                    │
+│  실행 1차: [코드 0x400] [데이터 0x600] ...... [스택 0x7FF]        │
+│  실행 2차: [코드 0x400] [데이터 0x600] ...... [스택 0x7FF]        │
+│  ▶ 해커 왈: "야, 0x400 번지에 악성코드 점프시키면 100% 뚫림 ㅋㅋ" │
+│                                                                   │
+│ [ ASLR ON (현대의 OS: 예측 불허의 방어막) ]                       │
+│  실행 1차: [코드 0x51A] ... [데이터 0x82C] ... [스택 0x9FA]       │
+│  실행 2차: [코드 0x24B] ... [데이터 0x55D] ... [스택 0xA1C]       │
+│  ▶ 해커 왈: "어디로 점프해야 돼? 주소가 다 바뀌었어 멘붕..."      │
+│  ▶ 해커가 0x400으로 찔러봄 -> 없는 주소네? -> Segmentation Fault! │
+└───────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 가상 주소 공간이라는 광활한 사막에 텐트(세그먼트)를 무작위로 쳐버리는 기법이다. 공격자가 특정 함수(예: 쉘을 실행하는 `execve`)의 메모리 주소를 알지 못하면, 악성 코드를 심어놓고 거기로 점프시킬 타겟을 잃어버린다. 찍어서 맞출 확률은 64비트 시스템에서 수억 분의 1로 떨어지므로 사실상 찍기 해킹([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/))을 물리적으로 불가능하게 만든다.
 
 - **📢 섹션 요약 비유**: 전쟁터에서 장군(핵심 코드)의 지휘 통제소가 매일 같은 언덕(고정 주소)에 있으면 적의 포격([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)) 한 방에 전멸하지만, 매일 밤 텐트의 위치를 산속 무작위 위치로 몰래 옮겨버리면(ASLR) 적은 포탄을 어디다 쏴야 할지 몰라 허공에 포탄만 날리게(SegFault) 됩니다.
@@ -95,18 +94,15 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. <stron
 2. **2차전**: 해커가 천재적인 꼼수를 냈다. "[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 실행이 안 되면, 램에 이미 깔려있는 윈도우 기본 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`kernel32.dll`)의 `system()` 함수 조각조각들의 주소를 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 리턴 주소에 이어 붙여서([ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/)) 악성 코드를 조립해 버리자!" (해킹 대성공)
 3. **3차전**: 방어 측 멘붕. "저 [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) 공격을 막으려면 윈도우 기본 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 주소를 해커가 아예 모르게 해야 해!" -> **이때 ASLR이 구원투수로 등판한다.** 매번 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`dll`, `so`)를 켤 때마다 주소를 수억 개의 난수로 섞어버렸다. 해커는 `system()` 함수의 주소가 어디 있는지 몰라 [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) 퍼즐 조각을 잃어버리고 완패했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어 기법</div><div class="kb-diagram-cell">오버플로우 방어</div><div class="kb-diagram-cell">쉘코드 실행 차단</div><div class="kb-diagram-cell">ROP(퍼즐) 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack Canary</div><div class="kb-diagram-cell">🟢 1차 튕김</div><div class="kb-diagram-cell">❌ 못 막음</div><div class="kb-diagram-cell">❌ 못 막음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NX Bit</div><div class="kb-diagram-cell">❌ 못 막음</div><div class="kb-diagram-cell">🟢 하드웨어 차단</div><div class="kb-diagram-cell">❌ 우회당함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASLR</div><div class="kb-diagram-cell">❌ 못 막음</div><div class="kb-diagram-cell">❌ 못 막음</div><div class="kb-diagram-cell">🟢 원천 차단</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────┐
+│ 방어 기법  │ 오버플로우 방어│ 쉘코드 실행 차단│ ROP(퍼즐) 차단 │
+├──────────┼────────────┼────────────┼───────────────────────────┤
+│ Stack Canary│ 🟢 1차 튕김 │ ❌ 못 막음   │ ❌ 못 막음          │
+│ NX Bit   │ ❌ 못 막음   │ 🟢 하드웨어 차단│ ❌ 우회당함        │
+│ **ASLR** │ ❌ 못 막음   │ ❌ 못 막음   │ **🟢 원천 차단**      │
+└──────────┴────────────┴────────────┴───────────────────────────┘
+```
 **[매트릭스 해설]** 어느 하나의 기술만으로는 완벽한 보안이 불가능하다. 입력 길이를 검사하는 카나리아([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)), 실행을 금지하는 NX [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 주소를 숨기는 ASLR 이 세 가지 방패가 융합([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/))되었을 때 비로소 현대의 철통같은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 샌드박스가 완성된다.
 
 - **📢 섹션 요약 비유**: 해커가 남의 총(기존 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드)을 훔쳐 쏘려([ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) 공격) 할 때, 총의 방아쇠를 뽑아버리는 게([NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/)) 아니라, 아예 매일 밤 총을 무작위 무기고(ASLR)에 숨겨버려서 해커가 총을 찾다가 날 새게 만드는 고도의 숨바꼭질 방어 전술입니다.
@@ -164,19 +160,15 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. <stron
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARM / x86의 메모리 매핑 아키텍처 차이</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 보호 키 (Memory Protection Keys)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 인식 데이터 구조 (Cache-aware Data Structures)</div></div>
-</div>
-</div>
-
-
+```text
+[ARM / x86의 메모리 매핑 아키텍처 차이]
+    │
+    ▼
+[주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]
+    │
+    ├──▶ [메모리 보호 키 (Memory Protection Keys)]
+    └──▶ [캐시 인식 데이터 구조 (Cache-aware Data Structures)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

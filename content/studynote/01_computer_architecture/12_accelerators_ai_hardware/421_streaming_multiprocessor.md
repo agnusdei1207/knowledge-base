@@ -44,21 +44,25 @@ SM 내부를 볼 때 핵심은 "무엇이 계산하고, 무엇이 기다림을 �
 
 아래 그림은 하나의 [스레드 블록](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/422_thread_block_and_warp/)이 SM에 올라와 워프로 쪼개지고, 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생기면 다른 워프로 교체되는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SM 내부 실행 흐름: "멈춘 워프 대신 다른 워프"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread Block 배치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warp 0 Warp 1 Warp 2 Warp 3 ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warp Scheduler / Issue Logic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Ready Warp ▶ CUDA Core / Tensor Core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Waiting Warp (DRAM) ▶ 보류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared Memory / Register File</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│                SM 내부 실행 흐름: "멈춘 워프 대신 다른 워프"       │
+├─────────────────────────────────────────────────────────────────────┤
+│ Thread Block 배치                                                  │
+│      │                                                             │
+│      ▼                                                             │
+│ Warp 0   Warp 1   Warp 2   Warp 3  ...                             │
+│   │        │        │        │                                     │
+│   └────────┴────┬───┴────────┘                                     │
+│                 ▼                                                   │
+│        Warp Scheduler / Issue Logic                                │
+│          ├─ Ready Warp ───────────────▶ CUDA Core / Tensor Core    │
+│          └─ Waiting Warp (DRAM) ──────▶ 보류                        │
+│                                    ▲                                │
+│                                    │                                │
+│                 Shared Memory / Register File                       │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 CPU식 문맥 교체를 하지 않는다는 점이다. 워프의 상태는 이미 SM 내부 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 머물러 있으므로, 어떤 워프가 전역 메모리인 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)을 기다리면 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 다른 워프로 넘어가면 된다. 이때 필요한 조건이 바로 충분한 점유율이다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 너무 많이 쓰거나 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)를 과도하게 예약하면 SM에 동시에 올릴 수 있는 워프 수가 줄어들고, 결국 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨길 대기열이 얇아진다.
 
@@ -143,23 +147,22 @@ SM 아키텍처의 가장 큰 효과는 GPU를 대규모 [병렬](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">그래픽 셰이더용 병렬 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SM (Streaming Multiprocessor)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">워프 (Warp) · SIMT (Single Instruction Multiple Threads)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">공유 메모리 (Shared Memory) · 점유율 (Occupancy)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">텐서 코어 (Tensor Core) 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI·HPC 중심의 이기종 가속 아키텍처</div>
-</div>
-</div>
-
-
+```text
+그래픽 셰이더용 병렬 실행
+        │
+        ▼
+SM (Streaming Multiprocessor)
+        │
+        ├─ 워프 (Warp) · SIMT (Single Instruction Multiple Threads)
+        │
+        ├─ 공유 메모리 (Shared Memory) · 점유율 (Occupancy)
+        │
+        ▼
+텐서 코어 (Tensor Core) 통합
+        │
+        ▼
+AI·HPC 중심의 이기종 가속 아키텍처
+```
 
 이 흐름은 SM이 단순 그래픽 실행 단위를 넘어, 범용 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속의 중심 단위로 확장된 과정을 보여준다.
 

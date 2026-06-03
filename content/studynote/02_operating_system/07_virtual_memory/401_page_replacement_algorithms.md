@@ -31,26 +31,26 @@ tags = ["studynote-operating-system"]
   2. <strong>이론적 한계점 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/">OPT</a>)</strong>: "미래를 안다면 완벽할 텐데..."라는 기준점을 세움.
   3. **지역성(Locality)의 발견**: "가까운 과거에 쓴 놈은 곧 또 쓴다"는 법칙을 깨닫고, 과거의 빈도([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))나 최근 사용 시점([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))을 추적하는 똑똑한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 진화함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 교체 알고리즘의 목표: Page Fault 횟수 최소화 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 램 프레임 3개 / 호출 스트링: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 멍청한 알고리즘 (예: FIFO)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">까지 꽉 참.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'4'가 들어오려 할 때 제일 오래된 '1'을 버림.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">상태가 됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앗! 바로 다음 호출이 '1'이네? 또 '2'를 버리고 '1'을 가져옴! (폴트 폭발)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 똑똑한 알고리즘 (예: LRU/OPT)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">꽉 찬 상태에서 '4'가 올 때,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"1은 1초 뒤에 또 부르니까 절대 안 돼! 아까 쓴 '2'를 버리자!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-node">4</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">상태가 됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그다음 호출 '1'이 들어올 때? 어, 램에 이미 있네! (Hit 적중!)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│        페이지 교체 알고리즘의 목표: Page Fault 횟수 최소화 시각화         │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│ [ 상황: 램 프레임 3개 / 호출 스트링: 1 -> 2 -> 3 -> 4 -> 1 ]              │
+│                                                                           │
+│ ▶ 멍청한 알고리즘 (예: FIFO)                                              │
+│   [1] [2] [3] 까지 꽉 참.                                                 │
+│   '4'가 들어오려 할 때 제일 오래된 '1'을 버림.                            │
+│   [4] [2] [3] 상태가 됨.                                                  │
+│   앗! 바로 다음 호출이 '1'이네? 또 '2'를 버리고 '1'을 가져옴! (폴트 폭발) │
+│                                                                           │
+│ ▶ 똑똑한 알고리즘 (예: LRU/OPT)                                           │
+│   [1] [2] [3] 꽉 찬 상태에서 '4'가 올 때,                                 │
+│   "1은 1초 뒤에 또 부르니까 절대 안 돼! 아까 쓴 '2'를 버리자!"            │
+│   [1] [4] [3] 상태가 됨.                                                  │
+│   그다음 호출 '1'이 들어올 때? 어, 램에 이미 있네! (Hit 적중!)            │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 짧은 예시가 모든 걸 말해준다. OS의 단 한 번의 판단 미스가 연쇄적인 폴트(Cascade Fault)를 낳는다. "누구를 버릴 것인가"는 결국 "누가 가장 오랫동안 내게 필요 없을 것인가"라는 치열한 통계적 미래 예측 게임이다.
 
 - **📢 섹션 요약 비유**: 냉장고(램)가 꽉 찼을 때 새 반찬(새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 넣기 위해, 유통기한이 제일 오래 남은 반찬을 버리는 게 아니라 "우리 식구가 제일 안 먹을 것 같은 반찬"을 귀신같이 골라내서 버리는 엄마의 눈썰미가 바로 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다.
@@ -109,17 +109,14 @@ tags = ["studynote-operating-system"]
 - 램이 모자라서 쫓아내야 할 때, LFU는 카운트가 100밖에 안 되는 `Draw()` 함수를 쫓아낸다!
 - 정작 `Init()`은 초기화 끝나서 영원히 안 쓸 쓰레기인데 카운트가 10000이라서 램에 영원히 알박기를 해버린다. 이 치명적인 맹점 때문에 카운팅 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 교과서에서나 배우고 실제 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에선 쓰이지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 요소</div><div class="kb-diagram-cell">LRU (최근)</div><div class="kb-diagram-cell">LFU (빈도)</div><div class="kb-diagram-cell">Clock (근사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">찌꺼기 처리</div><div class="kb-diagram-cell">완벽 (즉시 버림)</div><div class="kb-diagram-cell">최악 (알박기 함)</div><div class="kb-diagram-cell">훌륭 (서서히 버림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 짐</div><div class="kb-diagram-cell">무거움 (시간 기록)</div><div class="kb-diagram-cell">무거움 (숫자 더함)</div><div class="kb-diagram-cell">가벼움 (비트 1개)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────────┐
+│ 평가 요소  │ LRU (최근)  │ LFU (빈도)  │ Clock (근사)                     │
+├──────────┼────────────┼────────────┼──────────────────────────────────────┤
+│ 찌꺼기 처리│ 완벽 (즉시 버림)│ 최악 (알박기 함)│ 훌륭 (서서히 버림)       │
+│ 하드웨어 짐│ 무거움 (시간 기록)│ 무거움 (숫자 더함)│ **가벼움 (비트 1개)**│
+└──────────┴────────────┴────────────┴──────────────────────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 세계에서 "과거의 기억(Time)"이 "과거의 누적 횟수(Frequency)"를 이긴 대표적인 사례다. 그리고 그 무거운 시간 기록조차 버리고, "최근에 썼어(1) 안 썼어(0)?"라는 극단적 흑백 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))로 최적화한 것이 공학의 승리다.
 
 - **📢 섹션 요약 비유**: 옷장 정리할 때 "내가 이 옷을 살면서 총 100번 입었지([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))" 하며 고집부리는 사람은 유행 지난 촌스러운 옷을 평생 못 버립니다. 반면 "이 옷 안 입은 지 1년 넘었네([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))" 하며 쿨하게 버리는 사람이 옷장을 항상 트렌디([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))하게 유지합니다.
@@ -175,19 +172,15 @@ MySQL의 InnoDB 스토리지 엔진은 단순한 LRU를 쓰지 않는다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지역 교체 (Local Replacement)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 교체 알고리즘 (Page Replacement Algorithms)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최적 교체 알고리즘 (OPT, Optimal)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">벨라디의 모순 (Belady's Anomaly)</div></div>
-</div>
-</div>
-
-
+```text
+[지역 교체 (Local Replacement)]
+    │
+    ▼
+[페이지 교체 알고리즘 (Page Replacement Algorithms)]
+    │
+    ├──▶ [최적 교체 알고리즘 (OPT, Optimal)]
+    └──▶ [벨라디의 모순 (Belady's Anomaly)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

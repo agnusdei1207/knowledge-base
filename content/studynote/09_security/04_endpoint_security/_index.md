@@ -23,21 +23,27 @@ tags = ["security"]
 
 이 그림은 엔드포인트에서 작동하는 다중 보안 모듈의 계층 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Endpoint Security Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User / Application</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLP / DRM</div><div class="kb-diagram-cell">──▶ 콘텐츠 암호화 및 유출 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EDR / AV</div><div class="kb-diagram-cell">──▶ 실시간 행위 감시 및 백신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Patch Mgmt</div><div class="kb-diagram-cell">──▶ OS 및 앱 보안 취약점 자동 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Media Ctrl</div><div class="kb-diagram-cell">──▶ USB, 카메라, 블루투스 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Operating System (Kernel)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Hardware / TPM</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Endpoint Security Architecture              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ User / Application ]                                    │
+│          │                                                  │
+│   ┌──────▼──────┐                                           │
+│   │ DLP / DRM   │ ──▶ 콘텐츠 암호화 및 유출 차단            │
+│   ├─────────────┤                                           │
+│   │ EDR / AV    │ ──▶ 실시간 행위 감시 및 백신              │
+│   ├─────────────┤                                           │
+│   │ Patch Mgmt  │ ──▶ OS 및 앱 보안 취약점 자동 업데이트    │
+│   ├─────────────┤                                           │
+│   │ Media Ctrl  │ ──▶ USB, 카메라, 블루투스 제어            │
+│   └──────┬──────┘                                           │
+│          │                                                  │
+│   [ Operating System (Kernel) ] ◀──▶ [ Hardware / TPM ]     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '통합 에이전트'의 효율성이다. 너무 많은 보안 프로그램이 돌면 단말 속도가 느려지므로, 하나의 가벼운 에이전트가 여러 기능을 동시에 수행하는 **EPP (Endpoint Protection Platform)** 아키텍처가 선호된다. 실무에서는 이러한 에이전트들의 정상 작동 여부를 중앙에서 감시하는 <strong>무결성 점검</strong>이 필수적이다.
 
@@ -68,20 +74,23 @@ tags = ["security"]
 
 이 구조도는 기업용 단말 관리 플랫폼인 <strong>UEM (Unified Endpoint Management)</strong>의 통합 관리 체계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UEM: Unified Management Center</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Central Admin Console</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Windows PC</div><div class="kb-diagram-node">macOS</div><div class="kb-diagram-node">Mobile</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS Patching - Inventory - Container (BYOD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Soft Install - Policy Enforce - Remote Wipe</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 서로 다른 기종의 단말을 단일 정책으로 조율</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 UEM: Unified Management Center              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Central Admin Console ]                                 │
+│          │                                                  │
+│   ┌──────┴───────────────┬───────────────────┐              │
+│   ▼                      ▼                   ▼              │
+│ [ Windows PC ]        [ macOS ]           [ Mobile ]        │
+│ - OS Patching         - Inventory         - Container (BYOD)│
+│ - Soft Install        - Policy Enforce    - Remote Wipe     │
+│                                                             │
+│   * 핵심: 서로 다른 기종의 단말을 단일 정책으로 조율       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '가시성 (Inventory)'이다. 우리 회사에 어떤 기기가 몇 대 있는지, 어떤 소프트웨어가 깔려 있는지 모르면 보안은 불가능하다. 실무에서는 특히 개인 기기를 업무에 쓰는 **BYOD (Bring Your Own Device)** 환경에서 개인 영역과 업무 영역을 논리적으로 분리하는 **컨테이너화** 기술이 핵심이다.
 
@@ -127,20 +136,22 @@ tags = ["security"]
 
 이 도식은 데이터 유출 사고 발생 시 기술사가 지휘해야 할 'DLP 대응 프로세스'를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLP Incident Response Workflow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Movement Detected</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Policy Matching</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Violation) ▼ (Normal)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Block &amp; Log</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Evidence Collection</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pass</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(캡처, 파일복사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Admin Alert</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">User Feedback / Disciplinary</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               DLP Incident Response Workflow                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Data Movement Detected ] ──▶ [ Policy Matching ]        │
+│                                           │                 │
+│          ┌────────────────────────────────┴──────┐          │
+│          ▼ (Violation)                           ▼ (Normal) │
+│   [ Block & Log ] ──▶ [ Evidence Collection ] ──▶ [ Pass ]  │
+│          │                   (캡처, 파일복사)               │
+│          ▼                                                  │
+│   [ Admin Alert ] ──▶ [ User Feedback / Disciplinary ]      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 엔드포인트 설계는 '개인용 스마트 금고'를 나누어 주는 것과 같습니다. 쓰기 편해야 하지만(사용성), 금고가 낡으면(패치 관리) 즉시 교체해주고, 주인이 엉뚱한 마음을 먹지 않는지(내부자 관리)를 세심하게 살피는 전문가입니다.
 

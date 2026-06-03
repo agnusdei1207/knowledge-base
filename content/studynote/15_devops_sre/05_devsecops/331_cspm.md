@@ -29,25 +29,28 @@ CSPM은 이런 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_metho
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSPM 동작 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 API (AWS/Azure/GCP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설정 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSPM 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CIS Benchmark 비교 평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 드리프트 감지 (기준선 대비 변경 탐지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 위험 우선순위화 (심각/높음/중간/낮음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Auto-Remediation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알림(Alert) -&gt; 승인 -&gt; 자동 수정 (Terraform/CLI)</div></div>
-</div>
-</div>
-
-
+```text
++----------------------------------------------------------+
+|                    CSPM 동작 흐름                          |
++----------------------------------------------------------+
+|                                                          |
+|  클라우드 API (AWS/Azure/GCP)                             |
+|       | 설정 수집                                        |
+|       v                                                  |
+|  +--------------------------------------------------+    |
+|  |  CSPM 엔진                                       |    |
+|  |  - CIS Benchmark 비교 평가                       |    |
+|  |  - 드리프트 감지 (기준선 대비 변경 탐지)          |    |
+|  |  - 위험 우선순위화 (심각/높음/중간/낮음)           |    |
+|  +--------------------------------------------------+    |
+|       |                                                  |
+|       v                                                  |
+|  +--------------------------------------------------+    |
+|  |  Auto-Remediation                                |    |
+|  |  알림(Alert) -> 승인 -> 자동 수정 (Terraform/CLI) |    |
+|  +--------------------------------------------------+    |
++----------------------------------------------------------+
+```
 
 주요 탐지 항목:
 - S3 버킷 퍼블릭 접근 허용
@@ -121,19 +124,14 @@ CSPM의 핵심 가치는 <strong>"알고 있는 것(Known)을 자동으로 검�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 컴플라이언스 감사 CSPM 등장 현대 CSPM</div>
-<div class="kb-diagram-note">분기별 수동 점검 -&gt; 클라우드 설정 자동 스캔 -&gt; Agentless 실시간 탐지</div>
-<div class="kb-diagram-note">스프레드시트 관리 CIS Benchmark 자동화 Risk Graph 연동</div>
-<div class="kb-diagram-note">Capital One 같은 사고 Drift Detection AI 기반 이상 탐지</div>
-<div class="kb-diagram-note">Auto-Remediation 도입 CNAPP으로 통합</div>
-</div>
-</div>
-
-
+```text
+수동 컴플라이언스 감사         CSPM 등장                  현대 CSPM
+------------------   --------------------------   ------------------------
+분기별 수동 점검     ->  클라우드 설정 자동 스캔    ->  Agentless 실시간 탐지
+스프레드시트 관리        CIS Benchmark 자동화          Risk Graph 연동
+Capital One 같은 사고    Drift Detection               AI 기반 이상 탐지
+                          Auto-Remediation 도입          CNAPP으로 통합
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -18,24 +18,23 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BDD 시나리오 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature: 로그인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scenario: 올바른 비밀번호로 로그인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Given 사용자 "홍길동"이 등록되어 있다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When 아이디 "hong"과 비밀번호 "1234"로 로그인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Then 대시보드 페이지가 표시된다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scenario: 잘못된 비밀번호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Given 사용자 "홍길동"이 등록되어 있다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When 아이디 "hong"과 비밀번호 "wrong"으로 로그인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Then "비밀번호가 틀립니다" 메시지가 표시된다</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    BDD 시나리오 예시                                  │
+├───────────────────────────────────────────────────────┤
+│  Feature: 로그인                                      │
+│                                                       │
+│  Scenario: 올바른 비밀번호로 로그인                   │
+│    Given 사용자 "홍길동"이 등록되어 있다              │
+│    When 아이디 "hong"과 비밀번호 "1234"로 로그인     │
+│    Then 대시보드 페이지가 표시된다                    │
+│                                                       │
+│  Scenario: 잘못된 비밀번호                            │
+│    Given 사용자 "홍길동"이 등록되어 있다              │
+│    When 아이디 "hong"과 비밀번호 "wrong"으로 로그인  │
+│    Then "비밀번호가 틀립니다" 메시지가 표시된다       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: BDD는 연극의 <strong>대본(시나리오)</strong>이다. 감독(PO)·배우(개발자)·관객(QA) 모두가 같은 대본을 보고 연습(테스트)한다.
 
@@ -93,23 +92,21 @@ BDD는 <strong>"살아있는 문서(Living <a href="/knowledge-base/studynote/04
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TDD (Kent Beck, 2003)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BDD (Dan North, 2006) — Given/When/Then</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cucumber (2008) — BDD 자동화 대표</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Living Documentation (2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI BDD — 자연어 요구사항 → 자동 시나리오 생성</div></div>
-</div>
-</div>
-
-
+```text
+[TDD (Kent Beck, 2003)]
+    │
+    ▼
+[BDD (Dan North, 2006) — Given/When/Then]
+    │
+    ▼
+[Cucumber (2008) — BDD 자동화 대표]
+    │
+    ▼
+[Living Documentation (2015~)]
+    │
+    ▼
+[현재: AI BDD — 자연어 요구사항 → 자동 시나리오 생성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. BDD는 연극 <strong>대본(시나리오)</strong>이에요. "만약 이러면, 이렇게 하면, 이런 결과가 나와야 해!"

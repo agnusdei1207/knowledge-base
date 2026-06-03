@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 
 이 미분학의 기초 원리(테일러 전개)를 딥러닝 해석에 끌고 온 것이 바로 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/">LIME</a></strong>이다. LIME은 딥러닝 모델의 복잡한 뇌를 건드리지 않는다. 대신 김철수 씨의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(나이 30, 연봉 5천) 근처에 수백 명의 가짜 철수들(나이 31, 연봉 4천 등)을 무작위로 살짝 비틀어 만들어내고(노이즈 주입), 이를 블랙박스 모델에 통과시킨 뒤 나온 점수들을 점 찍어 가장 단순하고 투명한 선형 회귀(Linear Regression) 직선을 하나 대충 그어버린다. 그리고 그 직선의 기울기를 보고 "아, 철수 씨는 연봉 변수가 -30%의 타격을 줘서 대출이 거절됐네요"라고 영수증을 끊어주는 기적의 1회성 마술사다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 알프스산맥(딥러닝 모델 전체)은 구불구불하고 거대해서 한눈에 지도(해석)를 그릴 수 없다. 하지만 내가 서 있는 딱 1평짜리 땅바닥(Local)만 돋보기로 쳐다보면, 그 땅은 완벽하게 평평한 아스팔트 평면(선형 회귀 모델)처럼 보인다. LIME은 산맥 전체를 그리는 바보짓을 포기하고, 딱 내가 서 있는 그 평평한 1평 바닥에만 기울기 잣대를 대고 "아, 왼쪽으로 갈수록 땅이 꺼지네(연봉 변수 하락 시 대출 거절)"라고 1초 만에 브리핑해 주는 실용주의의 극치다.
 
@@ -45,27 +42,26 @@ tags = ["studynote-ai"]
 
 LIME의 셜록 홈즈식 추리 아키텍처는 블랙박스 내부를 열어보지 않고 외부 자극을 통해 반응을 살피는 '사후 해석(Post-hoc)' 및 '모델 독립적(Model-Agnostic)' [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 교과서다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LIME의 1회성 꼼수 대리 모델(Surrogate) 추론 파이프라인 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 딱 하나의 문제 상황 발생 (Local Instance)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력(X): 고양이 사진 ─▶ 블랙박스 딥러닝 ─▶ "이건 99% 늑대야!" (오답 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목표: "딥러닝아, 도대체 사진 어디를 보고 늑대라고 우기는 거야?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 포토샵 지우개로 살짝살짝 가려보기 (Perturbation / Sampling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LIME 에이전트가 고양이 사진을 100조각(Super-pixel)으로 토막 냄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 눈을 지운 사진, 꼬리를 지운 사진, 하얀 뒷배경을 지운 가짜 사진 1,000장을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만들어서 블랙박스에 마구 던져넣고 점수 변화를 기록함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 국소적 대리 모델 (Local Surrogate Model) 구축 및 형광펜 칠하기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* "어? 하얀 뒷배경(눈 밭) 조각을 지우고 넣으니까 '늑대 확률'이 10%로 떡락하네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LIME: (투명한 선형 방정식 계산) ─▶ "이 바보 딥러닝은 동물의 얼굴은 안 보고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뒷배경 하얀 눈밭 픽셀에만 +80% 가중치 멱살이 잡혀있습니다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 화면에 하얀 눈밭 부분만 시뻘겋게 열화상(Heatmap) 색칠해서 뱉어냄.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           LIME의 1회성 꼼수 대리 모델(Surrogate) 추론 파이프라인 도해  │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 딱 하나의 문제 상황 발생 (Local Instance)]                     │
+│   * 입력(X): 고양이 사진 ─▶ 블랙박스 딥러닝 ─▶ "이건 99% 늑대야!" (오답 발생)│
+│   * 목표: "딥러닝아, 도대체 사진 어디를 보고 늑대라고 우기는 거야?"          │
+│                                                              │
+│  [2. 포토샵 지우개로 살짝살짝 가려보기 (Perturbation / Sampling)]    │
+│   * LIME 에이전트가 고양이 사진을 100조각(Super-pixel)으로 토막 냄.        │
+│   * 눈을 지운 사진, 꼬리를 지운 사진, 하얀 뒷배경을 지운 가짜 사진 1,000장을    │
+│     만들어서 블랙박스에 마구 던져넣고 점수 변화를 기록함.                    │
+│                                                              │
+│  [3. 국소적 대리 모델 (Local Surrogate Model) 구축 및 형광펜 칠하기] │
+│   * "어? 하얀 뒷배경(눈 밭) 조각을 지우고 넣으니까 '늑대 확률'이 10%로 떡락하네?"│
+│   * LIME: (투명한 선형 방정식 계산) ─▶ "이 바보 딥러닝은 동물의 얼굴은 안 보고,│
+│            뒷배경 하얀 눈밭 픽셀에만 +80% 가중치 멱살이 잡혀있습니다!"        │
+│   * 결과: 화면에 하얀 눈밭 부분만 시뻘겋게 열화상(Heatmap) 색칠해서 뱉어냄.   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 근접 샘플링과 선형 대리 모델)</strong>:
 LIME의 위대함은 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Perturbation)를 아무렇게나 뿌리는 게 아니라, 원본 김철수 씨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 비슷한 놈들에겐 높은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(가까운 거리)를 주고, 많이 다르게 찌그러진 놈들에겐 낮은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 줘서 거리를 조율한다는 데 있다. 이 무작위 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1,000개의 점수를 바탕으로 딥러닝 모델의 복잡한 곡선 표면에 딱 달라붙는 '단순한 일차 함수 직선(Ridge Regression 등)'을 하나 세운다. 직선 모델은 계수(Coefficient)만 보면 누가 멱살을 잡았는지 초등학생도 알 수 있는 완벽한 투명 화이트박스이므로, XAI의 목적이 즉각 달성되는 것이다.

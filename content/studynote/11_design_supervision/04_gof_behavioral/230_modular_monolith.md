@@ -18,25 +18,23 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
+```
+전통 모놀리스의 문제:
+  ┌──────────────────────────────────────────────┐
+  │  단일 코드베이스 — 스파게티 의존성              │
+  │  모든 코드가 서로 참조 가능                     │
+  │  → 수정 시 전체 영향도 예측 불가                │
+  └──────────────────────────────────────────────┘
 
+MSA의 오버킬:
+  ├─ 네트워크 레이턴시 (서비스 간 HTTP/gRPC)
+  ├─ 분산 트랜잭션의 복잡성 (Saga, 2PC)
+  ├─ 서비스 디스커버리, API Gateway 운영
+  ├─ 복수의 DB 관리
+  └─ 소규모 팀에게는 운영 부담이 기능 개발 시간 초과
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 모놀리스의 문제:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 코드베이스 — 스파게티 의존성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 코드가 서로 참조 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 수정 시 전체 영향도 예측 불가</div></div>
-<div class="kb-diagram-note">MSA의 오버킬:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">네트워크 레이턴시 (서비스 간 HTTP/gRPC)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">분산 트랜잭션의 복잡성 (Saga, 2PC)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">서비스 디스커버리, API Gateway 운영</div>
-<div class="kb-diagram-tree-item" style="--depth:1">복수의 DB 관리</div>
-<div class="kb-diagram-tree-item" style="--depth:1">소규모 팀에게는 운영 부담이 기능 개발 시간 초과</div>
-<div class="kb-diagram-note">적절한 중간 지점: Modular Monolith</div>
-</div>
-</div>
-
-
+적절한 중간 지점: Modular Monolith
+```
 
 - **Shopify**: Ruby on Rails 모놀리스를 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화하여 수십억 달러 규모 유지
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a></strong>: 대부분을 모놀리스로 운영하며 초당 수백만 페이지뷰 처리
@@ -47,26 +45,33 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modular Monolith</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단일 배포, 단일 프로세스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Public API 계층 (모듈 공개 인터페이스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 모듈</div><div class="kb-diagram-cell">결제 모듈</div><div class="kb-diagram-cell">배송 모듈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Order BC)</div><div class="kb-diagram-cell">(Payment BC)</div><div class="kb-diagram-cell">(Delivery BC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 모델</div><div class="kb-diagram-cell">도메인 모델</div><div class="kb-diagram-cell">도메인 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스</div><div class="kb-diagram-cell">서비스</div><div class="kb-diagram-cell">서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레포지토리</div><div class="kb-diagram-cell">레포지토리</div><div class="kb-diagram-cell">레포지토리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">[내부 클래스</div><div class="kb-diagram-cell">[내부 클래스</div><div class="kb-diagram-cell">[내부 클래스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 참조</div><div class="kb-diagram-cell">직접 참조</div><div class="kb-diagram-cell">직접 참조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">금지!]</div><div class="kb-diagram-cell">금지!]</div><div class="kb-diagram-cell">금지!]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 DB (스키마 격리 또는 별도 스키마)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│                    Modular Monolith                            │
+│                (단일 배포, 단일 프로세스)                        │
+│                                                                │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │              Public API 계층 (모듈 공개 인터페이스)        │   │
+│  └─────────────────────────────────────────────────────────┘   │
+│         │                  │                  │                │
+│         ▼                  ▼                  ▼                │
+│  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐         │
+│  │   주문 모듈  │   │   결제 모듈  │   │   배송 모듈  │         │
+│  │  (Order BC) │   │ (Payment BC)│   │(Delivery BC)│         │
+│  │             │   │             │   │             │         │
+│  │  도메인 모델 │   │  도메인 모델 │   │  도메인 모델 │         │
+│  │  서비스     │   │  서비스     │   │  서비스     │         │
+│  │  레포지토리 │   │  레포지토리 │   │  레포지토리 │         │
+│  │  [내부 클래스│   │  [내부 클래스│   │  [내부 클래스│         │
+│  │   직접 참조 │   │   직접 참조 │   │   직접 참조 │         │
+│  │   금지!]    │   │   금지!]    │   │   금지!]    │         │
+│  └─────────────┘   └─────────────┘   └─────────────┘         │
+│         │                  │                  │                │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │              공유 DB (스키마 격리 또는 별도 스키마)          │  │
+│  └──────────────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────────┘
+```
 
 | 원칙 | 설명 |
 |:---|:---|
@@ -135,25 +140,21 @@ public class ModuleBoundaryTest {
 }
 ```
 
+```
+Phase 1: Modular Monolith 구축
+  - DDD로 Bounded Context 식별
+  - 각 BC를 모듈로 구현 (명확한 Public API)
+  - 모듈 간 이벤트 기반 통신 설계
 
+Phase 2: 병목/분리 필요 모듈 식별
+  - 성능 병목 모듈 → 먼저 분리 검토
+  - 독립 배포 요구 모듈 → MSA 전환 후보
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Phase 1: Modular Monolith 구축</div>
-<div class="kb-diagram-tree-item" style="--depth:1">DDD로 Bounded Context 식별</div>
-<div class="kb-diagram-tree-item" style="--depth:1">각 BC를 모듈로 구현 (명확한 Public API)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">모듈 간 이벤트 기반 통신 설계</div>
-<div class="kb-diagram-note">Phase 2: 병목/분리 필요 모듈 식별</div>
-<div class="kb-diagram-tree-item" style="--depth:1">성능 병목 모듈 → 먼저 분리 검토</div>
-<div class="kb-diagram-tree-item" style="--depth:1">독립 배포 요구 모듈 → MSA 전환 후보</div>
-<div class="kb-diagram-note">Phase 3: 선택적 MSA 전환</div>
-<div class="kb-diagram-tree-item" style="--depth:1">준비된 모듈부터 별도 서비스로 추출</div>
-<div class="kb-diagram-tree-item" style="--depth:1">나머지는 모놀리스 유지 (Strangler Fig 패턴)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">점진적 MSA 전환 (빅뱅 전환 방지)</div>
-</div>
-</div>
-
-
+Phase 3: 선택적 MSA 전환
+  - 준비된 모듈부터 별도 서비스로 추출
+  - 나머지는 모놀리스 유지 (Strangler Fig 패턴)
+  - 점진적 MSA 전환 (빅뱅 전환 방지)
+```
 
 | 함정 | 설명 | 방지책 |
 |:---|:---|:---|

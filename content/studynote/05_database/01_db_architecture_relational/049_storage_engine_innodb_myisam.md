@@ -18,42 +18,40 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 스토리지 엔진 개요
 
+```
+스토리지 엔진 (Storage Engine):
+  MySQL/MariaDB의 데이터 저장·검색 담당 컴포넌트
+  테이블 단위로 엔진 선택 가능
 
+MySQL 아키텍처:
+  클라이언트
+      ↓
+  SQL 파서 / 옵티마이저 (공통)
+      ↓
+  스토리지 엔진 API (공통 인터페이스)
+      ↓
+  InnoDB | MyISAM | Memory | CSV | ...
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스토리지 엔진 (Storage Engine):</div>
-<div class="kb-diagram-note">MySQL/MariaDB의 데이터 저장·검색 담당 컴포넌트</div>
-<div class="kb-diagram-note">테이블 단위로 엔진 선택 가능</div>
-<div class="kb-diagram-note">MySQL 아키텍처:</div>
-<div class="kb-diagram-note">클라이언트</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SQL 파서 / 옵티마이저 (공통)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">스토리지 엔진 API (공통 인터페이스)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">InnoDB</div><div class="kb-diagram-cell">MyISAM</div><div class="kb-diagram-cell">Memory</div><div class="kb-diagram-cell">CSV</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-note">주요 스토리지 엔진:</div>
-<div class="kb-diagram-note">InnoDB: 기본값, OLTP 범용</div>
-<div class="kb-diagram-note">MyISAM: 레거시, 읽기 전용</div>
-<div class="kb-diagram-note">Memory (Heap): 메모리 테이블, 임시</div>
-<div class="kb-diagram-note">CSV: CSV 파일 연동</div>
-<div class="kb-diagram-note">Blackhole: 데이터 버림 (로그 중계)</div>
-<div class="kb-diagram-note">Archive: 압축 저장, 대용량 로그</div>
-<div class="kb-diagram-note">Spider: 분산 DB 파티셔닝</div>
-<div class="kb-diagram-note">TokuDB/RocksDB: 고압축 + 쓰기 최적화</div>
-<div class="kb-diagram-note">테이블별 엔진 지정:</div>
-<div class="kb-diagram-note">CREATE TABLE orders (</div>
-<div class="kb-diagram-note">id INT PRIMARY KEY,</div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-note">) ENGINE=InnoDB;</div>
-<div class="kb-diagram-note">CREATE TABLE access_log (</div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-note">) ENGINE=MyISAM;</div>
-</div>
-</div>
+주요 스토리지 엔진:
+  InnoDB: 기본값, OLTP 범용
+  MyISAM: 레거시, 읽기 전용
+  Memory (Heap): 메모리 테이블, 임시
+  CSV: CSV 파일 연동
+  Blackhole: 데이터 버림 (로그 중계)
+  Archive: 압축 저장, 대용량 로그
+  Spider: 분산 DB 파티셔닝
+  TokuDB/RocksDB: 고압축 + 쓰기 최적화
 
-
+테이블별 엔진 지정:
+  CREATE TABLE orders (
+      id INT PRIMARY KEY,
+      ...
+  ) ENGINE=InnoDB;
+  
+  CREATE TABLE access_log (
+      ...
+  ) ENGINE=MyISAM;
+```
 
 > 📢 **섹션 요약 비유**: 스토리지 엔진 = 창고 관리 방식 — MySQL은 SQL 접수 데스크(파서/[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)). 실제 창고 운영은 엔진마다 다름. InnoDB(정확한 ACID 창고), MyISAM(빠른 읽기 전용 창고)!
 
@@ -109,45 +107,49 @@ InnoDB 핵심 특성:
 
 ## Ⅲ. MyISAM
 
+```
+MyISAM 핵심 특성:
 
+구조 (3파일):
+  tablename.frm: 테이블 정의
+  tablename.MYD: 실제 데이터 (MYData)
+  tablename.MYI: 인덱스 (MYIndex)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MyISAM 핵심 특성:</div>
-<div class="kb-diagram-note">구조 (3파일):</div>
-<div class="kb-diagram-note">tablename.frm: 테이블 정의</div>
-<div class="kb-diagram-note">tablename.MYD: 실제 데이터 (MYData)</div>
-<div class="kb-diagram-note">tablename.MYI: 인덱스 (MYIndex)</div>
-<div class="kb-diagram-note">특성:</div>
-<div class="kb-diagram-note">1. 트랜잭션 없음:</div>
-<div class="kb-diagram-note">COMMIT/ROLLBACK 미지원</div>
-<div class="kb-diagram-note">중간 오류 시 부분 적용 상태 유지</div>
-<div class="kb-diagram-note">(크래시 후 수동 repair 필요)</div>
-<div class="kb-diagram-note">2. 테이블 단위 잠금:</div>
-<div class="kb-diagram-note">INSERT/UPDATE/DELETE 시 테이블 전체 잠금</div>
-<div class="kb-diagram-note">→ 쓰기 중 읽기 불가 (반대도 가능)</div>
-<div class="kb-diagram-note">→ 동시 쓰기 성능 낮음</div>
-<div class="kb-diagram-note">3. 비클러스터드 인덱스:</div>
-<div class="kb-diagram-note">인덱스 파일(MYI)과 데이터 파일(MYD) 분리</div>
-<div class="kb-diagram-note">인덱스 → 데이터 파일 포인터</div>
-<div class="kb-diagram-note">장점: 유연한 인덱스 관리</div>
-<div class="kb-diagram-note">4. 전문 검색 (Full-Text Search):</div>
-<div class="kb-diagram-note">FULLTEXT 인덱스 (MyISAM 전통 강점)</div>
-<div class="kb-diagram-note">(InnoDB도 5.6부터 지원)</div>
-<div class="kb-diagram-note">5. 빠른 COUNT(*):</div>
-<div class="kb-diagram-note">테이블 전체 행 수를 메타데이터에 저장</div>
-<div class="kb-diagram-note">SELECT COUNT(*): O(1) (InnoDB: O(N) 스캔)</div>
-<div class="kb-diagram-note">6. 키 캐시 (Key Cache):</div>
-<div class="kb-diagram-note">인덱스 블록만 캐시 (데이터는 OS 캐시)</div>
-<div class="kb-diagram-note">key_buffer_size 설정</div>
-<div class="kb-diagram-note">적합 사용 사례:</div>
-<div class="kb-diagram-note">읽기 전용 테이블 (참고 데이터)</div>
-<div class="kb-diagram-note">로그 테이블 (쓰기만, 트랜잭션 불필요)</div>
-<div class="kb-diagram-note">전문 검색 (레거시 시스템)</div>
-</div>
-</div>
+특성:
 
+1. 트랜잭션 없음:
+  COMMIT/ROLLBACK 미지원
+  중간 오류 시 부분 적용 상태 유지
+  (크래시 후 수동 repair 필요)
 
+2. 테이블 단위 잠금:
+  INSERT/UPDATE/DELETE 시 테이블 전체 잠금
+  → 쓰기 중 읽기 불가 (반대도 가능)
+  → 동시 쓰기 성능 낮음
+
+3. 비클러스터드 인덱스:
+  인덱스 파일(MYI)과 데이터 파일(MYD) 분리
+  인덱스 → 데이터 파일 포인터
+  
+  장점: 유연한 인덱스 관리
+
+4. 전문 검색 (Full-Text Search):
+  FULLTEXT 인덱스 (MyISAM 전통 강점)
+  (InnoDB도 5.6부터 지원)
+
+5. 빠른 COUNT(*):
+  테이블 전체 행 수를 메타데이터에 저장
+  SELECT COUNT(*): O(1) (InnoDB: O(N) 스캔)
+
+6. 키 캐시 (Key Cache):
+  인덱스 블록만 캐시 (데이터는 OS 캐시)
+  key_buffer_size 설정
+
+적합 사용 사례:
+  읽기 전용 테이블 (참고 데이터)
+  로그 테이블 (쓰기만, 트랜잭션 불필요)
+  전문 검색 (레거시 시스템)
+```
 
 > 📢 **섹션 요약 비유**: MyISAM = 도서관 창고 — 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))과 카드 목록([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 분리. 빠른 책 찾기(읽기). 하지만 책 수정 중엔 도서관 전체 입장 금지(테이블 잠금). [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 없음!
 
@@ -194,47 +196,51 @@ MySQL 버전별 기본 엔진:
 
 ## Ⅴ. 실무 시나리오 — 마이그레이션 및 최적화
 
+```
+MyISAM → InnoDB 마이그레이션:
 
+배경:
+  레거시 MySQL 5.1 시스템
+  MyISAM 테이블 150개
+  빈번한 "Table is marked as crashed" 오류
+  동시 접속 증가로 테이블 잠금 경합 심화
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MyISAM → InnoDB 마이그레이션:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">레거시 MySQL 5.1 시스템</div>
-<div class="kb-diagram-note">MyISAM 테이블 150개</div>
-<div class="kb-diagram-note">빈번한 "Table is marked as crashed" 오류</div>
-<div class="kb-diagram-note">동시 접속 증가로 테이블 잠금 경합 심화</div>
-<div class="kb-diagram-note">마이그레이션 절차:</div>
-<div class="kb-diagram-note">1. 사전 조사:</div>
-<div class="kb-diagram-note">SELECT TABLE_NAME, ENGINE, TABLE_ROWS</div>
-<div class="kb-diagram-note">FROM information_schema.TABLES</div>
-<div class="kb-diagram-note">WHERE TABLE_SCHEMA = 'mydb' AND ENGINE = 'MyISAM';</div>
-<div class="kb-diagram-note">2. 외래 키 제약 검증:</div>
-<div class="kb-diagram-note">자식 테이블에 없는 부모 행 확인</div>
-<div class="kb-diagram-note">(InnoDB 전환 시 외래키 오류 방지)</div>
-<div class="kb-diagram-note">3. ALTER TABLE:</div>
-<div class="kb-diagram-note">ALTER TABLE orders ENGINE=InnoDB;</div>
-<div class="kb-diagram-note">대규모 테이블:</div>
-<div class="kb-diagram-note">pt-online-schema-change (Percona Toolkit)</div>
-<div class="kb-diagram-note">→ 무중단 변환 (쓰기 허용하며 복사)</div>
-<div class="kb-diagram-note">4. innodb_buffer_pool 조정:</div>
-<div class="kb-diagram-note">SET GLOBAL innodb_buffer_pool_size = 8G;</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">Table crash: 0건 (자동 Redo Log 복구)</div>
-<div class="kb-diagram-note">동시 쓰기 성능: +340% (테이블 → 행 잠금)</div>
-<div class="kb-diagram-note">응답시간 P99: 120ms → 35ms</div>
-<div class="kb-diagram-note">InnoDB 추가 최적화:</div>
-<div class="kb-diagram-note">innodb_buffer_pool_instances = 8 (≥8GB일 때)</div>
-<div class="kb-diagram-note">innodb_log_file_size = 1G</div>
-<div class="kb-diagram-note">innodb_flush_log_at_trx_commit = 2 (성능↑, 내구성↓)</div>
-<div class="kb-diagram-note">innodb_io_capacity = 2000 (SSD 기준)</div>
-<div class="kb-diagram-note">PK 설계:</div>
-<div class="kb-diagram-note">UUID 대신 AUTO_INCREMENT → 순차 삽입</div>
-<div class="kb-diagram-note">UUID 필요 시: UUID_TO_BIN() 또는 ULIDv7</div>
-</div>
-</div>
+마이그레이션 절차:
 
+1. 사전 조사:
+  SELECT TABLE_NAME, ENGINE, TABLE_ROWS
+  FROM information_schema.TABLES
+  WHERE TABLE_SCHEMA = 'mydb' AND ENGINE = 'MyISAM';
 
+2. 외래 키 제약 검증:
+  자식 테이블에 없는 부모 행 확인
+  (InnoDB 전환 시 외래키 오류 방지)
+
+3. ALTER TABLE:
+  ALTER TABLE orders ENGINE=InnoDB;
+  
+  대규모 테이블:
+  pt-online-schema-change (Percona Toolkit)
+  → 무중단 변환 (쓰기 허용하며 복사)
+
+4. innodb_buffer_pool 조정:
+  SET GLOBAL innodb_buffer_pool_size = 8G;
+
+결과:
+  Table crash: 0건 (자동 Redo Log 복구)
+  동시 쓰기 성능: +340% (테이블 → 행 잠금)
+  응답시간 P99: 120ms → 35ms
+
+InnoDB 추가 최적화:
+  innodb_buffer_pool_instances = 8  (≥8GB일 때)
+  innodb_log_file_size = 1G
+  innodb_flush_log_at_trx_commit = 2  (성능↑, 내구성↓)
+  innodb_io_capacity = 2000  (SSD 기준)
+  
+  PK 설계:
+  UUID 대신 AUTO_INCREMENT → 순차 삽입
+  UUID 필요 시: UUID_TO_BIN() 또는 ULIDv7
+```
 
 > 📢 **섹션 요약 비유**: MyISAM→InnoDB 마이그레이션 = 구형 수동 금고→디지털 금고 교체 — 수동(MyISAM): 열쇠 분실 시 망가짐(크래시). 디지털(InnoDB): 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 동시 사용 가능. 마이그레이션 후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 3배+!
 
@@ -242,29 +248,23 @@ MySQL 버전별 기본 엔진:
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스토리지 엔진 (Storage Engine)</div>
-<div class="kb-diagram-note">+-- InnoDB</div>
-<div class="kb-diagram-note">+-- ACID 트랜잭션</div>
-<div class="kb-diagram-note">+-- 행 단위 잠금</div>
-<div class="kb-diagram-note">+-- MVCC</div>
-<div class="kb-diagram-note">+-- 클러스터드 인덱스</div>
-<div class="kb-diagram-note">+-- 자동 크래시 복구</div>
-<div class="kb-diagram-note">+-- MyISAM</div>
-<div class="kb-diagram-note">+-- 트랜잭션 없음</div>
-<div class="kb-diagram-note">+-- 테이블 잠금</div>
-<div class="kb-diagram-note">+-- 빠른 COUNT(*)</div>
-<div class="kb-diagram-note">+-- 전문 검색 전통</div>
-<div class="kb-diagram-note">+-- 선택 기준</div>
-<div class="kb-diagram-note">+-- OLTP → InnoDB</div>
-<div class="kb-diagram-note">+-- 읽기 전용 → MyISAM (레거시)</div>
-</div>
-</div>
-
-
+```
+스토리지 엔진 (Storage Engine)
++-- InnoDB
+|   +-- ACID 트랜잭션
+|   +-- 행 단위 잠금
+|   +-- MVCC
+|   +-- 클러스터드 인덱스
+|   +-- 자동 크래시 복구
++-- MyISAM
+|   +-- 트랜잭션 없음
+|   +-- 테이블 잠금
+|   +-- 빠른 COUNT(*)
+|   +-- 전문 검색 전통
++-- 선택 기준
+    +-- OLTP → InnoDB
+    +-- 읽기 전용 → MyISAM (레거시)
+```
 
 ---
 

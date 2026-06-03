@@ -27,25 +27,26 @@ tags = ["studynote-operating-system"]
   2. <strong>가변 분할의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a></strong>: 이를 해결하고자 가변 분할(프로세스 크기 딱 맞춤)을 도입했더니, 이번엔 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 0이 되었으나 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)(External)가 발생해 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 비용이 폭발했다.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>의 타협</strong>: 결국 현대 OS는 메모리를 다시 고정 크기(4KB)로 쪼개는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법으로 돌아왔다. 다만 블록 크기를 아주 작게(4KB) 만들어, 프로세스의 맨 마지막 블록에서만 최대 3.99KB의 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 발생하게끔 통제(Control)하는 타협안을 도출했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내부 단편화(Internal Fragmentation)의 발생 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">할당 정책: 블록 1개의 크기는 무조건 4KB (고정 크기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A의 총 요구 크기: 13KB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 물리 메모리 할당 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 1</div><div class="kb-diagram-note">4KB 꽉 참</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 2</div><div class="kb-diagram-note">4KB 꽉 참</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 3</div><div class="kb-diagram-note">4KB 꽉 참</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 4</div><div class="kb-diagram-note">1KB 사용 +</div><div class="kb-diagram-node">3KB 빈 공간 (내부 단편화 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 프로세스 A는 4개의 프레임(16KB)을 할당받았고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마지막 프레임에서 3KB의 내부 단편화가 발생했다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 이 3KB는 다른 프로그램이 절대 쓸 수 없음!)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│        내부 단편화(Internal Fragmentation)의 발생 메커니즘       │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│ [ 할당 정책: 블록 1개의 크기는 무조건 4KB (고정 크기) ]          │
+│                                                                  │
+│ 프로세스 A의 총 요구 크기: 13KB                                  │
+│                                                                  │
+│ ▶ 물리 메모리 할당 상태                                          │
+│  [ 페이지 1 ] 4KB 꽉 참                                          │
+│  [ 페이지 2 ] 4KB 꽉 참                                          │
+│  [ 페이지 3 ] 4KB 꽉 참                                          │
+│  [ 페이지 4 ] 1KB 사용 + [ 3KB 빈 공간 (내부 단편화 발생) ]      │
+│                                                                  │
+│  결과: 프로세스 A는 4개의 프레임(16KB)을 할당받았고,             │
+│        마지막 프레임에서 3KB의 내부 단편화가 발생했다.           │
+│        (※ 이 3KB는 다른 프로그램이 절대 쓸 수 없음!)             │
+└──────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)의 수학적 본질은 `할당된 공간 - 요구한 공간 = 잉여 공간(내부 단편화)`이다. 위 그림처럼 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 환경에서 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 오직 프로세스의 '가장 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)' 단 한 곳에서만 발생한다. 아무리 거대한(수 GB) 프로세스라도 발생하는 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)의 크기는 최대 4KB(정확히는 4KB - 1Byte)를 넘지 않는다. 평균적으로는 한 프로세스당 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)의 절반(약 2KB)의 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 발생한다.
 
 - **📢 섹션 요약 비유**: 계란 3개가 필요한데 마트에서는 10개들이 팩으로만 팔아서 어쩔 수 없이 한 팩을 사고 남은 계란 7개가 냉장고에서 썩어가는 현상입니다.
@@ -74,21 +75,29 @@ tags = ["studynote-operating-system"]
 - **[페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 줄이면 (예: 4KB -> 512Byte)**: 
   내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 낭비는 최대 511Byte로 줄어들지만, 수억 개의 조각이 생겨 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 메모리의 절반을 차지해버리는 배보다 배꼽이 큰 상황이 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 크기 변화에 따른 내부 단편화 손실 곡선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내부단편화 낭비량</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (Huge Page: 2MB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (Standard Page: 4KB) /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이지 크기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 설계자의 결론: "내부 단편화를 완벽히 0으로 만드는 것은 불가능하다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 이상적인 타협점이 4KB (또는 8KB)이다."</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│              페이지 크기 변화에 따른 내부 단편화 손실 곡선             │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ 내부단편화 낭비량                                                      │
+│      ▲                                                                 │
+│      │                                 / (Huge Page: 2MB)              │
+│      │                                /                                │
+│      │                               /                                 │
+│      │                              /                                  │
+│      │                             /                                   │
+│      │                            /                                    │
+│      │                           /                                     │
+│      │   / (Standard Page: 4KB) /                                      │
+│      │  /                      /                                       │
+│      │ /                      /                                        │
+│      └─────────────────────────────────────────▶ 페이지 크기           │
+│                                                                        │
+│ * 설계자의 결론: "내부 단편화를 완벽히 0으로 만드는 것은 불가능하다.   │
+│   가장 이상적인 타협점이 4KB (또는 8KB)이다."                          │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그래프는 메모리 관리의 황금비율이 왜 4KB가 되었는지를 설명한다. [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 커질수록 '마지막 블록'에서 버려지는 공간의 기댓값이 선형적으로 증가한다. 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 막을 수 있는 에러가 아니라, 관리 비용(테이블 크기)을 줄이기 위해 자발적으로 지불하는 '구독료' 같은 개념이다.
 
@@ -115,19 +124,16 @@ tags = ["studynote-operating-system"]
 - 즉, 최신 시스템에서는 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 완전히 사라지지만, 각 세그먼트의 마지막 조각들에서 다수의 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)들이 존재하게 된다.
 - "[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 시스템을 멈추지만, 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 돈(RAM 용량)으로 때울 수 있다"는 공학적 결론이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 기법</div><div class="kb-diagram-cell">내부 단편화</div><div class="kb-diagram-cell">외부 단편화</div><div class="kb-diagram-cell">현대 OS 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속 고정</div><div class="kb-diagram-cell">매우 심함</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">폐기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속 가변</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">매우 심함</div><div class="kb-diagram-cell">폐기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징</div><div class="kb-diagram-cell">약하게 존재</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">주력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세그멘테이션</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">심함</div><div class="kb-diagram-cell">보조 기법</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────┐
+│ 메모리 기법│ 내부 단편화  │ 외부 단편화  │ 현대 OS 채택 │
+├──────────┼────────────┼────────────┼────────────────────┤
+│ 연속 고정  │ 매우 심함   │ 없음       │ 폐기            │
+│ 연속 가변  │ 없음       │ 매우 심함   │ 폐기            │
+│ 페이징     │ 약하게 존재  │ 없음       │ **주력**       │
+│ 세그멘테이션│ 없음       │ 심함       │ 보조 기법       │
+└──────────┴────────────┴────────────┴────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 공학자들은 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)와 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)라는 두 악마 중 하나를 선택해야 했다. [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 이를 해결하기 위해 메모리 전체를 멈추고 셔플하는 '[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))'이라는 극악의 CPU 오버헤드를 유발한다. 반면 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)는 그냥 램 공간 조금 버리고 무시하면 시스템 속도에는 아무런 타격을 주지 않는다. 그래서 인류는 내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 수용하는 쪽([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))으로 진화의 방향을 잡았다.
 
 - **📢 섹션 요약 비유**: '[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)'가 길이 끊어져서 목적지에 가지 못하는 치명적 붕괴라면, '내부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)'는 갓길에 차를 세우면 남는 공간처럼 그냥 조금 아깝고 마는 감수할 수 있는 손해입니다.
@@ -183,19 +189,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">가변 분할 방식 (Variable Partition)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내부 단편화 (Internal Fragmentation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">외부 단편화 (External Fragmentation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 메모리 할당 문제 (가변 분할 배치 알고리즘)</div></div>
-</div>
-</div>
-
-
+```text
+[가변 분할 방식 (Variable Partition)]
+    │
+    ▼
+[내부 단편화 (Internal Fragmentation)]
+    │
+    ├──▶ [외부 단편화 (External Fragmentation)]
+    └──▶ [동적 메모리 할당 문제 (가변 분할 배치 알고리즘)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

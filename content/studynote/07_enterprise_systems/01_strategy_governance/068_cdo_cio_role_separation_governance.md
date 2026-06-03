@@ -28,18 +28,12 @@ tags = ["enterprise_systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data Strategy → CDO</div>
-<div class="kb-diagram-note">IT Operations → CIO</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Collaboration</div>
-</div>
-</div>
-
-
+```text
+Data Strategy → CDO
+IT Operations → CIO
+  ↓
+Collaboration
+```
 
 | 역할 | 초점 |
 | :-- | :-- |
@@ -106,41 +100,29 @@ CDO는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CDO</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Data Governance</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CIO</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">IT Operations</div>
-</div>
-</div>
-
-
+```text
+CDO
+  ↓
+Data Governance
+  ↓
+CIO
+  ↓
+IT Operations
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data Strategy</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CDO</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CIO</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Governance Model</div>
-</div>
-</div>
-
-
+```text
+Data Strategy
+  ↓
+CDO
+  ↓
+CIO
+  ↓
+Governance Model
+```
 
 ---
 

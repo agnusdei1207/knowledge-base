@@ -46,29 +46,30 @@ tags = ["studynote-operating-system"]
 
 프로세스를 살아있는 채로 얼려서 디스크에 쓰는 과정이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRIU Checkpoint (덤프) 동작 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 타겟 프로세스 동결 (Freezing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CRIU가 커널의 <code>ptrace</code> 시스템 콜을 이용하여 타겟 프로세스(Nginx)의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행을 일시 정지(Seize/Stop)시킨다. (명령어 주입을 위함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: 기생 코드 주입 (Parasite Code Injection)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 멈춘 Nginx의 메모리 주소 공간 어딘가에 CRIU가 만든 '기생 코드'를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">몰래 덮어쓴 뒤(mmap), Nginx의 CPU 레지스터(PC)를 이 기생 코드로 돌림.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: 내부 정보 추출 (State Dumping)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 깨어난 Nginx는 자기가 Nginx인 줄 알고 동작하지만, 실제로는 기생 코드를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행하여 "내 메모리, 내 열린 파일(FD), 내 소켓 상태"를 스스로 수집해서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRIU 데몬에게 전송(Dump)한다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CRIU는 이를 받아 <code>.img</code> 형식의 이미지 파일(Protobuf)들로 디스크에 저장.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 4: 종료 또는 재개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 덤프가 끝나면 기생 코드를 지우고 원래 레지스터 상태를 복원하여 Nginx를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 살려주거나, 아니면 아예 죽여버린다(마이그레이션 시).</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 CRIU Checkpoint (덤프) 동작 아키텍처                 │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [상황 1: 타겟 프로세스 동결 (Freezing)]                              │
+  │   - CRIU가 커널의 `ptrace` 시스템 콜을 이용하여 타겟 프로세스(Nginx)의   │
+  │     실행을 일시 정지(Seize/Stop)시킨다. (명령어 주입을 위함)               │
+  │                                                                   │
+  │  [상황 2: 기생 코드 주입 (Parasite Code Injection)]                   │
+  │   - 멈춘 Nginx의 메모리 주소 공간 어딘가에 CRIU가 만든 '기생 코드'를       │
+  │     몰래 덮어쓴 뒤(mmap), Nginx의 CPU 레지스터(PC)를 이 기생 코드로 돌림. │
+  │                                                                   │
+  │  [상황 3: 내부 정보 추출 (State Dumping)]                             │
+  │   - 깨어난 Nginx는 자기가 Nginx인 줄 알고 동작하지만, 실제로는 기생 코드를  │
+  │     실행하여 "내 메모리, 내 열린 파일(FD), 내 소켓 상태"를 스스로 수집해서  │
+  │     CRIU 데몬에게 전송(Dump)한다!                                    │
+  │   - CRIU는 이를 받아 `.img` 형식의 이미지 파일(Protobuf)들로 디스크에 저장.│
+  │                                                                   │
+  │  [상황 4: 종료 또는 재개]                                             │
+  │   - 덤프가 끝나면 기생 코드를 지우고 원래 레지스터 상태를 복원하여 Nginx를   │
+  │     다시 살려주거나, 아니면 아예 죽여버린다(마이그레이션 시).               │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 외부(CRIU)에서 타겟 프로세스의 뇌(메모리)를 완벽히 들여다보는 것은 권한상 한계가 많다. 그래서 CRIU는 기생수(Parasite) 전략을 쓴다. 타겟 프로세스의 머리에 몰래 침투 코드를 심어서, 타겟 프로세스 "스스로" 자기 정보를 뱉어내게 만드는 해킹 기법을 쓴다. (이는 악성코드가 쓰는 기법과 정확히 일치하지만, 여기서는 선의의 목적으로 쓰인다). 정보 수집이 끝나면 환자가 눈치채기 전에 흔적을 완벽히 지우고 원래 코드로 돌아간다.
 
@@ -131,27 +132,30 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRIU(체크포인트/리스토어) 아키텍처 도입 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너/서버리스 환경에서 긴 부팅 시간(Cold Start) 또는 상태 유실 문제 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션이 외부 상태(예: 원격 DB 커넥션, 외부 API 세션)를 강하게 쥐고 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">순수 CRIU 적용 시 복원 후 세션 끊김 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 애플리케이션 소스 코드 수정 필수 (CRaC 적용).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복원 직후(Post-restore) DB 커넥션 풀을 스스로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 맺도록(Reconnect) 훅(Hook) 로직 구현 필요.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (순수 연산, 독립적 워크로드, 무상태 서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스의 메모리 풋프린트(RAM 사용량)가 수십 GB 단위로 매우 큰가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 덤프/복원 시 엄청난 I/O 지연 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: CRIU의 'Lazy Pages (지연 페이지 복원)' 기능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">활성화 (메모리를 다 읽기 전에 프로세스 먼저 띄우기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ CRIU / Docker Checkpoint 네이티브 도입</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 CRIU(체크포인트/리스토어) 아키텍처 도입 플로우             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [컨테이너/서버리스 환경에서 긴 부팅 시간(Cold Start) 또는 상태 유실 문제 발생]│
+  │                │                                                  │
+  │                ▼                                                  │
+  │      애플리케이션이 외부 상태(예: 원격 DB 커넥션, 외부 API 세션)를 강하게 쥐고 있는가?│
+  │          ├─ 예 ─────▶ [순수 CRIU 적용 시 복원 후 세션 끊김 발생]        │
+  │          │            대책: 애플리케이션 소스 코드 수정 필수 (CRaC 적용). │
+  │          │            복원 직후(Post-restore) DB 커넥션 풀을 스스로     │
+  │          │            다시 맺도록(Reconnect) 훅(Hook) 로직 구현 필요.   │
+  │          └─ 아니오 (순수 연산, 독립적 워크로드, 무상태 서버)              │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      프로세스의 메모리 풋프린트(RAM 사용량)가 수십 GB 단위로 매우 큰가?      │
+  │          ├─ 예 ─────▶ [메모리 덤프/복원 시 엄청난 I/O 지연 발생]        │
+  │          │            대책: CRIU의 'Lazy Pages (지연 페이지 복원)' 기능 │
+  │          │            활성화 (메모리를 다 읽기 전에 프로세스 먼저 띄우기) │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ CRIU / Docker Checkpoint 네이티브 도입       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))"를 저장한다는 것은 독이 든 성배다. CRIU가 프로세스를 얼렸다가 1시간 뒤에 녹였다면, 그 1시간 동안 세상(외부 DB)은 이미 변했다. 프로세스가 깨어나서 자기가 들고 있던(1시간 전) DB 커넥션으로 패킷을 보내면 DB는 "넌 이미 타임아웃으로 끊어졌어!"라며 RST를 날리고 앱은 크래시 난다. 따라서 현대의 CRIU 아키텍처는 인프라 도구(CRIU)와 애플리케이션 런타임(Java CRaC)이 서로 대화(Handshake)하며 "나 방금 깨어났으니 네트워크 다시 연결해!"라고 자가 치유하는 하이브리드 아키텍처로 진화하고 있다.
 
@@ -195,19 +199,15 @@ CRIU(프로세스 체크포인트/리스토어)는 [운영체제](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 체크포인트/리스토어 (CRIU) 컨테이너 마이그레이션 도구 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 메모리 컴팩션 (Compaction) 외부 단편화 런타임 제거 백그라운드 스레드 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘</div></div>
-</div>
-</div>
-
-
+```text
+[NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계]
+    │
+    ▼
+[프로세스 체크포인트/리스토어 (CRIU) 컨테이너 마이그레이션 도구 구조]
+    │
+    ├──▶ [커널 메모리 컴팩션 (Compaction) 외부 단편화 런타임 제거 백그라운드 스레드 구조]
+    └──▶ [고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

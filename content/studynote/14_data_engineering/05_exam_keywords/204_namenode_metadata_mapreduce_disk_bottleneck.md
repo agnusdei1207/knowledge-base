@@ -22,38 +22,36 @@ tags = ["studynote-data-engineering"]
 
 HDFS의 NameNode는 두 가지 근본적 한계를 가진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NameNode 구조적 한계</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode (단일 서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FsImage (파일시스템 스냅샷) + EditLog (변경 로그)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모두 메모리에 상주 → RAM 한계에 수억 파일 저장 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 1: SPOF — NameNode 장애 = 전체 HDFS 접근 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 2: 메모리 확장 한계 — 파일 수 증가 시 RAM 소진</div></div>
-</div>
-</div>
-
-
+```
+NameNode 구조적 한계
+┌─────────────────────────────────────────────────────────┐
+│  NameNode (단일 서버)                                    │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │ FsImage (파일시스템 스냅샷) + EditLog (변경 로그) │    │
+│  │ 모두 메모리에 상주 → RAM 한계에 수억 파일 저장 불가│    │
+│  └─────────────────────────────────────────────────┘    │
+│                                                         │
+│  문제 1: SPOF — NameNode 장애 = 전체 HDFS 접근 불가     │
+│  문제 2: 메모리 확장 한계 — 파일 수 증가 시 RAM 소진      │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### MapReduce의 디스크 I/O 병목
 
 MapReduce는 각 Job 단계마다 결과를 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)(디스크)에 저장하고, 다음 단계에서 다시 읽는 구조다. 반복적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/))에서 특히 치명적이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MapReduce 다단계 처리의 디스크 I/O</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">디스크 쓰기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">HDFS 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Job 2:</div><div class="kb-diagram-node">HDFS 읽기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">디스크 쓰기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">HDFS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Job N:</div><div class="kb-diagram-node">HDFS 읽기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Map → ... (반복할수록 I/O 누적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K-Means 100 이터레이션 = 200회 HDFS 읽기+쓰기 발생!</div></div>
-</div>
-</div>
-
-
+```
+MapReduce 다단계 처리의 디스크 I/O
+┌────────────────────────────────────────────────────────────┐
+│ Job 1: Map → [디스크 쓰기] → Reduce → [HDFS 저장]          │
+│         ↓                                                  │
+│ Job 2: [HDFS 읽기] → Map → [디스크 쓰기] → Reduce → [HDFS] │
+│         ↓                                                  │
+│ Job N: [HDFS 읽기] → Map → ... (반복할수록 I/O 누적)        │
+│                                                            │
+│ K-Means 100 이터레이션 = 200회 HDFS 읽기+쓰기 발생!         │
+└────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: MapReduce의 디스크 병목은 "계산할 때마다 종이에 답을 써서 금고에 넣고, 다음 계산 시 금고에서 꺼내 다시 보는 것"이다. 100번 계산하면 200번 금고를 여닫아야 한다. 이걸 머릿속(메모리)에서 전부 처리하면 훨씬 빠르다.
 
@@ -63,22 +61,26 @@ MapReduce는 각 Job 단계마다 결과를 [HDFS](/knowledge-base/studynote/14_
 
 ### [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) 메커니즘
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NameNode 메타데이터 흐름</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode RAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FsImage (최신 스냅샷) + EditLog (최신 변경사항) 병합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전체 파일시스템 트리 메모리 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FsImage (디스크)</div><div class="kb-diagram-cell">EditLog (디스크)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(체크포인트)</div><div class="kb-diagram-cell">(모든 변경사항 순차 기록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secondary NameNode (체크포인팅):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FsImage + EditLog 병합 → 새 FsImage 생성 → NameNode 전송</div></div>
-</div>
-</div>
-
-
+```
+NameNode 메타데이터 흐름
+┌────────────────────────────────────────────────────────────┐
+│  NameNode RAM                                              │
+│  ┌──────────────────────────────────────────────────────┐ │
+│  │ FsImage (최신 스냅샷) + EditLog (최신 변경사항) 병합  │ │
+│  │ → 전체 파일시스템 트리 메모리 유지                    │ │
+│  └──────────────────────────────────────────────────────┘ │
+│               │                    │                       │
+│               ▼                    ▼                       │
+│  ┌──────────────────┐  ┌──────────────────────────────┐   │
+│  │   FsImage (디스크) │  │  EditLog (디스크)              │   │
+│  │   (체크포인트)     │  │  (모든 변경사항 순차 기록)      │   │
+│  └──────────────────┘  └──────────────────────────────┘   │
+│               │                                            │
+│               ▼                                            │
+│  Secondary NameNode (체크포인팅):                          │
+│  FsImage + EditLog 병합 → 새 FsImage 생성 → NameNode 전송 │
+└────────────────────────────────────────────────────────────┘
+```
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 | 중요 주의사항 |
 |:---|:---|:---|
@@ -91,21 +93,27 @@ MapReduce는 각 Job 단계마다 결과를 [HDFS](/knowledge-base/studynote/14_
 
 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.x부터 도입된 HA (High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) NameNode는 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)/Standby [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 구조를 제공한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">HA NameNode 아키텍처</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active NameNode</div><div class="kb-diagram-cell">Standby NameNode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(읽기/쓰기)</div><div class="kb-diagram-cell">(편집로그 동기 추적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EditLog 쓰기</div><div class="kb-diagram-cell">EditLog 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JournalNode 클러스터 (3대 이상, Quorum 방식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZooKeeper 클러스터 (3/5대)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Active/Standby 역할 선출 (Failover Controller)</div></div>
-</div>
-</div>
-
-
+```
+HA NameNode 아키텍처
+┌────────────────────────────────────────────────────────────┐
+│                                                            │
+│  ┌──────────────────┐       ┌──────────────────────────┐  │
+│  │  Active NameNode │       │   Standby NameNode       │  │
+│  │  (읽기/쓰기)      │       │   (편집로그 동기 추적)    │  │
+│  └────────┬─────────┘       └───────────┬──────────────┘  │
+│           │  EditLog 쓰기               │ EditLog 읽기     │
+│           ▼                            ▼                  │
+│  ┌─────────────────────────────────────────────────────┐  │
+│  │  JournalNode 클러스터 (3대 이상, Quorum 방식)          │  │
+│  └─────────────────────────────────────────────────────┘  │
+│                         │                                  │
+│                         ▼                                  │
+│  ┌─────────────────────────────────────────────────────┐  │
+│  │  ZooKeeper 클러스터 (3/5대)                           │  │
+│  │  → Active/Standby 역할 선출 (Failover Controller)    │  │
+│  └─────────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────┘
+```
 
 | 방식 | 구성 | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 한계 |
 |:---|:---|:---|:---|
@@ -115,22 +123,19 @@ MapReduce는 각 Job 단계마다 결과를 [HDFS](/knowledge-base/studynote/14_
 
 ### [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) vs [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 아키텍처 발전
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hadoop 1.x (MapReduce v1) vs Hadoop 2.x (YARN)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hadoop 1.x:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JobTracker (단일 마스터) TaskTracker (슬레이브)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ JobTracker가 클러스터 관리 + 작업 스케줄링 모두 담당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ SPOF, Map/Reduce 작업만 지원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hadoop 2.x (YARN):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ResourceManager (클러스터 자원) + ApplicationMaster (앱별)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 역할 분리로 SPOF 개선, Spark/Tez/MPI 등 다중 프레임워크</div></div>
-</div>
-</div>
-
-
+```
+Hadoop 1.x (MapReduce v1) vs Hadoop 2.x (YARN)
+┌─────────────────────────────────────────────────────────────┐
+│  Hadoop 1.x:                                                │
+│  JobTracker (단일 마스터) ─── TaskTracker (슬레이브)          │
+│  → JobTracker가 클러스터 관리 + 작업 스케줄링 모두 담당       │
+│  → SPOF, Map/Reduce 작업만 지원                             │
+│                                                             │
+│  Hadoop 2.x (YARN):                                         │
+│  ResourceManager (클러스터 자원) + ApplicationMaster (앱별)  │
+│  → 역할 분리로 SPOF 개선, Spark/Tez/MPI 등 다중 프레임워크   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.x | [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.x ([YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)) |
 |:---|:---|:---|
@@ -157,22 +162,20 @@ MapReduce는 각 Job 단계마다 결과를 [HDFS](/knowledge-base/studynote/14_
 
 ### [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 디스크 병목의 근본 원인과 Spark 해결
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MapReduce vs Spark 처리 방식</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MapReduce (디스크 중심):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Map</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Shuffle</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Reduce</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ HDFS 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark (메모리 중심):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RDD Transform1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RDD Transform2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">RAM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Action</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">최종 출력 (중간 결과는 메모리만!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 차이: 반복 알고리즘에서 Spark가 10~100배 빠름</div></div>
-</div>
-</div>
-
-
+```
+MapReduce vs Spark 처리 방식
+┌─────────────────────────────────────────────────────────────┐
+│  MapReduce (디스크 중심):                                    │
+│  Input → [Map] → 디스크 → [Shuffle] → 디스크 → [Reduce]    │
+│                                          → HDFS 저장        │
+│                                                             │
+│  Spark (메모리 중심):                                        │
+│  Input → [RDD Transform1] → RAM → [RDD Transform2] → RAM   │
+│        → [Action] → 최종 출력 (중간 결과는 메모리만!)         │
+│                                                             │
+│  성능 차이: 반복 알고리즘에서 Spark가 10~100배 빠름           │
+└─────────────────────────────────────────────────────────────┘
+```
 
 | 항목 | [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) | [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) |
 |:---|:---|:---|
@@ -189,21 +192,17 @@ MapReduce는 각 Job 단계마다 결과를 [HDFS](/knowledge-base/studynote/14_
 
 ### [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) HA 설계 시 고려사항
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NameNode HA 설계 체크리스트</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ JournalNode: 3개 이상 (Quorum 방식, 과반수 쓰기 성공)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ ZooKeeper: 3 또는 5개 (홀수 과반수 보장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ Fencing (펜싱): Split-Brain 방지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 네트워크 펜싱: 구 Active의 네트워크 격리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- STONITH: 구 Active 노드 강제 전원 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ DNS/VIP: 클라이언트는 Active 위치를 투명하게 접근</div></div>
-</div>
-</div>
-
-
+```
+NameNode HA 설계 체크리스트
+┌──────────────────────────────────────────────────────────┐
+│  ✓ JournalNode: 3개 이상 (Quorum 방식, 과반수 쓰기 성공)  │
+│  ✓ ZooKeeper: 3 또는 5개 (홀수 과반수 보장)               │
+│  ✓ Fencing (펜싱): Split-Brain 방지                       │
+│    - 네트워크 펜싱: 구 Active의 네트워크 격리              │
+│    - STONITH: 구 Active 노드 강제 전원 차단                │
+│  ✓ DNS/VIP: 클라이언트는 Active 위치를 투명하게 접근       │
+└──────────────────────────────────────────────────────────┘
+```
 
 **Split-Brain 문제**: 두 NameNode가 모두 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 상태를 주장하는 상황. 두 NameNode가 서로 다른 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 갱신하면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 손상이 발생한다. Fencing (울타리치기) 메커니즘으로 반드시 방지해야 한다.
 
@@ -261,22 +260,18 @@ MapReduce는 각 Job 단계마다 결과를 [HDFS](/knowledge-base/studynote/14_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NameNode 단일 장애점 (SPOF)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HA NameNode: Active-Standby · JournalNode 동기화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MapReduce: Map → Shuffle → Reduce (디스크 기반)</div>
-<div class="kb-diagram-note">디스크 I/O 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spark: 인메모리 처리 → 10~100배 성능 향상</div>
-</div>
-</div>
-
-
+```text
+NameNode 단일 장애점 (SPOF)
+    │
+    ▼
+HA NameNode: Active-Standby · JournalNode 동기화
+    │
+    ▼
+MapReduce: Map → Shuffle → Reduce (디스크 기반)
+    │ 디스크 I/O 병목
+    ▼
+Spark: 인메모리 처리 → 10~100배 성능 향상
+```
 2. HA NameNode는 "지도를 두 명이 갖고, 한 명이 아프면 다른 사람이 바로 지도를 꺼내는 것"이에요.
 3. [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 디스크 병목은 "덧셈할 때마다 칠판에 지우고 다시 쓰는 것"인데, Spark는 "머릿속으로 연산해서 최종 답만 칠판에 쓰는 것"처럼 훨씬 빠르답니다!
 

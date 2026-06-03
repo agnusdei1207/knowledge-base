@@ -31,21 +31,16 @@ tags = ["studynote-software-engineering"]
 
 ### [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 4분면 (Fowler)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">의도적 비의도적</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무모한</div><div class="kb-diagram-cell">무모-의도: 출시</div><div class="kb-diagram-cell">무모-비의도: 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">압박으로 설계</div><div class="kb-diagram-cell">가 뭔지 몰랐어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포기 ("나중에")</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신중한</div><div class="kb-diagram-cell">신중-의도: 배포</div><div class="kb-diagram-cell">신중-비의도: "이제는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">먼저, 결과 처리</div><div class="kb-diagram-cell">어떻게 해야 했는지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">는 나중에</div><div class="kb-diagram-cell">알겠다"</div></div>
-</div>
-</div>
-
-
+```
+            의도적          비의도적
+무모한  │무모-의도: 출시   │무모-비의도: 레이어    │
+        │압박으로 설계    │가 뭔지 몰랐어         │
+        │포기 ("나중에")  │                      │
+────────┼────────────────┼──────────────────────┤
+신중한  │신중-의도: 배포  │신중-비의도: "이제는   │
+        │먼저, 결과 처리  │어떻게 해야 했는지    │
+        │는 나중에        │알겠다"               │
+```
 
 📢 **섹션 요약 비유**: [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)는 신용카드다 — 지금 당장 사고 나중에 갚지만, 방치하면 이자가 쌓여 원금보다 이자가 더 커진다.
 
@@ -84,21 +79,15 @@ SQALE 지수 = 기술 부채 / 이상적 개발 시간
 
 ### [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SonarQube 대시보드:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Bugs: 0 (결함)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Vulnerabilities: 2 (보안 취약점)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Code Smells: 128 (코드 악취)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Technical Debt: 3d 2h (수정 소요 시간)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Coverage: 72.3% (테스트 커버리지)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Duplications: 8.1% (코드 중복)</div>
-</div>
-</div>
-
-
+```
+SonarQube 대시보드:
+├── Bugs: 0 (결함)
+├── Vulnerabilities: 2 (보안 취약점)
+├── Code Smells: 128 (코드 악취)
+├── Technical Debt: 3d 2h (수정 소요 시간)
+├── Coverage: 72.3% (테스트 커버리지)
+└── Duplications: 8.1% (코드 중복)
+```
 
 📢 **섹션 요약 비유**: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 대시보드는 자동차 계기판이다 — 연료(커버리지), 엔진 경고등(버그), 배기가스(중복 코드)를 한눈에 보여준다.
 
@@ -108,16 +97,12 @@ SQALE 지수 = 기술 부채 / 이상적 개발 시간
 
 ### 부채 관리 사이클
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">측정 → 분류 → 우선순위화 → 리팩토링 → 재측정</div>
-<div class="kb-diagram-note">지속적 모니터링</div>
-</div>
-</div>
-
-
+```
+측정 → 분류 → 우선순위화 → 리팩토링 → 재측정
+  ↑                                          │
+  └──────────────────────────────────────────┘
+            지속적 모니터링
+```
 
 ### 보이 스카우트 규칙 (Boy Scout Rule)
 
@@ -141,19 +126,13 @@ SQALE 지수 = 기술 부채 / 이상적 개발 시간
 
 ### [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)·CD 파이프라인 통합
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">코드 커밋 → SonarQube SAST → 기술 부채 증가 감지 → PR 차단</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SQALE 지수 임계값 초과 시 빌드 실패</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">자동 리팩토링 제안 (AI 코드 리뷰)</div>
-</div>
-</div>
-
-
+```
+코드 커밋 → SonarQube SAST → 기술 부채 증가 감지 → PR 차단
+               ↓
+         SQALE 지수 임계값 초과 시 빌드 실패
+               ↓
+         자동 리팩토링 제안 (AI 코드 리뷰)
+```
 
 ### 아키텍처 결정 기록 ([ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/))
 
@@ -166,57 +145,50 @@ SQALE 지수 = 기술 부채 / 이상적 개발 시간
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기술 부채 (Technical Debt)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">분류 (Fowler 4분면)</div>
-<div class="kb-diagram-note">── 의도적·무모</div>
-<div class="kb-diagram-note">── 의도적·신중</div>
-<div class="kb-diagram-note">── 비의도적·무모</div>
-<div class="kb-diagram-note">── 비의도적·신중</div>
-<div class="kb-diagram-tree-item" style="--depth:0">측정 도구</div>
-<div class="kb-diagram-note">── SonarQube (코드 메트릭)</div>
-<div class="kb-diagram-note">── SQALE 모델 (수리 시간 기반)</div>
-<div class="kb-diagram-note">── CodeClimate</div>
-<div class="kb-diagram-tree-item" style="--depth:0">관리 전략</div>
-<div class="kb-diagram-note">── 보이 스카우트 규칙</div>
-<div class="kb-diagram-note">── 리팩토링 로드맵</div>
-<div class="kb-diagram-note">── ADR (Architecture Decision Record)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">관련 개념</div>
-<div class="kb-diagram-tree-item" style="--depth:2">코드 악취 (Code Smell)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">소프트웨어 엔트로피</div>
-<div class="kb-diagram-tree-item" style="--depth:2">지속적 리팩토링</div>
-</div>
-</div>
-
-
+```
+기술 부채 (Technical Debt)
+├── 분류 (Fowler 4분면)
+│   ├── 의도적·무모
+│   ├── 의도적·신중
+│   ├── 비의도적·무모
+│   └── 비의도적·신중
+├── 측정 도구
+│   ├── SonarQube (코드 메트릭)
+│   ├── SQALE 모델 (수리 시간 기반)
+│   └── CodeClimate
+├── 관리 전략
+│   ├── 보이 스카우트 규칙
+│   ├── 리팩토링 로드맵
+│   └── ADR (Architecture Decision Record)
+└── 관련 개념
+    ├── 코드 악취 (Code Smell)
+    ├── 소프트웨어 엔트로피
+    └── 지속적 리팩토링
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              기술 부채 개념 발전 흐름                            │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1992년       │ Cunningham 제안    │ 금융 부채 은유 최초 도입     │
+│ 1999년       │ Fowler 코드 악취   │ 리팩토링 기법 체계화         │
+│ 2009년       │ SQALE 모델 제안    │ 기술 부채 정량화 방법론      │
+│ 2013년       │ SonarQube 보급     │ CI/CD 통합 자동 측정         │
+│ 2018년       │ ADR 실천 확산      │ 의도적 부채 투명 관리        │
+│ 2020년대     │ AI 코드 리뷰       │ GitHub Copilot 등 자동 탐지  │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술 부채 개념 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1992년</div><div class="kb-diagram-cell">Cunningham 제안</div><div class="kb-diagram-cell">금융 부채 은유 최초 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1999년</div><div class="kb-diagram-cell">Fowler 코드 악취</div><div class="kb-diagram-cell">리팩토링 기법 체계화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2009년</div><div class="kb-diagram-cell">SQALE 모델 제안</div><div class="kb-diagram-cell">기술 부채 정량화 방법론</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2013년</div><div class="kb-diagram-cell">SonarQube 보급</div><div class="kb-diagram-cell">CI/CD 통합 자동 측정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2018년</div><div class="kb-diagram-cell">ADR 실천 확산</div><div class="kb-diagram-cell">의도적 부채 투명 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">AI 코드 리뷰</div><div class="kb-diagram-cell">GitHub Copilot 등 자동 탐지</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">기술 부채 → 측정(SQALE) → 분류(4분면) → 리팩토링 → SonarQube</div>
-<div class="kb-diagram-note">빠른 구현 수리 시간 의도적/비의도 코드 개선</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">소프트웨어 노후화 → 레거시 마이그레이션 (5R 전략)</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+기술 부채 → 측정(SQALE) → 분류(4분면) → 리팩토링 → SonarQube
+    ↓              ↓              ↓             ↓
+빠른 구현     수리 시간     의도적/비의도  코드 개선
+    ↓
+소프트웨어 노후화 → 레거시 마이그레이션 (5R 전략)
+```
 
 ---
 

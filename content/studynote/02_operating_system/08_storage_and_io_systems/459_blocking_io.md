@@ -27,27 +27,32 @@ tags = ["studynote-operating-system"]
   2. **수면(Sleep) 매커니즘 도입**: "어차피 기다릴 거면 아예 마취총을 쏴서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 기절시키고(CPU 양보), I/O가 끝나면 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 깨우자!"는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동 아키텍처가 확립됨.
   3. **개발 편의성의 승리**: 코드가 눈에 보이는 대로 직관적으로 흘러가기 때문에, 50년간 전 세계 모든 프로그래밍 언어의 I/O 기본 뼈대로 군림함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블로킹 I/O(Blocking I/O) 호출 시 OS 스케줄러의 생사여탈권 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 스레드의 코드 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. <code>print("읽기 시작!");</code> (스레드 달리는 중 🏃‍♂️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. <code>data = read(file_fd);</code> ◀ (I/O 블로킹 시스템 콜 작렬!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (이 순간 OS 스케줄러가 개입하여 멱살을 잡음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "디스크 읽어올 테니까 넌 대기실(Wait Queue)로 꺼져!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 유저 스레드를 'Running' -&gt; 💤 'Sleep (Blocked)' 강제 변환!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; CPU 코어는 재빨리 딴 앱(유튜브)을 가져와서 돌림 (효율 극강)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (--- 8 밀리초의 영겁의 시간이 흐름 ---)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 하드웨어</div><div class="kb-diagram-note">💥 인터럽트 발생! "야 데이터 다 긁어왔어!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. OS: "대기실에 자고 있던 유저 스레드 깨워라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 스레드 💤 'Sleep' -&gt; 🏃‍♂️ 'Ready/Running' 으로 부활!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. <code>print(data);</code> (잠에서 깬 스레드가 다음 줄 실행 재개!)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│        블로킹 I/O(Blocking I/O) 호출 시 OS 스케줄러의 생사여탈권 시각화  │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 유저 스레드의 코드 실행 ]                                              │
+│ 1. `print("읽기 시작!");`  (스레드 달리는 중 🏃‍♂️)                      │
+│                                                                          │
+│ 2. `data = read(file_fd);` ◀ (I/O 블로킹 시스템 콜 작렬!)                │
+│     │                                                                    │
+│     ▼ (이 순간 OS 스케줄러가 개입하여 멱살을 잡음)                       │
+│ ┌──────────────────────────────────────────────────┐                     │
+│ │ OS: "디스크 읽어올 테니까 넌 대기실(Wait Queue)로 꺼져!"       │       │
+│ │ -> 유저 스레드를 'Running' -> 💤 'Sleep (Blocked)' 강제 변환! │        │
+│ │ -> CPU 코어는 재빨리 딴 앱(유튜브)을 가져와서 돌림 (효율 극강)    │    │
+│ └──────────────────────────────────────────────────┘                     │
+│     │                                                                    │
+│     ▼ (--- 8 밀리초의 영겁의 시간이 흐름 ---)                            │
+│ [ 디스크 하드웨어 ] 💥 인터럽트 발생! "야 데이터 다 긁어왔어!"           │
+│                                                                          │
+│ 3. OS: "대기실에 자고 있던 유저 스레드 깨워라!"                          │
+│    -> 스레드 💤 'Sleep' -> 🏃‍♂️ 'Ready/Running' 으로 부활!              │
+│                                                                          │
+│ 4. `print(data);` (잠에서 깬 스레드가 다음 줄 실행 재개!)                │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "Block 당했다"는 것은 프로그램이 렉이 걸려 에러가 난 게 아니다. OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이 녀석의 CPU 점유 권한을 강제로 박탈하고 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))에 쑤셔 박아, CPU가 허공에 삽질([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하는 것을 완벽하게 막아준 <strong>고도의 자원 절약 스케줄링의 혜택</strong>을 받은 것이다.
 
 - **📢 섹션 요약 비유**: 수술실 의사(CPU)가 수술 중(코드 실행) 메시가 필요하다(I/O)고 외칩니다. 간호사가 창고에서 메스를 가져오는 5분 동안 의사는 허공에 칼질([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/))을 하지 않습니다. 의사는 그 자리에서 쿨쿨 잠을 잡니다(Blocked). 간호사가 메스를 손에 딱 쥐여주는 순간([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)), 의사는 눈을 번쩍 뜨고 0.1초의 오차도 없이 완벽하게 다음 수술(다음 코드)을 이어갑니다. 의사의 체력(CPU)을 완벽히 아끼는 기술입니다.
@@ -98,17 +103,14 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1만 개가 각자 2MB씩 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리를 쳐먹어 램 20GB가 터져나갔고([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)), OS가 1만 명을 0.1초 단위로 번갈아 깨워주는 '[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))' 렉 때문에 CPU 가동률이 100%를 찍고 서버가 질식사했다.
 - 이 블로킹의 끔찍한 확장성(Scalability) 한계 때문에 아파치는 왕좌를 내려놓고, 논블로킹(epoll) 기반의 닌자 같은 웹서버 <strong>Nginx</strong>에게 전 세계를 지배당했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 아키텍처</div><div class="kb-diagram-cell">동작 방식</div><div class="kb-diagram-cell">동시접속 1만명 렉</div><div class="kb-diagram-cell">대표적인 프레임워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blocking</div><div class="kb-diagram-cell">1인당 1스레드 배정</div><div class="kb-diagram-cell">☠️ 서버 즉사</div><div class="kb-diagram-cell">과거 Apache, Spring(구)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Non-Block</div><div class="kb-diagram-cell">소수 스레드가 뜀</div><div class="kb-diagram-cell">🚀 거의 0초 컷</div><div class="kb-diagram-cell">Nginx, Node.js, Netty</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────┐
+│ I/O 아키텍처 │ 동작 방식    │ 동시접속 1만명 렉│ 대표적인 프레임워크  │
+├──────────┼────────────┼────────────┼──────────────────────────────────┤
+│ Blocking │ 1인당 1스레드 배정│ ☠️ 서버 즉사  │ 과거 Apache, Spring(구)│
+│ Non-Block│ 소수 스레드가 뜀 │ 🚀 거의 0초 컷 │ Nginx, Node.js, Netty  │
+└──────────┴────────────┴────────────┴──────────────────────────────────┘
+```
 **[매트릭스 해설]** "그럼 무조건 넌블로킹이 좋은 거 아닌가?" 절대 아니다. 넌블로킹으로 짜인 코드는 인간이 읽기 더럽게 어렵다. "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오면 이거 해주고, 실패하면 저기로 가고..." 온갖 콜백(Callback) 지옥이 펼쳐진다. 그래서 현대에는 코드는 겉보기에 꿀 뚝뚝 떨어지는 순차적 '블로킹'처럼 예쁘게(`async/await`, [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)) 짜면서, 뒤에선 OS가 알아서 '넌블로킹'으로 찢어 돌려주는 궁극의 하이브리드 문법(Golang, Kotlin)이 세상을 지배하게 된 것이다.
 
 - **📢 섹션 요약 비유**: 블로킹 방식은 은행원이 손님 1명의 대출 서류가 본사에서 승인(I/O 대기) 날 때까지 1시간 동안 창구에 둘이 뻘쭘하게 마주 앉아 노가리 까는 방식입니다. 뒷사람들은 빡치죠. 넌블로킹은 은행원이 "서류 심사 들어갔으니 번호표 들고 대기실 가 계세요!" 하고 1초 만에 쫓아낸(에러 뱉음) 뒤 뒷사람 업무를 쭉쭉 쳐내는 효율의 극치입니다. 당연히 후자가 일 잘하는 은행입니다.
@@ -166,19 +168,15 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">예약 및 단독 장치 접근 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블로킹 I/O (Blocking I/O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">논블로킹 I/O (Non-blocking I/O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비동기 I/O (Asynchronous I/O, AIO)</div></div>
-</div>
-</div>
-
-
+```text
+[예약 및 단독 장치 접근 제어]
+    │
+    ▼
+[블로킹 I/O (Blocking I/O)]
+    │
+    ├──▶ [논블로킹 I/O (Non-blocking I/O)]
+    └──▶ [비동기 I/O (Asynchronous I/O, AIO)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

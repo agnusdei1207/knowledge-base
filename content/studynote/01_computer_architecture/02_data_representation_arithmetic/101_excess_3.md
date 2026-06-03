@@ -30,23 +30,23 @@ tags = ["studynote-computer-architecture"]
 
 3초과 코드의 가장 핵심적인 작동 원리는 **'자기 보수(Self-Complementing)'** 메커니즘이다. 이를 통해 연산 장치([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 내에서 뺄셈기가 어떻게 단순화되는지 살펴본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Excess-3 코드의 자기 보수(Self-Complementing) 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목표: 10진수 '4'의 9의 보수인 '5'를 구하라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 10진수 4를 3초과 코드로 변환:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4 + 3 = 7 ──▶ 2진수 '0111'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 비트 반전 (NOT 게이트 통과, 1의 보수):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'0111' ──▶ '1000'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 결과 해석 (3초과 코드 상태이므로 -3 하여 10진수 확인):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'1000'은 10진수 8. 8 - 3 = 5 !</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 4의 9의 보수인 '5'가 정확히 도출됨.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           Excess-3 코드의 자기 보수(Self-Complementing) 원리       │
+├──────────────────────────────────────────────────────────────┤
+│  [목표: 10진수 '4'의 9의 보수인 '5'를 구하라]                           │
+│                                                              │
+│  1. 10진수 4를 3초과 코드로 변환:                                  │
+│     4 + 3 = 7 ──▶ 2진수 '0111'                               │
+│                                                              │
+│  2. 비트 반전 (NOT 게이트 통과, 1의 보수):                           │
+│     '0111' ──▶ '1000'                                       │
+│                                                              │
+│  3. 결과 해석 (3초과 코드 상태이므로 -3 하여 10진수 확인):              │
+│     '1000'은 10진수 8. 8 - 3 = 5 !                            │
+│     ──▶ 4의 9의 보수인 '5'가 정확히 도출됨.                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 덧셈 연산기만으로 뺄셈을 수행할 수 있게 하는 핵심 과정을 보여준다. 단순히 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반전(`~`)시키는 가장 가벼운 게이트 연산만으로 원래 숫자의 9의 보수를 얻어낸다. 덧셈 시에는 $A(+3) + B(+3) = A+B(+6)$이 되므로 자리올림 발생 여부에 따라 $+3$ 또는 $-3$을 보정하는 추가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로가 필요하다.
 
@@ -107,25 +107,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BCD (8421) 코딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">뺄셈 연산의 복잡도 문제 직면</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Excess-3 (3초과 코드) 도입 · +3 오프셋 매핑</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자기 보수 (Self-Complementing) 메커니즘 완성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결함 탐지 (Fault Detection) 기능 부수적 획득</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부동소수점 지수 편향 (Bias Exponent) 개념으로 사상 계승</div>
-</div>
-</div>
-
-
+```text
+BCD (8421) 코딩
+    │
+    ▼
+뺄셈 연산의 복잡도 문제 직면
+    │
+    ▼
+Excess-3 (3초과 코드) 도입 · +3 오프셋 매핑
+    │
+    ▼
+자기 보수 (Self-Complementing) 메커니즘 완성
+    │
+    ▼
+결함 탐지 (Fault Detection) 기능 부수적 획득
+    │
+    ▼
+부동소수점 지수 편향 (Bias Exponent) 개념으로 사상 계승
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 3초과 코드는 원래 숫자에 무조건 "3"을 몰래 더해놓고 쓰는 비밀 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 편지예요!

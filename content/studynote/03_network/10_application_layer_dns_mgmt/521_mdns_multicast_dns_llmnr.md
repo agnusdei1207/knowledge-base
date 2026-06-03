@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 일반적인 인터넷 환경에서는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름을 IP로 변환하기 위해 외부의 지정된 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버(예: 8.8.8.8)가 반드시 필요합니다.
 그러나 가정이나 소규모 사무실 같은 **로컬 네트워크(LAN)** 에서는 전담 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버를 구축하기 어렵습니다. 이럴 때 <strong>중앙 서버 없이도 로컬 네트워크에 연결된 기기들끼리 호스트 이름을 IP 주소로 변환해 주는 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이 mDNS(Multicast [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))와 LLMNR입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoH</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">mDNS / LMNR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DHCP 포트 67, 68</div></div>
-</div>
-</div>
-
-
+```text
+[DoH]
+    │
+    ▼
+[mDNS / LMNR]
+    │
+    └──▶ [DHCP 포트 67, 68]
+```
 
 - **📢 섹션 요약 비유**: mDNS / LMNR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ tags = ["studynote-network"]
 | **특징(접미사)**| 호스트 이름 뒤에 반드시 <strong><code>.local</code></strong> 접미사를 붙임 | 접미사 없이 단일 호스트 이름(예: `my-pc`) 사용 가능 |
 | **지원 기기** | macOS, iOS, 프린터, 스마트 홈 기기 널리 사용 | 주로 Windows [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 간의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/프린터 공유 시 사용 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoH</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">mDNS / LMNR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DHCP 포트 67, 68</div></div>
-</div>
-</div>
-
-
+```text
+[DoH]
+    │
+    ▼
+[mDNS / LMNR]
+    │
+    └──▶ [DHCP 포트 67, 68]
+```
 
 - **📢 섹션 요약 비유**: mDNS / LMNR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,19 +109,15 @@ mDNS / LMNR는 이름 해석과 네트워크 관리를 이해할 때 핵심 축�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DoH</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: mDNS / LMNR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DHCP 포트 67, 68</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DoH]
+    │
+    ▼
+[현재 개념: mDNS / LMNR]
+    │
+    ├──▶ [확장 A: DHCP 포트 67, 68]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 mDNS / LMNR는 DoH에서 출발해 현재 메커니즘을 정교화하고, 이후 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 67, 68와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

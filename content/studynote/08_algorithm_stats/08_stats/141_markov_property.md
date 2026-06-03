@@ -49,17 +49,13 @@ P(X > s+t | X > s) = P(X > t)
 
 <strong>HMM(Hidden <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/">Markov Model</a>, 은닉 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/">마르코프 모델</a>)</strong>은 두 층의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 과정으로 구성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">숨겨진 상태 (Hidden States):</div>
-<div class="kb-diagram-note">Z_1 ──▶ Z_2 ──▶ Z_3 ──▶ Z_4 ← 마르코프 체인</div>
-<div class="kb-diagram-note">X_1 X_2 X_3 X_4 ← 관측값 (Observations)</div>
-</div>
-</div>
-
-
+```
+숨겨진 상태 (Hidden States):
+Z_1 ──▶ Z_2 ──▶ Z_3 ──▶ Z_4   ← 마르코프 체인
+ │        │        │        │
+ ▼        ▼        ▼        ▼
+X_1      X_2      X_3      X_4   ← 관측값 (Observations)
+```
 
 - **숨겨진 상태 Z_t**: 직접 관측 불가, 마르코프 성질 만족
 - **관측값 X_t**: Z_t에만 의존해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (방출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/), Emission [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))
@@ -112,19 +108,17 @@ V*(s) = max_a [ R(s,a) + γ · Σ_{s'} P(s'|s,a) · V*(s') ]
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a> 풀이 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDP 풀이 방법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 기반 (Model-Based)</div><div class="kb-diagram-cell">모델 프리 (Model-Free)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value Iteration</div><div class="kb-diagram-cell">Q-Learning (TD 학습)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy Iteration</div><div class="kb-diagram-cell">SARSA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DP 사용)</div><div class="kb-diagram-cell">Policy Gradient</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│              MDP 풀이 방법                             │
+├──────────────────┬───────────────────────────────────┤
+│   모델 기반 (Model-Based)  │  모델 프리 (Model-Free)  │
+├──────────────────┼───────────────────────────────────┤
+│ Value Iteration  │  Q-Learning (TD 학습)              │
+│ Policy Iteration │  SARSA                             │
+│ (DP 사용)        │  Policy Gradient                   │
+└──────────────────┴───────────────────────────────────┘
+```
 
 **Value Iteration**: V_{k+1}(s) = max_a [R(s,a) + γ·Σ P(s'|s,a)·V_k(s')]를 수렴까지 반복.
 
@@ -147,20 +141,17 @@ V*(s) = max_a [ R(s,a) + γ · Σ_{s'} P(s'|s,a) · V*(s') ]
 
 <strong>POMDP (Partially Observable <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a>)</strong>: 관측이 불완전한 [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) — HMM과 MDP를 결합한 형태로, 자율 주행, 의료 진단 AI에 활용된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마르코프 성질 기반 모델 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마르코프</div><div class="kb-diagram-cell">HMM</div><div class="kb-diagram-cell">MDP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">체인</div><div class="kb-diagram-cell">(관측 숨김)</div><div class="kb-diagram-cell">(행동 + 보상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기반)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">POMDP (통합 모델)</div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────┐
+│           마르코프 성질 기반 모델 계층            │
+├──────────────┬────────────┬─────────────────────┤
+│    마르코프  │   HMM      │        MDP          │
+│    체인      │ (관측 숨김)│  (행동 + 보상)       │
+│  (기반)      │            │                     │
+└──────────────┴────────────┴─────────────────────┘
+                       ↓
+               POMDP (통합 모델)
+```
 
 📢 **섹션 요약 비유**: MDP는 "보이는 미로에서 최선의 길 찾기", HMM은 "안개 낀 미로에서 지금 위치 추정하기"다. 둘 다 "현재만 알면 된다"는 마르코프 성질로 작동하지만, 무엇이 보이냐에 따라 다른 도구를 쓴다.
 
@@ -182,23 +173,21 @@ V*(s) = max_a [ R(s,a) + γ · Σ_{s'} P(s'|s,a) · V*(s') ]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">확률 과정 (Stochastic Process) — 시간에 따라 변하는 확률 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 성질 (Markov Property) — 현재 상태만 의존</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 연쇄 (Markov Chain) — 이산 상태 전이 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">은닉 마르코프 모델 (HMM, Hidden Markov Model) — 숨은 상태 추정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 결정 과정 (MDP, Markov Decision Process) — 강화학습 의사결정</div></div>
-</div>
-</div>
-
-
+```text
+[확률 과정 (Stochastic Process) — 시간에 따라 변하는 확률 모델]
+    │
+    ▼
+[마르코프 성질 (Markov Property) — 현재 상태만 의존]
+    │
+    ▼
+[마르코프 연쇄 (Markov Chain) — 이산 상태 전이 모델]
+    │
+    ▼
+[은닉 마르코프 모델 (HMM, Hidden Markov Model) — 숨은 상태 추정]
+    │
+    ▼
+[마르코프 결정 과정 (MDP, Markov Decision Process) — 강화학습 의사결정]
+```
 
 이 흐름은 시간에 따른 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 과정을 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 중심으로 단순화하고, 연쇄와 HMM을 지나 MDP와 강화학습으로 이어지는 단계적 모델링을 보여준다.
 

@@ -23,17 +23,13 @@ tags = ["studynote-devops"]
 
 빌드 산출물을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버 디스크나 개발자 노트북에 둔 채 배포하면 재현성, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 동시에 무너진다. 운영 장애가 발생했을 때 동일한 소스와 동일한 의존성으로 다시 빌드한 결과가 과거 배포본과 다를 수 있기 때문이다. 그래서 중앙 저장소에 올릴 때는 해시, 서명, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 함께 남겨야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배포 가능한 바이너리의 생명주기</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git 소스 ─▶ CI 빌드 ─▶ 테스트/서명 ─▶ 아티팩트 저장소 ─▶ 프로모션 ─▶ CD 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 같은 소스, 같은 결과를 재사용</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────── 배포 가능한 바이너리의 생명주기 ──────────────────────┐
+│ Git 소스 ─▶ CI 빌드 ─▶ 테스트/서명 ─▶ 아티팩트 저장소 ─▶ 프로모션 ─▶ CD 배포 │
+│                ▲                         │                   │             │
+│                └── 같은 소스, 같은 결과를 재사용 ──────────────┘             │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 "배포는 빌드 결과를 가져오는 행위"라는 점이다. 배포 서버가 다시 빌드를 시작하면 환경 차이와 [의존성 오염](/knowledge-base/studynote/09_security/05_web_app_security/463_dependency_confusion/) 때문에 동일성을 잃는다.
 
@@ -53,20 +49,15 @@ tags = ["studynote-devops"]
 | [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 오래된 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 정리 | 저장비 절감, 규정 준수 |
 | Promotion Flow | dev → stage → prod 이동 | 재빌드 없이 승격만 수행 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">저장소 내부 구조</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">업로드된 아티팩트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Blob(실제 바이너리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Checksum(SHA-256)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Signature(서명)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Metadata(버전/태그/권한/승격 이력)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────── 저장소 내부 구조 ──────────────┐
+│ 업로드된 아티팩트                              │
+│   ├─ Blob(실제 바이너리)                      │
+│   ├─ Checksum(SHA-256)                        │
+│   ├─ Signature(서명)                         │
+│   └─ Metadata(버전/태그/권한/승격 이력)       │
+└───────────────────────────────────────────────┘
+```
 
 실무에서는 태그(tag)보다 불변 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(digest)를 더 신뢰해야 한다. `latest` 같은 가변 태그는 사람이 읽기 쉽지만, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 재현성 측면에서는 위험하다. 배포 승인 과정이 길어질수록 "같은 태그가 다른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 가리키는" 사고가 커진다.
 
@@ -133,25 +124,24 @@ Nexus와 JFrog Artifactory는 범용 패키지 저장에 강하고, Amazon ECR�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소스 코드 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI 빌드/테스트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">패키지 저장소(Nexus/JFrog)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컨테이너 레지스트리(ECR)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">승격/서명/보안 스캔</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재현 가능한 배포와 롤백</div>
-</div>
-</div>
-
-
+```text
+소스 코드 관리
+    │
+    ▼
+CI 빌드/테스트
+    │
+    ▼
+패키지 저장소(Nexus/JFrog)
+    │
+    ▼
+컨테이너 레지스트리(ECR)
+    │
+    ▼
+승격/서명/보안 스캔
+    │
+    ▼
+재현 가능한 배포와 롤백
+```
 
 이 흐름은 "만드는 곳"과 "보관하는 곳"을 분리하는 방향으로 진화했다. 앞으로는 저장소 자체보다 서명, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 추적이 더 중요한 평가 기준이 된다.
 

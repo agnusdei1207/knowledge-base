@@ -35,23 +35,23 @@ tags = ["studynote-ict-convergence"]
 
 ### CLT와 [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모집단 분포 (임의 형태)</div>
-<div class="kb-diagram-note">반복 무작위 표본 추출 (n ≥ 30)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표본 평균의 분포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X̄ ~ N(μ, σ²/n)</div><div class="kb-diagram-cell">← CLT 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모집단과 관계없이 정규화)</div></div>
-<div class="kb-diagram-note">n → ∞</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X̄ → μ (모집단 평균)</div><div class="kb-diagram-cell">← 대수의 법칙</div></div>
-</div>
-</div>
-
-
+```
+모집단 분포 (임의 형태)
+        │
+        │ 반복 무작위 표본 추출 (n ≥ 30)
+        ▼
+┌───────────────────────────┐
+│  표본 평균의 분포           │
+│  X̄ ~ N(μ, σ²/n)          │  ← CLT 보장
+│  (모집단과 관계없이 정규화) │
+└───────────────────────────┘
+        │
+        │ n → ∞
+        ▼
+┌───────────────────────────┐
+│  X̄ → μ (모집단 평균)      │  ← 대수의 법칙
+└───────────────────────────┘
+```
 
 ### 관련 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 비교
 

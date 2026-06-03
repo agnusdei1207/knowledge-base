@@ -27,17 +27,14 @@ tags = ["studynote-ai"]
 
 이 원리를 기반으로 Q-러닝([Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/))은 모델-프리(Model-free) 방식으로 최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 학습할 수 있다. 환경의 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) P(s'|s,a)를 알지 못해도 경험(Experience)으로부터 학습이 가능하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 벨만 방정식은 "지금 이 방에 있는 것의 가치 = 여기서 얻는 보물 + 다음 방 중 가장 좋은 방의 가치 × 할인율"이라는 보물 찾기 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 한 번에 모든 경로를 분석하지 않고, 한 칸씩 최적을 계산하면 된다.
 
@@ -70,35 +67,28 @@ Q*(s,a) = R(s,a) + γ · Σ_{s'} P(s'|s,a) · max_{a'} Q*(s',a')
 
 모델-프리 방식으로 Q* 근사:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">R + γ · max_{a'} Q(s', a') - Q(s,a)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">TD 오류 (TD Error)</div>
-</div>
-</div>
-
-
+```
+Q(s,a) ← Q(s,a) + α · [R + γ · max_{a'} Q(s', a') - Q(s,a)]
+                        └──────── TD 오류 (TD Error) ─────────┘
+```
 
 - α: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate)
 - γ: 할인 인수(Discount Factor)
 - TD 오류: 현재 예측값과 목표값(벨만 타겟)의 차이
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전트-환경 상호작용 루프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s_t ──→ 행동 선택 a_t ──→ 환경 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ε-탐욕 정책)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보상 R_t, 다음 상태 s_{t+1}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q(s,a) 업데이트 ◄</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">α</div><div class="kb-diagram-node">R + γ·max Q(s',a') - Q(s,a)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│  에이전트-환경 상호작용 루프                                   │
+│                                                            │
+│  s_t ──→ 행동 선택 a_t ──→ 환경 실행                         │
+│   │        (ε-탐욕 정책)         │                          │
+│   │                             ▼                          │
+│   │                   보상 R_t, 다음 상태 s_{t+1}            │
+│   │                             │                          │
+│   └─────────────── Q(s,a) 업데이트 ◄──────────────────────┘ │
+│         α[R + γ·max Q(s',a') - Q(s,a)]                    │
+└────────────────────────────────────────────────────────────┘
+```
 
 ### γ (Discount Factor) 영향
 

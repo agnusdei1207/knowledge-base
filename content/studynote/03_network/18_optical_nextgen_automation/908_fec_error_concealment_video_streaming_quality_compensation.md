@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 웹페이지([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))는 데이터의 100% 무결성이 생명이라 에러 나면 무조건 재전송(Retransmission, [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/))을 받습니다.
 - 하지만 <strong>화상 회의, VoIP, 라이브 방송(<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>/<a href="/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/">RTP</a>)</strong>은 '시간(실시간성)'이 생명입니다. 패킷 1개가 깨졌다고 재전송을 기다리다간 전체 통화가 수 초씩 멈춰버립니다. 약간의 깍두기 모자이크(화질구지)가 생기더라도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이(No Retry) 그냥 쭉쭉 부드럽게 재생하는 것이 훨씬 이득입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">화상 회의 지터 버퍼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MOS</div></div>
-</div>
-</div>
-
-
+```text
+[화상 회의 지터 버퍼]
+    │
+    ▼
+[FEC 실시간 비디오 손실 은닉 기법 미디어…]
+    │
+    └──▶ [MOS]
+```
 
 - **📢 섹션 요약 비유**: FEC 실시간 비디오 손실 은닉 기법 미디어…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ FEC 백신을 썼는데도 에러가 나서 3번 비디오/오디오 프레임�
   - 2번 패킷 소리 파장(입 모양)과 4번 패킷 소리 파장이 정상 도착했습니다. 수신기의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩셋이 양쪽 소리의 기울기와 주파수 스펙트럼을 수학적으로 분석해, **존재하지도 않는 3번 패킷의 소리 파장(가짜 목소리)을 기가 막히게 상상해서 매끄러운 곡선으로 그려 끼워 넣습니다.**
   - 사람의 귀와 눈은 이 찰나의 가짜(은닉된 패킷)를 절대 눈치채지 못하고 "통화 품질 좋네~"라고 착각하고 넘어갑니다(시청각 인지 한계 극복).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">화상 회의 지터 버퍼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MOS</div></div>
-</div>
-</div>
-
-
+```text
+[화상 회의 지터 버퍼]
+    │
+    ▼
+[FEC 실시간 비디오 손실 은닉 기법 미디어…]
+    │
+    └──▶ [MOS]
+```
 
 - **📢 섹션 요약 비유**: FEC 실시간 비디오 손실 은닉 기법 미디어…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ FEC 실시간 비디오 손실 은닉 기법 미디어…는 광통신·차세�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 화상 회의 지터 버퍼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MOS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 화상 회의 지터 버퍼]
+    │
+    ▼
+[현재 개념: FEC 실시간 비디오 손실 은닉 기법 미디어…]
+    │
+    ├──▶ [확장 A: MOS]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 FEC 실시간 비디오 손실 은닉 기법 미디어…는 화상 회의 지터 버퍼에서 출발해 현재 메커니즘을 정교화하고, 이후 MOS와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

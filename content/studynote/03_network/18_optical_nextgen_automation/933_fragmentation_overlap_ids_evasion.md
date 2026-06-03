@@ -35,18 +35,14 @@ tags = ["studynote-network"]
 * 조각 2: **50번부터** 150번까지 (겹침!)
 목적지 서버의 OS(구버전 윈도우 등)는 조립 과정에서 "어? 이미 50번부터 100번까지 자리가 찼는데 또 들어오네?" 하며 메모리 계산에 랙이 걸리고 결국 <strong>블루스크린(버그)을 띄우며 다운(DDoS 효과)</strong>된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스니핑 탐지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우팅 프로토콜 인증 방어망 MD5/SHA…</div></div>
-</div>
-</div>
-
-
+```text
+[스니핑 탐지]
+    │
+    ▼
+[패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
+    │
+    └──▶ [라우팅 프로토콜 인증 방어망 MD5/SHA…]
+```
 
 - **📢 섹션 요약 비유**: 해커가 조립식 폭탄을 부품별로 우편으로 보냅니다. 우체국([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 엑스레이 검사대는 부품 하나하나는 폭탄이 아닌 것 같아서 그냥 통과시킵니다. 심지어 해커는 설명서 2페이지 내용 위에 3페이지 내용을 겹쳐서 풀칠을 해두어, 폭탄 조립자가 설명서를 읽다가 미쳐버리게(서버 다운) 만듭니다.
 
@@ -66,24 +62,26 @@ tags = ["studynote-network"]
 - `[이전 조각의 오프셋 + 이전 조각의 길이]` 값이 `[다음 조각의 시작 오프셋]`과 정확히 일치해야 한다.
 - 만약 값이 **후진하거나 겹친다면(Overlap)**, "어? 퍼즐 조각이 이상하게 겹치네? 티어드롭 공격이다!" 하고 즉시 조립을 중단하고 패킷을 전부 쓰레기통에 버린다 (Drop).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 단편화 오프셋 중첩(Overlap) 공격 및 IDS 방어 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💣</div><div class="kb-diagram-node">해커의 Teardrop 조작 패킷 발송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조각 1: 데이터 0 ~ 100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조각 2: 데이터 50 ~ 150 (← 고의로 앞부분 50을 겹치게 만듦)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">방화벽 / IDS의 모니터 검증 엔진 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계 파싱: 패킷 헤더 추출 "조각 1의 끝은 100번이군."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계 비교: "조각 2의 시작은 무조건 101번이어야 해."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계 검증: "어? 조각 2가 50번부터 시작해? 이건 100% 공격 패턴이다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">비정상 시그니처 룰 매칭</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">즉시 경고 알람 &amp; 패킷 폐기 (Drop)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 서버 OS로 악성 퍼즐이 넘어가지 않아 시스템 마비(블루스크린) 방어 성공.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│           패킷 단편화 오프셋 중첩(Overlap) 공격 및 IDS 방어 시각화                │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                   │
+│ 💣 [ 해커의 Teardrop 조작 패킷 발송 ]                                             │
+│   조각 1: 데이터 0 ~ 100                                                          │
+│   조각 2: 데이터 50 ~ 150 (← 고의로 앞부분 50을 겹치게 만듦)                      │
+│                                                                                   │
+│ 🛡️ [ 방화벽 / IDS의 모니터 검증 엔진 동작 ]                                       │
+│                                                                                   │
+│   1단계 파싱: 패킷 헤더 추출 "조각 1의 끝은 100번이군."                           │
+│   2단계 비교: "조각 2의 시작은 무조건 101번이어야 해."                            │
+│   3단계 검증: "어? 조각 2가 50번부터 시작해? 이건 100% 공격 패턴이다!"            │
+│                                                                                   │
+│       🚨 [ 비정상 시그니처 룰 매칭 ] ──▶ 즉시 경고 알람 & 패킷 폐기 (Drop)        │
+│                                                                                   │
+│   * 결과: 서버 OS로 악성 퍼즐이 넘어가지 않아 시스템 마비(블루스크린) 방어 성공.  │
+└───────────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋 중첩 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 룰 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 모…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -145,19 +143,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스니핑 탐지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 라우팅 프로토콜 인증 방어망 MD5/SHA…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스니핑 탐지]
+    │
+    ▼
+[현재 개념: 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
+    │
+    ├──▶ [확장 A: 라우팅 프로토콜 인증 방어망 MD5/SHA…]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋 중첩 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 룰 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 모…는 [스니핑 탐지](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/932_sniffing_detection_arp_ping/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어망 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)/SHA…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

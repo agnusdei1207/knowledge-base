@@ -43,43 +43,34 @@ tags = ["studynote-algorithm"]
 
 ### 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구성
 
+```
+문자열: "banana$"
+모든 접미사를 사전순 정렬:
 
+SA (Suffix Array)   LCP Array
+ 6  "$"              -
+ 5  "a$"             0
+ 3  "ana$"           1   ← "a$"와 LCP=1 ("a")
+ 1  "anana$"         3   ← "ana$"와 LCP=3 ("ana")
+ 0  "banana$"        0
+ 4  "na$"            0
+ 2  "nana$"          2   ← "na$"와 LCP=2 ("na")
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문자열: "banana$"</div>
-<div class="kb-diagram-note">모든 접미사를 사전순 정렬:</div>
-<div class="kb-diagram-note">SA (Suffix Array) LCP Array</div>
-<div class="kb-diagram-note">6 "$" -</div>
-<div class="kb-diagram-note">5 "a$" 0</div>
-<div class="kb-diagram-note">3 "ana$" 1 ← "a$"와 LCP=1 ("a")</div>
-<div class="kb-diagram-note">1 "anana$" 3 ← "ana$"와 LCP=3 ("ana")</div>
-<div class="kb-diagram-note">0 "banana$" 0</div>
-<div class="kb-diagram-note">4 "na$" 0</div>
-<div class="kb-diagram-note">2 "nana$" 2 ← "na$"와 LCP=2 ("na")</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">SA =</div><div class="kb-diagram-node">6, 5, 3, 1, 0, 4, 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LCP =</div><div class="kb-diagram-node">-, 0, 1, 3, 0, 0, 2</div></div>
-</div>
-</div>
-
-
+SA = [6, 5, 3, 1, 0, 4, 2]
+LCP = [-, 0, 1, 3, 0, 0, 2]
+```
 
 ### 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 패턴 탐색
 
+```
+패턴 "ana" 탐색:
+  SA의 정렬된 접미사에서 이진 탐색
+  "ana" ≤ SA[2]="ana$" ← lower bound
+  "ana" < SA[4]="banana$" ← upper bound
+  → SA[2], SA[3] 두 위치에서 발생 (인덱스 3, 1)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">패턴 "ana" 탐색:</div>
-<div class="kb-diagram-note">SA의 정렬된 접미사에서 이진 탐색</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">"ana" ≤ SA</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">lower bound</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">"ana" &lt; SA</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">upper bound</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">, SA</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">두 위치에서 발생 (인덱스 3, 1)</div></div>
-<div class="kb-diagram-note">시간: O(m log n), LCP 활용 시 O(m + log n)</div>
-</div>
-</div>
-
-
+시간: O(m log n), LCP 활용 시 O(m + log n)
+```
 
 ### [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) (Longest Common Prefix) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 활용
 
@@ -154,20 +145,14 @@ LCP 최댓값 = 3 (인덱스 3, "anana$"와 "ana$"의 공통 "ana")
 
 ### 기술사 판단 기준
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">짧은 패턴 1회 탐색 → KMP O(n+m)</div>
-<div class="kb-diagram-note">고정 패턴 집합 다중 탐색 → Aho-Corasick</div>
-<div class="kb-diagram-note">접두사 기반 자동 완성 → 압축 트라이</div>
-<div class="kb-diagram-note">임의 부분 문자열 다중 쿼리 → 서픽스 배열 + LCP</div>
-<div class="kb-diagram-note">DNA/전문 검색, 압축 → 서픽스 배열 + BWT</div>
-<div class="kb-diagram-note">메모리 무제한 + 최고 탐색 속도 → 서픽스 트리</div>
-</div>
-</div>
-
-
+```
+짧은 패턴 1회 탐색               →  KMP O(n+m)
+고정 패턴 집합 다중 탐색         →  Aho-Corasick
+접두사 기반 자동 완성             →  압축 트라이
+임의 부분 문자열 다중 쿼리       →  서픽스 배열 + LCP
+DNA/전문 검색, 압축              →  서픽스 배열 + BWT
+메모리 무제한 + 최고 탐색 속도  →  서픽스 트리
+```
 
 📢 **섹션 요약 비유**: 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구축은 책의 모든 페이지를 찢어 알파벳 순으로 파일링하는 것—처음 한 번만 고생하면 이후 어떤 단어도 순식간에 찾는다.
 
@@ -196,23 +181,21 @@ LCP 최댓값 = 3 (인덱스 3, "anana$"와 "ana$"의 공통 "ana")
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전체 부분 문자열 (Substring) 인덱싱 필요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서픽스 트리 (Suffix Tree) — O(n) 구축, 높은 공간 비용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서픽스 배열 (Suffix Array) — 공간 효율 정렬 인덱스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LCP 배열 (Longest Common Prefix) — 반복 패턴 탐지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BWT (Burrows-Wheeler Transform) — 압축·검색 융합</div></div>
-</div>
-</div>
-
-
+```text
+[전체 부분 문자열 (Substring) 인덱싱 필요]
+    │
+    ▼
+[서픽스 트리 (Suffix Tree) — O(n) 구축, 높은 공간 비용]
+    │
+    ▼
+[서픽스 배열 (Suffix Array) — 공간 효율 정렬 인덱스]
+    │
+    ▼
+[LCP 배열 (Longest Common Prefix) — 반복 패턴 탐지]
+    │
+    ▼
+[BWT (Burrows-Wheeler Transform) — 압축·검색 융합]
+```
 전체 부분 문자열 탐색을 위해 서픽스 트리를 고안하고, 공간 효율을 위해 서픽스 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하며, [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 BWT로 DNA·검색엔진·[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 융합되는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

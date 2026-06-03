@@ -45,22 +45,27 @@ EPIC의 중심에는 <strong>번들 단위 실행</strong>이 있다. 대표 구
 
 이 그림은 EPIC이 <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 3개를 그냥 묶는 것"</strong>이 아니라, 실행 그룹의 경계까지 전달한다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EPIC 번들(Bundle)과 실행 그룹(Instruction Group)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bundle N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slot 0</div><div class="kb-diagram-cell">Slot 1</div><div class="kb-diagram-cell">Slot 2</div><div class="kb-diagram-cell">Template</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Integer Op</div><div class="kb-diagram-cell">Memory Op</div><div class="kb-diagram-cell">Branch Op</div><div class="kb-diagram-cell">type + stop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same group if stop bit = 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bundle N+1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slot 0</div><div class="kb-diagram-cell">Slot 1</div><div class="kb-diagram-cell">Slot 2</div><div class="kb-diagram-cell">Template</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">stop bit = 1 이면 여기서 의존성 경계 형성</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                  EPIC 번들(Bundle)과 실행 그룹(Instruction Group)            │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Bundle N                                                                     │
+│ ┌──────────────┬──────────────┬──────────────┬──────────────┐                │
+│ │ Slot 0       │ Slot 1       │ Slot 2       │ Template     │                │
+│ │ Integer Op   │ Memory Op    │ Branch Op    │ type + stop  │                │
+│ └──────┬───────┴──────┬───────┴──────┬───────┴──────┬───────┘                │
+│        │              │              │              │                        │
+│        └──────────────┴──────────────┴──────────────┘                        │
+│                     same group if stop bit = 0                               │
+│                                                                              │
+│ Bundle N+1                                                                   │
+│ ┌──────────────┬──────────────┬──────────────┬──────────────┐                │
+│ │ Slot 0       │ Slot 1       │ Slot 2       │ Template     │                │
+│ └──────────────┴──────────────┴──────────────┴──────────────┘                │
+│                              ▲                                               │
+│                     stop bit = 1 이면 여기서 의존성 경계 형성                │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 프레디케이션은 EPIC의 대표 기능이다. 일반적인 분기문은 "조건 평가 → [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) → 틀리면 플러시" 흐름을 타지만, EPIC은 참/거짓 경로 일부를 조건 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 연결해 분기 자체를 줄인다. 예를 들어 `p1`이 참일 때만 실행되는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 `p2`가 참일 때만 실행되는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 같은 코드 구간에 배치하면, 짧은 분기에서는 예측 실패 비용보다 조건부 실행의 낭비가 더 작을 수 있다.
 
@@ -142,26 +147,27 @@ EPIC이 노린 기대효과는 분명했다. 복잡한 동적 [스케줄러](/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수퍼스칼라의 하드웨어 복잡도 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VLIW (Very Long Instruction Word)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EPIC (Explicitly Parallel Instruction Computing)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 프레디케이션 (Predication)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 추측 로드 (Speculative Load)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 소프트웨어 파이프라이닝 (Software Pipelining)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아이테니엄 (Itanium, IA-64) 상용화 실험</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">도메인 특화 가속기 · 컴파일러 힌트 기반 최적화로 철학 일부 계승</div>
-</div>
-</div>
-
-
+```text
+수퍼스칼라의 하드웨어 복잡도 증가
+    │
+    ▼
+VLIW (Very Long Instruction Word)
+    │
+    ▼
+EPIC (Explicitly Parallel Instruction Computing)
+    │
+    ├─▶ 프레디케이션 (Predication)
+    │
+    ├─▶ 추측 로드 (Speculative Load)
+    │
+    └─▶ 소프트웨어 파이프라이닝 (Software Pipelining)
+    │
+    ▼
+아이테니엄 (Itanium, IA-64) 상용화 실험
+    │
+    ▼
+도메인 특화 가속기 · 컴파일러 힌트 기반 최적화로 철학 일부 계승
+```
 
 이 흐름은 "동적 하드웨어 부담 증가 → 정적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 실험 → 보조 메커니즘 추가 → 상용화 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 부분 계승"의 진화를 보여준다.
 

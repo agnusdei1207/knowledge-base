@@ -16,52 +16,38 @@ tags = ["studynote-algorithm-stats"]
 
 ### 1. 벡터 (Vector)
 
+```text
+벡터 v = [v₁, v₂, ..., vₙ]ᵀ  ∈ ℝⁿ
 
+내적 (Dot Product): a·b = Σ aᵢbᵢ = |a||b|cos(θ)
+→ θ=0: 같은 방향 (유사도 최대)
+→ θ=90°: 직교 (유사도 0)
+→ θ=180°: 반대 방향 (유사도 최소)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">벡터 v =</div><div class="kb-diagram-node">v₁, v₂, ..., vₙ</div><div class="kb-diagram-note">ᵀ ∈ ℝⁿ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내적 (Dot Product): a·b = Σ aᵢbᵢ =</div><div class="kb-diagram-cell">a</div><div class="kb-diagram-cell">b</div><div class="kb-diagram-cell">cos(θ)</div></div>
-<div class="kb-diagram-note">→ θ=0: 같은 방향 (유사도 최대)</div>
-<div class="kb-diagram-note">→ θ=90°: 직교 (유사도 0)</div>
-<div class="kb-diagram-note">→ θ=180°: 반대 방향 (유사도 최소)</div>
-<div class="kb-diagram-note">L2 노름 (크기): ‖v‖ = √(v₁² + v₂² + ... + vₙ²)</div>
-</div>
-</div>
-
-
+L2 노름 (크기): ‖v‖ = √(v₁² + v₂² + ... + vₙ²)
+```
 
 ### 2. 행렬 연산
 
+```text
+행렬 곱: C = A·B  (A: m×k, B: k×n → C: m×n)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">행렬 곱: C = A·B (A: m×k, B: k×n → C: m×n)</div>
-<div class="kb-diagram-note">신경망 Forward Pass:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">z = W·x + b</div><div class="kb-diagram-node">W: 가중치 행렬, x: 입력 벡터, b: 편향</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">a = σ(z)</div><div class="kb-diagram-node">σ: 활성화 함수</div></div>
-<div class="kb-diagram-note">→ 레이어가 깊어질수록 행렬 곱 연쇄</div>
-</div>
-</div>
-
-
+신경망 Forward Pass:
+  z = W·x + b    [W: 가중치 행렬, x: 입력 벡터, b: 편향]
+  a = σ(z)       [σ: 활성화 함수]
+  → 레이어가 깊어질수록 행렬 곱 연쇄
+```
 
 ### 3. 고유값 분해 (Eigen Decomposition)
 
+```text
+Av = λv  (A: 정방행렬, v: 고유벡터, λ: 고유값)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Av = λv (A: 정방행렬, v: 고유벡터, λ: 고유값)</div>
-<div class="kb-diagram-note">활용:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">PCA: 공분산 행렬의 고유벡터 → 주성분 방향</div>
-<div class="kb-diagram-tree-item" style="--depth:1">PageRank: 전이 행렬의 고유벡터 → 페이지 중요도</div>
-<div class="kb-diagram-tree-item" style="--depth:1">행렬 거듭제곱 효율화 (A^n = Q·Λⁿ·Q⁻¹)</div>
-</div>
-</div>
-
-
+활용:
+  - PCA: 공분산 행렬의 고유벡터 → 주성분 방향
+  - PageRank: 전이 행렬의 고유벡터 → 페이지 중요도
+  - 행렬 거듭제곱 효율화 (A^n = Q·Λⁿ·Q⁻¹)
+```
 
 ### 4. 특이값 분해 (SVD, Singular Value Decomposition)
 
@@ -97,17 +83,11 @@ V: 우 특이벡터 (행 공간 기저)
 
 ### Gram-Schmidt 직교화
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고차원 벡터를 서로 수직인(직교) 벡터 집합으로 변환</div>
-<div class="kb-diagram-note">→ QR 분해의 기초</div>
-<div class="kb-diagram-note">→ 수치적으로 안정된 선형 시스템 풀기</div>
-</div>
-</div>
-
-
+```text
+고차원 벡터를 서로 수직인(직교) 벡터 집합으로 변환
+→ QR 분해의 기초
+→ 수치적으로 안정된 선형 시스템 풀기
+```
 
 - **📢 섹션 요약 비유**: SVD는 **'복잡한 사진을 몇 가지 기본 패턴으로 분해하는 것'** 입니다. 얼굴 사진을 100개의 고유 패턴(특이벡터)으로 분해하면, 상위 10개만 써도 원본과 비슷한 얼굴이 복원됩니다 — 이것이 이미지 압축과 추천 시스템의 원리입니다.
 
@@ -133,23 +113,21 @@ V: 우 특이벡터 (행 공간 기저)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">벡터·행렬 기초 (내적·행렬 곱·역행렬)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고유값 분해 → PCA (주성분 분석)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SVD (특이값 분해) → 행렬 인수분해 → 추천 시스템</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">신경망 = 행렬 곱 연쇄 → GPU 병렬 가속</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Attention = 내적 기반 유사도 → Transformer → LLM</div>
-</div>
-</div>
-
-
+```text
+벡터·행렬 기초 (내적·행렬 곱·역행렬)
+    │
+    ▼
+고유값 분해 → PCA (주성분 분석)
+    │
+    ▼
+SVD (특이값 분해) → 행렬 인수분해 → 추천 시스템
+    │
+    ▼
+신경망 = 행렬 곱 연쇄 → GPU 병렬 가속
+    │
+    ▼
+Attention = 내적 기반 유사도 → Transformer → LLM
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

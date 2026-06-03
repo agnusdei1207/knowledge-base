@@ -38,24 +38,26 @@ CMAC의 동작 원리는 입력 [데이터](/knowledge-base/studynote/05_databas
 | **3. 서브 키 투하** | 마지막 블록 직전에 $K_1$([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 없음) 또는 $K_2$([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 있음)를 XOR | 구형 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)-MAC의 길이 확장 위조 공격을 원천 차단 |
 | **4. 태그 추출** | 마지막 블록을 암호화하여 나온 찌꺼기를 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 태그(지문)로 사용 | 중간 암호문은 다 버리고 오직 마지막 1개만 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에 사용 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CMAC의 아키텍처 (마지막 블록에 서브 키 K1 투하)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">평문 블록 1</div><div class="kb-diagram-node">평문 블록 2</div><div class="kb-diagram-node">마지막 평문 블록 N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( AES ) ──(XOR)──▶ ( AES ) ──(XOR)──▶ ( XOR ⊕ ) ◀── ★ K1 (또는 K2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(중간 찌꺼기 넘김)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( AES )</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(버림) (버림)</div><div class="kb-diagram-node">CMAC 인증 태그</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       CMAC의 아키텍처 (마지막 블록에 서브 키 K1 투하)        │
+├──────────────────────────────────────────────────────────────┤
+│  [평문 블록 1]      [평문 블록 2]       [마지막 평문 블록 N] │
+│       │                  │                    │              │
+│       ▼                  ▼                    ▼              │
+│    ( AES ) ──(XOR)──▶ ( AES ) ──(XOR)──▶   ( XOR ⊕ ) ◀── ★ K1 (또는 K2) │
+│                      (중간 찌꺼기 넘김)       │              │
+│                                               ▼              │
+│                                            ( AES )           │
+│                                               │              │
+│                                               ▼              │
+│    (버림)             (버림)           [ CMAC 인증 태그 ]    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 여기서 중간에 나오는 암호문 블록들을 그냥 버리는 이유는 지금 우리의 목적이 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기밀화(암호화)'가 아니라 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 깨짐 방지([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))'이기 때문이다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬리를 물고 넘어와 마지막 블록에 농축되므로, 이 마지막 블록 하나만 떼어내도 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단 1비트라도 조작되었는지 100% 감지해 낼 수 있다.
 
-- **📢 섹션 요약 비유**: 100피스짜리 도미노를 세울 때, 99번째 도미노까지는 그냥 평범하게 세우다가 마지막 100번째 도미노를 놓기 직전에 나만 아는 '특수 강력 접착제(서브 키 K1)'를 발라버리는 것이다. 해커가 몰래 101번째 가짜 도미노를 덧붙이려 해도 접착제 성분이 달라서 위조가 발각된다.
+- **📢 섹션 요약 비유**: 100피스짜리 도미노를 세울 때, 99번째 도미노까지는 그냥 평범하게 세우다가 마지막 100번째 도미노를 놓기 직전에 나만 아는 '특수 강력 접착제(서브 키 K1)'를 발라버리는 것이다. 해커가 몰래 101번째 가짜 도미노를 덧붙이려 해도 접착제 성분이 달라서 위조가 감지된다.
 
 ---
 
@@ -107,23 +109,21 @@ CMAC은 자원이 극도로 제한된 환경에서도 [기밀성](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메시지 인증 코드 (MAC) 도입 · 무결성과 발신자 신원 확인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CBC-MAC · 블록 암호를 활용한 가벼운 인증 도입 (단, 고정 길이 메시지만 안전)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">길이 확장 위조 공격 (Length Extension Attack) 발생 · 가변 길이 메시지에서 털림</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OMAC (One-Key MAC) 및 서브 키 주입 고안 · 위조 방어 수학적 기법 추가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CMAC (Cipher-based MAC) 표준화 · IoT 및 임베디드 기기의 최적량 인증 표준 정립</div>
-</div>
-</div>
-
-
+```text
+메시지 인증 코드 (MAC) 도입 · 무결성과 발신자 신원 확인
+    │
+    ▼
+CBC-MAC · 블록 암호를 활용한 가벼운 인증 도입 (단, 고정 길이 메시지만 안전)
+    │
+    ▼
+길이 확장 위조 공격 (Length Extension Attack) 발생 · 가변 길이 메시지에서 털림
+    │
+    ▼
+OMAC (One-Key MAC) 및 서브 키 주입 고안 · 위조 방어 수학적 기법 추가
+    │
+    ▼
+CMAC (Cipher-based MAC) 표준화 · IoT 및 임베디드 기기의 최적량 인증 표준 정립
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

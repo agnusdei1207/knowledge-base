@@ -50,26 +50,24 @@ tags = ["studynote-software-engineering"]
 
 ### 변경 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">변경 요청(CR) 제출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">영향 분석 (Impact Analysis)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">변경 범위 파악</div>
-<div class="kb-diagram-tree-item" style="--depth:2">리스크 평가</div>
-<div class="kb-diagram-tree-item" style="--depth:2">비용·일정 추정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">변경 승인위원회(CCB: Configuration Change Board)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구현 → 테스트 → 배포</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구성 관리 시스템 업데이트</div>
-</div>
-</div>
-
-
+```text
+변경 요청(CR) 제출
+    │
+    ▼
+영향 분석 (Impact Analysis)
+    ├─ 변경 범위 파악
+    ├─ 리스크 평가
+    └─ 비용·일정 추정
+    │
+    ▼
+변경 승인위원회(CCB: Configuration Change Board)
+    │
+    ▼
+구현 → 테스트 → 배포
+    │
+    ▼
+구성 관리 시스템 업데이트
+```
 
 - **📢 섹션 요약 비유**: [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 아파트 공사 허가다. 벽에 못 하나 박는 것도(작은 변경) 관리실([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)) 신고 절차가 있고, 벽 철거(큰 변경)는 더 엄격한 허가가 필요하다.
 
@@ -139,23 +137,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 유지보수 — 전체 비용의 60~80%</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4유형 분류 — 수정/적응/완전화/예방 (ISO 14764)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">변경 관리 (CCB) — 체계적 변경 승인 프로세스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유지보수성 향상 — 응집도·결합도·테스트 자동화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 자동 유지보수 — 결함 자동 감지·수정 제안</div></div>
-</div>
-</div>
-
-
+```text
+[소프트웨어 유지보수 — 전체 비용의 60~80%]
+    │
+    ▼
+[4유형 분류 — 수정/적응/완전화/예방 (ISO 14764)]
+    │
+    ▼
+[변경 관리 (CCB) — 체계적 변경 승인 프로세스]
+    │
+    ▼
+[유지보수성 향상 — 응집도·결합도·테스트 자동화]
+    │
+    ▼
+[AI 자동 유지보수 — 결함 자동 감지·수정 제안]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

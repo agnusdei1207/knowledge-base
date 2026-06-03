@@ -29,17 +29,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 리그레션 테스트 자동화 및 선택적 수의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리그레션 테스트 자동화 및 선택적 수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  리그레션 테스트 자동화 및 선택적 수                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 리그레션 테스트 자동화 및 선택적 수가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -57,22 +58,23 @@ tags = ["studynote-software-engineering"]
   - 전역 변수(Global Variable)나 코어 프레임워크, 공통 유틸리티 등 파급 효과를 가늠하기 힘든 근본적인 변경이 일어났을 때.
   - 메이저 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 릴리즈 전날 밤, 최종 승인(Sign-off)을 위한 나이트리 빌드(Nightly Build) 시.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 테스트 (Retest All)의 특징</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">변경 사항</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">코드 베이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">테스트 스위트</div><div class="kb-diagram-note">(TC 1 ~ TC 10,000)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; 모듈 A (영향 O) &gt; TC 1 ~ 1,000 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; 모듈 B (영향 O) &gt; TC 1,001 ~ 2,000 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; 모듈 C (영향 X) &gt; TC 2,001 ~ 9,000 실행 (낭비)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; 모듈 D (영향 X) &gt; TC 9,001 ~ 10,000 실행 (낭비)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 완벽한 안전성 보장, 극심한 시간/자원 낭비 발생</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│             전체 테스트 (Retest All)의 특징               │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│  [변경 사항] ───> [코드 베이스]                         │
+│                        │                               │
+│  [테스트 스위트] (TC 1 ~ TC 10,000)                    │
+│    │                                                   │
+│    ├─> 모듈 A (영향 O) ───> TC 1 ~ 1,000 실행          │
+│    ├─> 모듈 B (영향 O) ───> TC 1,001 ~ 2,000 실행      │
+│    ├─> 모듈 C (영향 X) ───> TC 2,001 ~ 9,000 실행 (낭비)│
+│    └─> 모듈 D (영향 X) ───> TC 9,001 ~ 10,000 실행 (낭비)│
+│                                                        │
+│  * 결과: 완벽한 안전성 보장, 극심한 시간/자원 낭비 발생        │
+└────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]**
 이 방식은 변경된 코드와 전혀 연관이 없는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) C와 D의 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)까지 모조리 실행한다. 안전성 측면에서는 이보다 좋을 수 없으나, 리소스가 막대하게 소모된다. 실무에서는 이러한 전체 테스트를 개발자가 코드를 커밋할 때마다 수행하지 않고, 하루 일과가 끝난 자정(Midnight)에 스케줄링하여 수행하는 나이트리 빌드(Nightly Build) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 우회하여 사용한다.
@@ -101,23 +103,27 @@ tags = ["studynote-software-engineering"]
   2. **영향도 분석 (Impact Analysis)**: 컴파일러의 콜 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))나 AST (Abstract Syntax Tree)를 분석하여 변경된 함수를 호출하는 모든 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 추적한다.
   3. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/">테스트 케이스</a> 매핑 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/">Test Case</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)</strong>: 도출된 영향 반경 내의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)들의 교집합을 추출한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">콜 그래프(Call Graph) 기반 선택적 테스트 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">변경 지점</div><div class="kb-diagram-note">: <code>CalculateDiscount()</code> 함수 변경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 영향도 추적 (상향식 콜 그래프 분석)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CalculateDiscount()</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cart.js</div><div class="kb-diagram-node">Payment.js</div><div class="kb-diagram-node">UserProfile.js</div><div class="kb-diagram-note">(영향 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TC_101) (TC_205) (TC_301 생략)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(장바구니) (결제 검증) (프로필 조회)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 동적 스위트 생성: Suite = { TC_101, TC_205 }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. CI 실행: 시간 90% 단축, 피드백 속도 극대화</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          콜 그래프(Call Graph) 기반 선택적 테스트 메커니즘        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [변경 지점] : `CalculateDiscount()` 함수 변경                 │
+│                                                             │
+│   1. 영향도 추적 (상향식 콜 그래프 분석)                          │
+│      CalculateDiscount()                                    │
+│       ▲            ▲                                        │
+│       │            │                                        │
+│  [Cart.js]     [Payment.js]   [UserProfile.js] (영향 없음)     │
+│       ▲            ▲                                        │
+│       │            │                                        │
+│   (TC_101)      (TC_205)         (TC_301 생략)                │
+│   (장바구니)     (결제 검증)        (프로필 조회)                 │
+│                                                             │
+│   2. 동적 스위트 생성: Suite = { TC_101, TC_205 }             │
+│   3. CI 실행: 시간 90% 단축, 피드백 속도 극대화                  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]**
 할인 로직(`CalculateDiscount`)을 수정했을 때, 시스템은 이 함수를 참조하는 `Cart(장바구니)`와 `Payment(결제)` [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 영향을 받을 것이라 판단한다. 반면 할인 로직과 전혀 무관한 `UserProfile(사용자 프로필)` [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 영향도 분석에서 배제된다. 결과적으로 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 테스트 중 Cart와 Payment에 관련된 1,000개의 테스트만 선별되어 실행되므로, 개발자는 5시간이 아닌 30분 만에 안전성 피드백을 받을 수 있다.
@@ -186,30 +192,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -25,29 +25,33 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 기존의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 보안은 "사용자 계정" 단위의 권한 통제(DAC)에 머물렀다. 만약 관리자(root/Admin) 권한으로 실행된 웹 브라우저나 메일 클라이언트가 악성코드에 감염되면, 해당 프로세스는 관리자의 모든 권한을 상속받아 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 파괴할 수 있었다. 이를 막기 위해 어플리케이션 자체를 "절대 신뢰하지 않는" 환경이 필요해졌다. 즉, 브라우저가 해킹당하더라도 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 읽거나 네트워크 소켓을 열 수 없도록 프로세스 주위에 보이지 않는 감옥(Jail)을 치는 샌드박스 기술이 브라우저(Chrome), 모바일 OS(iOS, Android), 클라우드 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 시장의 표준으로 자리 잡았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 실행 환경 vs 샌드박스(Sandbox) 실행 환경 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 환경 (No Sandbox)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신뢰할 수 없는 앱 (예: 악성 첨부파일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (모든 시스템 콜 허용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">호스트 OS 커널</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">시스템 전체 파일/네트워크 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변조 및 파괴 가능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">샌드박스 환경 (Sandboxed)</div></div>
-<div class="kb-diagram-note">│ │</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">신뢰할 수 없는 앱</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(제한된 시스템 콜만 허용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">Sandbox 엔진 / 커널 래퍼 (Seccomp 등)</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-note">│ │ │</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (검증 통과 시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">호스트 OS 커널</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">격리된 가상 공간만 접근 │</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│      전통적 실행 환경 vs 샌드박스(Sandbox) 실행 환경 비교  │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  [전통적 환경 (No Sandbox)]                                │
+│   ┌───────────────────────────────────────────────┐        │
+│   │ [신뢰할 수 없는 앱 (예: 악성 첨부파일)]         │        │
+│   │      │                                        │        │
+│   │      ▼ (모든 시스템 콜 허용)                  │        │
+│   │ [ 호스트 OS 커널 ] ──▶ 시스템 전체 파일/네트워크 │        │
+│   │                      변조 및 파괴 가능          │        │
+│   └───────────────────────────────────────────────┘        │
+│                                                            │
+│  [샌드박스 환경 (Sandboxed)]                               │
+│   ┌───────────────────────────────────────────────┐        │
+│   │ ╔═══════════════════════════════════════════╗ │        │
+│   │ ║ [신뢰할 수 없는 앱]                         ║ │        │
+│   │ ║      │ (제한된 시스템 콜만 허용)            ║ │        │
+│   │ ║      ▼                                    ║ │        │
+│   │ ║ [ Sandbox 엔진 / 커널 래퍼 (Seccomp 등) ]   ║ │        │
+│   │ ╚══════│════════════════════════════════════╝ │        │
+│   │        ▼ (검증 통과 시)                       │        │
+│   │ [ 호스트 OS 커널 ] ──▶ 격리된 가상 공간만 접근  │        │
+│   └───────────────────────────────────────────────┘        │
+└────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 다이어그램은 샌드박스가 프로세스와 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 사이에 위치한 '투명한 방탄유리' 역할을 함을 보여준다. 전통적 환경에서는 앱이 뚫리면 OS 전체가 뚫린다. 반면 샌드박스 환경에서는 앱이 악성 행위를 위해 `open("/etc/shadow")` 같은 민감한 시스템 콜을 날리면, 그 즉시 샌드박스 엔진([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 래퍼)이 이를 낚아채어(Intercept) 허용된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 대조한 뒤 접근을 차단하고 프로세스를 죽인다. 설령 앱이 완전히 장악되었더라도 그 피해는 샌드박스 내부의 모래성 하나 무너지는 것으로 끝난다.
 
@@ -70,27 +74,33 @@ tags = ["studynote-operating-system"]
 
 리눅스 환경에서 샌드박싱을 구현하는 가장 작고 빠르며 우아한 기술이 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/">Seccomp</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/">Secure Computing Mode</a>)</strong> 다. 프로세스가 일단 [Seccomp](/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/) 모드에 진입하면, 자신이 호출할 수 있는 시스템 콜의 종류가 극단적으로 제한된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seccomp-BPF 기반의 시스템 콜 필터링 (Kernel Wrapper)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 스페이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App (예: Nginx Worker)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 1. 정상 요청: read()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 2. 악성 해킹: execve() ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─</div><div class="kb-diagram-cell">─ ─</div><div class="kb-diagram-cell">─ (User/Kernel 경계)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 스페이스</div><div class="kb-diagram-connector">▼</div><div class="kb-diagram-note">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPF (Berkeley Packet Filter) 엔진</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">허용(Allow) 목록</div><div class="kb-diagram-node">차단(Kill) 목록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- read(), write() - execve() (셸 획득)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- sigreturn() - ptrace() (디버깅)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- exit() - fork() (프로세스생성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 콜 실행</div><div class="kb-diagram-node">💥 SIGKILL (프로세스 즉사)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│      Seccomp-BPF 기반의 시스템 콜 필터링 (Kernel Wrapper)  │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  [유저 스페이스]                                           │
+│    App (예: Nginx Worker)                                  │
+│      │                                                     │
+│      ├── 1. 정상 요청: read() ─────────┐                   │
+│      │                                 │                   │
+│      └── 2. 악성 해킹: execve() ──┐    │                   │
+│                                   │    │                   │
+│  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ │ ─ (User/Kernel 경계)
+│  [커널 스페이스]                  ▼    ▼                   │
+│    ┌────────────────────────────────────────────────┐      │
+│    │ BPF (Berkeley Packet Filter) 엔진              │      │
+│    │                                                │      │
+│    │ [허용(Allow) 목록]     [차단(Kill) 목록]       │      │
+│    │ - read(), write()      - execve() (셸 획득)    │      │
+│    │ - sigreturn()          - ptrace() (디버깅)     │      │
+│    │ - exit()               - fork()   (프로세스생성)│      │
+│    └────────┬───────────────────────┬───────────────┘      │
+│             │                       │                      │
+│             ▼                       ▼                      │
+│       [ 시스템 콜 실행 ]      [ 💥 SIGKILL (프로세스 즉사) ] │
+└────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 [Seccomp](/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/)-BPF가 어떻게 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 래퍼([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Wrapper)'로서 기능하는지 보여준다. 웹 서버의 워커 프로세스는 평소에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽고(read) 네트워크로 보내는(write) 역할만 하면 된다. 따라서 관리자는 이 프로세스에 대해 `execve`나 `fork` 같은 위험한 시스템 콜을 금지하는 [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)([Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) 룰셋을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 주입한다. 만약 [제로 데이](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/) 취약점(예: [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))이 터져서 해커가 [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)([Shellcode](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/))를 주입하고 `/bin/sh`를 띄우기 위해 `execve` 시스템 콜을 호출하더라도, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) 엔진이 이를 가로채어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반으로 간주하고 해킹된 프로세스를 즉시 죽여버린다(SIGKILL). 공격자는 취약점 익스플로잇에는 성공했으나, 샌드박스를 뚫지 못해 무력화된다.
 
@@ -113,26 +123,26 @@ tags = ["studynote-operating-system"]
 
 가장 많이 쓰이는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/">Seccomp</a>(애플리케이션 샌드박스)</strong> 와 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 샌드박스)</strong> 의 융합은 현대 클라우드 보안의 핵심이다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)로 "시야([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))"를 가리고, Seccomp로 "행동(Action)"을 묶는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 샌드박스의 2중 방어망 (Namespace + Seccomp)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커가 컨테이너 내부로 침투 성공</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1차 방어막: Namespace (시야 차단)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커: "호스트의 다른 프로세스들을 죽여야겠다! (kill)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: ❌ PID Namespace 때문에 호스트의 프로세스 목록이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아예 보이지 않음. (자신이 1번 프로세스인 줄 앎)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2차 방어막: Seccomp / AppArmor (행동 차단)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커: "그렇다면 커널 모듈을 새로 로드해서 장악해야겠다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시스템 콜: init_module 호출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: ❌ Docker의 Default Seccomp 프로필이 커널 조작과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관련된 44개의 위험한 시스템 콜을 하드웨어 레벨에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전 차단(Block)해둠. → 권한 거부(EPERM) 에러!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│      클라우드 샌드박스의 2중 방어망 (Namespace + Seccomp)  │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  [해커가 컨테이너 내부로 침투 성공]                        │
+│                                                            │
+│  [1차 방어막: Namespace (시야 차단)]                       │
+│   해커: "호스트의 다른 프로세스들을 죽여야겠다! (kill)"    │
+│   결과: ❌ PID Namespace 때문에 호스트의 프로세스 목록이   │
+│            아예 보이지 않음. (자신이 1번 프로세스인 줄 앎) │
+│                                                            │
+│  [2차 방어막: Seccomp / AppArmor (행동 차단)]              │
+│   해커: "그렇다면 커널 모듈을 새로 로드해서 장악해야겠다!" │
+│         (시스템 콜: init_module 호출)                      │
+│   결과: ❌ Docker의 Default Seccomp 프로필이 커널 조작과   │
+│            관련된 44개의 위험한 시스템 콜을 하드웨어 레벨에서│
+│            사전 차단(Block)해둠. → 권한 거부(EPERM) 에러!  │
+└────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 왜 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 훌륭한 샌드박스로 기능하는지를 보여준다. 해커가 웹 취약점을 뚫고 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 내부의 루트(root) 권한을 획득했다 하더라도, 그것은 '가짜 세상([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))' 안에서의 왕일 뿐이다. 진짜 세상(호스트 OS)을 보거나 조작하려면 `mount`를 통해 호스트 디스크를 마운트하거나 `init_module`로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 조작해야 하는데, [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 데몬이 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄울 때 OS에 걸어둔 [Seccomp](/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/) 룰과 [AppArmor](/knowledge-base/studynote/02_operating_system/10_security/584_apparmor/) 룰이 이 두 번째 행동을 완벽하게 틀어막는다. 이를 '[컨테이너 이스케이프](/knowledge-base/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/)([Container Escape](/knowledge-base/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/)) 방어'라고 부른다.
 
@@ -197,19 +207,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">침입 탐지 시스템 (IDS) / 침입 방지 시스템 (IPS) 시스템 콜 트레이싱 기반 이상 탐지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">샌드박싱 (Sandboxing) 기술 커널 래퍼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">루트킷 (Rootkit) 커널 모듈 감염 방식 (시스템 콜 테이블 후킹)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사용자 인증 (Authentication) 요소</div></div>
-</div>
-</div>
-
-
+```text
+[침입 탐지 시스템 (IDS) / 침입 방지 시스템 (IPS) 시스템 콜 트레이싱 기반 이상 탐지]
+    │
+    ▼
+[샌드박싱 (Sandboxing) 기술 커널 래퍼]
+    │
+    ├──▶ [루트킷 (Rootkit) 커널 모듈 감염 방식 (시스템 콜 테이블 후킹)]
+    └──▶ [사용자 인증 (Authentication) 요소]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

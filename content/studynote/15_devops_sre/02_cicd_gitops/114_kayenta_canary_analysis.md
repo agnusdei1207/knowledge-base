@@ -18,24 +18,22 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 카나리 vs 자동 카나리 분석 (Kayenta)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카나리 배포 → Grafana 대시보드 관찰 (30분)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ "에러가 좀 늘었는데... 괜찮은 것 같기도?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 주관적 판단, 인간 오류 가능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kayenta ACA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카나리 배포 → 메트릭 자동 수집 (Prometheus)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 통계 검정 (Mann-Whitney U)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Score: 92/100 → "Promote (자동 진행)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">또는 Score: 45/100 → "Rollback (자동 복원)"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    수동 카나리 vs 자동 카나리 분석 (Kayenta)           │
+├───────────────────────────────────────────────────────┤
+│  [수동]                                               │
+│   카나리 배포 → Grafana 대시보드 관찰 (30분)          │
+│   → "에러가 좀 늘었는데... 괜찮은 것 같기도?"         │
+│   → 주관적 판단, 인간 오류 가능                       │
+│                                                       │
+│  [Kayenta ACA]                                        │
+│   카나리 배포 → 메트릭 자동 수집 (Prometheus)         │
+│   → 통계 검정 (Mann-Whitney U)                        │
+│   → Score: 92/100 → "Promote (자동 진행)"            │
+│   또는 Score: 45/100 → "Rollback (자동 복원)"         │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 수동 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 의사가 "환자 상태가 좀 나아진 것 같은데..."라고 감으로 판단하는 것이고, Kayenta는 혈액 검사 결과(통계)를 기반으로 "수치상 호전"이라고 객관적으로 판정하는 것이다.
 
@@ -104,23 +102,21 @@ Kayenta는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_arch
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 카나리 배포 (2010s) — 대시보드 관찰, 주관적 판단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Netflix Kayenta (2017) — 통계 기반 자동 카나리 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spinnaker + Kayenta 통합 (2018~) — CD 파이프라인 내장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Argo Rollouts Analysis (2020~) — K8s 네이티브 ACA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 ACA — 이상 패턴 학습 + 자동 판정</div></div>
-</div>
-</div>
-
-
+```text
+[수동 카나리 배포 (2010s) — 대시보드 관찰, 주관적 판단]
+    │
+    ▼
+[Netflix Kayenta (2017) — 통계 기반 자동 카나리 분석]
+    │
+    ▼
+[Spinnaker + Kayenta 통합 (2018~) — CD 파이프라인 내장]
+    │
+    ▼
+[Argo Rollouts Analysis (2020~) — K8s 네이티브 ACA]
+    │
+    ▼
+[현재: AI 기반 ACA — 이상 패턴 학습 + 자동 판정]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 새 레시피(코드)를 만들었는데, 10명에게만 먼저 맛보게 해요 ([카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)).

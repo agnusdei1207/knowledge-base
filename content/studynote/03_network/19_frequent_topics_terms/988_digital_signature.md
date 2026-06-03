@@ -32,27 +32,28 @@ tags = ["studynote-network"]
 
   기존 종이 서명과 전자 서명의 구조적 차이와 부인 방지 원리를 시각화하면 다음과 같다.
 
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │              종이 서명 vs 전자 서명의 한계 및 해결 원리               │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [종이 문서 서명]                 [디지털 전자 서명]               │
+  │                                                             │
+  │   문서 1: "100만 원 송금"         문서 1: "100만 원 송금"          │
+  │        [ 홍길동 서명 ]                 [ 전자 서명 (A8F2...) ]     │
+  │                                                             │
+  │   문서 2: "1000만 원 송금"        문서 2: "1000만 원 송금"         │
+  │   해커가 서명을 그대로 '복사/붙여넣기'   문서 내용이 바뀌면, 서명 자체가     │
+  │   → 위조 성공! (서명이 동일함)       완전히 다른 값으로 깨져버림!       │
+  │                               → 복붙 불가능 (위조 실패!)       │
+  │                                                             │
+  │  원리:                                                       │
+  │  종이 서명은 '사람'에게만 종속되지만,                             │
+  │  전자 서명은 '사람의 개인키' + '문서의 내용(해시)' 둘 다에 완벽히 종속됨. │
+  └─────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">종이 서명 vs 전자 서명의 한계 및 해결 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">종이 문서 서명</div><div class="kb-diagram-node">디지털 전자 서명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문서 1: "100만 원 송금" 문서 1: "100만 원 송금"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">홍길동 서명</div><div class="kb-diagram-node">전자 서명 (A8F2...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문서 2: "1000만 원 송금" 문서 2: "1000만 원 송금"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커가 서명을 그대로 '복사/붙여넣기' 문서 내용이 바뀌면, 서명 자체가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 위조 성공! (서명이 동일함) 완전히 다른 값으로 깨져버림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 복붙 불가능 (위조 실패!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원리:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">종이 서명은 '사람'에게만 종속되지만,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전자 서명은 '사람의 개인키' + '문서의 내용(해시)' 둘 다에 완벽히 종속됨.</div></div>
-</div>
-</div>
-
-
-
-  **[다이어그램 해설]** 이 단순한 도해는 전자 서명이 종이 서명보다 본질적으로 우월한 이유를 보여준다. 종이 서명은 스캐너로 오려내어 다른 문서에 붙여넣을 수 있다. 그러나 전자 서명은 서명을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 공식 입력값에 '문서 전체의 해시값'이 포함되어 있다. 따라서 해커가 원본 문서에서 서명값(A8F2...)을 복사해 "1000만 원 송금"이라는 조작된 문서에 갖다 붙이더라도, 수신자가 그 서명을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 보면 "이 서명은 100만 원짜리 문서용으로 만들어진 서명입니다"라는 오류가 뜨며 위조가 즉시 발각된다.
+  **[다이어그램 해설]** 이 단순한 도해는 전자 서명이 종이 서명보다 본질적으로 우월한 이유를 보여준다. 종이 서명은 스캐너로 오려내어 다른 문서에 붙여넣을 수 있다. 그러나 전자 서명은 서명을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 공식 입력값에 '문서 전체의 해시값'이 포함되어 있다. 따라서 해커가 원본 문서에서 서명값(A8F2...)을 복사해 "1000만 원 송금"이라는 조작된 문서에 갖다 붙이더라도, 수신자가 그 서명을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 보면 "이 서명은 100만 원짜리 문서용으로 만들어진 서명입니다"라는 오류가 뜨며 위조가 즉시 감지된다.
 
 - **📢 섹션 요약 비유**: 종이 도장은 다른 종이에 옮겨 찍을 수 있지만, 전자 서명은 계약서의 모든 글자를 쇳물에 녹여 만든 '단 한 번만 쓸 수 있는 맞춤형 자물쇠'와 같아서, 문서를 고치려면 자물쇠를 부숴야만 합니다.
 
@@ -75,29 +76,46 @@ tags = ["studynote-network"]
 
 전자 서명의 전체 생명 주기는 송신자(Alice)의 서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 수신자(Bob)의 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 이루어진다. 이 과정에서 메시지 원본은 암호화되지 않고 평문으로 날아갈 수 있다는 점에 주목해야 한다([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 보장이 아닌 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 목적).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전자 서명(Digital Signature) 동작 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 서명 생성 파이프라인 (Alice)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 메시지 (M)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(그대로 전송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 함수</div><div class="kb-diagram-cell">(SHA-256)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해시값 h</div><div class="kb-diagram-note">Alice의 개인키 (Private Key) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명 알고리즘 (RSA 등)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전자 서명값 (Sig)</div><div class="kb-diagram-note">(네트워크 전송) │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 서명 검증 파이프라인 (Bob)</div><div class="kb-diagram-note">수신된 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(M') (Sig')</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(M'을 직접 해시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alice의 공개키 (Public Key)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 함수</div><div class="kb-diagram-cell">검증 함수</div><div class="kb-diagram-cell">◀──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">계산된 해시 h1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">복원된 해시 h2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 판단: h1 == h2 이면, "Alice가 보낸 것이 맞고, 변조되지 않았다!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 전자 서명(Digital Signature) 동작 파이프라인         │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │     [1. 서명 생성 파이프라인 (Alice)]                                │
+  │                                                                  │
+  │  원본 메시지 (M)                                                   │
+  │       │                                                          │
+  │       ├─────────────(그대로 전송)─────────────────────────┐        │
+  │       ▼                                                   │        │
+  │  ┌─────────┐                                              │        │
+  │  │ 해시 함수 │(SHA-256)                                     │        │
+  │  └─────────┘                                              │        │
+  │       ▼                                                   │        │
+  │   [ 해시값 h ]     Alice의 개인키 (Private Key)               │        │
+  │       │                 │                                 │        │
+  │       ▼                 ▼                                 │        │
+  │  ┌─────────────────────────┐                              │        │
+  │  │   서명 알고리즘 (RSA 등)   │                              │        │
+  │  └─────────────────────────┘                              │        │
+  │       ▼                                                   │        │
+  │  [ 전자 서명값 (Sig) ]────────(네트워크 전송)──────────┐    │        │
+  │                                                      │    │        │
+  │──────────────────────────────────────────────────────┼────┼──────│
+  │                                                      ▼    ▼        │
+  │     [2. 서명 검증 파이프라인 (Bob)]                        수신된 데이터    │
+  │                                                    (M')  (Sig')    │
+  │                                                      │    │        │
+  │      ┌──────────(M'을 직접 해시)───────────┐         │    │        │
+  │      ▼                                     ▼         │    │        │
+  │ ┌─────────┐ Alice의 공개키 (Public Key)  ┌─────────┐   │    │        │
+  │ │ 해시 함수 │            │               │ 검증 함수 │◀──┘    │        │
+  │ └─────────┘            ▼               └─────────┘        │        │
+  │      ▼                                     ▼                │        │
+  │ [계산된 해시 h1] ◀─────(일치 여부 비교)─────▶ [복원된 해시 h2]    │        │
+  │                                                                  │
+  │  결과 판단: h1 == h2 이면, "Alice가 보낸 것이 맞고, 변조되지 않았다!"     │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 상단의 서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정을 보면, 원본 메시지(M)는 암호화되지 않고 바로 전송된다. 대신, 메시지를 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에 통과시켜 얻은 짧은 해시값(h)을 송신자(Alice)의 '개인키'로 암호화하여 서명값(Sig)을 만든다. M과 Sig가 함께 수신자(Bob)에게 도착하면, 수신자는 두 갈래의 작업을 동시에 수행한다. 하나는 받은 메시지(M)를 직접 해시해 보는 것(h1 획득)이고, 다른 하나는 받은 서명(Sig)을 Alice의 '공개키'로 복호화해 보는 것(h2 획득)이다. 만약 해커가 중간에 메시지를 변조했다면 h1이 달라질 것이고, 해커가 서명을 위조하려 했다면 Alice의 개인키가 없으므로 올바른 Sig를 만들지 못해 복호화된 h2가 엉터리가 될 것이다. 따라서 $h1 == h2$가 일치한다는 것은 두 가지를 수학적으로 완벽히 증명한다. 첫째, 문서는 1비트도 안 바뀌었다([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)). 둘째, 이 서명은 Alice의 개인키로만 만들어질 수 있다([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 부인 방지).
 
@@ -105,30 +123,30 @@ tags = ["studynote-network"]
 
 과거 수십 년간 전자 서명의 표준은 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이었다. 그러나 RSA는 안전성을 유지하기 위해 키 길이가 너무 길어져야 하는(최소 2048비트) 단점이 있다. 모바일 환경과 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 등장으로 타원 곡선 암호([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)) 기반의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/">ECDSA</a> (Elliptic Curve <a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>가 현대의 표준으로 자리 잡았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RSA 서명과 ECDSA 서명의 구조적 및 성능 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RSA-2048 서명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 보안 강도: 112비트 수준 (AES-128과 유사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서명 생성 속도: 비교적 느림 (거대한 수의 지수 거듭제곱)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서명 검증 속도: 매우 빠름 (공개키 e를 보통 65537로 고정하여 최적화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서명 데이터 크기: 256 바이트 (2048 비트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECDSA-256 (타원 곡선 서명)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 보안 강도: 128비트 수준 (더 작은 키로 더 강한 보안)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서명 생성 속도: RSA 대비 훨씬 빠름 (모바일/IoT에 최적화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서명 검증 속도: RSA보다 약간 느림 (타원 곡선 상의 점 연산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서명 데이터 크기: 64 바이트 (r, s 각각 32바이트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 병목 지점의 차이:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹 서버(수신자) 입장에서 수만 건의 접속을 처리할 때, RSA 인증서는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버가 서명을 생성할 때 부하가 걸림. 반면 클라이언트는 검증이 빠름.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECDSA 인증서는 서버의 서명 생성 부하를 확연히 줄여주어 대규모 트래픽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리에 절대적으로 유리함. (현재 구글, 네이버 등 대부분의 웹 표준)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────┐
+  │            RSA 서명과 ECDSA 서명의 구조적 및 성능 비교             │
+  ├───────────────────────────────────────────────────────────┤
+  │                                                           │
+  │  [ RSA-2048 서명 ]                                         │
+  │  - 보안 강도: 112비트 수준 (AES-128과 유사)                    │
+  │  - 서명 생성 속도: 비교적 느림 (거대한 수의 지수 거듭제곱)             │
+  │  - 서명 검증 속도: 매우 빠름 (공개키 e를 보통 65537로 고정하여 최적화)  │
+  │  - 서명 데이터 크기: 256 바이트 (2048 비트)                     │
+  │                                                           │
+  │  [ ECDSA-256 (타원 곡선 서명) ]                             │
+  │  - 보안 강도: 128비트 수준 (더 작은 키로 더 강한 보안)              │
+  │  - 서명 생성 속도: RSA 대비 훨씬 빠름 (모바일/IoT에 최적화)          │
+  │  - 서명 검증 속도: RSA보다 약간 느림 (타원 곡선 상의 점 연산)          │
+  │  - 서명 데이터 크기: 64 바이트 (r, s 각각 32바이트)             │
+  │                                                           │
+  │  * 병목 지점의 차이:                                         │
+  │  웹 서버(수신자) 입장에서 수만 건의 접속을 처리할 때, RSA 인증서는     │
+  │  서버가 서명을 생성할 때 부하가 걸림. 반면 클라이언트는 검증이 빠름.     │
+  │  ECDSA 인증서는 서버의 서명 생성 부하를 확연히 줄여주어 대규모 트래픽  │
+  │  처리에 절대적으로 유리함. (현재 구글, 네이버 등 대부분의 웹 표준)     │
+  └───────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 비교는 왜 최신 IT 인프라(AWS, [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인 등)가 RSA를 버리고 ECDSA로 갈아타고 있는지를 명확히 보여준다. RSA는 키 길이가 2048비트에 달해 패킷 용량을 차지하고 암호화 시 CPU를 많이 소모한다. 반면 ECDSA는 불과 256비트의 키만으로도 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-3072비트 급의 강력한 보안을 제공한다. 서명 결과물 사이즈도 64바이트로 획기적으로 작다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 매 트랜잭션마다 서명을 블록에 저장해야 하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인이 만약 RSA를 썼다면 원장 용량이 감당 불가능했을 것이며, 스마트폰의 배터리 소모도 극심했을 것이다.
 
@@ -167,28 +185,35 @@ tags = ["studynote-network"]
 
 안전한 전자 서명 시스템을 구축할 때 암호학적 실패 지점은 생각보다 수학적 세부 구현에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전자 서명 구현 시 취약점 발생 포인트 및 방어 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">취약한 설계 (안티패턴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 해시 함수를 쓰지 않고 긴 문서 원본을 무리하게 RSA 블록 단위로 쪼개어 서명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 블록 순서를 해커가 뒤바꾸는 조합 공격(Reordering Attack)에 당함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 취약한 해시 함수(MD5, SHA-1)를 사용하여 서명 전 요약 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 해커가 충돌(Collision) 문서를 만들어 서명값을 그대로 가짜 문서에 복사.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ECDSA 서명 시 예측 가능한 무작위 수(Nonce, k) 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 대수학 방정식을 풀면 단 두 번의 서명만으로 영구 개인키(d)가 털림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 소니 플레이스테이션3 해킹 사건의 핵심 원인)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">견고한 아키텍처 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SHA-256 (표준)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">난수(k)의 결정론적 생성 (RFC6979)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HSM 장비 (안전한 개인키 격리)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">서명값 (Sig)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단: 전자 서명 알고리즘 자체는 완벽하나, 서명에 사용되는 "해시의 충돌 내성"과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"난수(Nonce)의 무결성", "개인키의 보관 위치(HSM)"가 전체 보안을 결정함.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │              전자 서명 구현 시 취약점 발생 포인트 및 방어 구조               │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │   [ 취약한 설계 (안티패턴) ]                                             │
+  │                                                                    │
+  │   1. 해시 함수를 쓰지 않고 긴 문서 원본을 무리하게 RSA 블록 단위로 쪼개어 서명  │
+  │      → 블록 순서를 해커가 뒤바꾸는 조합 공격(Reordering Attack)에 당함.     │
+  │                                                                    │
+  │   2. 취약한 해시 함수(MD5, SHA-1)를 사용하여 서명 전 요약 생성              │
+  │      → 해커가 충돌(Collision) 문서를 만들어 서명값을 그대로 가짜 문서에 복사.│
+  │                                                                    │
+  │   3. ECDSA 서명 시 예측 가능한 무작위 수(Nonce, k) 사용                  │
+  │      → 대수학 방정식을 풀면 단 두 번의 서명만으로 영구 개인키(d)가 털림.      │
+  │      (※ 소니 플레이스테이션3 해킹 사건의 핵심 원인)                        │
+  │                                                                    │
+  │  ────────────────────────────────────────────────────────────────────│
+  │                                                                    │
+  │   [ 견고한 아키텍처 설계 ]                                              │
+  │                                                                    │
+  │   [ 원본 ] → [ SHA-256 (표준) ] → [ 난수(k)의 결정론적 생성 (RFC6979) ] │
+  │                                      │                             │
+  │               [ HSM 장비 (안전한 개인키 격리) ] ◀──(연산)── [ 서명값 (Sig) ]│
+  │                                                                    │
+  │   판단: 전자 서명 알고리즘 자체는 완벽하나, 서명에 사용되는 "해시의 충돌 내성"과 │
+  │        "난수(Nonce)의 무결성", "개인키의 보관 위치(HSM)"가 전체 보안을 결정함.│
+  └────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초급 엔지니어는 "[RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 썼으니 안전하다"고 오판하기 쉽다. 하지만 암호학의 역사는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체보다 주변부 구현의 실수를 집요하게 파고든 역사다. 소니 PS3 해킹 사건처럼 서명에 들어가는 난수가 난수답지 못하면 수백억 원이 들여 구축한 보안 체계 전체가 방정식 한 줄에 무너진다. 또한, 서명을 수행하는 '개인키'가 서버의 일반 메모리(RAM)나 하드디스크에 평문으로 존재하면 메모리 덤프 공격 등에 쉽게 유출된다. 따라서 기업의 핵심 자산에 서명할 때는 반드시 개인키를 밖으로 빼낼 수 없는 물리적 보안 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/), [Hardware Security Module](/knowledge-base/studynote/09_security/03_network_security/157_hsm_hardware_security_module/)) 내부에서 서명 연산이 이루어지도록 아키텍처를 강제해야 한다.
 
@@ -223,20 +248,20 @@ tags = ["studynote-network"]
 
 전자 서명은 비대칭키 암호화([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))와 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))라는 20세기 암호학의 가장 위대한 두 발명품이 결합된 예술적인 아키텍처다. 서로 한 번도 만난 적 없는 지구 반대편의 두 사람이, 종이 한 장 주고받지 않고도 수억 원의 계약을 맺고 소프트웨어를 믿고 다운로드할 수 있는 이유는, 이 수학적 봉인이 "거짓말을 할 수 없다"는 사실을 기계가 완벽하게 증명해 주기 때문이다. 양자 컴퓨터가 등장하여 자물쇠의 형태가 격자(Lattice) 구조로 바뀐다 할지라도, 개인의 고유한 열쇠로 디지털 세계에 책임을 새겨 넣는 전자 서명의 패러다임은 IT 문명을 지탱하는 가장 견고한 주춧돌로 남을 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전자 서명 기술의 패러다임 진화 (1990 ~ 2030+)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 호환성/보안성</div><div class="kb-diagram-node">현재: 경량화/규모</div><div class="kb-diagram-node">미래: 양자 내성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RSA 서명 (무겁고 큰 키) → ECDSA 서명 (가벼움) → PQC ML-DSA 서명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC 기반 공인인증서 플러그인 → 모바일/블록체인 지갑 내장 → 양자 컴퓨터 공격 방어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PKCS#1 v1.5 단순 패딩 → PSS 기반 보안 패딩 → 하이브리드 서명 혼용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 동인: "위조 방지"에서 모바일 기기를 위한 "경량화", 다시 "양자 위협 대응"으로 진화</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────┐
+  │             전자 서명 기술의 패러다임 진화 (1990 ~ 2030+)            │
+  ├────────────────────────────────────────────────────────────────┤
+  │                                                                │
+  │  [과거: 호환성/보안성]       [현재: 경량화/규모]        [미래: 양자 내성]     │
+  │                                                                │
+  │  RSA 서명 (무겁고 큰 키)   →  ECDSA 서명 (가벼움)   →  PQC ML-DSA 서명   │
+  │  PC 기반 공인인증서 플러그인 → 모바일/블록체인 지갑 내장 → 양자 컴퓨터 공격 방어│
+  │  PKCS#1 v1.5 단순 패딩   → PSS 기반 보안 패딩      → 하이브리드 서명 혼용 │
+  │                                                                │
+  │  핵심 동인: "위조 방지"에서 모바일 기기를 위한 "경량화", 다시 "양자 위협 대응"으로 진화 │
+  └────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 전자 서명의 진화는 끊임없는 '무게 줄이기'와 '방어력 높이기'의 싸움이었다. 과거 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 시절의 RSA는 연산량이 너무 커서 서버의 동시 처리 능력을 갉아먹었다. 스마트폰과 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시대가 열리자, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 타개하기 위해 수학적 우아함을 극대화한 타원 곡선([ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/))이 등장하여 적은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수로도 동일한 보안을 달성해 냈다. 이제 곧 다가올 3단계 패러다임은 양자 컴퓨터라는 거대한 폭격기에 맞서기 위한 진화다. 기존 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 뚫리는 것을 막기 위해, 다소 크기가 커지고 연산이 복잡해지더라도 수학적 복잡도를 격자(Lattice) 차원으로 끌어올린 차세대 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 브라우저와 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 속속 탑재되며 세대교체를 준비하고 있다.
 
@@ -255,19 +280,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 해시 함수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 전자 서명</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 서비스 거부 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 해시 함수]
+    │
+    ▼
+[현재 개념: 전자 서명]
+    │
+    ├──▶ [확장 A: 서비스 거부 공격]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 전자 서명는 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

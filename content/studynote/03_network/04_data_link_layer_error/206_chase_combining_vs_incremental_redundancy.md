@@ -29,18 +29,14 @@ tags = ["studynote-network"]
   희미한 두 장의 사진을 겹치면 명암이 뚜렷해지듯, <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/">신호 대 잡음비</a>(<a href="/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/">SNR</a>)가 폭발적으로 높아져 에러가 씻은 듯이 고쳐지는 마법</strong>이 일어납니다.
 - **장점/단점**: 수신기가 버퍼 공간을 적게 차지하여 구현이 엄청 쉽지만, 맨날 똑같은 뚱뚱한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통째로 보내야 하니 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(속도) 낭비가 큽니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HARQ</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Chase Combining / IR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARQ 프로토콜 종류</div></div>
-</div>
-</div>
-
-
+```text
+[HARQ]
+    │
+    ▼
+[Chase Combining / IR]
+    │
+    └──▶ [ARQ 프로토콜 종류]
+```
 
 - **📢 섹션 요약 비유**: Chase Combining / IR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
 - **수신기의 융합 (점진적 추가)**:
   수신기는 1차 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬리 뒤에, 방금 도착한 2차 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 조각들을 계속 이어 붙입니다(Incremental). [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)(Redundancy)가 점진적으로 뚱뚱해지니 에러 정정 확률이 기하급수적으로 올라갑니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HARQ</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Chase Combining / IR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARQ 프로토콜 종류</div></div>
-</div>
-</div>
-
-
+```text
+[HARQ]
+    │
+    ▼
+[Chase Combining / IR]
+    │
+    └──▶ [ARQ 프로토콜 종류]
+```
 
 - **📢 섹션 요약 비유**: Chase Combining / IR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ Chase Combining / IR는 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HARQ</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Chase Combining / IR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ARQ 프로토콜 종류</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HARQ]
+    │
+    ▼
+[현재 개념: Chase Combining / IR]
+    │
+    ├──▶ [확장 A: ARQ 프로토콜 종류]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 Chase Combining / IR는 HARQ에서 출발해 현재 메커니즘을 정교화하고, 이후 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 종류와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

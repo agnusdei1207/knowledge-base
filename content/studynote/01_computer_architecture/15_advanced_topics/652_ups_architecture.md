@@ -33,19 +33,19 @@ UPS의 핵심 구조는 정류기, 직류 [버스](/knowledge-base/studynote/01_
 
 아래 그림은 온라인 UPS의 대표적인 전력 경로를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Online UPS power conditioning path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Utility AC ─▶ Rectifier ─▶ DC Bus ─▶ Inverter ─▶ Critical Load</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Battery / BMS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Utility AC ▶ Static Bypass ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(fault or maintenance path)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   Online UPS power conditioning path                      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Utility AC ─▶ Rectifier ─▶ DC Bus ─▶ Inverter ─▶ Critical Load           │
+│                     │          ▲                                          │
+│                     │          │                                          │
+│                     └────▶ Battery / BMS                                 │
+│                                                                            │
+│ Utility AC ─────────────────────▶ Static Bypass ───────────────────────▶  │
+│                               (fault or maintenance path)                 │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -125,26 +125,24 @@ UPS를 적절히 설계하면 전력 이상이 곧 [서비스](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">상용 전원 직접 공급</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오프라인 UPS</div>
-<div class="kb-diagram-note">: 정전 시 배터리 절체</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">라인 인터랙티브 UPS</div>
-<div class="kb-diagram-note">: 전압 조정 기능 추가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">온라인 이중 변환 UPS</div>
-<div class="kb-diagram-note">: 상시 전력 정화 · 0ms급 절체</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모듈형 UPS · 리튬이온 · 발전기 연계 · 에너지 서비스화</div>
-</div>
-</div>
-
-
+```text
+상용 전원 직접 공급
+    │
+    ▼
+오프라인 UPS
+: 정전 시 배터리 절체
+    │
+    ▼
+라인 인터랙티브 UPS
+: 전압 조정 기능 추가
+    │
+    ▼
+온라인 이중 변환 UPS
+: 상시 전력 정화 · 0ms급 절체
+    │
+    ▼
+모듈형 UPS · 리튬이온 · 발전기 연계 · 에너지 서비스화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

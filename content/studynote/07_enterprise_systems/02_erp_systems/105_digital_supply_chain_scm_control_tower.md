@@ -36,21 +36,24 @@ tags = ["enterprise_systems"]
 | **분석 및 예측 (Intelligence)** | [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/), 빅데이터 분석 | 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습하여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(날씨, 항만 파업 등)를 사전 감지하고 경고 |
 | **통합 가시성 (Visibility)** | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 공급사부터 최종 고객([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))까지 위치, 온도, 재고 상태 실시간 매핑 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM 컨트롤 타워의 감지-판단-실행 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IoT 데이터 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원자재 공장 ──▶ 항만 ──▶ 해상 운송 ──▶ 조립 공장 ──▶ 유통</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실시간 데이터 100% 동기화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SCM 컨트롤 타워 대시보드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 AI 경보 감지: "대만 앞바다 태풍 발생! 선박 3일 지연 예상!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 대안 시뮬레이션 ─▶ "선박 화물을 항공편으로 긴급 우회하라"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            SCM 컨트롤 타워의 감지-판단-실행 메커니즘         │
+├──────────────────────────────────────────────────────────────┤
+│ [ IoT 데이터 파이프라인 ]                                    │
+│  원자재 공장 ──▶ 항만 ──▶ 해상 운송 ──▶ 조립 공장 ──▶ 유통    │
+│       ▲            ▲         ▲           ▲           ▲      │
+│       │            │         │           │           │      │
+│       └────────────┴─────────┴───────────┴───────────┘      │
+│                 (실시간 데이터 100% 동기화)                   │
+│                              ▼                               │
+│ [ SCM 컨트롤 타워 대시보드 ]                                 │
+│  🚨 AI 경보 감지: "대만 앞바다 태풍 발생! 선박 3일 지연 예상!"│
+│                              │                               │
+│                              ▼                               │
+│  💡 대안 시뮬레이션 ─▶ "선박 화물을 항공편으로 긴급 우회하라"│
+└──────────────────────────────────────────────────────────────┘
+```
 
 가장 밑단의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서는 단순 위치뿐 아니라 냉동 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 실시간 온도, 습도, 진동까지 잡아낸다. 중앙의 컨트롤 타워는 이 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 외부 뉴스(날씨, 파업)를 결합하여, 문제가 터지기 전에 "이대로 가면 3일 뒤 납기를 맞출 수 없다"고 선제적 예측을 내놓는 것이 핵심 원리다.
 
@@ -107,23 +110,21 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 선형 SCM (단절된 사일로 구조)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가시성 확보 (Visibility) · IoT 센서를 통한 E2E 모니터링 대시보드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">예측형 SCM (Predictive) · AI 빅데이터 분석을 통한 리스크 사전 경보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SCM 컨트롤 타워 (Control Tower) · 중앙 집중형 의사결정 및 대안 시뮬레이션</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자율형 공급망 (Autonomous Supply Chain) · 무개입(Zero-Touch) 자동 실행 네트워크</div>
-</div>
-</div>
-
-
+```text
+전통적 선형 SCM (단절된 사일로 구조)
+    │
+    ▼
+가시성 확보 (Visibility) · IoT 센서를 통한 E2E 모니터링 대시보드
+    │
+    ▼
+예측형 SCM (Predictive) · AI 빅데이터 분석을 통한 리스크 사전 경보
+    │
+    ▼
+SCM 컨트롤 타워 (Control Tower) · 중앙 집중형 의사결정 및 대안 시뮬레이션
+    │
+    ▼
+자율형 공급망 (Autonomous Supply Chain) · 무개입(Zero-Touch) 자동 실행 네트워크
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -46,34 +46,37 @@ tags = ["studynote-operating-system"]
 
 C 프로그램에서 흔히 쓰는 `read()` 함수를 호출했을 때, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 내부에서 벌어지는 일이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">System Call API Wrapper의 3단계 동작 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Space - 개발자 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ssize_t bytes = read(fd, buffer, 100);</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Space - glibc (C 표준 라이브러리 내부의 래퍼 코드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 인자 배치 (Register Setup):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템 콜 번호 세팅: <code>mov rax, 0</code> (sys_read의 번호는 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1번 인자(fd) 세팅 : <code>mov rdi, fd</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2번 인자(buf) 세팅 : <code>mov rsi, buffer</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 3번 인자(size) 세팅: <code>mov rdx, 100</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 트랩 발생 (Context Switch Trigger):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>syscall</code> 명령어 실행 (CPU를 Ring 0 커널 모드로 진입시킴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 반환값 처리 및 에러 핸들링 (Post-processing):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널이 일을 끝내고 유저 공간으로 복귀함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 반환값이 들어있는 <code>rax</code> 레지스터를 검사함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- if (rax &lt; 0) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">errno = -rax; // 글로벌 에러 변수(errno)에 에러 코드 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return -1; // 개발자에게는 무조건 -1을 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} else {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return rax; // 성공 시 읽은 바이트 수 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 System Call API Wrapper의 3단계 동작 원리            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [User Space - 개발자 코드]                                         │
+  │   ssize_t bytes = read(fd, buffer, 100);                          │
+  │            │                                                      │
+  │  ==========▼======================================================│
+  │  [User Space - glibc (C 표준 라이브러리 내부의 래퍼 코드)]               │
+  │                                                                   │
+  │   1. 인자 배치 (Register Setup):                                     │
+  │      - 시스템 콜 번호 세팅: `mov rax, 0` (sys_read의 번호는 0)         │
+  │      - 1번 인자(fd) 세팅  : `mov rdi, fd`                           │
+  │      - 2번 인자(buf) 세팅 : `mov rsi, buffer`                       │
+  │      - 3번 인자(size) 세팅: `mov rdx, 100`                          │
+  │                                                                   │
+  │   2. 트랩 발생 (Context Switch Trigger):                            │
+  │      - `syscall` 명령어 실행 (CPU를 Ring 0 커널 모드로 진입시킴)         │
+  │                                                                   │
+  │   3. 반환값 처리 및 에러 핸들링 (Post-processing):                     │
+  │      - 커널이 일을 끝내고 유저 공간으로 복귀함.                            │
+  │      - 반환값이 들어있는 `rax` 레지스터를 검사함.                        │
+  │      - if (rax < 0) {                                             │
+  │            errno = -rax;  // 글로벌 에러 변수(errno)에 에러 코드 기록     │
+  │            return -1;     // 개발자에게는 무조건 -1을 반환             │
+  │        } else {                                                   │
+  │            return rax;    // 성공 시 읽은 바이트 수 반환                │
+  │        }                                                          │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 개발자는 `read()`가 실패하면 단순히 `-1`이 반환되는 것으로만 안다. 하지만 실제 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 실패 시 "어떤 이유로 실패했는지(예: 권한 없음 = -EACCES)"를 음수 값으로 `rax` [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 담아 보낸다. <strong>글로벌 변수인 <code>errno</code>에 이 구체적인 에러 코드를 예쁘게 적어주고, 개발자에게는 통일된 -1을 반환하는 것</strong>이 바로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 래퍼의 가장 중요한 '포장(Wrapping)' 역할이다.
 
@@ -132,27 +135,31 @@ C 프로그램에서 흔히 쓰는 `read()` 함수를 호출했을 때, [라이�
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 콜 래퍼 최적화 및 프로파일링 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버 성능 저하 시, 시스템 콜(트랩) 병목 여부 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>strace -c -p &lt;PID&gt;</code> 명령으로 앱이 주로 호출하는 시스템 콜 비율 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: <code>read</code>, <code>write</code> 횟수가 비정상적으로 많고 크기가 1바이트 수준인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼링 래퍼 사용 누락</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 개발자가 <code>read()</code>(시스템 콜 직결) 대신,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내부적으로 버퍼링을 해주는 <code>fread()</code>나 <code>BufferedStream</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스(라이브러리 래퍼)를 사용하도록 코드 리팩토링 지시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 네트워크 I/O(recv, send)가 많아 CPU의 %sys 타임이 튀는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동기식 I/O 래퍼의 한계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: epoll 기반 비동기 네트워크 프레임워크(Netty, Nginx)나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">io_uring 래퍼 라이브러리(liburing)로 아키텍처 전환</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 시스템 콜 래퍼 최적화 및 프로파일링 의사결정 플로우          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [서버 성능 저하 시, 시스템 콜(트랩) 병목 여부 검증]                         │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      `strace -c -p <PID>` 명령으로 앱이 주로 호출하는 시스템 콜 비율 확인       │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      결과: `read`, `write` 횟수가 비정상적으로 많고 크기가 1바이트 수준인가?  │
+  │          ├─ 예 ─────▶ [버퍼링 래퍼 사용 누락]                           │
+  │          │            대책: 개발자가 `read()`(시스템 콜 직결) 대신,        │
+  │          │            내부적으로 버퍼링을 해주는 `fread()`나 `BufferedStream`│
+  │          │            클래스(라이브러리 래퍼)를 사용하도록 코드 리팩토링 지시  │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      결과: 네트워크 I/O(recv, send)가 많아 CPU의 %sys 타임이 튀는가?         │
+  │          ├──▶ [동기식 I/O 래퍼의 한계]                                │
+  │          │    대책: epoll 기반 비동기 네트워크 프레임워크(Netty, Nginx)나   │
+  │          │          io_uring 래퍼 라이브러리(liburing)로 아키텍처 전환     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 주니어 개발자들은 `read()`와 `fread()`의 차이를 모른다. `read`는 부를 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 들어가는 직통 전화기(무거운 래퍼)고, `fread`는 4KB를 한 번에 퍼 와서 내 책상(메모리)에 두고 찔끔찔끔 꺼내 쓰는 캐시(가벼운 래퍼)다. 시스템의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화하려면 이 래퍼들이 속에서 어떻게 포장을 하고 뜯는지([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 메커니즘)를 완벽히 꿰뚫고 있어야 한다.
 
@@ -196,19 +203,15 @@ C 프로그램에서 흔히 쓰는 `read()` 함수를 호출했을 때, [라이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 모드 진입 메커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 콜 API 래퍼 (System Call API Wrapper)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모놀리식 vs 마이크로 커널 성능 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPC 기법 성능 오버헤드</div></div>
-</div>
-</div>
-
-
+```text
+[커널 모드 진입 메커니즘]
+    │
+    ▼
+[시스템 콜 API 래퍼 (System Call API Wrapper)]
+    │
+    ├──▶ [모놀리식 vs 마이크로 커널 성능 비교]
+    └──▶ [IPC 기법 성능 오버헤드]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

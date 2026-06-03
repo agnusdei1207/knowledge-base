@@ -38,18 +38,17 @@ tags = ["studynote-devops-sre"]
 | Regional [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) / Cloud | 장기 분석과 통합 | fleet [management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), model distribution |
 | Sync Layer | 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [offline-first](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/579_offline_first_pwa_service_worker/), conflict handling |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">telemetry summarized</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Devices</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Edge Node</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Cloud Core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local event</div><div class="kb-diagram-cell">local infer / cache</div><div class="kb-diagram-cell">model update</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actuator</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Local Policy</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Control Plane</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   telemetry   ┌──────────────┐   summarized  ┌──────────────┐
+│ Devices      │ ───────────▶ │ Edge Node    │ ─────────────▶ │ Cloud Core   │
+└──────────────┘              └──────────────┘                └──────────────┘
+        │                              │                               │
+        │ local event                  │ local infer / cache           │ model update
+        ▼                              ▼                               ▼
+┌──────────────┐              ┌──────────────┐                ┌──────────────┐
+│ Actuator     │ ◀─────────── │ Local Policy │ ◀───────────── │ Control Plane│
+└──────────────┘              └──────────────┘                └──────────────┘
+```
 
 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 보내지 않고, 가치가 높은 요약·이상징후·집계만 올리는 것이다. 또한 연결이 끊겨도 최소 기능은 유지하는 [Offline-first](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/579_offline_first_pwa_service_worker/) 설계가 중요하다. 엣지 노드가 많아질수록 소프트웨어 배포와 보안 패치도 중앙에서 통제할 수 있어야 한다.
 
@@ -118,21 +117,18 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Centralized Cloud Processing</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CDN / Caching at the Edge</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Edge Compute / Local Inference</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Autonomous Edge + Cloud Coordination</div>
-</div>
-</div>
-
-
+```text
+Centralized Cloud Processing
+   │
+   ▼
+CDN / Caching at the Edge
+   │
+   ▼
+Edge Compute / Local Inference
+   │
+   ▼
+Autonomous Edge + Cloud Coordination
+```
 
 이 흐름은 “중앙 처리 → 콘텐츠 캐시 → 현장 연산 → 자율 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 운영”으로 엣지 개념이 확장되는 방향을 보여준다.
 

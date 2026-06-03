@@ -33,20 +33,19 @@ tags = ["studynote-database"]
 
 아래 그림은 같은 조건이 어느 단계에서 적용되느냐에 따라 중간 결과 크기가 어떻게 달라지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Predicate placement changes the cost</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Late filtering</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMP 1,000,000 rows -&gt; View V 1,000,000 -&gt; Join -&gt; Filter -&gt; 120</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Early filtering by pushdown</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMP 1,000,000 rows -&gt; Filter in V -&gt; 120 -&gt; Join -&gt; 120</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same answer / far smaller intermediate result</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Predicate placement changes the cost                              │
+├────────────────────────────────────────────────────────────────────┤
+│ Late filtering                                                    │
+│   EMP 1,000,000 rows -> View V 1,000,000 -> Join -> Filter -> 120 │
+│                                                                    │
+│ Early filtering by pushdown                                       │
+│   EMP 1,000,000 rows -> Filter in V -> 120 -> Join -> 120         │
+│                                                                    │
+│ Same answer / far smaller intermediate result                     │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 다음과 같은 질의를 보자.
 
@@ -167,26 +166,25 @@ SELECT d.dept_name, v.emp_name, v.salary
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Outer predicate discovered</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Safety check on view boundary</div>
-<div class="kb-diagram-tree-item" style="--depth:4">keep predicate outside</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Predicate moved into view</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Earlier row reduction</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cheaper join / sort / aggregation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lower overall query cost</div>
-</div>
-</div>
-
-
+```text
+Outer predicate discovered
+        │
+        ▼
+Safety check on view boundary
+        │
+        ├──────────────► keep predicate outside
+        ▼
+Predicate moved into view
+        │
+        ▼
+Earlier row reduction
+        │
+        ▼
+Cheaper join / sort / aggregation
+        │
+        ▼
+Lower overall query cost
+```
 
 이 흐름도는 "바깥 조건 발견 → 안전성 검사 → 안쪽 이동 여부 결정 → 조기 필터링 → 후속 연산 비용 절감"이라는 조건 푸시 다운의 핵심 판단 절차를 요약한다.
 

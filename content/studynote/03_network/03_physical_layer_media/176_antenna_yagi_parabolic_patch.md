@@ -24,18 +24,15 @@ tags = ["network"]
 
 아래 그림은 세 종류 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 같은 목표를 전혀 다른 방식으로 달성한다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Three ways to shape radio energy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yagi-Uda : rods and parasitic elements form one forward lobe</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parabolic : a reflector focuses energy to or from one focal point</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Patch : a flat resonator radiates broadside; arrays sharpen</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Three ways to shape radio energy                                   │
+├────────────────────────────────────────────────────────────────────┤
+│ Yagi-Uda   : rods and parasitic elements form one forward lobe     │
+│ Parabolic  : a reflector focuses energy to or from one focal point │
+│ Patch      : a flat resonator radiates broadside; arrays sharpen   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 즉 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 형상은 단순한 외형 차이가 아니라, 전파를 어떻게 모으고 퍼뜨릴 것인가에 대한 공학적 선택이다. 같은 송신 전력이라도 어떤 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 쓰느냐에 따라 도달 거리, 간섭 방향, 설치 비용이 모두 달라진다.
 
@@ -47,23 +44,24 @@ tags = ["network"]
 
 세 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 방향성을 만든다는 공통점이 있지만, 내부 메커니즘은 뚜렷이 다르다. 야기우다는 급전된 소자와 반사기 (Reflector), 도파기 (Director)의 상호 결합으로 앞쪽 이득을 만든다. 파라볼라는 포물면 반사판이 평면파를 초점으로 모으거나, 반대로 초점의 에너지를 평행파로 만든다. 패치 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 유전체 위 금속 패치가 공진하며 주로 보드 수직 방향으로 방사하고, 여러 개를 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)하면 더 큰 이득과 전자적 빔 제어 기반을 마련한다. 이때 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)은 보통 등방성 기준 데시벨 (decibels relative to isotropic radiator, dBi)로 표현한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Directional mechanisms by antenna type</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yagi-Uda</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reflector Driven Directors main beam -&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parabolic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">plane wave ---&gt; ) ) ) ) reflector ---&gt; focal point / feed horn</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Patch</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">patch</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">dielectric substrate</div><div class="kb-diagram-connector">↑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ground plane</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">higher gain / beam steering</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Directional mechanisms by antenna type                             │
+├────────────────────────────────────────────────────────────────────┤
+│ Yagi-Uda                                                           │
+│ Reflector  Driven   Directors                 main beam ->         │
+│    │         │       │ │ │                                        │
+│ ---|---------|-------|-|-|------------------------------------->   │
+│                                                                    │
+│ Parabolic                                                          │
+│ plane wave --->  ) ) ) ) reflector  ---> focal point / feed horn   │
+│                                                                    │
+│ Patch                                                              │
+│ [patch]                                                            │
+│ [dielectric substrate]     radiation mainly broadside ↑            │
+│ [ground plane]             arrays -> higher gain / beam steering   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) | 핵심 구조 | 대표 대역/용도 | 전형적 이득 | 특징 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -102,20 +100,17 @@ tags = ["network"]
 
 실무에서는 먼저 링크 거리, 주파수, 설치 공간, 정렬 방식, 유지보수 조건을 정한 뒤 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 고른다. 예를 들어 옥상 TV 수신이나 VHF/UHF 지향성 수신에는 야기우다가 경제적이다. 반면 18 기가헤르츠 (Gigahertz, GHz) [마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/) [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)처럼 수 km 이상 장거리 [Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/) 링크에서는 파라볼라가 사실상 표준이다. 장비 내부, 차량, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 패널처럼 얇고 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 가능한 구조가 필요하면 패치 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 기본 선택이 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical antenna choice</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">long-distance microwave or satellite link?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; parabolic antenna</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ low-cost directional rooftop receive? -&gt; Yagi-Uda</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ flat panel / embedded / beamforming need? -&gt; patch</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Practical antenna choice                                           │
+├────────────────────────────────────────────────────────────────────┤
+│ long-distance microwave or satellite link?                         │
+│   ├─ yes -> parabolic antenna                                      │
+│   └─ no                                                            │
+│        ├─ low-cost directional rooftop receive? -> Yagi-Uda        │
+│        └─ flat panel / embedded / beamforming need? -> patch       │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 시나리오
 
@@ -165,27 +160,29 @@ tags = ["network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">dipole and parasitic elements</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Yagi-Uda antenna</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ rooftop directional receive</div>
-<div class="kb-diagram-note">reflector aperture theory</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">parabolic antenna</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ satellite / microwave backhaul</div>
-<div class="kb-diagram-note">planar microstrip resonator</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">patch antenna</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">patch array / phased array / beamforming</div>
-</div>
-</div>
-
-
+```text
+dipole and parasitic elements
+        │
+        ▼
+Yagi-Uda antenna
+        │
+        ├──────────────▶ rooftop directional receive
+        │
+reflector aperture theory
+        │
+        ▼
+parabolic antenna
+        │
+        ├──────────────▶ satellite / microwave backhaul
+        │
+planar microstrip resonator
+        │
+        ▼
+patch antenna
+        │
+        ▼
+patch array / phased array / beamforming
+```
 
 이 흐름도는 세 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 단순한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 목록이 아니라, 각각 다른 물리 원리에서 출발해 서로 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영역으로 발전해 왔음을 보여 준다.
 

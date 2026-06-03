@@ -23,23 +23,19 @@ tags = ["bigdata"]
 
 마이데이터([MyData](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/266_mydata_open_api_token_security/))는 정보 주체인 개인이 본인의 정보를 적극적으로 관리, 통제하고 이를 신용평가, 자산관리, 건강관리 등에 주도적으로 활용하는 일련의 패러다임이다. 과거에는 개인이 발생시킨 금융 내역이나 진료 기록을 기업이 독점하여([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 비즈니스 이득을 취했다. 그러나 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 의식이 향상되고 EU의 GDPR이 제정됨에 따라, 개인은 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제3자에게 전송하도록 요구할 수 있는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동권(Right to [Data Portability](/knowledge-base/studynote/09_security/16_data_privacy/795_data_portability/))'을 보장받게 되었다. 이는 단순한 규제 컴플라이언스가 아니라, 흩어진 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통합하여 이전에 없던 초개인화 가치를 창출하는 혁신적 비즈니스 기반이 된다. 
 
+```text
+이 도식은 데이터 통제권 패러다임이 기업 중심에서 정보 주체(개인) 중심으로 어떻게 이동했는지를 보여주는 문제 배경 시각화이다.
 
+[As-Is: 기업 독점형]
+개인 활동 ──> [A은행 DB] (접근 불가/고립)
+          ──> [B병원 DB] (종속성 심화)
+         (데이터 파편화 및 개인 소외)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 데이터 통제권 패러다임이 기업 중심에서 정보 주체(개인) 중심으로 어떻게 이동했는지를 보여주는 문제 배경 시각화이다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">As-Is: 기업 독점형</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">개인 활동 ──&gt;</div><div class="kb-diagram-node">A은행 DB</div><div class="kb-diagram-note">(접근 불가/고립)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">B병원 DB</div><div class="kb-diagram-note">(종속성 심화)</div></div>
-<div class="kb-diagram-note">(데이터 파편화 및 개인 소외)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">To-Be: 마이데이터 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A은행</div><div class="kb-diagram-note">──(전송 요구)─</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B병원</div><div class="kb-diagram-note">──(API 전송)─&gt;</div><div class="kb-diagram-node">정보 주체(개인) &amp; 마이데이터 사업자</div><div class="kb-diagram-note">──&gt; 초개인화 서비스 혜택</div></div>
-</div>
-</div>
-
-
+[To-Be: 마이데이터 아키텍처]
+[A은행] ──(전송 요구)─┐
+                     ↓
+[B병원] ──(API 전송)─> [정보 주체(개인) & 마이데이터 사업자] ──> 초개인화 서비스 혜택
+```
 이 도식의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통제 권한의 헤게모니가 기업 내부에서 중앙의 사용자 중심으로 역전되었다는 점이다. 이런 배치는 정보 주체가 개별 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 묶이지 않고 플랫폼 독립성을 획득하게 함을 의미하며, 따라서 시스템 전체의 혁신 동력은 단위 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 기능보다는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)과 전송의 안전성에 의해 결정된다. 실무에서는 이러한 주도권 변화를 수용하기 위해 레거시 시스템을 표준 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스펙에 맞춰 개방하는 작업이 선결되어야 한다.
 
 **📢 섹션 요약 비유**: 마치 각기 다른 은행에 묶여있어 인출할 수 없던 예금을, '오픈 뱅킹 통합 통장' 하나로 모아서 언제든 원하는 곳으로 이체하고 종합적인 자산 관리를 받는 것과 같습니다.
@@ -59,24 +55,21 @@ tags = ["bigdata"]
 
 핵심 원리는 스크래핑(Scraping)을 전면 금지하고, 보안이 강화된 <strong>표준 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/247_open_api_gateway_security_throttling_rate_limiting/">Open API</a></strong>와 <strong>OAuth 2.0 기반 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a></strong> 프레임워크를 사용하는 것이다.
 
+```text
+이 흐름도는 사용자가 전송 요구를 했을 때, OAuth 2.0 기반으로 어떻게 인증과 인가가 이루어지고 데이터가 안전하게 이동하는지 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 흐름도는 사용자가 전송 요구를 했을 때, OAuth 2.0 기반으로 어떻게 인증과 인가가 이루어지고 데이터가 안전하게 이동하는지 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보 주체</div><div class="kb-diagram-node">마이데이터 사업자</div><div class="kb-diagram-node">통합 인증 기관</div><div class="kb-diagram-node">정보 제공자 (은행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 통합조회 요구 &gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ② 통합 인증 및 인가 요청 ──&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;── ③ 인증/동의창 제공 ─</div><div class="kb-diagram-cell">&lt; (리다이렉트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 본인인증 &amp; 동의 &gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;── ⑤ Access Token 발급</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ⑥ Data 요청 (with Token) &gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;── ⑦ 표준 JSON Data 응답</div></div>
-<div class="kb-diagram-note">⑧ 융합 결과 뷰 제공 &lt;</div>
-</div>
-</div>
-
-
+[정보 주체]            [마이데이터 사업자]             [통합 인증 기관]               [정보 제공자 (은행)]
+     │                        │                              │                             │
+  ① 통합조회 요구 ─────────> │                              │                             │
+     │                        │ ── ② 통합 인증 및 인가 요청 ──> │                             │
+     │ <── ③ 인증/동의창 제공 ─ │ <───────── (리다이렉트) ───────┘                             │
+  ④ 본인인증 & 동의 ───────> │                              │                             │
+     │                        │ <── ⑤ Access Token 발급 ──────────┘                             │
+     │                        │                                                             │
+     │                        │ ── ⑥ Data 요청 (with Token) ─────────────────────────────> │
+     │                        │ <── ⑦ 표준 JSON Data 응답 ─────────────────────────────── │
+  ⑧ 융합 결과 뷰 제공 <────── ┘                                                             │
+```
 이 흐름의 핵심은 마이데이터 사업자(수신자)가 고객의 ID/PW를 직접 수집하지 않는다는 점이다. 이런 배치는 크리덴셜(비밀번호) 유출로 인한 2차 피해를 근본적으로 차단하기 때문이며, 따라서 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 토큰의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 속도와 암호화 복호화([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) 과정의 오버헤드에 크게 영향을 받는다. 실무에서는 이 지점의 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)과 토큰 만료 갱신([Refresh Token](/knowledge-base/studynote/09_security/05_web_app_security/505_refresh_token/)) 로직의 예외 처리를 반드시 정밀하게 설계해야 한다.
 
 마이데이터에서 사용되는 사용자 동의 정보(Consent)는 아래와 같은 포맷으로 관리된다.
@@ -110,19 +103,15 @@ tags = ["bigdata"]
 
 마이데이터는 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>) 및 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a>(<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">Knowledge Graph</a>)</strong>와 융합할 때 진정한 위력을 발휘한다. 단순한 잔액의 총합을 보여주는 수준을 넘어, 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 건강 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 형태로 연결하여 "이 고객이 이번 달 의료비 지출이 늘었으니 관련 보장성 보험을 추천해야겠다"와 같은 [인과 추론](/knowledge-base/studynote/16_bigdata/05_analysis/122_causal_inference/)적 분석을 수행할 수 있게 된다. 
 
+```text
+이 도식은 스크래핑 방식의 아키텍처 한계와 오픈 API 방식의 구조적 차이를 나타낸 대조 매트릭스이다.
 
+[스크래핑의 락 경합 및 병목 구조]
+마이데이터 앱 ─(ID/PW 전달)─> 스크래핑 서버 ─(무한 크롤링)─> [제공자 Web 서버] (과부하 발생!)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 스크래핑 방식의 아키텍처 한계와 오픈 API 방식의 구조적 차이를 나타낸 대조 매트릭스이다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스크래핑의 락 경합 및 병목 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">마이데이터 앱 ─(ID/PW 전달)─&gt; 스크래핑 서버 ─(무한 크롤링)─&gt;</div><div class="kb-diagram-node">제공자 Web 서버</div><div class="kb-diagram-note">(과부하 발생!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Open API의 토큰 기반 병렬 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">마이데이터 앱 ─(Token 전달)─&gt;</div><div class="kb-diagram-node">API Gateway (Rate Limit)</div><div class="kb-diagram-note">─(경량 쿼리)─&gt;</div><div class="kb-diagram-node">제공자 DB</div><div class="kb-diagram-note">(부하 통제 가능)</div></div>
-</div>
-</div>
-
-
+[Open API의 토큰 기반 병렬 구조]
+마이데이터 앱 ─(Token 전달)─> [API Gateway (Rate Limit)] ─(경량 쿼리)─> [제공자 DB] (부하 통제 가능)
+```
 이 구조 차이의 핵심은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway의 통제력 개입 여부이다. 오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 방식은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 통해 속도 제한(Rate Limit)과 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)) 제어가 가능하다. 반면 스크래핑 방식은 단건 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 고사하고 방어 메커니즘을 뚫기 위해 시스템 자원을 비정상적으로 낭비하며, 트래픽 변동이 큰 환경에서는 제공자 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체를 마비시킬 위험이 있다.
 
 **📢 섹션 요약 비유**: 화면 스크래핑이 요리사(수집기)가 남의 식당 주방에 몰래 들어가 레시피를 훔쳐보는 것이라면, 오픈 API는 정식으로 재료 창구에 메뉴를 주문하여 깔끔하게 포장된 식재료([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))를 받아오는 것과 같습니다.
@@ -145,18 +134,14 @@ tags = ["bigdata"]
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>: 동의 철회 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 Soft Delete 방치</strong>
 사용자가 마이데이터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 탈퇴 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제(잊힐 권리)를 요구했음에도, 분석계 DB에 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(is_deleted=true)만 변경하고 물리적 파기를 누락하는 경우가 흔하다. 이는 명백한 법률 위반이며, 추후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 사고 발생 시 기업에 치명적인 페널티를 안겨준다. 반드시 배치 잡(Batch Job)을 통해 정기적으로 물리 블록을 덮어쓰거나([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-out) 삭제 증명서를 남겨야 한다.
 
+```text
+이 도식은 마이데이터 인프라에서 장애 및 침해가 발생할 수 있는 취약 지점과 방어선을 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 마이데이터 인프라에서 장애 및 침해가 발생할 수 있는 취약 지점과 방어선을 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모바일 App</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-node">API Gateway</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">Authorization Server</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">Microservices</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">DB</div></div>
-<div class="kb-diagram-note">단말 해킹 DDoS / API Abuse Token 탈취 / 재사용 동의 철회 데이터 잔류</div>
-<div class="kb-diagram-note">(난독화 대응) (Rate Limit 방어) (짧은 수명 / mTLS 방어) (완전 파기 배치 적용)</div>
-</div>
-</div>
-
-
+[모바일 App] ==(TLS)==> [API Gateway] => [Authorization Server] => [Microservices] => [DB]
+      ▲                       ▲                       ▲                                ▲
+    단말 해킹            DDoS / API Abuse     Token 탈취 / 재사용             동의 철회 데이터 잔류
+  (난독화 대응)        (Rate Limit 방어)    (짧은 수명 / mTLS 방어)          (완전 파기 배치 적용)
+```
 이 도식의 핵심은 모든 구간 계층마다 독립적인 방어 기제가 필요하다는 점이다. 이런 배치는 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 철학을 반영한 것이며, 따라서 하나의 방어선(예: [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))이 뚫리더라도 내부 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 서버가 토큰 유효성을 다시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 대형 사고를 막아낸다. 실무에서는 이 지점의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 등과 연동하여 비정상적인 전송 요구 패턴을 실시간으로 관찰해야 한다.
 
 **📢 섹션 요약 비유**: 마이데이터 시스템은 튼튼한 금고 문([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/))을 만드는 것뿐만 아니라, 고객이 언제든 "내 물건을 당장 폐기해 줘"라고 했을 때 즉시 파쇄기에 넣을 수 있는 파기 절차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 거버넌스)가 완벽히 준비되어야 비로소 완성됩니다.
@@ -201,23 +186,21 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보 보호법 (Personal Data Protection Act) — 데이터 권리의 법적 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이데이터 (MyData) — 개인 데이터 주권</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오픈 API (Open API) — 데이터 이동 인터페이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개인 데이터 저장소 (PDS, Personal Data Store) — 사용자 중심 저장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 브로커리지 (Data Brokerage) — 동의 기반 공유</div></div>
-</div>
-</div>
-
-
+```text
+[개인정보 보호법 (Personal Data Protection Act) — 데이터 권리의 법적 기반]
+    │
+    ▼
+[마이데이터 (MyData) — 개인 데이터 주권]
+    │
+    ▼
+[오픈 API (Open API) — 데이터 이동 인터페이스]
+    │
+    ▼
+[개인 데이터 저장소 (PDS, Personal Data Store) — 사용자 중심 저장]
+    │
+    ▼
+[데이터 브로커리지 (Data Brokerage) — 동의 기반 공유]
+```
 
 이 흐름은 법적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)에서 시작해 개인이 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 통제하고, API와 PDS를 거쳐 동의 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유통으로 확장되는 과정을 보여준다.
 

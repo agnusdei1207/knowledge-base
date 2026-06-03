@@ -30,32 +30,36 @@ tags = ["studynote-operating-system"]
 
 POSIX 표준 시그널의 종류와 기본 동작을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하면, 각 시그널이 어떤 이벤트를 통지하고 어떤 기본 처리를 수행하는지 체계적으로 파악할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POSIX 표준 시그널 분류 및 기본 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필수 시그널 (POSIX.1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">번호 이름 발생 원인 기본 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2 SIGINT Ctrl+C 입력 프로세스 종료 (T)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">9 SIGKILL 강제 종료 요청 종료 (K, 무시불가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">11 SIGSEGV 잘못된 메모리 접근 종료 + 코어덤프(C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">14 SIGALRM alarm() 타이머 만료 종료 (T)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">15 SIGTERM polliite 종료 요청 종료 (T)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">17 SIGCHLD 자식 프로세스 상태 변화 무시 (I)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">19 SIGSTOP 프로세스 일시 정지 정지 (S, 무시불가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">18 SIGCONT 정지된 프로세스 재개 계속 (C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기본 동작 코드:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T = Terminate (종료) K = Kill (종료, 핸들러/무시 불가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C = Core Dump (종료 + 코어 파일 생성) S = Stop (일시 정지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I = Ignore (무시) P = Pause (정지 후 SIGCONT 대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 시그널 (POSIX.1b)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SIGRTMIN ~ SIGRTMAX: 큐잉 가능, 순서 보장,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추가 데이터(payload) 전달 지원</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │              POSIX 표준 시그널 분류 및 기본 동작                       │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │  ┌─────────────── 필수 시그널 (POSIX.1) ──────────────────────┐        │
+  │  │                                                             │       │
+  │  │  번호   이름        발생 원인            기본 동작           │      │
+  │  │  ────  ──────────  ──────────────────  ───────────         │        │
+  │  │   2    SIGINT       Ctrl+C 입력          프로세스 종료 (T)   │      │
+  │  │   9    SIGKILL      강제 종료 요청       종료 (K, 무시불가)   │     │
+  │  │  11    SIGSEGV      잘못된 메모리 접근     종료 + 코어덤프(C) │     │
+  │  │  14    SIGALRM      alarm() 타이머 만료    종료 (T)          │      │
+  │  │  15    SIGTERM      polliite 종료 요청    종료 (T)          │       │
+  │  │  17    SIGCHLD      자식 프로세스 상태 변화 무시 (I)        │       │
+  │  │  19    SIGSTOP      프로세스 일시 정지     정지 (S, 무시불가) │     │
+  │  │  18    SIGCONT      정지된 프로세스 재개   계속 (C)          │      │
+  │  └─────────────────────────────────────────────────────────────┘       │
+  │                                                                        │
+  │  기본 동작 코드:                                                       │
+  │  T = Terminate (종료)  K = Kill (종료, 핸들러/무시 불가)               │
+  │  C = Core Dump (종료 + 코어 파일 생성)  S = Stop (일시 정지)           │
+  │  I = Ignore (무시)  P = Pause (정지 후 SIGCONT 대기)                   │
+  │                                                                        │
+  │  ┌─────────── 실시간 시그널 (POSIX.1b) ─────────────────────┐          │
+  │  │  SIGRTMIN ~ SIGRTMAX: 큐잉 가능, 순서 보장,              │          │
+  │  │  추가 데이터(payload) 전달 지원                            │        │
+  │  └──────────────────────────────────────────────────────────┘          │
+  └────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** POSIX 표준은 시그널을 크게 필수 시그널 (Standard [Signals](/knowledge-base/studynote/09_security/12_identity_threat_advanced/611_conditional_access_signals/))과 실시간 시그널 (Real-time [Signals](/knowledge-base/studynote/09_security/12_identity_threat_advanced/611_conditional_access_signals/))로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다. 필수 시그널 중 SIGKILL (9번)과 SIGSTOP (19번)은 핸들러 등록과 무시가 모두 불가능한 두 가지 시그널로, 이는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 프로세스를 강제로 제어할 수 있는 최후의 수단이 된다. SIGINT (2번)는 사용자가 터미널에서 Ctrl+C를 누를 때 전송되어 대화형 프로세스를 정상 종료시키는 가장 익숙한 시그널이다. SIGSEGV (11번)는 프로세스가 자신에게 할당되지 않은 메모리 영역에 접근하려 할 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 전송하는 예외 통지로, 디버깅의 핵심 수단이다. SIGCHLD (17번)는 [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)가 자식 프로세스의 종료를 감지하는 데 사용되며, 기본 동작이 '무시'이므로 `wait()`를 호출하지 않으면 좀비 (Zombie) 프로세스가 생성되는 원인이 된다. 실시간 시그널 (SIGRTMIN~SIGRTMAX)은 기존 시그널의 "동일 시그널 중복 시 유실" 문제를 해결하기 위해 큐잉 (Queuing)을 지원하며, 정수 값 하나의 추가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (payload)를 함께 전달할 수 있다.
 
@@ -77,29 +81,43 @@ POSIX 표준 시그널의 종류와 기본 동작을 [분류](/knowledge-base/st
 
 시그널이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 프로세스로 전달되는 전체 과정을 아키텍처 다이어그램으로 시각화하면, 시그널 마스킹과 핸들러 호출의 메커니즘이 명확해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시그널 전달 및 처리 전체 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시그널 발생 원인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kill()</div><div class="kb-diagram-cell">하드웨어</div><div class="kb-diagram-cell">커널</div><div class="kb-diagram-cell">자기 자신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다른 프로세스)</div><div class="kb-diagram-cell">예외</div><div class="kb-diagram-cell">(SIGCHLD)</div><div class="kb-diagram-cell">raise()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 시그널 디스패처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 대상 프로세스의 PCB에서 시그널 마스크 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 마스크되지 않은 시그널 → 즉시 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 마스크된 시그널 → 펜딩 비트맵에 설정 (대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 (유저 모드)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시그널 수신 시점</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 실행 중단 (커널 모드 진입)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② PCB에서 핸들러 주소 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 유저 스택에 시그널 번호와 복귀 주소 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 핸들러 함수로 점프 (유저 모드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ 핸들러 실행 완료 → sigreturn() → 원래 위치 복귀</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │               시그널 전달 및 처리 전체 흐름                             │
+  ├─────────────────────────────────────────────────────────────────────────┤
+  │                                                                         │
+  │  [시그널 발생 원인]                                                     │
+  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐                 │
+  │  │ kill()   │  │ 하드웨어  │  │ 커널      │  │ 자기 자신 │              │
+  │  │ (다른 프로세스)│ │ 예외      │  │ (SIGCHLD)│  │ raise()  │           │
+  │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘                 │
+  │       │              │              │              │                    │
+  │       └──────────────┴──────┬───────┴──────────────┘                    │
+  │                             ▼                                           │
+  │  ┌──────────────────────────────────────────────────────────┐           │
+  │  │              커널 시그널 디스패처                           │        │
+  │  │                                                           │          │
+  │  │  1. 대상 프로세스의 PCB에서 시그널 마스크 확인              │        │
+  │  │  2. 마스크되지 않은 시그널 → 즉시 전달                      │        │
+  │  │  3. 마스크된 시그널 → 펜딩 비트맵에 설정 (대기)             │        │
+  │  └───────────────────────┬──────────────────────────────────┘           │
+  │                          │                                              │
+  │                          ▼                                              │
+  │  ┌──────────────────────────────────────────────────────────┐           │
+  │  │              프로세스 (유저 모드)                           │        │
+  │  │                                                           │          │
+  │  │  ┌─────────────────────────────────────────────────────┐  │          │
+  │  │  │ 정상 실행 흐름 ────────────▶  [시그널 수신 시점]       │  │       │
+  │  │  │                                     │                │  │         │
+  │  │  │  ① 실행 중단 (커널 모드 진입)                       │  │          │
+  │  │  │  ② PCB에서 핸들러 주소 확인                           │  │        │
+  │  │  │  ③ 유저 스택에 시그널 번호와 복귀 주소 저장            │  │       │
+  │  │  │  ④ 핸들러 함수로 점프 (유저 모드)                     │  │        │
+  │  │  │  ⑤ 핸들러 실행 완료 → sigreturn() → 원래 위치 복귀     │  │       │
+  │  │  └─────────────────────────────────────────────────────┘  │          │
+  │  └──────────────────────────────────────────────────────────┘           │
+  └─────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 시그널 전달은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 주도하는 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/) 제어 전이 과정이다. 다른 프로세스가 `kill()` 시스템 콜을 호출하거나, 하드웨어가 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) (SIGSEGV)를 발생시키면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 대상 프로세스의 PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block)에 있는 시그널 마스크 (sigset_t)를 검사한다. 해당 시그널이 마스크에 의해 차단되어 있지 않으면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 프로세스가 유저 모드로 복귀하기 직전에 시그널 핸들러로 점프하도록 유저 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)를 수정한다. 구체적으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 현재 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태를 유저 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 저장하고, [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 핸들러 함수의 진입점으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다. 핸들러가 실행을 마치고 `sigreturn()` 시스템 콜을 호출하면, 저장된 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태가 복원되어 시그널 수신 직전의 실행 위치로 제어가 복귀한다. 이 과정은 함수 호출과 유사하지만, 호출자가 아닌 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 개입한다는 결정적 차이가 있다.
 
@@ -144,33 +162,51 @@ POSIX 표준 시그널의 종류와 기본 동작을 [분류](/knowledge-base/st
 
 시그널 마스킹과 펜딩 상태의 관계를 상태 전이도로 시각화하면, 시그널의 수명 주기가 명확해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시그널 상태 전이도 (Lifecycle)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">발생 (Generation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kill(), 하드웨어 예외, 커널 이벤트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">펜딩 (Pending)</div><div class="kb-diagram-cell">◀── sigpending()로 확인 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(대기 중)</div><div class="kb-diagram-cell">(PCB의 pending 비트맵에 설정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마스크 해제 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(sigprocmask SIG_UNBLOCK)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SIG_IGN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전달 (Delivery)</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">무시 (Ignore)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수신 완료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핸들러 등록 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 핸들러</div><div class="kb-diagram-cell">기본 동작 (Default)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User Handler)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sigaction()</div><div class="kb-diagram-cell">종료/코어덤프/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">으로 등록</div><div class="kb-diagram-cell">정지/무시 중 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sigreturn()</div><div class="kb-diagram-cell">▶ 원래 실행 위치로 복귀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨텍스트 복원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ SIGKILL, SIGSTOP:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핸들러 등록 불가 + 무시 불가 → 항상 기본 동작 강제 수행</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │            시그널 상태 전이도 (Lifecycle)                           │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │  [발생 (Generation)]                                                │
+  │       │                                                             │
+  │       │ kill(), 하드웨어 예외, 커널 이벤트                          │
+  │       ▼                                                             │
+  │  ┌─────────────────┐                                                │
+  │  │  펜딩 (Pending)  │ ◀── sigpending()로 확인 가능                  │
+  │  │  (대기 중)       │     (PCB의 pending 비트맵에 설정)             │
+  │  └────────┬────────┘                                                │
+  │           │                                                         │
+  │     마스크 해제 대기                                                │
+  │     (sigprocmask SIG_UNBLOCK)                                       │
+  │           │                                                         │
+  │           ▼                                                         │
+  │  ┌─────────────────┐     SIG_IGN     ┌──────────────┐               │
+  │  │  전달 (Delivery) │──────────────▶│ 무시 (Ignore) │               │
+  │  │  (수신 완료)      │               └──────────────┘               │
+  │  └────────┬────────┘                                                │
+  │           │                                                         │
+  │     핸들러 등록 여부                                                │
+  │           │                                                         │
+  │     ┌─────┴──────────────────┐                                      │
+  │     │                         │                                     │
+  │     ▼                         ▼                                     │
+  │ ┌──────────────┐   ┌──────────────────┐                             │
+  │ │ 사용자 핸들러 │   │ 기본 동작 (Default)│                          │
+  │ │ (User Handler)│   │                   │                           │
+  │ │ sigaction()  │   │ 종료/코어덤프/    │                            │
+  │ │ 으로 등록     │   │ 정지/무시 중 선택  │                          │
+  │ └──────┬───────┘   └──────────────────┘                             │
+  │        │                                                            │
+  │        ▼                                                            │
+  │  ┌──────────────┐                                                   │
+  │  │ sigreturn()  │────▶ 원래 실행 위치로 복귀                        │
+  │  │ 컨텍스트 복원 │                                                  │
+  │  └──────────────┘                                                   │
+  │                                                                     │
+  │  ⚠ SIGKILL, SIGSTOP:                                                │
+  │    핸들러 등록 불가 + 무시 불가 → 항상 기본 동작 강제 수행          │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 시그널의 생명주기는 세 단계로 구성된다. 첫째, 발생 (Generation) 단계에서 `kill()`, 하드웨어 예외 (SIGSEGV), 또는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 이벤트 (SIGCHLD)에 의해 시그널이 생성된다. 둘째, 대상 프로세스의 PCB에 있는 시그널 마스크를 검사하여, 해당 시그널이 마스크되어 있으면 펜딩 (Pending) 상태로 대기한다. 셋째, 마스크가 해제되면 시그널이 전달 (Delivery)되며, 이때 프로세스의 시그널 처리 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 세 가지 경로로 분기된다. 시그널이 SIG_IGN으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되어 있으면 아무 동작 없이 무시되고, 사용자 핸들러가 등록되어 있으면 해당 함수가 실행되며, 둘 다 아니면 기본 동작 (종료, 코어덤프, 정지 등)이 수행된다. SIGKILL과 SIGSTOP은 이 분기 논리의 예외로, 핸들러 등록과 무시가 모두 불가능하여 항상 기본 동작이 강제 수행된다. 이는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 시스템 관리자에게 프로세스를 강제 제어할 수단을 반드시 보장해야 하기 때문이다.
 
@@ -188,34 +224,42 @@ POSIX 표준 시그널의 종류와 기본 동작을 [분류](/knowledge-base/st
 
 시그널 처리 설계 시 안전성을 보장하기 위한 의사결정 플로우를 시각화하면, 흔히 발생하는 실수를 체계적으로 방지할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시그널 핸들러 설계 안전성 검증 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시그널 핸들러 설계 요구사항</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핸들러 내에서 비재진입 함수를 호출하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데드락/데이터 손상 위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ write(), _exit() 등 시그널 안전 함수로만 교체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 변수(공유 데이터)에 접근하는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ volatile sig_atomic_t 타입 사용?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">안전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 경쟁 위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ sig_atomic_t 또는 원자 변수 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핸들러가 재진입될 가능성이 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ 진입 시 sigprocmask()로 자기 자신 마스킹</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(sigaction의 SA_NODEFER 플래그 미설정 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널이 자동으로 동일 시그널 마스킹)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">안전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 핵심 원칙:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"시그널 핸들러에서 가능한 한 적은 일만 하라" (Keep it Minimal)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 플래그 설정만 하고, 메인 루프에서 실제 처리를 수행하는 패턴 권장</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │           시그널 핸들러 설계 안전성 검증 플로우                       │
+  ├───────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │  [시그널 핸들러 설계 요구사항]                                        │
+  │         │                                                             │
+  │         ▼                                                             │
+  │  핸들러 내에서 비재진입 함수를 호출하는가?                            │
+  │     ├─ 예 ────▶ [데드락/데이터 손상 위험]                             │
+  │     │             → write(), _exit() 등 시그널 안전 함수로만 교체     │
+  │     │                                                                 │
+  │     └─ 아니오                                                         │
+  │         │                                                             │
+  │         ▼                                                             │
+  │  전역 변수(공유 데이터)에 접근하는가?                                 │
+  │     ├─ 예 ────▶ volatile sig_atomic_t 타입 사용?                      │
+  │     │             ├─ 예 ──▶ [안전]                                    │
+  │     │             └─ 아니오 ─▶ [데이터 경쟁 위험]                     │
+  │     │                           → sig_atomic_t 또는 원자 변수 사용    │
+  │     │                                                                 │
+  │     └─ 아니오                                                         │
+  │         │                                                             │
+  │         ▼                                                             │
+  │  핸들러가 재진입될 가능성이 있는가?                                   │
+  │     ├─ 예 ────▶ 진입 시 sigprocmask()로 자기 자신 마스킹              │
+  │     │             (sigaction의 SA_NODEFER 플래그 미설정 시            │
+  │     │              커널이 자동으로 동일 시그널 마스킹)                │
+  │     │                                                                 │
+  │     └─ 아니오 ──▶ [안전]                                              │
+  │                                                                       │
+  │  💡 핵심 원칙:                                                        │
+  │  "시그널 핸들러에서 가능한 한 적은 일만 하라" (Keep it Minimal)       │
+  │  → 플래그 설정만 하고, 메인 루프에서 실제 처리를 수행하는 패턴 권장   │
+  └───────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 시그널 핸들러 설계의 핵심 원칙은 "최소화 (Keep it Minimal)"다. 핸들러는 프로그램의 임의 실행 지점에서 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)으로 호출되므로, 현재 실행 중인 코드의 상태를 알 수 없다. `printf()`는 내부에서 버퍼 락을 사용하므로 시그널로 중단된 `printf()` 실행 중에 핸들러가 다시 `printf()`를 호출하면 락이 중복 획득되어 데드락이 발생한다. `malloc()`도 마찬가지로 내부 힙 ([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 락을 사용한다. 안전한 설계 패턴은 핸들러에서 `volatile sig_atomic_t` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)만 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고, 메인 루프의 안전한 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)에서 실제 처리를 수행하는 "self-[pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) trick"이다. 이 패턴에서 핸들러는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)에 1바이트를 `write()`하고, 메인 루프는 `select()`/`poll()`로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 감시하여 시그널을 동기적으로 처리한다.
 
@@ -267,19 +311,15 @@ POSIX 표준 시그널의 종류와 기본 동작을 [분류](/knowledge-base/st
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 프로시저 호출 (LPC, Local Procedure Call) / ALPC (Windows)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신호 (Signal)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 V IPC</div></div>
-</div>
-</div>
-
-
+```text
+[로컬 프로시저 호출 (LPC, Local Procedure Call) / ALPC (Windows)]
+    │
+    ▼
+[신호 (Signal)]
+    │
+    ├──▶ [메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC]
+    └──▶ [시스템 V IPC]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

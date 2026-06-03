@@ -27,27 +27,28 @@ OS는 A의 마이크를 뺏는 순간, A를 무참히 죽이는 게 아니라 <s
 
 **💡 비유**: 길을 거닐다 사다리(자원)를 놓고 벽돌을 반쯤 페인트칠하던 영수(데드락 걸림). OS가 살짝 영수의 사다리를 강제로 빼앗아버린다(선점). 붕 떠버린 영수는 다리가 부러짐? No! OS의 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 타임머신이 영수를 1시간 전 페인트칠을 시작하기도 전인 안전한([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)) 땅바닥으로 타임워프시켜버리고 지우개로 벽을 원래대로 지워버린다. 영수는 다시 깨어나서 "아 붓 들고 줄 서야지~" 하고 재도전한다!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">후퇴(Rollback)의 2단계 타임머신 재조립 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착(Deadlock) 확진</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Victim(P1) 지목 → 락(Lock) 강탈!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아악! 락 뺏긴 P1! 이대로면 Error Code 뱉고 앱 종료!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">롤백의 위대한 스위치 작동 개시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 1: (과거 청산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"야, P1이 방금 전까지 써놨던 변수, 파일, 디비 내역들 다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">더러우니까 지우개(Undo)로 쓱쓱 지워서 1분 전 깨끗했던</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시작점(CheckPoint) 공란으로 100% 되돌려 놔라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 2: (재시도 부활 - Retry)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"P1 뒤로 가서 줄 다시 서! 방금 뺏어간 그 놈 일 1초면 다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">끝나! 저놈 지나가면 네가 1분 전 과거 상태부터 이어서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 연산 재시작(Restart) 해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 앱의 '강제 종료(Crash)' 현상 0%, 무한 불사조 부활</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│         후퇴(Rollback)의 2단계 타임머신 재조립 플로우         │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [교착(Deadlock) 확진] → Victim(P1) 지목 → 락(Lock) 강탈!     │
+│  아악! 락 뺏긴 P1! 이대로면 Error Code 뱉고 앱 종료!          │
+│                                                               │
+│  [롤백의 위대한 스위치 작동 개시]                             │
+│  Phase 1: (과거 청산)                                         │
+│   "야, P1이 방금 전까지 써놨던 변수, 파일, 디비 내역들 다     │
+│    더러우니까 지우개(Undo)로 쓱쓱 지워서 1분 전 깨끗했던      │
+│    시작점(CheckPoint) 공란으로 100% 되돌려 놔라!"             │
+│                                                               │
+│  Phase 2: (재시도 부활 - Retry)                               │
+│   "P1 뒤로 가서 줄 다시 서! 방금 뺏어간 그 놈 일 1초면 다     │
+│     끝나! 저놈 지나가면 네가 1분 전 과거 상태부터 이어서      │
+│     다시 연산 재시작(Restart) 해!"                            │
+│                                                               │
+│  ▶ 결과: 앱의 '강제 종료(Crash)' 현상 0%, 무한 불사조 부활    │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(우회 뒤로 가기)은 뺏긴 아이를 죽이는 게 아니라, 조용히 세이브포인트로 강제 로드(Load) 시켜서 재도전 기회를 주는 무한 코인 회생 부활 시스템(Continue?) 입니다.
 
@@ -118,19 +119,15 @@ OS는 A의 마이크를 뺏는 순간, A를 무참히 죽이는 게 아니라 <s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">희생자 선택 (Victim Selection) 최소 비용 기준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">후퇴 (Rollback)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기아 상태 (Starvation) 발생 방지 (희생자 선택에 횟수 제한)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라이브락 (Livelock)과 교착 상태의 차이점</div></div>
-</div>
-</div>
-
-
+```text
+[희생자 선택 (Victim Selection) 최소 비용 기준]
+    │
+    ▼
+[후퇴 (Rollback)]
+    │
+    ├──▶ [기아 상태 (Starvation) 발생 방지 (희생자 선택에 횟수 제한)]
+    └──▶ [라이브락 (Livelock)과 교착 상태의 차이점]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

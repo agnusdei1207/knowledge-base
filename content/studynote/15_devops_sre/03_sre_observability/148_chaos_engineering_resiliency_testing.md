@@ -1,5 +1,5 @@
 +++
-title = "148. 카오스 엔지니어링 (Chaos Engineering)"
+title = "148. 카오스 엔지니어링 (Chaos 엔진ering)"
 date = 2026-05-03
 
 [taxonomies]
@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))은 멀쩡히 돌아가고 있는 프로덕션(라이브) 시스템에 고의로 서버 종료, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 등 통제된 재앙(장애)을 주입하여, 시스템의 숨겨진 약점을 폭로하는 과학적 실험 기법이다.
+> 1. **본질**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))은 멀쩡히 돌아가고 있는 프로덕션(라이브) 시스템에 고의로 서버 종료, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 등 통제된 재앙(장애)을 주입하여, 시스템의 숨겨진 약점을 폭로하는 과학적 실험 기법이다.
 > 2. **가치**: "우리 시스템은 서버 1대가 죽어도 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(HA)로 잘 버틸 거야"라는 뇌피셜 가설을 런타임에 직접 박살 내며 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)함으로써, 고객이 겪을 진짜 대재앙을 사전에 100% 차단하고 시스템의 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)([Resiliency](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/))을 무한대로 펌핑시킨다.
 > 3. **판단 포인트**: 그냥 무식하게 서버 전원 뽑고 튀는 '파괴 테스트'가 아니다. 반드시 '블라스트 반경(Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 영향을 미치는 범위)'을 극한으로 좁혀 통제된 실험실 안에서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)해야 하며, 즉시 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 수 있는 '킬 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Kill [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))' 쉴드 없이는 시작조차 해선 안 되는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 궁극의 방어 기술이다.
 
@@ -31,28 +31,30 @@ tags = ["studynote-devops-sre"]
 
 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 묻지 마 파괴가 아니라, 철저하게 5단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 통제되는 과학 실험(Scientific Experiment)의 뼈대를 갖는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE 십자 방어망: 카오스 엔지니어링 실험 5단계 록온 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">정상 상태 정의 (Steady State)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "우리 쇼핑몰은 결제 성공률 99.9%, 응답 시간 200ms가 팩트 룰임."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">가설 수립 (Hypothesis)</div><div class="kb-diagram-note">뇌피셜 공격!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "야, 쿠폰 서버 3대 중 1대가 뻗어도 서킷 브레이커가 돌아서, 쇼핑몰 결제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성공률은 여전히 99.9% 정상 상태를 무결점으로 유지할 것이다. 베팅 콜?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3️⃣</div><div class="kb-diagram-node">장애 변수 주입 (Variable / Fault Injection)</div><div class="kb-diagram-note">맹독 투입 💉</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대낮 오후 2시에, 실제 라이브 망의 쿠폰 서버 Pod 1개 전원을 강제로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kill(죽여버림) 치거나 네트워크 지연(Lag 5초) 딜레이를 콱 때려 박음 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4️⃣</div><div class="kb-diagram-node">블라스트 반경 최소화 및 실험 실행 (Blast Radius)</div><div class="kb-diagram-note">쉴드 🛡️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전 고객 쏘지 말고 딱 1% 유저에게만 트래픽 실험! 망하면 즉시 복구 스위치 대기!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5️⃣</div><div class="kb-diagram-node">결과 분석 및 맷집 증강 (Analyze &amp; Improve)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가설 폭망 💥: "미친 쿠폰 서버 죽이니까 결제까지 같이 타임아웃 뻗었네!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 당장 코드 고쳐서 비동기 타임아웃(Timeout) 방어막 치고 맷집(Resiliency)업!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          SRE 십자 방어망: 카오스 엔지니어링 실험 5단계 록온 도해        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 1️⃣ [ 정상 상태 정의 (Steady State) ]                           │
+│  - "우리 쇼핑몰은 결제 성공률 99.9%, 응답 시간 200ms가 팩트 룰임."     │
+│             ▼                                               │
+│ 2️⃣ [ 가설 수립 (Hypothesis) ] 뇌피셜 공격!                     │
+│  - "야, 쿠폰 서버 3대 중 1대가 뻗어도 서킷 브레이커가 돌아서, 쇼핑몰 결제   │
+│    성공률은 여전히 99.9% 정상 상태를 무결점으로 유지할 것이다. 베팅 콜?"│
+│             ▼                                               │
+│ 3️⃣ [ 장애 변수 주입 (Variable / Fault Injection) ] 맹독 투입 💉 │
+│  - 대낮 오후 2시에, 실제 라이브 망의 쿠폰 서버 Pod 1개 전원을 강제로    │
+│    Kill(죽여버림) 치거나 네트워크 지연(Lag 5초) 딜레이를 콱 때려 박음 쾅!│
+│             ▼                                               │
+│ 4️⃣ [ 블라스트 반경 최소화 및 실험 실행 (Blast Radius) ] 쉴드 🛡️  │
+│  - 전 고객 쏘지 말고 딱 1% 유저에게만 트래픽 실험! 망하면 즉시 복구 스위치 대기!│
+│             ▼                                               │
+│ 5️⃣ [ 결과 분석 및 맷집 증강 (Analyze & Improve) ]             │
+│  - 가설 폭망 💥: "미친 쿠폰 서버 죽이니까 결제까지 같이 타임아웃 뻗었네!!"   │
+│  - 당장 코드 고쳐서 비동기 타임아웃(Timeout) 방어막 치고 맷집(Resiliency)업!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[장애 주입 4대 타겟 부위]**
 - **인프라 척살**: AWS EC2 서버나 K8s [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))를 묻지 마 무작위 종료 ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) Kill).
@@ -68,7 +70,7 @@ tags = ["studynote-devops-sre"]
 
 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 기존의 [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))나 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 테스트와 궤를 같이하지만 목적과 사상(Philosophy)이 완전히 다른 종족이다.
 
-| 비교 잣대 | 부하/[스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) ([Load Testing](/knowledge-base/studynote/15_devops_sre/05_devsecops/267_load_testing_ci_jmeter_k6/)) | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)) |
+| 비교 잣대 | 부하/[스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/) ([Load Testing](/knowledge-base/studynote/15_devops_sre/05_devsecops/267_load_testing_ci_jmeter_k6/)) | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)) |
 | :--- | :--- | :--- |
 | **타겟 목적** | "트래픽 1만 명 들어와도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 안 뻗고 잘 **버티는가?**" | "서버가 1개 터지거나 의존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 죽어도, 시스템 구조가 유연하게 회피하며 <strong>복원(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/">Resiliency</a>)해 내는가?</strong>" |
 | <strong>실험의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a></strong>| 예상할 수 있는 1차원적인 변수 (트래픽 증가) 주입 | 전혀 예상치 못한 4차원 복합 장애 변수 (네트워크 렉 + DB 죽음 동시 발생 등) 주입 |
@@ -101,7 +103,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))을 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)에 융합 정착시키면, 팀의 유전자 자체가 '두려움'에서 '압도적 자신감'으로 [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 진화한다.
+[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))을 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)에 융합 정착시키면, 팀의 유전자 자체가 '두려움'에서 '압도적 자신감'으로 [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 진화한다.
 
 "서버 1대가 죽어도 우리 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 오토 힐링과 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 방어막이 0.1초 만에 튕겨내고 살려낼 거야"라는 막연한 종교적 믿음(Hope)이, 어제 대낮 카오스 실험을 통해 눈앞 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)에서 완벽히 방어해 낸 생생한 통계 팩트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Fact)로 증명된다. 실제 새벽 3시에 진짜 IDC [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 정전(Incident) 사고가 터져도, 이 팀은 이미 수도 없이 불시 훈련(게임 데이 Game Day)을 치러 근육이 단련되어 있으므로 눈 하나 깜짝 안 하고 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 봇을 돌리며 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)(평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)을 빛의 속도로 단축해 낸다.
 
@@ -123,23 +125,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">과거의 방어 / QA 테스트와 격리된 Staging 서버 스트레스 테스트 (우발적 장애 재현 불가능 한계 💥)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">넷플릭스 Chaos Monkey의 탄생 / AWS 클라우드의 불안정성 극복을 위해 대낮 라이브 서버를 강제 척살!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카오스 엔지니어링 5단계 파이프라인 정립 / 정상 상태 ➔ 가설 ➔ 에러 주입 ➔ 반경 쉴드 ➔ 분석 및 복원력 증강</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Chaos Mesh, Gremlin 등 자동화 툴 융합 / CI/CD 배포 파이프라인에 아예 카오스 테스트를 강제 삽입(Continuous Chaos)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 기반 AIOps 자율 카오스 주입 (미래) / AI가 알아서 시스템 약점을 스캔하고 야금야금 폭탄을 터뜨려 맷집을 오토 튜닝</div>
-</div>
-</div>
-
-
+```text
+과거의 방어 / QA 테스트와 격리된 Staging 서버 스트레스 테스트 (우발적 장애 재현 불가능 한계 💥)
+    │
+    ▼
+넷플릭스 Chaos Monkey의 탄생 / AWS 클라우드의 불안정성 극복을 위해 대낮 라이브 서버를 강제 척살!
+    │
+    ▼
+카오스 엔지니어링 5단계 파이프라인 정립 / 정상 상태 ➔ 가설 ➔ 에러 주입 ➔ 반경 쉴드 ➔ 분석 및 복원력 증강
+    │
+    ▼
+Chaos Mesh, Gremlin 등 자동화 툴 융합 / CI/CD 배포 파이프라인에 아예 카오스 테스트를 강제 삽입(Continuous Chaos)
+    │
+    ▼
+AI 기반 AIOps 자율 카오스 주입 (미래) / AI가 알아서 시스템 약점을 스캔하고 야금야금 폭탄을 터뜨려 맷집을 오토 튜닝
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -25,20 +25,19 @@ KV-SSD는 블록 주소 대신 key를 주고받는 저장장치다. 전통적인
 
 아래 그림은 기존 블록 경로와 KV-[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 경로를 비교한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block path emulates key semantics, KV-SSD exposes them directly</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Traditional path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application -&gt; Key-Value Engine -&gt; File System -&gt; Block SSD -&gt; Flash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KV-SSD path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application / Key-Value Library -&gt; PUT(GET, DELETE by key) -&gt; KV-SSD -&gt; Flash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fewer translation layers, but the application must speak the new API</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Block path emulates key semantics, KV-SSD exposes them directly           │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Traditional path                                                          │
+│ Application -> Key-Value Engine -> File System -> Block SSD -> Flash      │
+│                                                                            │
+│ KV-SSD path                                                               │
+│ Application / Key-Value Library -> PUT(GET, DELETE by key) -> KV-SSD -> Flash │
+│                                                                            │
+│ Fewer translation layers, but the application must speak the new API      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 물론 KV-SSD가 모든 소프트웨어 레이어를 없애 주는 것은 아니다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 2차 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), range query 같은 상위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 여전히 호스트가 맡는다. 그렇지만 “[블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)가 모르는 [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 의미를 상위 소프트웨어가 억지로 여러 번 재현한다”는 중복은 줄일 수 있어, 특히 metadata-heavy 시스템에서 가치가 커진다.
 
@@ -54,26 +53,25 @@ KV-SSD의 내부 동작은 크게 [key](/knowledge-base/studynote/05_database/02
 | :--- | :--- | :--- |
 | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Interface | put, get, delete, iterate 같은 명령을 받는다. | 애플리케이션이 블록 I/O 대신 KV API를 써야 한다. |
 | Device-side [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | key를 value 위치와 연결한다. | 충돌 처리, [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 길이, 메모리 사용량이 성능을 좌우한다. |
-| Value Placement Engine | variable-length value를 실제 플래시 페이지에 배치한다. | 작은 객체와 큰 객체가 섞일 때 단편화와 정렬 정책이 중요하다. |
+| Value Placement 엔진 | variable-length value를 실제 플래시 페이지에 배치한다. | 작은 객체와 큰 객체가 섞일 때 단편화와 정렬 정책이 중요하다. |
 | [Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) / [Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/) | 무효화된 value를 정리하고 마모를 분산한다. | KV semantics를 알아도 flash의 erase 제약은 여전히 존재한다. |
 | Completion [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) | 비동기 결과와 상태를 호스트에 돌려준다. | [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), 재시도 전략과 연결된다. |
 | [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) / [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Logic | 여러 application namespace를 분리한다. | 멀티 tenant 환경에서는 [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 충돌 방지와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 분리가 중요하다. |
 
 아래 그림은 put과 get의 내부 흐름을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KV-SSD data path: key lookup outside, flash management still inside</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PUT(key, value) -&gt; Key Index Lookup -&gt; Allocate Flash Space -&gt; Write Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Update key -&gt; physical map</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET(key) -&gt; Key Index Lookup -&gt; Read Flash Pages -&gt; Return value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DELETE(key) -&gt; Invalidate entry / mark obsolete</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ KV-SSD data path: key lookup outside, flash management still inside       │
+├────────────────────────────────────────────────────────────────────────────┤
+│ PUT(key, value) -> Key Index Lookup -> Allocate Flash Space -> Write Value │
+│                                         │                                  │
+│                                         └-> Update key -> physical map     │
+│                                                                            │
+│ GET(key) -> Key Index Lookup -> Read Flash Pages -> Return value           │
+│ DELETE(key) -> Invalidate entry / mark obsolete                            │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 자주 오해되는 부분은 “KV-SSD면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 완전히 필요 없어지는가”이다. 실제로는 그렇지 않다. 장치가 key를 이해해도 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 전체를 이해하는 것은 아니며, 정렬 순서, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 범위 스캔은 상위 계층이 계속 맡는다. KV-SSD의 본질은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 전체를 SSD에 넣는 것이 아니라, <strong>블록 기반 저장장치가 강요하던 불필요한 주소 번역을 줄이는 것</strong>이다.
 
@@ -150,23 +148,21 @@ KV-SSD를 잘 적용하면 작은 객체가 많은 [서비스](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Block I/O + Host-side KV Engine</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LSM-Tree · File System · Page Cache 중첩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Device-level key command set</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">KV-SSD</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Semantic Storage · Data-Centric Access</div>
-</div>
-</div>
-
-
+```text
+Block I/O + Host-side KV Engine
+              │
+              ▼
+LSM-Tree · File System · Page Cache 중첩
+              │
+              ▼
+Device-level key command set
+              │
+              ▼
+KV-SSD
+              │
+              ▼
+Semantic Storage · Data-Centric Access
+```
 
 이 흐름은 저장장치가 단순히 블록을 주고받는 계층에서 출발해, 이제는 애플리케이션의 [key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) 의미를 더 직접 이해하는 방향으로 이동하고 있음을 보여 준다.
 

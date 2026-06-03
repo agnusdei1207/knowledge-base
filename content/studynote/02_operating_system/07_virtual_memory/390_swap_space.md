@@ -27,28 +27,32 @@ tags = ["studynote-operating-system"]
   2. <strong>일반 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템의 페널티</strong>: 쫓겨난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 `C:\temp\data.txt` 같은 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 저장하려니, NTFS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 거치고 폴더 경로를 찾고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락을 거는 오버헤드 때문에 속도가 지옥으로 갔다.
   3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/">Raw</a> I/O 전용 구역의 탄생</strong>: OS는 아예 하드디스크 한구석의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 통째로 썰어서 "여기는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(디렉토리 구조) 싹 무시하고, 내가 직접 디스크 블록 번호(Sector)로 꽂아서 읽고 쓴다!"라며 독립된 무법지대(스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))를 선포했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스왑 공간(Swap Space)을 활용한 생명 연장의 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 16GB RAM이 100% 꽉 찬 절망적인 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 RAM (16GB)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">크롬 활성탭</div><div class="kb-diagram-node">카톡</div><div class="kb-diagram-node">엑셀</div><div class="kb-diagram-node">크롬 잠든 탭 4GB</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(빈 구멍 0개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 위기: 게임 '롤(LoL)'이 3GB 램을 요구하며 실행을 시도함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓↓ OS 스와퍼(kswapd) 긴급 출동 ↓↓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Swap-Out (대피)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">OS: "오래 잠들어 있던</div><div class="kb-diagram-node">크롬 탭 4GB</div><div class="kb-diagram-note">조각들을 끄집어내라!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크의 Swap Partition / pagefile.sys</div><div class="kb-diagram-note">에 묻음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 램 공간 확보 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">크롬 활성탭</div><div class="kb-diagram-node">카톡</div><div class="kb-diagram-node">엑셀</div><div class="kb-diagram-node">▒ 빈 램 4GB 확보 ▒</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. Swap-In (새로운 데이터 적재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "생성된 빈 램 4GB 구역에 롤(LoL) 데이터를 꽂아 넣어라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: RAM은 16GB지만, 19GB어치의 프로그램이 사이좋게 실행됨!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│        스왑 공간(Swap Space)을 활용한 생명 연장의 시각화            │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ [ 상황: 16GB RAM이 100% 꽉 찬 절망적인 상태 ]                       │
+│                                                                     │
+│  [ 물리 RAM (16GB) ]                                                │
+│  [크롬 활성탭][카톡][엑셀][크롬 잠든 탭 4GB] ◀ (빈 구멍 0개)        │
+│                                                                     │
+│ ▶ 위기: 게임 '롤(LoL)'이 3GB 램을 요구하며 실행을 시도함!           │
+│                                                                     │
+│                    ↓↓ OS 스와퍼(kswapd) 긴급 출동 ↓↓                │
+│                                                                     │
+│  [ 1. Swap-Out (대피) ]                                             │
+│  OS: "오래 잠들어 있던 [크롬 탭 4GB] 조각들을 끄집어내라!"          │
+│  램에서 ──▶ [ 디스크의 Swap Partition / pagefile.sys ]에 묻음.      │
+│                                                                     │
+│  [ 2. 램 공간 확보 완료 ]                                           │
+│  [크롬 활성탭][카톡][엑셀][ ▒ 빈 램 4GB 확보 ▒ ]                    │
+│                                                                     │
+│  [ 3. Swap-In (새로운 데이터 적재) ]                                │
+│  OS: "생성된 빈 램 4GB 구역에 롤(LoL) 데이터를 꽂아 넣어라!"        │
+│  ✅ 결과: RAM은 16GB지만, 19GB어치의 프로그램이 사이좋게 실행됨!    │
+└─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 스왑 과정은 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 우아함 이면에 감춰진 가장 처절한 노가다 현장이다. OS는 백그라운드 데몬(kswapd 등)을 띄워 놓고, 램 잔고가 줄어들 기미가 보이면 미리미리 안 쓰는 조각들을 스왑 공간으로 밀어버린다. 만약 이 밀어내는 속도보다 게임이 램을 집어삼키는 속도가 더 빠르면, 그제야 화면이 뚝뚝 끊기는(STW) [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Reclaim)을 체감하게 되는 것이다.
 
 - **📢 섹션 요약 비유**: 주머니(RAM)에 만 원밖에 없는데 이만 원어치 쇼핑을 해야 할 때, 일단 내 주머니의 안경과 열쇠를 근처 코인 락커(스왑 공간)에 욱여넣고 빈 주머니에 물건을 채우는 돌려막기 신공입니다.
@@ -102,18 +106,15 @@ OS는 이 거대한 창고를 하드디스크의 어디에 어떻게 지을지 �
 - 하지만 크롬에서 로그인한 내 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 정보나 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)/[Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))에 굴러다니는 변수들은 하드디스크 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다. 오직 램 위에서 태어나 이름 없이 떠도는 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/">익명 메모리</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/">Anonymous Memory</a>)</strong>다.
 - 이 [익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)는 램에서 그냥 지우면 내 로그인 정보가 날아간다. <strong>이 갈 곳 없는 힙/<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>들의 유일한 피난처가 바로 스왑 공간(Swap Space)이다.</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 종류</div><div class="kb-diagram-cell">디스크 원본 파일</div><div class="kb-diagram-cell">램 쫓겨날 때 조치</div><div class="kb-diagram-cell">스왑 파티션 소모</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드(Text)</div><div class="kb-diagram-cell">존재함 (exe)</div><div class="kb-diagram-cell">그냥 쿨하게 버림</div><div class="kb-diagram-cell">안 씀 (0%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">힙 (Heap)</div><div class="kb-diagram-cell">없음 (동적 생성)</div><div class="kb-diagram-cell">스왑 파티션에 기록</div><div class="kb-diagram-cell">엄청나게 소모함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스택(Stack)</div><div class="kb-diagram-cell">없음 (동적 생성)</div><div class="kb-diagram-cell">스왑 파티션에 기록</div><div class="kb-diagram-cell">엄청나게 소모함</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────────┐
+│ 메모리 종류│ 디스크 원본 파일│ 램 쫓겨날 때 조치 │ 스왑 파티션 소모 │
+├──────────┼────────────┼────────────┼────────────────────────────────┤
+│ 코드(Text)│ 존재함 (exe) │ 그냥 쿨하게 버림  │ 안 씀 (0%)           │
+│ 힙 (Heap)│ 없음 (동적 생성)│ 스왑 파티션에 기록│ 엄청나게 소모함    │
+│ 스택(Stack)│ 없음 (동적 생성)│ 스왑 파티션에 기록│ 엄청나게 소모함  │
+└──────────┴────────────┴────────────┴────────────────────────────────┘
+```
 **[매트릭스 해설]** 초보 개발자들은 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 모든 메모리를 다 받아주는 줄 알지만, 실제로는 힙과 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이라는 '[익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)' 전용 고시원이다. 코드 영역은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)로 분류되어 스왑 없이도 알아서 잘 쫓겨났다 잘 돌아온다.
 
 - **📢 섹션 요약 비유**: 시중에 파는 해리포터 책(코드)은 책상이 좁으면 그냥 쓰레기통에 버려도 됩니다. 나중에 서점(원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 가서 다시 사 오면 되니까요. 하지만 내가 밤새 쓴 일기장([익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) 힙/[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))은 세상에 한 권뿐이라 버리면 영원히 날아가므로, 반드시 나만의 비밀 금고(스왑 공간)에 꽁꽁 숨겨두어야 하는 이치입니다.
@@ -172,19 +173,15 @@ OS는 이 거대한 창고를 하드디스크의 어디에 어떻게 지을지 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">익명 메모리 (Anonymous Memory)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 지원 메모리 (File-backed Memory)</div></div>
-</div>
-</div>
-
-
+```text
+[페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계]
+    │
+    ▼
+[스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)]
+    │
+    ├──▶ [익명 메모리 (Anonymous Memory)]
+    └──▶ [파일 지원 메모리 (File-backed Memory)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

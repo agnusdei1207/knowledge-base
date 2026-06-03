@@ -31,18 +31,19 @@ tags = ["studynote-enterprise"]
 
 [인시던트 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_incident_management/)의 핵심은 탐지, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 우선순위 지정, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 종료다. [서비스 데스크](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)가 단일 접점 ([SPOC](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/), [Single Point of Contact](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_spoc/)) 역할을 하고, 해결이 어려우면 전문 팀으로 넘긴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인시던트 관리의 서비스 복구 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자/모니터링 탐지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접수 및 기록 → 분류/우선순위 → 초기 진단 → 에스컬레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크어라운드/복구 → 확인 → 종료</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│               인시던트 관리의 서비스 복구 흐름              │
+├──────────────────────────────────────────────────────────────┤
+│ 사용자/모니터링 탐지                                          │
+│          │                                                   │
+│          ▼                                                   │
+│ 접수 및 기록 → 분류/우선순위 → 초기 진단 → 에스컬레이션      │
+│          │                                                   │
+│          ▼                                                   │
+│ 워크어라운드/복구 → 확인 → 종료                              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 단계 | 의미 | 핵심 포인트 |
 | :--- | :--- | :--- |
@@ -120,25 +121,24 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">탐지 / 사용자 신고</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인시던트 등록</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분류 · 우선순위</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">초기 진단 · 에스컬레이션</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">워크어라운드 · 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">문제 관리 / 변경 관리로 이관</div>
-</div>
-</div>
-
-
+```text
+탐지 / 사용자 신고
+    │
+    ▼
+인시던트 등록
+    │
+    ▼
+분류 · 우선순위
+    │
+    ▼
+초기 진단 · 에스컬레이션
+    │
+    ▼
+워크어라운드 · 복구
+    │
+    ▼
+문제 관리 / 변경 관리로 이관
+```
 
 이 흐름은 "빨리 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"와 "나중에 근본 해결"을 분리하는 운영 원칙을 보여준다.
 

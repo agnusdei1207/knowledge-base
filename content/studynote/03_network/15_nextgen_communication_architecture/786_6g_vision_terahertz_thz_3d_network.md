@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **무지연 (초저지연 극대화)**: 무선 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 0.1ms 달성 ([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 1ms의 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 수준, 인간 신경보다 빠름).
   - <strong>적용 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 완전한 몰입형 홀로그램, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 촉각(햅틱) 인터넷.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">미드홀/백홀 전송계층망 코어 장거리 파장 라…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">6G 비전 네트워크 커버리지 입체망 스펙트럼…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지능형 반사 표면</div></div>
-</div>
-</div>
-
-
+```text
+[미드홀/백홀 전송계층망 코어 장거리 파장 라…]
+    │
+    ▼
+[6G 비전 네트워크 커버리지 입체망 스펙트럼…]
+    │
+    └──▶ [지능형 반사 표면]
+```
 
 - **📢 섹션 요약 비유**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 - **물리적 성질의 한계 (죽음의 직진성)**: 주파수가 너무 높아 파장이 머리카락보다 얇습니다. **이 전파는 사실상 전파가 아니라 '레이저(빛)'에 가깝습니다.** 종이 한 장, 빗방울 한 방울, 심지어 공기 중의 산소(O2) 분자에 부딪히기만 해도 에너지를 다 뺏기고 공중에서 즉사해 버리는 극악의 경로 손실(Path Loss)을 가집니다.
 - **돌파구 이슈**: 이 죽음의 직진성을 살리기 위해, 렌즈로 빛을 모으듯 전파를 모아주는 <strong>메타 물질(RIS, 다음 787번)</strong>이나 초정밀 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 기술이 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 실현의 0순위 선결 과제로 꼽히고 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">미드홀/백홀 전송계층망 코어 장거리 파장 라…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">6G 비전 네트워크 커버리지 입체망 스펙트럼…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지능형 반사 표면</div></div>
-</div>
-</div>
-
-
+```text
+[미드홀/백홀 전송계층망 코어 장거리 파장 라…]
+    │
+    ▼
+[6G 비전 네트워크 커버리지 입체망 스펙트럼…]
+    │
+    └──▶ [지능형 반사 표면]
+```
 
 - **📢 섹션 요약 비유**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 미드홀/백홀 전송계층망 코어 장거리 파장 라…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 6G 비전 네트워크 커버리지 입체망 스펙트럼…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 지능형 반사 표면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 미드홀/백홀 전송계층망 코어 장거리 파장 라…]
+    │
+    ▼
+[현재 개념: 6G 비전 네트워크 커버리지 입체망 스펙트럼…]
+    │
+    ├──▶ [확장 A: 지능형 반사 표면]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…는 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)/[백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 전송계층망 코어 장거리 파장 라…에서 출발해 현재 메커니즘을 정교화하고, 이후 [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

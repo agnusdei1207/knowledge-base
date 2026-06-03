@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 2. <strong>리더기 (Reader, <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 총)</strong>: 전파를 쏴서 밥(전기)을 먹여주고 데이터를 읽어냅니다.
 3. **호스트 서버**: 읽어 들인 일련번호를 데이터베이스에서 찾아 "아, M사이즈 파란색 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 3만 원!" 매핑합니다. (1036번 EPCglobal 연계)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFC 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RFID 충돌 방지 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EPCglobal 망 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[NFC 표준]
+    │
+    ▼
+[RFID 충돌 방지 알고리즘]
+    │
+    └──▶ [EPCglobal 망 아키텍처]
+```
 
 - **📢 섹션 요약 비유**: RFID 충돌 방지 알고리즘은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 - 허공에서 100개의 파동이 겹치면서 삐-이-익 하는 노이즈 쓰레기로 변해, 리더기는 100벌 중 단 1벌의 바코드도 해독하지 못합니다. 
 - 이를 1초 만에 깔끔하게 줄 세워 1명씩 입을 열게 만드는 것이 **안티 콜리전(Anti-Collision, 충돌 방지)** 알고리즘입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFC 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RFID 충돌 방지 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EPCglobal 망 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[NFC 표준]
+    │
+    ▼
+[RFID 충돌 방지 알고리즘]
+    │
+    └──▶ [EPCglobal 망 아키텍처]
+```
 
 - **📢 섹션 요약 비유**: RFID 충돌 방지 알고리즘의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -132,19 +124,15 @@ RFID 충돌 방지 알고리즘은 [성능](/knowledge-base/studynote/04_softwar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NFC 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RFID 충돌 방지 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EPCglobal 망 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NFC 표준]
+    │
+    ▼
+[현재 개념: RFID 충돌 방지 알고리즘]
+    │
+    ├──▶ [확장 A: EPCglobal 망 아키텍처]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 RFID 충돌 방지 알고리즘는 NFC 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 EPCglobal 망 아키텍처와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

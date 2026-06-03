@@ -42,53 +42,55 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/)(Local Interpretable Model-agnostic Explanations)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LIME 작동 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측 대상: 환자 X의 당뇨 위험도 = 0.87 (고위험 판정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: X 주변에 교란 샘플(Perturbed Samples) 생성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">X'₁ =</div><div class="kb-diagram-node">나이:55, 혈당:130, BMI:28, ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">X'₂ =</div><div class="kb-diagram-node">나이:55, 혈당:90,  BMI:32, ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">X'₃ =</div><div class="kb-diagram-node">나이:50, 혈당:130, BMI:30, ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 원래 블랙박스 모델로 교란 샘플 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">f(X'₁) = 0.81, f(X'₂) = 0.65, f(X'₃) = 0.79</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: X와의 거리에 따른 가중치 부여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가까운 샘플 = 높은 가중치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단계: 가중 선형 모델(Weighted Linear Model) 피팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y ≈ w₁×혈당 + w₂×BMI + w₃×나이 + ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: "혈당(+0.35)과 BMI(+0.21)가 고위험 판정에 기여"</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  LIME 작동 원리                                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  예측 대상: 환자 X의 당뇨 위험도 = 0.87 (고위험 판정)            │
+│                                                                  │
+│  1단계: X 주변에 교란 샘플(Perturbed Samples) 생성               │
+│         X'₁ = [나이:55, 혈당:130, BMI:28, ...]                 │
+│         X'₂ = [나이:55, 혈당:90,  BMI:32, ...]                 │
+│         X'₃ = [나이:50, 혈당:130, BMI:30, ...]                 │
+│                                                                  │
+│  2단계: 원래 블랙박스 모델로 교란 샘플 예측                       │
+│         f(X'₁) = 0.81, f(X'₂) = 0.65, f(X'₃) = 0.79          │
+│                                                                  │
+│  3단계: X와의 거리에 따른 가중치 부여                             │
+│         (가까운 샘플 = 높은 가중치)                               │
+│                                                                  │
+│  4단계: 가중 선형 모델(Weighted Linear Model) 피팅               │
+│         y ≈ w₁×혈당 + w₂×BMI + w₃×나이 + ...                  │
+│                                                                  │
+│  결과: "혈당(+0.35)과 BMI(+0.21)가 고위험 판정에 기여"           │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)([SHapley Additive exPlanations](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/))
 
 SHAP은 협력 게임 이론(Cooperative Game Theory)의 샤플리 값(Shapley Value)을 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설명에 적용한다.
 
+```
+샤플리 값 계산 원리 (Shapley Value):
+각 피처가 "없을 때 vs 있을 때" 모든 부분집합에 대한 평균 기여도
 
+φᵢ = Σ [|S|!(n-|S|-1)!/n!] × [f(S∪{i}) - f(S)]
+      S⊆F\{i}
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">샤플리 값 계산 원리 (Shapley Value):</div>
-<div class="kb-diagram-note">각 피처가 "없을 때 vs 있을 때" 모든 부분집합에 대한 평균 기여도</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">φᵢ = Σ</div><div class="kb-diagram-node">|S|!(n-|S|-1)!/n!</div><div class="kb-diagram-note">×</div><div class="kb-diagram-node">f(S∪{i}) - f(S)</div></div>
-<div class="kb-diagram-note">S⊆F\{i}</div>
-<div class="kb-diagram-note">예시: 예측값 = 0.87, 기준값(Base Value) = 0.50</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.50 + 혈당(+0.20) + BMI(+0.12) + 나이(+0.05)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 0.87</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHAP 워터폴 차트:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준값</div><div class="kb-diagram-cell">0.87</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.50 ████████ 혈당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+0.20 ████ BMI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+0.12 ██ 나이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+0.05</div></div>
-</div>
-</div>
-
-
+예시: 예측값 = 0.87, 기준값(Base Value) = 0.50
+┌─────────────────────────────────────────────────────────┐
+│  0.50  +  혈당(+0.20)  +  BMI(+0.12)  +  나이(+0.05)   │
+│       → 0.87                                            │
+│                                                         │
+│  SHAP 워터폴 차트:                                       │
+│  기준값  │━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┤ 0.87  │
+│  0.50   ████████ 혈당                                   │
+│         +0.20    ████ BMI                               │
+│                  +0.12  ██ 나이                          │
+│                         +0.05                           │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### 2.3 [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) vs [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 비교
 
@@ -141,23 +143,19 @@ SHAP은 협력 게임 이론(Cooperative Game Theory)의 샤플리 값(Shapley V
 
 ### 4.2 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 중요도([Feature Importance](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/)) 해석 주의사항
 
+```
+함정 1: 상관 피처(Correlated Features)
+  → 피처 A와 B가 상관관계 높을 때 SHAP 값이 분산됨
+  → 해결: 피처 그룹 단위 중요도 분석
 
+함정 2: 데이터 분포 외삽(Out-of-Distribution)
+  → SHAP 계산 시 실제 발생 불가능한 피처 조합 사용
+  → 해결: 조건부 SHAP (Conditional SHAP) 사용
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">함정 1: 상관 피처(Correlated Features)</div>
-<div class="kb-diagram-note">→ 피처 A와 B가 상관관계 높을 때 SHAP 값이 분산됨</div>
-<div class="kb-diagram-note">→ 해결: 피처 그룹 단위 중요도 분석</div>
-<div class="kb-diagram-note">함정 2: 데이터 분포 외삽(Out-of-Distribution)</div>
-<div class="kb-diagram-note">→ SHAP 계산 시 실제 발생 불가능한 피처 조합 사용</div>
-<div class="kb-diagram-note">→ 해결: 조건부 SHAP (Conditional SHAP) 사용</div>
-<div class="kb-diagram-note">함정 3: 설명의 신뢰성(Explanation Faithfulness)</div>
-<div class="kb-diagram-note">→ 설명 자체가 모델 동작을 정확히 반영하지 않을 수 있음</div>
-<div class="kb-diagram-note">→ 해결: Fidelity 지표로 설명 품질 정량 측정</div>
-</div>
-</div>
-
-
+함정 3: 설명의 신뢰성(Explanation Faithfulness)
+  → 설명 자체가 모델 동작을 정확히 반영하지 않을 수 있음
+  → 해결: Fidelity 지표로 설명 품질 정량 측정
+```
 
 📢 **섹션 요약 비유**: [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 값을 읽을 때 주의할 점은, 요리사에게 "이 요리에서 소금이 제일 중요해요"라고 말했더니 소금만 엄청 넣는 실수와 같다. XAI는 설명이지 처방이 아니다—어떤 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)가 중요한지 알았다면, 왜 중요한지 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문가와 함께 해석해야 한다.
 
@@ -200,22 +198,18 @@ XAI는 AI의 책임성(Accountability)과 투명성(Transparency)을 위한 기�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">블랙박스 AI (결정 이유 불투명)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">XAI (설명 가능 AI)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">LIME: 국소 대리 모델 기반 설명</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SHAP: 게임 이론 기반 기여도 분배</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Grad-CAM: CNN 활성화 맵 시각화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EU AI Act · 금융 규제: 설명 의무화</div>
-</div>
-</div>
-
-
+```text
+블랙박스 AI (결정 이유 불투명)
+    │
+    ▼
+XAI (설명 가능 AI)
+    ├─► LIME: 국소 대리 모델 기반 설명
+    ├─► SHAP: 게임 이론 기반 기여도 분배
+    └─► Grad-CAM: CNN 활성화 맵 시각화
+    │
+    ▼
+EU AI Act · 금융 규제: 설명 의무화
+```
 2. LIME은 AI에게 "비슷한 상황을 많이 만들어 보여주면서 어떤 조건이 바뀔 때 답이 달라지는지"로 이유를 알아내는 방법이에요.
 3. SHAP은 팀 프로젝트에서 각 팀원이 성과에 얼마나 기여했는지 공정하게 계산하는 것처럼, 각 정보([피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/))가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 판단에 얼마나 기여했는지 숫자로 알려줘요.
 

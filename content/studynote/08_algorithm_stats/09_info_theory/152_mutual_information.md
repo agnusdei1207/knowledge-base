@@ -50,18 +50,19 @@ I(X;Y) = H(X) - H(X|Y)
 
 ### [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 벤 다이어그램
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(X,Y)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I(X;Y)</div><div class="kb-diagram-cell">H(Y)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(X</div><div class="kb-diagram-cell">Y)</div><div class="kb-diagram-cell">H(Y</div><div class="kb-diagram-cell">X)</div></div>
-</div>
-</div>
-
-
+```
+     ┌──────────────────────────────────┐
+     │            H(X,Y)                │
+     │  ┌───────────────┐               │
+     │  │    H(X)       │               │
+     │  │  ┌────────────┼────────┐      │
+     │  │  │  I(X;Y)   │ H(Y)   │      │
+     │  │  │            │        │      │
+     │  │H(X|Y)        │H(Y|X)  │      │
+     │  │  └────────────┼────────┘      │
+     │  └───────────────┘               │
+     └──────────────────────────────────┘
+```
 
 - **I(X;Y)**: X와 Y 원의 교집합 (공유 정보)
 - **H(X|Y)**: X 원에서 교집합을 뺀 부분 (Y를 알고도 남은 X의 불확실성)
@@ -127,24 +128,22 @@ NMI(X;Y) = 2·I(X;Y) / (H(X) + H(Y))   ∈ [0, 1]
 
 ### [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 특성 선택 파이프라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원시 특성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">I(특성ᵢ ; 타깃 Y) 계산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">높은 MI 특성 선택 중복 특성 제거</div>
-<div class="kb-diagram-note">(relevance ↑) ► (redundancy ↓)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MRMR 선택된 특성 부분집합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모델 학습</div>
-</div>
-</div>
-
-
+```
+원시 특성
+    │
+    ▼
+I(특성ᵢ ; 타깃 Y) 계산
+    │
+    ▼
+높은 MI 특성 선택        중복 특성 제거
+(relevance ↑)    ───►   (redundancy ↓)
+    │
+    ▼
+MRMR 선택된 특성 부분집합
+    │
+    ▼
+모델 학습
+```
 
 ### 실무 시나리오: 고객 이탈 예측
 
@@ -196,25 +195,24 @@ MRI-CT 다중 모달 영상 정합에 널리 사용.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상호 정보량 I(X;Y)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NMI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">채널 용량 C</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KL 다이버전스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MRMR</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[상호 정보량 I(X;Y)]
+    │
+    ▼
+[NMI]
+    │
+    ▼
+[채널 용량 C]
+    │
+    ▼
+[KL 다이버전스]
+    │
+    ▼
+[MRMR]
+```
 
 이 흐름도는 :---에서 출발해 KL 다이버전스까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

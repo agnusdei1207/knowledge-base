@@ -18,18 +18,12 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ReLU: f(x) = max(0, x)</div>
-<div class="kb-diagram-note">x &gt; 0 → x (그대로), x ≤ 0 → 0 (차단)</div>
-<div class="kb-diagram-note">기울기: x &gt; 0 → 1, x ≤ 0 → 0</div>
-<div class="kb-diagram-note">→ Vanishing Gradient 없음 (기울기=1 유지)</div>
-</div>
-</div>
-
-
+```text
+ReLU: f(x) = max(0, x)
+  x > 0 → x (그대로), x ≤ 0 → 0 (차단)
+  기울기: x > 0 → 1, x ≤ 0 → 0
+  → Vanishing Gradient 없음 (기울기=1 유지)
+```
 
 - **📢 섹션 요약 비유**: ReLU는 문(양수=열림, 음수=닫힘)이다. Sigmoid는 반쯤 열린 문([기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 위험).
 
@@ -63,17 +57,11 @@ ReLU는 <strong>딥러닝의 가장 기본적이고 중요한 <a href="/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sigmoid (1980s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ReLU (2010, Nair)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AlexNet ReLU 성공 (2012)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Leaky/PReLU (2015)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GELU (2016, Transformer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SwiGLU (2022, LLM)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: KAN (2024)</div></div>
-</div>
-</div>
-
-
+```text
+[Sigmoid (1980s)] → [ReLU (2010, Nair)] → [AlexNet ReLU 성공 (2012)]
+    → [Leaky/PReLU (2015)] → [GELU (2016, Transformer)]
+    → [SwiGLU (2022, LLM)] → [현재: KAN (2024)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ReLU는 <strong>문</strong>이에요. 좋은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(양수)는 **열어서 통과**, 나쁜 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(음수)는 <strong>닫아서 차단</strong>해요.

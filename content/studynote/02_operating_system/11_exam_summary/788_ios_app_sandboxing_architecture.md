@@ -34,32 +34,36 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - UNIX 계열의 FreeBSD와 Mach [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 뿌리로 둔 iOS(Darwin [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)부터 보안을 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 강력한 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)인 **Seatbelt** 프레임워크를 도입하여, 오늘날 폐쇄적이고 안전한 애플 생태계의 절대적 뼈대를 구축했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC 파일 시스템 vs iOS 샌드박스 파일 시스템 구조 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 PC (자유 방임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/Users/철수/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 카카오톡 폴더/ ◀─ (게임 앱이 몰래 들어와서 사진 빼감)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 게임 앱 폴더/ ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 앱 권한이 곧 유저(철수) 권한이라, 철수의 모든 폴더를 다 털 수 있음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">iOS Sandbox 환경 (독방 감금)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/var/mobile/Containers/Data/Application/</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">앱 A (카카오톡) 샌드박스 구역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Documents/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- tmp/ ──❌ (절대 침범 불가) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Library/</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">앱 B (게임 앱) 샌드박스 구역</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Documents/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- tmp/ ◀─ (오직 자기 폴더만 읽고 씀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Library/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 게임 앱이 <code>/etc/</code>나 <code>카카오톡 폴더</code> 경로를 호출하면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 커널: "어딜 감히!" ──▶ 즉시 <code>Permission Denied</code> 폭격 💥</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 PC 파일 시스템 vs iOS 샌드박스 파일 시스템 구조 차이   │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 일반 PC (자유 방임) ]                                       │
+  │   /Users/철수/                                              │
+  │   ├── 카카오톡 폴더/  ◀─ (게임 앱이 몰래 들어와서 사진 빼감)          │
+  │   └── 게임 앱 폴더/   ──┘                                       │
+  │   ※ 앱 권한이 곧 유저(철수) 권한이라, 철수의 모든 폴더를 다 털 수 있음.    │
+  │                                                             │
+  │  [ iOS Sandbox 환경 (독방 감금) ]                             │
+  │   /var/mobile/Containers/Data/Application/                  │
+  │                                                             │
+  │   ┌── [ 앱 A (카카오톡) 샌드박스 구역 ] ──────────────────┐     │
+  │   │  - Documents/                                       │     │
+  │   │  - tmp/               ──❌ (절대 침범 불가) ──┐        │     │
+  │   │  - Library/                                 │        │     │
+  │   └─────────────────────────────────────────────┼──┐     │
+  │                                                 │  │     │
+  │   ┌── [ 앱 B (게임 앱) 샌드박스 구역 ] ─────────────────┼──┘     │
+  │   │  - Documents/                                       │     │
+  │   │  - tmp/               ◀─ (오직 자기 폴더만 읽고 씀)        │     │
+  │   │  - Library/                                         │     │
+  │   └─────────────────────────────────────────────┘     │
+  │                                                             │
+  │   ※ 게임 앱이 `/etc/`나 `카카오톡 폴더` 경로를 호출하면?            │
+  │      ▶ 커널: "어딜 감히!" ──▶ 즉시 `Permission Denied` 폭격 💥│
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** iOS [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)의 핵심은 폴더 경로의 랜덤화와 물리적 단절이다. 앱을 다운받으면 iOS는 해시값처럼 생긴 길고 복잡한 무작위 폴더명(UUID)을 파서 그 앱의 집으로 배정한다. 게임 앱은 자기가 태어난 집(Documents, tmp 등) 안에서만 신나게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽고 쓴다. 만약 코딩을 악의적으로 짜서 샌드박스 상위 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(`../../`)를 타고 올라가 남의 폴더에 접근하려 하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레이어에 상주하는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 필터(Seatbelt)가 시스템 콜(`open`, `read`)을 중간에 가로채서 단칼에 잘라내 버린다. 이 물리적인 감옥 구조 덕분에 애플 폰은 백신([Anti-Virus](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/)) 앱이 필요 없게 된 것이다.
 
@@ -87,31 +91,34 @@ iOS [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602
 - 앱이 켜질 때, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Seatbelt)은 앱의 위조 불가능한 서명(Entitlements)을 읽고, "오케이, 너는 샌드박스 안에 갇혀있지만 특별히 '카메라' 창문 하나만 열어줄게"라고 동적으로 룰을 수정해 준다.
 - 앱 실행 시 유저에게 "카메라 권한을 허용하시겠습니까?" 팝업이 뜨고 허락해야만 최종 접근이 승인된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entitlements를 통한 샌드박스 핀홀(Pinhole) 개방 매커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 스페이스 - 앱 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 게임 앱이 "내 사진첩에 스크린샷 저장해 줘!" 라고 API 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=========( 시스템 콜 트랩 진입 )====================================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 스페이스 - XNU Kernel</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Seatbelt MAC 필터 동작:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어? 넌 네 샌드박스(독방) 밖의 사진첩 폴더(Media)를 건드리네? 쳐맞을래?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (잠깐 검사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 앱의 암호화된 Entitlements 서명 덩어리 확인:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>com.apple.security.assets.photos.read-write</code> = TRUE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "오, 너 애플한테 정식으로 사진첩 권한 허락받고 서명 구워왔구나!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (유저 의사 확인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 커널 시스템 데몬이 UI 팝업을 띄움: "사진 접근 허용하시겠습니까?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 유저가</div><div class="kb-diagram-node">허용</div><div class="kb-diagram-note">클릭 🟢</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (최종 승인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 샌드박스 벽에 '사진첩'으로만 통하는 작고 안전한 구멍(Pinhole)을 뚫어줌!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 쓰기 성공!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Entitlements를 통한 샌드박스 핀홀(Pinhole) 개방 매커니즘│
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 유저 스페이스 - 앱 실행 ]                                          │
+  │   1. 게임 앱이 "내 사진첩에 스크린샷 저장해 줘!" 라고 API 호출              │
+  │                                                                   │
+  │  =========( 시스템 콜 트랩 진입 )==================================== │
+  │                                                                   │
+  │   [ 커널 스페이스 - XNU Kernel ]                                      │
+  │   2. Seatbelt MAC 필터 동작:                                       │
+  │      "어? 넌 네 샌드박스(독방) 밖의 사진첩 폴더(Media)를 건드리네? 쳐맞을래?" │
+  │                 │                                                 │
+  │                 ▼ (잠깐 검사)                                        │
+  │   3. 앱의 암호화된 Entitlements 서명 덩어리 확인:                       │
+  │      - `com.apple.security.assets.photos.read-write` = TRUE       │
+  │      - "오, 너 애플한테 정식으로 사진첩 권한 허락받고 서명 구워왔구나!"      │
+  │                 │                                                 │
+  │                 ▼ (유저 의사 확인)                                   │
+  │   4. 커널 시스템 데몬이 UI 팝업을 띄움: "사진 접근 허용하시겠습니까?"       │
+  │      - 유저가 [허용] 클릭 🟢                                          │
+  │                 │                                                 │
+  │                 ▼ (최종 승인)                                        │
+  │   5. 샌드박스 벽에 '사진첩'으로만 통하는 작고 안전한 구멍(Pinhole)을 뚫어줌! │
+  │      데이터 쓰기 성공!                                                │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 철창(Sandbox)을 단단하게 짓는 건 쉽다. 어려운 건 "필요할 때만 창문을 안전하게 뚫어주는 것"이다. 안드로이드는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 이 권한을 설치할 때 한 번에 퉁치고 넘어갔지만, iOS는 런타임에 동적으로 유저에게 팝업을 띄워 승인받는 TCC (Transparency, Consent, and Control) 메커니즘을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 샌드박스와 결합시켰다. 이 구조에서 개발자가 애플 몰래(Entitlements 기재 없이) 카메라를 훔쳐보는 악성코드를 심어봤자, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 Seatbelt에 부딪혀 앱 자체가 강제 종료(Crash)되는 치욕을 겪게 된다.
 
@@ -153,25 +160,28 @@ iOS [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602
    - **원인 분석**: 원칙적으로 A 샌드박스와 B 샌드박스는 완벽한 평행우주라서 서로의 디스크 공간을 들여다볼 수 없다.
    - **아키텍트 판단 (App Group 권한 융합)**: 애플 개발자 계정 센터에서 두 앱을 하나의 `App Group`으로 묶어주는 Entitlements 서명을 발급받아야 한다. 이 서명을 달고 앱을 컴파일하면, iOS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 A앱과 B앱의 개인 샌드박스 외에 제3의 특수 구역인 <strong>공용 공유 폴더 (Shared <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/">Container</a>)</strong>를 만들어준다. 이제 두 앱은 이 공유 폴더에 SQLite DB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 던져두고 안전하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교환할 수 있다. 샌드박스 룰을 어기지 않으면서 생태계를 확장하는 공식 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">iOS 파일 저장소 아키텍트 결정 트리 (디렉터리 설계)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱 내부에서 사용자 데이터나 캐시 이미지를 저장해야 한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자가 직접 만든 중요한 파일인가? (문서, 작업 중인 그림 파일 등)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node"><code>Documents/</code> 폴더에 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(아이클라우드(iCloud) 및 아이튠즈 백업 대상에 포함됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (서버에서 다운받은 영화, 임시 썸네일 이미지, 캐시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱이 꺼졌다가 다시 켜져도 당분간 데이터가 남아있어야 하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node"><code>Library/Caches/</code> 폴더에 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(백업 대상은 아니지만, 아이폰 용량이 부족해지기 전까진 보존)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node"><code>tmp/</code> (임시 폴더) 에 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다운로드 중인 임시 파일 등. 앱 종료 시 OS가 날려버릴 수 있음)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 iOS 파일 저장소 아키텍트 결정 트리 (디렉터리 설계)        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 앱 내부에서 사용자 데이터나 캐시 이미지를 저장해야 한다 ]                 │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      사용자가 직접 만든 중요한 파일인가? (문서, 작업 중인 그림 파일 등)       │
+  │          ├─ 예 ─────▶ [ `Documents/` 폴더에 저장 ]                 │
+  │          │             (아이클라우드(iCloud) 및 아이튠즈 백업 대상에 포함됨) │
+  │          └─ 아니오 (서버에서 다운받은 영화, 임시 썸네일 이미지, 캐시)        │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      앱이 꺼졌다가 다시 켜져도 당분간 데이터가 남아있어야 하는가?              │
+  │          ├─ 예 ─────▶ [ `Library/Caches/` 폴더에 저장 ]            │
+  │          │             (백업 대상은 아니지만, 아이폰 용량이 부족해지기 전까진 보존)│
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [ `tmp/` (임시 폴더) 에 저장 ]                │
+  │                        (다운로드 중인 임시 파일 등. 앱 종료 시 OS가 날려버릴 수 있음)│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** iOS 앱은 샌드박스 안에서도 방의 쓰임새가 철저히 나뉘어 있다. 수많은 주니어 개발자가 서버에서 받아오는 수백 메가짜리 썸네일 캐시 이미지를 무식하게 `Documents/` 폴더에 저장한다. 이렇게 되면 사용자가 밤에 아이클라우드 백업을 할 때 그 쓰레기 캐시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)까지 모조리 클라우드로 올라가서 유저의 아이클라우드 용량(5GB)을 며칠 만에 고갈시킨다. 결국 애플 앱스토어 심사 팀([Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))에서 가이드라인 위반으로 앱 출시(리젝, Reject)를 거부당하는 참사를 겪게 된다. 샌드박스 아키텍처의 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 철학을 이해하는 것은 단순 코딩을 넘어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 배포의 필수 조건이다.
 
@@ -217,19 +227,15 @@ iOS 앱 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">안드로이드 LMK (Low Memory Killer) 작동</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">iOS 앱 샌드박싱 구조 (Ios App Sandboxing Architecture)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라이브 패칭 (Kpatch) 커널 정지 없는 보안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">POSIX 스레드 (pthreads) 표준 API</div></div>
-</div>
-</div>
-
-
+```text
+[안드로이드 LMK (Low Memory Killer) 작동]
+    │
+    ▼
+[iOS 앱 샌드박싱 구조 (Ios App Sandboxing Architecture)]
+    │
+    ├──▶ [라이브 패칭 (Kpatch) 커널 정지 없는 보안]
+    └──▶ [POSIX 스레드 (pthreads) 표준 API]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

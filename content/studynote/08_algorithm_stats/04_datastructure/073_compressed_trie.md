@@ -76,23 +76,21 @@ Standard Trie:        Compressed Trie (Patricia):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 트라이 (Standard Trie — 문자 단위 노드)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">압축 트라이 / 기수 트리 (Compressed Trie / Radix Tree)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Patricia Trie — 단일 자식 노드 완전 제거</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Merkle Patricia Tree (MPT — 이더리움 상태 저장)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Adaptive Radix Tree (ART — 인메모리 DB 인덱스)</div></div>
-</div>
-</div>
-
-
+```text
+[일반 트라이 (Standard Trie — 문자 단위 노드)]
+    │
+    ▼
+[압축 트라이 / 기수 트리 (Compressed Trie / Radix Tree)]
+    │
+    ▼
+[Patricia Trie — 단일 자식 노드 완전 제거]
+    │
+    ▼
+[Merkle Patricia Tree (MPT — 이더리움 상태 저장)]
+    │
+    ▼
+[Adaptive Radix Tree (ART — 인메모리 DB 인덱스)]
+```
 단순 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)의 노드 폭증 문제를 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 해결한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)는 IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템·[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) MPT 등에서 공간과 캐시 효율의 최적 균형을 제공한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

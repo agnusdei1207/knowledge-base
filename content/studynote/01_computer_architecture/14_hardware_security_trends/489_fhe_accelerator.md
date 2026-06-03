@@ -25,22 +25,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 FHE가 왜 "계산은 맡기되 비밀은 맡기지 않는" 구조로 불리는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FHE trust boundary: server computes, client keeps the secret key</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">plaintext ──encrypt──▶ ciphertext</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud FHE Accelerator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ add / multiply / rotate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ bootstrap when noise grows</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ciphertext result ──decrypt──▶ plaintext result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server never receives the secret key or plaintext</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ FHE trust boundary: server computes, client keeps the secret key        │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Client                                                                   │
+│   plaintext ──encrypt──▶ ciphertext                                       │
+│                              │                                             │
+│                              ▼                                             │
+│                     Cloud FHE Accelerator                                  │
+│                     ├─ add / multiply / rotate                             │
+│                     └─ bootstrap when noise grows                          │
+│                              │                                             │
+│                              ▼                                             │
+│                 ciphertext result ──decrypt──▶ plaintext result            │
+│                                                                            │
+│ Server never receives the secret key or plaintext                          │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 서버가 계산은 수행하지만 비밀키와 평문은 끝까지 클라이언트 쪽에 남는다는 점이다. 즉 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기는 단순한 암호 연산 카드가 아니라, <strong>평문 노출 없는 클라우드 계산</strong>을 가능하게 만드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계 장치다.
 
@@ -62,22 +64,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기에서 암호문이 어떤 하드웨어 경로를 통과하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FHE accelerator datapath</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HBM / DDR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ciphertext tiles</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA + on-chip SRAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ NTT / INTT array ─▶ point-wise MUL/ADD ─▶ rescale / mod-switch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ key-switch engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ bootstrap engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ciphertext writeback</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ FHE accelerator datapath                                                 │
+├──────────────────────────────────────────────────────────────────────────┤
+│ HBM / DDR                                                                │
+│   │ ciphertext tiles                                                     │
+│   ▼                                                                      │
+│ DMA + on-chip SRAM                                                       │
+│   │                                                                      │
+│   ├─▶ NTT / INTT array ─▶ point-wise MUL/ADD ─▶ rescale / mod-switch     │
+│   │                                                                      │
+│   └──────────────────────────────────────────────▶ key-switch engine      │
+│                                                   │                      │
+│                                                   └──▶ bootstrap engine   │
+│                                                            │             │
+│                                                            ▼             │
+│                                                      ciphertext writeback │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 경로에서 중요한 사실은 연산 순서가 수학적 필요성에 의해 거의 정해져 있다는 점이다. NTT는 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 합성곱을 빠른 점별 곱셈으로 바꾸고, 키 스위칭과 리스케일은 스킴이 계속 성립하도록 표현을 바꾸며, [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)은 깊은 회로를 계속 계산할 수 있도록 노이즈를 새로 정돈한다. 결국 [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/) 가속기 설계는 "연산기 수"보다 "중간 암호문을 얼마나 덜 옮기느냐"가 더 큰 승부처가 된다.
 
@@ -149,25 +154,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">저장 데이터 암호화 · 전송 데이터 암호화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부분 동형 암호 (PHE, Partially Homomorphic Encryption)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">완전 동형 암호 (FHE, Fully Homomorphic Encryption)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RNS · NTT · Bootstrapping 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FHE Accelerator + HBM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프라이버시 보호 인공지능 · 제로트러스트 분석</div>
-</div>
-</div>
-
-
+```text
+저장 데이터 암호화 · 전송 데이터 암호화
+                │
+                ▼
+부분 동형 암호 (PHE, Partially Homomorphic Encryption)
+                │
+                ▼
+완전 동형 암호 (FHE, Fully Homomorphic Encryption)
+                │
+                ▼
+RNS · NTT · Bootstrapping 최적화
+                │
+                ▼
+FHE Accelerator + HBM
+                │
+                ▼
+프라이버시 보호 인공지능 · 제로트러스트 분석
+```
 
 이 흐름은 "보관 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"에서 "연산 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"로, 다시 "수학적 가능성"에서 "전용 하드웨어 실용화"로 진화하는 방향을 보여 준다.
 

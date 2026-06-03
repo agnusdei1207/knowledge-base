@@ -25,22 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 필요한지를 연결 구조 관점에서 보여준다. 왼쪽은 모든 장치를 직접 연결한 경우이고, 오른쪽은 공용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 도입한 경우다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전용선 중심 연결</div><div class="kb-diagram-cell">시스템 버스 중심 연결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Memory</div><div class="kb-diagram-cell">CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ /</div><div class="kb-diagram-cell">Memory ── System Bus ── I/O</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ /</div><div class="kb-diagram-cell">Disk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ /</div><div class="kb-diagram-cell">NIC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk ── I/O ─ NIC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연결 수 감소, 확장 용이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치 추가 시 선 수 급증</div><div class="kb-diagram-cell">장치 추가 시 접속 규칙 재사용</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────┐      ┌──────────────────────────────┐
+│  전용선 중심 연결             │      │  시스템 버스 중심 연결        │
+├──────────────────────────────┤      ├──────────────────────────────┤
+│ CPU ───── Memory             │      │ CPU    ┐                     │
+│  │ \      /  │               │      │ Memory ├── System Bus ── I/O │
+│  │  \    /   │               │      │ Disk   ┤                     │
+│  │   \  /    │               │      │ NIC    ┘                     │
+│ Disk ── I/O ─ NIC            │      │                              │
+│                              │      │ 연결 수 감소, 확장 용이      │
+│ 장치 추가 시 선 수 급증      │      │ 장치 추가 시 접속 규칙 재사용 │
+└──────────────────────────────┘      └──────────────────────────────┘
+```
 
 즉 시스템 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 단순한 선 묶음이 아니라, 컴퓨터를 “조립 가능한 시스템”으로 만드는 약속의 집합이다. 하드웨어 표준화와 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화가 가능해진 배경에도 이 공통 통신 경로 개념이 있다.
 
@@ -62,21 +59,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 한 번의 읽기 사이클에서 세 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 어떤 역할 분담을 하는지 압축해서 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 버스의 읽기 사이클 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① CPU ── 주소 버스 ──▶ 메모리 위치 지정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② CPU ── 제어 버스 ──▶ Read 신호 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ RAM ── 데이터 버스 ──▶ 데이터 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 버스 : "어디를 읽을까"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 버스 : "지금 읽기 동작이다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 버스 : "실제 값은 이것이다"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│              시스템 버스의 읽기 사이클 예시                  │
+├──────────────────────────────────────────────────────────────┤
+│ ① CPU ── 주소 버스 ──▶ 메모리 위치 지정                      │
+│ ② CPU ── 제어 버스 ──▶ Read 신호 전달                        │
+│ ③ RAM ── 데이터 버스 ──▶ 데이터 반환                         │
+│                                                              │
+│ 주소 버스   : "어디를 읽을까"                                │
+│ 제어 버스   : "지금 읽기 동작이다"                           │
+│ 데이터 버스 : "실제 값은 이것이다"                           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭과 주파수는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 결정하는 중요한 요소지만, 그것만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 정해지지는 않는다. 여러 장치가 동시에 쓰려 할 때 누구에게 우선권을 줄지 정하는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/">버스 중재</a>기 (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> Arbiter)</strong>, CPU 대신 입출력 장치가 메모리와 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받도록 하는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), 그리고 고속 장치와 저속 장치를 다른 경로로 분리하는 계층형 설계가 함께 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다.
 
@@ -151,25 +146,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 배선 기반 연결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시스템 버스 (주소 버스 · 데이터 버스 · 제어 버스)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">버스 중재 (Arbitration) · DMA (Direct Memory Access)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">계층형 버스 구조 · 브리지 기반 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PCIe (Peripheral Component Interconnect Express) · 고속 직렬 인터커넥트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">칩렛 인터커넥트 · 고대역폭 메모리 연동 구조</div>
-</div>
-</div>
-
-
+```text
+공유 배선 기반 연결
+        │
+        ▼
+시스템 버스 (주소 버스 · 데이터 버스 · 제어 버스)
+        │
+        ▼
+버스 중재 (Arbitration) · DMA (Direct Memory Access)
+        │
+        ▼
+계층형 버스 구조 · 브리지 기반 분리
+        │
+        ▼
+PCIe (Peripheral Component Interconnect Express) · 고속 직렬 인터커넥트
+        │
+        ▼
+칩렛 인터커넥트 · 고대역폭 메모리 연동 구조
+```
 
 이 흐름은 단일 공유선에서 시작한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 개념이 병목 해소를 위해 중재·분리·고속 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 방향으로 진화했음을 보여준다.
 

@@ -29,25 +29,24 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 고속도로 톨게이트 자율 통제 시스템(회피). 고속도로에 차가 자유롭게 들어가게 냅두는 대신, 매 톨게이트를 통과할 때마다 "지금 이 차 1대를 들여보내면 30분 뒤에 서울IC가 주차장이 될까?" 시뮬레이션 돌려보고 위험하다 싶으면 아예 톨게이트 게이트를 닫아 대기(회피)시키는 것.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 회피 (Avoidance)의 안전성 철학</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 트리 분할 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 시스템 상태 (모든 자원 할당/요청 상태망)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 안전 상태 (Safe State): 100% 데드락 없음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 불안전 상태 (Unsafe State):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 데드락이 아닐 수도 있으나 (아침 서리길)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 언제든 데드락이 터질 수 있는 위협 지대 (블랙 아이스)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS 회피 시스템의 절대 강령</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"프로세스의 자원 요청을 허락했을 때 시스템이 단 1%라도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unsafe State로 들어가는 결과가 예측된다면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설령 지금 당장 자원이 남아돌아도 주지 않고 승인 거절(Wait)!"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│         교착 상태 회피 (Avoidance)의 안전성 철학              │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [상태 트리 분할 구조]                                        │
+│  전체 시스템 상태 (모든 자원 할당/요청 상태망)                │
+│   ├── 안전 상태 (Safe State): 100% 데드락 없음!               │
+│   └── 불안전 상태 (Unsafe State):                             │
+│       ├── 데드락이 아닐 수도 있으나 (아침 서리길)             │
+│       └── 언제든 데드락이 터질 수 있는 위협 지대 (블랙 아이스)│
+│                                                               │
+│  [OS 회피 시스템의 절대 강령]                                 │
+│  "프로세스의 자원 요청을 허락했을 때 시스템이 단 1%라도       │
+│  Unsafe State로 들어가는 결과가 예측된다면,                   │
+│  설령 지금 당장 자원이 남아돌아도 주지 않고 승인 거절(Wait)!" │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 은행이 고객에게 대출(자원 승인)을 해줄 때 통장에 현찰이 아무리 많아도, 이 고객한테 대출해 줬다가 연쇄 파산(데드락)할 각이 보이면 "현찰은 있지만 안 빌려줍니다([안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) 유지)" 하고 회피하며 셔터를 내리는 철벽 대출 방어가 바로 회피입니다.
 
@@ -124,19 +123,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">순환 대기 부정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 회피 (Deadlock Avoidance)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">안전 상태 (Safe State)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">불안전 상태 (Unsafe State)</div></div>
-</div>
-</div>
-
-
+```text
+[순환 대기 부정]
+    │
+    ▼
+[교착 상태 회피 (Deadlock Avoidance)]
+    │
+    ├──▶ [안전 상태 (Safe State)]
+    └──▶ [불안전 상태 (Unsafe State)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

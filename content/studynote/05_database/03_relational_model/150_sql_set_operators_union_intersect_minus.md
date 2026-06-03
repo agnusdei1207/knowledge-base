@@ -30,28 +30,30 @@ tags = ["studynote-database"]
 
 수학적 벤 다이어그램과 SQL 집합 연산자의 매핑 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수학적 벤 다이어그램과 SQL 집합 연산자 매핑 맵 (Map)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">테이블 A (수학 90점 이상)</div><div class="kb-diagram-node">테이블 B (영어 90점 이상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 홍길동, 이순신 ) ( 홍길동, 강감찬 )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ UNION (합집합 ∪) ➔ "수학이든 영어든 하나라도 90점 넘는 애 싹 다 와!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: (홍길동, 이순신, 강감찬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 특징: 홍길동이 2명이지 않고 1명으로 '중복 제거(Sort Unique)' 됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ UNION ALL (무지성 합집합) ➔ "중복 신경 안 써! 그냥 다 쏟아부어!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: (홍길동, 이순신, 홍길동, 강감찬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 특징: 홍길동이 2번 나옴. 하지만 정렬(Sort) 연산을 안 해서 압도적으로 빠름!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ INTERSECT (교집합 ∩) ➔ "수학, 영어 둘 다 90점 넘는 완벽한 천재만!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: (홍길동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ MINUS / EXCEPT (차집합 -) ➔ "수학 90점 넘는 애 중에서, 영어 잘하는 애 빼!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 (A MINUS B): (이순신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 (B MINUS A): (강감찬) ◀─ 순서 바뀌면 결과도 완전 달라짐!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          수학적 벤 다이어그램과 SQL 집합 연산자 매핑 맵 (Map)           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [ 테이블 A (수학 90점 이상) ]       [ 테이블 B (영어 90점 이상) ]       │
+│   ( 홍길동, 이순신 )                   ( 홍길동, 강감찬 )             │
+│                                                             │
+│ 1️⃣ UNION (합집합 ∪) ➔ "수학이든 영어든 하나라도 90점 넘는 애 싹 다 와!"│
+│    결과: (홍길동, 이순신, 강감찬)                                 │
+│    🌟 특징: 홍길동이 2명이지 않고 1명으로 '중복 제거(Sort Unique)' 됨!   │
+│                                                             │
+│ 2️⃣ UNION ALL (무지성 합집합) ➔ "중복 신경 안 써! 그냥 다 쏟아부어!"    │
+│    결과: (홍길동, 이순신, 홍길동, 강감찬)                          │
+│    🌟 특징: 홍길동이 2번 나옴. 하지만 정렬(Sort) 연산을 안 해서 압도적으로 빠름!│
+│                                                             │
+│ 3️⃣ INTERSECT (교집합 ∩) ➔ "수학, 영어 둘 다 90점 넘는 완벽한 천재만!"  │
+│    결과: (홍길동)                                              │
+│                                                             │
+│ 4️⃣ MINUS / EXCEPT (차집합 -) ➔ "수학 90점 넘는 애 중에서, 영어 잘하는 애 빼!"│
+│    결과 (A MINUS B): (이순신)                                  │
+│    결과 (B MINUS A): (강감찬) ◀─ 순서 바뀌면 결과도 완전 달라짐!         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[집합 연산자의 성립 전제 조건 (Rule of Thumb)]**
 아무 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)나 냅다 `UNION`으로 붙일 수 없다. 마치 엑셀 2장을 복붙할 때 표의 열(Column) 개수와 모양이 딱 맞아야 안 깨지는 것과 같다.
@@ -126,23 +128,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수학적 집합론(Set Theory) / 벤 다이어그램의 합집합, 교집합, 차집합 개념</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관계 대수(Relational Algebra) / E.F. Codd가 데이터베이스 릴레이션 조작을 위해 수학적 연산을 RDBMS에 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SQL-92 표준 UNION, INTERSECT, MINUS 확립 / 이기종 테이블의 세로 결합(Vertical Merge) 쿼리 문법 완성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UNION 정렬(Sort) 병목 파국 💥 / 수억 건 중복 검사로 야간 배치 서버 셧다운 ➔ 튜너들의 UNION ALL 바이패스 스트리밍 튜닝 마개조 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빅데이터 및 스트리밍 아키텍처 / HDFS 리듀스 병합 및 Kafka 실시간 데이터 스트림의 무한 세로 덧붙이기(Continuous Union All) 엔진으로 철학 승화</div>
-</div>
-</div>
-
-
+```text
+수학적 집합론(Set Theory) / 벤 다이어그램의 합집합, 교집합, 차집합 개념
+    │
+    ▼
+관계 대수(Relational Algebra) / E.F. Codd가 데이터베이스 릴레이션 조작을 위해 수학적 연산을 RDBMS에 도입
+    │
+    ▼
+SQL-92 표준 UNION, INTERSECT, MINUS 확립 / 이기종 테이블의 세로 결합(Vertical Merge) 쿼리 문법 완성
+    │
+    ▼
+UNION 정렬(Sort) 병목 파국 💥 / 수억 건 중복 검사로 야간 배치 서버 셧다운 ➔ 튜너들의 UNION ALL 바이패스 스트리밍 튜닝 마개조 ✨
+    │
+    ▼
+빅데이터 및 스트리밍 아키텍처 / HDFS 리듀스 병합 및 Kafka 실시간 데이터 스트림의 무한 세로 덧붙이기(Continuous Union All) 엔진으로 철학 승화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

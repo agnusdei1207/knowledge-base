@@ -39,45 +39,45 @@ tags = ["studynote-bigdata"]
 
 ### 대시보드 3유형
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대시보드 3유형 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전략 대시보드</div><div class="kb-diagram-cell">운영 대시보드</div><div class="kb-diagram-cell">분석 대시보드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Strategic)</div><div class="kb-diagram-cell">(Operational)</div><div class="kb-diagram-cell">(Analytical)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대상: C-Suite</div><div class="kb-diagram-cell">대상: 운영팀</div><div class="kb-diagram-cell">대상: 분석가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주기: 월/분기</div><div class="kb-diagram-cell">주기: 실시간/일간</div><div class="kb-diagram-cell">주기: 필요 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KPI 방향성,</div><div class="kb-diagram-cell">현재 상태 vs SLA</div><div class="kb-diagram-cell">드릴다운, 슬라이스,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표 대비</div><div class="kb-diagram-cell">알림, 임계값 초과</div><div class="kb-diagram-cell">다이스, 필터 탐색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터랙션: 최소</div><div class="kb-diagram-cell">인터랙션: 경보</div><div class="kb-diagram-cell">인터랙션: 최대</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">갱신: 일간+</div><div class="kb-diagram-cell">갱신: 실시간</div><div class="kb-diagram-cell">갱신: 필요 시</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                대시보드 3유형 비교                           │
+├──────────────┬──────────────────┬───────────────────────────┤
+│  전략 대시보드│   운영 대시보드  │   분석 대시보드           │
+│  (Strategic) │  (Operational)   │   (Analytical)            │
+├──────────────┼──────────────────┼───────────────────────────┤
+│ 대상: C-Suite│ 대상: 운영팀     │ 대상: 분석가              │
+│ 주기: 월/분기 │ 주기: 실시간/일간│ 주기: 필요 시             │
+│              │                  │                           │
+│ KPI 방향성,  │ 현재 상태 vs SLA │ 드릴다운, 슬라이스,       │
+│ 목표 대비     │ 알림, 임계값 초과 │ 다이스, 필터 탐색         │
+│              │                  │                           │
+│ 인터랙션: 최소│ 인터랙션: 경보   │ 인터랙션: 최대            │
+│ 갱신: 일간+  │ 갱신: 실시간     │ 갱신: 필요 시             │
+└──────────────┴──────────────────┴───────────────────────────┘
+```
 
 ### [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 계층 설계 (Visual Hierarchy)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-tree-item" style="--depth:0">1차 KPI 카드 (Primary KPI Cards)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매출 합계</div><div class="kb-diagram-cell">신규 고객</div><div class="kb-diagram-cell">전환율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">₩1.2조</div><div class="kb-diagram-cell">12,450명</div><div class="kb-diagram-cell">3.8%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ +12% YoY</div><div class="kb-diagram-cell">▲ +8%</div><div class="kb-diagram-cell">▼ -0.2%pp</div></div>
-<div class="kb-diagram-note">↓ 1차 KPI를 설명하는</div>
-<div class="kb-diagram-tree-item" style="--depth:0">2차 지원 지표 차트</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">월별 매출 추세 (꺾은선)</div><div class="kb-diagram-cell">지역별</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매출 비중</div></div>
-<div class="kb-diagram-note">↓ 상세 진단을 위한</div>
-<div class="kb-diagram-tree-item" style="--depth:0">3차 상세 테이블</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제품별 매출·이익·성장률 상세 테이블</div></div>
-</div>
-</div>
-
-
+```
+────── 1차 KPI 카드 (Primary KPI Cards) ──────
+  ┌────────────┐  ┌────────────┐  ┌────────────┐
+  │  매출 합계  │  │  신규 고객  │  │ 전환율     │
+  │  ₩1.2조    │  │  12,450명  │  │  3.8%      │
+  │  ▲ +12% YoY│  │  ▲ +8%    │  │ ▼ -0.2%pp  │
+  └────────────┘  └────────────┘  └────────────┘
+         ↓ 1차 KPI를 설명하는
+────── 2차 지원 지표 차트 ──────
+  ┌──────────────────────────────┐ ┌──────────┐
+  │  월별 매출 추세 (꺾은선)      │ │ 지역별   │
+  │                              │ │ 매출 비중│
+  └──────────────────────────────┘ └──────────┘
+         ↓ 상세 진단을 위한
+────── 3차 상세 테이블 ──────
+  ┌────────────────────────────────────────────┐
+  │  제품별 매출·이익·성장률 상세 테이블        │
+  └────────────────────────────────────────────┘
+```
 
 ### 인터랙티비티 패턴
 
@@ -99,18 +99,15 @@ tags = ["studynote-bigdata"]
 
 사용자 시선 연구(Eye Tracking)에서 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 볼 때 F자 형태의 시선 패턴이 관찰된다:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">시선 흐름:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">(첫 번째 가로 스캔)</div>
-<div class="kb-diagram-note">(세로 스캔)</div>
-<div class="kb-diagram-note">(두 번째 가로 스캔)</div>
-</div>
-</div>
-
-
+```
+시선 흐름:
+  ──────────────────── (첫 번째 가로 스캔)
+  ──────────
+  │
+  │ (세로 스캔)
+  │
+  (두 번째 가로 스캔)
+```
 
 대시보드 적용:
 - **좌상단**: 가장 중요한 Primary [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) 배치
@@ -188,25 +185,24 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전략 대시보드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영 대시보드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분석 대시보드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">F-패턴</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">크로스 필터링</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[전략 대시보드]
+    │
+    ▼
+[운영 대시보드]
+    │
+    ▼
+[분석 대시보드]
+    │
+    ▼
+[F-패턴]
+    │
+    ▼
+[크로스 필터링]
+```
 
 이 흐름도는 :---에서 출발해 F-패턴까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

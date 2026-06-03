@@ -34,22 +34,23 @@ ArgoCD는 K8s에 `Application`이라는 새로운 사용자 정의 자원 (CRD)�
 | **Application Controller** | Git의 '이상 상태 (Desired)'와 K8s의 '[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) (Live)'를 엑스레이처럼 비교함 | 상태 불일치 (Drift) 감지 |
 | **Sync Mechanism** | 불일치 발생 시 K8s API를 호출하여 클러스터를 Git의 상태로 강제 덮어쓰기함 | 자동 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) (Auto-Sync) 및 자가 치유 (Self-Healing) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ArgoCD의 Pull 기반 동기화 아키텍처 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Git Repository</div><div class="kb-diagram-note">(1) 감시 / Fetch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">deployment.yaml</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ replicas: 3</div><div class="kb-diagram-node">Kubernetes Cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) Webhook/Poll</div><div class="kb-diagram-cell">(3) Diff &amp; Sync</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">K8s API</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Self-Healing</div><div class="kb-diagram-connector">▼</div><div class="kb-diagram-note">▼ ▼ │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pods (3)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           ArgoCD의 Pull 기반 동기화 아키텍처 흐름도          │
+├──────────────────────────────────────────────────────────────┤
+│ [ Git Repository ]          (1) 감시 / Fetch                 │
+│ ┌────────────────┐ ◀─────────────────────────┐               │
+│ │ deployment.yaml│                           │               │
+│ │ replicas: 3    │         [ Kubernetes Cluster ]            │
+│ └────────────────┘         ┌───────────────────────────────┐ │
+│         │ (2) Webhook/Poll │ ┌────────┐ (3) Diff & Sync    │ │
+│         └──────────────────┼─▶ ArgoCD ├───────▶ [ K8s API ]│ │
+│                            │ └────────┘         │  ▲  ▲    │ │
+│                            │   [Self-Healing]   ▼  ▼  ▼    │ │
+│                            │                 [ Pods (3) ]  │ │
+│                            └───────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
+```
 이 그림은 ArgoCD가 Git 저장소의 변동을 감지(Poll/[Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/))한 뒤, `replicas: 3`이라는 명세를 K8s 클러스터에 강제로 맞추어(Sync), 누군가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 임의로 지워도 다시 부활시키는 자가 치유(Self-Healing) 과정을 묘사한다.
 
 - **📢 섹션 요약 비유**: ArgoCD의 컨트롤러는 성형외과 의사와 같습니다. 한 손에는 '이상적인 얼굴 사진(Git)'을, 다른 한 손에는 메스(Sync [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 들고 환자(K8s)를 사진과 1픽셀도 안 틀리게 똑같이 깎아버리는 완벽주의 시스템입니다.
@@ -104,23 +105,21 @@ ArgoCD를 도입하면 인프라 전체가 Git 기반의 코드([IaC](/knowledge
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">명령형 배포 (Push 방식) 및 수동 스크립트 (Jenkins CI/CD)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보안 한계 및 형상 불일치 (Configuration Drift) 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">선언적 배포 (Pull 방식) 및 GitOps 사상 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아고씨디 (ArgoCD) 도입 · K8s 내장형 자동 동기화 (Auto-Sync)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Argo Rollouts (점진적 배포) 연계 및 클라우드 네이티브 표준화</div>
-</div>
-</div>
-
-
+```text
+명령형 배포 (Push 방식) 및 수동 스크립트 (Jenkins CI/CD)
+    │
+    ▼
+보안 한계 및 형상 불일치 (Configuration Drift) 발생
+    │
+    ▼
+선언적 배포 (Pull 방식) 및 GitOps 사상 등장
+    │
+    ▼
+아고씨디 (ArgoCD) 도입 · K8s 내장형 자동 동기화 (Auto-Sync)
+    │
+    ▼
+Argo Rollouts (점진적 배포) 연계 및 클라우드 네이티브 표준화
+```
 
 이 흐름도는 불안정한 외부 푸시(Push) 기반 배포에서 형상이 통제되는 풀(Pull) 기반 배포로 진화하고, 최종적으로 진보된 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 등)으로 확장되는 K8s 생태계의 흐름을 보여준다.
 

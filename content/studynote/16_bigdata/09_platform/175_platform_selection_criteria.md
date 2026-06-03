@@ -25,16 +25,13 @@ tags = ["studynote-bigdata"]
 
 아래 그림은 플랫폼 선택을 흔드는 핵심 축을 정리한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Five forces in platform selection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data volume</div><div class="kb-diagram-cell">latency</div><div class="kb-diagram-cell">concurrency</div><div class="kb-diagram-cell">governance</div><div class="kb-diagram-cell">team operations</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                   Five forces in platform selection                 │
+├──────────────────────────────────────────────────────────────────────┤
+│ data volume │ latency │ concurrency │ governance │ team operations  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 플랫폼 선택은 기술 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교표 한 장으로 끝나지 않는다. 비즈니스 속도, 규제 강도, 조직 역량, 비용 방식이 동시에 교차하는 의사결정이다.
 
@@ -48,23 +45,26 @@ tags = ["studynote-bigdata"]
 
 아래 그림은 실무적으로 많이 쓰는 선택 흐름이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Platform selection funnel</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) hard constraints: residency / security / SLA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) workload shape: batch / BI / streaming / ML</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) shortlist platform family</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- self-managed cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- managed cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- serverless warehouse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- lakehouse platform</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) weighted score: cost + ops + fit + portability + performance</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                   Platform selection funnel                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ 1) hard constraints: residency / security / SLA                     │
+│              │                                                       │
+│              ▼                                                       │
+│ 2) workload shape: batch / BI / streaming / ML                      │
+│              │                                                       │
+│              ▼                                                       │
+│ 3) shortlist platform family                                         │
+│    - self-managed cluster                                            │
+│    - managed cluster                                                 │
+│    - serverless warehouse                                            │
+│    - lakehouse platform                                              │
+│              │                                                       │
+│              ▼                                                       │
+│ 4) weighted score: cost + ops + fit + portability + performance     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 플랫폼 패밀리 | 강점 | 약점 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- |
@@ -118,24 +118,21 @@ tags = ["studynote-bigdata"]
 
 아래 흐름은 현장에서 자주 쓰는 판단 순서다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical selection decision flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">strong regulation or residency lock?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; self-managed or hybrid first</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">real-time under seconds?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; streaming-first + lakehouse consideration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL-heavy and small ops team?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; serverless warehouse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ custom engines / heavy ML -&gt; managed cluster/lakehouse</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  Practical selection decision flow                  │
+├──────────────────────────────────────────────────────────────────────┤
+│ strong regulation or residency lock?                                 │
+│   ├─ yes -> self-managed or hybrid first                             │
+│   └─ no                                                              │
+│        real-time under seconds?                                      │
+│        ├─ yes -> streaming-first + lakehouse consideration           │
+│        └─ no                                                         │
+│             SQL-heavy and small ops team?                            │
+│             ├─ yes -> serverless warehouse                           │
+│             └─ custom engines / heavy ML -> managed cluster/lakehouse│
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 판단 항목 | 채택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 회피 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
 | :--- | :--- | :--- |
@@ -180,23 +177,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hard constraints: regulation and SLA</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Workload classification: batch / BI / streaming / ML</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Platform-family comparison</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TCO + team-fit + portability evaluation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Phased adoption with exit strategy</div>
-</div>
-</div>
-
-
+```text
+Hard constraints: regulation and SLA
+    │
+    ▼
+Workload classification: batch / BI / streaming / ML
+    │
+    ▼
+Platform-family comparison
+    │
+    ▼
+TCO + team-fit + portability evaluation
+    │
+    ▼
+Phased adoption with exit strategy
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

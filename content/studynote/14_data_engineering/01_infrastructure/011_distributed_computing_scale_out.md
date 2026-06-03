@@ -27,26 +27,21 @@ tags = ["data_engineering"]
 
 다음 도식은 트래픽 증가에 따른 기존 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)의 한계와 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)의 대응 방식을 비교하여 보여준다. [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)이 특정 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 이후 확장 불가능한 상태에 이르는 반면, [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 선형적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확장을 기대할 수 있다.
 
+```text
+[트래픽/데이터 볼륨 증가에 따른 확장 방식의 한계 비교]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽/데이터 볼륨 증가에 따른 확장 방식의 한계 비교</div></div>
-<div class="kb-diagram-note">비용 / 처리량</div>
-<div class="kb-diagram-connector">↑</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scale-up (수직 확장)</div><div class="kb-diagram-note">: 고가 장비 한계 도달 (장벽)</div></div>
-<div class="kb-diagram-note">↗ ✖ (물리적 한계, 비용 폭발)</div>
-<div class="kb-diagram-note">↗</div>
-<div class="kb-diagram-note">↗</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">↗</div><div class="kb-diagram-node">Scale-out (수평 확장)</div><div class="kb-diagram-note">: 지속적 노드 추가</div></div>
-<div class="kb-diagram-note">↗ ▶ (선형 확장)</div>
-<div class="kb-diagram-note">↗ ─ 노드 1 ─ 노드 2 ─ 노드 3 ─ 노드 N ...</div>
-<div class="kb-diagram-note">↗ ─</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ 데이터 규모 (PB+)</div>
-</div>
-</div>
-
-
+비용 / 처리량
+  ↑
+  │                    [Scale-up (수직 확장)] : 고가 장비 한계 도달 (장벽)
+  │                   ↗ ✖ (물리적 한계, 비용 폭발)
+  │                 ↗ 
+  │               ↗      
+  │             ↗      [Scale-out (수평 확장)] : 지속적 노드 추가
+  │           ↗    ────────────────────────────────────────────▶ (선형 확장)
+  │         ↗    ─ 노드 1 ─ 노드 2 ─ 노드 3 ─ 노드 N ...
+  │       ↗    ─ 
+  └─────────────────────────────────────────────────────→ 데이터 규모 (PB+)
+```
 
 이 흐름의 핵심은 비용 효율성과 물리적 한계 돌파에 있다. [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 메인프레임과 같은 고가 장비를 요구하지만 어느 시점부터는 비용 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 증가율이 급감한다. 반면 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 구조에서는 상대적으로 저렴한 x86 서버를 클러스터에 편입시키는 것만으로 전체 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 선형적으로 높일 수 있다. 실무에서는 이러한 구조 덕분에 클라우드 인프라의 자동 확장(Auto-scaling) 기능과 맞물려 수요 변동에 탄력적으로 대응할 수 있게 된다.
 
@@ -68,23 +63,28 @@ tags = ["data_engineering"]
 
 아래 다이어그램은 무공유 아키텍처 환경에서 여러 개의 워커 노드가 메모리나 디스크를 일절 공유하지 않고, 독립적인 자원으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 수행하는 구조를 나타낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client Request / Job Submission</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master Node</div><div class="kb-diagram-cell">&lt;=== 동기화 ===&gt;</div><div class="kb-diagram-cell">Coordinator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Metadata)</div><div class="kb-diagram-cell">(ZooKeeper)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄링 및 헬스 체크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker 1</div><div class="kb-diagram-cell">Worker 2</div><div class="kb-diagram-cell">Worker 3</div><div class="kb-diagram-cell">Worker N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU</div><div class="kb-diagram-cell">- CPU</div><div class="kb-diagram-cell">- CPU</div><div class="kb-diagram-cell">- CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RAM</div><div class="kb-diagram-cell">- RAM</div><div class="kb-diagram-cell">- RAM</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">- RAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Disk</div><div class="kb-diagram-cell">- Disk</div><div class="kb-diagram-cell">- Disk</div><div class="kb-diagram-cell">- Disk</div></div>
-<div class="kb-diagram-note">셔플(Shuffle) / 데이터 전송망</div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│               [Client Request / Job Submission]        │
+└──────────────┬──────────────────────────────┬──────────┘
+               │                              │
+        ┌──────▼──────┐                ┌──────▼──────┐
+        │ Master Node │<=== 동기화 ===>│ Coordinator │
+        │ (Metadata)  │                │ (ZooKeeper) │
+        └──────┬──────┘                └──────┬──────┘
+               │ 스케줄링 및 헬스 체크        │
+ ┌─────────────┼─────────────┬────────────────┤
+ ▼             ▼             ▼                ▼
+┌─────────┐   ┌─────────┐   ┌─────────┐      ┌─────────┐
+│ Worker 1│   │ Worker 2│   │ Worker 3│      │ Worker N│
+│ - CPU   │   │ - CPU   │   │ - CPU   │      │ - CPU   │
+│ - RAM   │   │ - RAM   │   │ - RAM   │ ...  │ - RAM   │
+│ - Disk  │   │ - Disk  │   │ - Disk  │      │ - Disk  │
+└─────────┘   └─────────┘   └─────────┘      └─────────┘
+   ▲             ▲             ▲                ▲
+   └─────────────┴───────┬─────┴────────────────┘
+                         │ 셔플(Shuffle) / 데이터 전송망
+```
 
 이 그림의 핵심은 각 워커 노드가 자신만의 CPU, RAM, 디스크를 독립적으로 소유하며 다른 노드와 자원을 물리적으로 공유하지 않는다는 점이다. 이는 노드 간 경합(Contention)을 없애 선형 확장을 가능하게 하는 핵심 메커니즘이다. 반면, 이 때문에 워커 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 필요할 때는 네트워크를 통한 셔플(Shuffle)이 발생하여 심각한 I/O 병목이 발생할 수 있다. 실무에서는 이러한 네트워크 이동을 최소화하기 위해 '[데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/))' 원칙, 즉 연산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 노드로 보내는 전략을 우선해야 한다.
 
@@ -113,21 +113,16 @@ tags = ["data_engineering"]
 
 아래의 큐/병목 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 다이어그램은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 환경에서 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)을 무작정 진행할 때 마주치는 <strong>네트워크 혼잡(Network Congestion) 병목</strong>을 묘사한다.
 
+```text
+[스케일 아웃 환경에서의 대규모 셔플(Shuffle) 네트워크 병목 현상]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스케일 아웃 환경에서의 대규모 셔플(Shuffle) 네트워크 병목 현상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Worker 1</div><div class="kb-diagram-node">Data A</div><div class="kb-diagram-note">====↘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Worker 2</div><div class="kb-diagram-node">Data B</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-node">Reducer/Aggregator</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Worker 3</div><div class="kb-diagram-node">Data C</div><div class="kb-diagram-connector">▲</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Worker N</div><div class="kb-diagram-node">Data D</div><div class="kb-diagram-note">==↗</div></div>
-<div class="kb-diagram-note">병목 지점: 과도한 노드 확장은</div>
-<div class="kb-diagram-note">동기화 및 데이터 교환 네트워크 오버헤드 유발</div>
-</div>
-</div>
-
-
+Worker 1 [Data A] ====↘
+Worker 2 [Data B] ====(Network Switch)====> [Reducer/Aggregator]
+Worker 3 [Data C] ====↗       ▲
+Worker N [Data D] ==↗         │
+                           병목 지점: 과도한 노드 확장은
+                           동기화 및 데이터 교환 네트워크 오버헤드 유발
+```
 
 A 방식([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))은 단일 요청 처리 속도 자체는 빠르고 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 제어가 쉽지만 장비 증설에 한계가 뚜렷하다. 반면 B 방식([스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))은 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 극대화되지만, 노드가 수백 대로 늘어날수록 노드 간 통신 오버헤드와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 상태 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 맞추는 복잡도가 기하급수적으로 증가한다. 따라서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템을 구축할 때는 단순히 노드 수만 늘릴 것이 아니라 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 등 네트워크 인프라 대역폭을 함께 고려해야만 진정한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 확장이 가능하다.
 
@@ -143,25 +138,21 @@ A 방식([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_a
 2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 핫스팟 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Hotspot) 문제</strong>: 분할 키([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 잘못 설정하여 특정 노드에 트래픽이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 몰리는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 현상'이 발생하면, 클러스터의 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 그 한 대의 느린 노드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 하향 평준화되는 심각한 지연이 발생한다.
 3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 합의 (Consensus) 오버헤드</strong>: 노드가 많아질수록 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리([CAP Theorem](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/219_cap_pacelc_distributed_tradeoff/))에 따라 노드 간 상태 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 맞추는 비용이 급증한다. 실시간 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 생명인 시스템에서는 무작정 노드를 늘리기보다 노드 그룹 분할(Federated)을 고려해야 한다.
 
+```text
+[스케일 아웃 도입 의사결정 플로우]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스케일 아웃 도입 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 성능 저하 감지</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">병목이 디스크/메모리인가? 아니면 CPU 연산인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (단순 쿼리/강력한 일관성 필요) ──&gt;</div><div class="kb-diagram-node">Scale-up 및 RDB 튜닝 고려</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (대규모 데이터/분석/무상태) ──&gt;</div><div class="kb-diagram-node">데이터 파티셔닝 가능 여부 판단</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">(Yes) (No)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 아키텍처 전환 (Scale-out)</div><div class="kb-diagram-node">애플리케이션 로직 재설계 (Sharding 도입)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 대역폭 및 ZooKeeper 동기화 설계</div></div>
-</div>
-</div>
-
-
+[시스템 성능 저하 감지]
+         ↓
+[병목이 디스크/메모리인가? 아니면 CPU 연산인가?]
+   ├─ (단순 쿼리/강력한 일관성 필요) ──> [Scale-up 및 RDB 튜닝 고려]
+   └─ (대규모 데이터/분석/무상태) ──> [데이터 파티셔닝 가능 여부 판단]
+                                             ↓
+             ┌─────────(Yes)─────────────────┴──────────(No)────┐
+             ↓                                                  ↓
+   [분산 아키텍처 전환 (Scale-out)]                  [애플리케이션 로직 재설계 (Sharding 도입)]
+             ↓
+   [네트워크 대역폭 및 ZooKeeper 동기화 설계]
+```
 
 이 흐름의 핵심은 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이 '모든 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제의 마법의 탄환'이 아니라는 점이다. 실무에서는 애플리케이션이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 지원하도록 설계(Stateless화, [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 키 설계)되어 있지 않다면 노드만 추가하는 것은 비용 낭비일 뿐이다. 특히 금융권 코어 뱅킹 같은 강력한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 환경에서는 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)의 한계를 끝까지 튜닝한 이후에, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 기반의 제한적 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)을 검토하는 것이 올바른 수순이다.
 
@@ -194,23 +185,21 @@ A 방식([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 서버 (Monolithic Server) — 수직 확장(Scale-Up)의 물리적 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수평 확장 (Scale-Out) — 동일 서버 복제·로드 밸런싱으로 처리량 선형 증가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 파일 시스템 (HDFS / GFS) — 데이터 샤딩과 복제로 고가용성 저장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 컴퓨팅 프레임워크 (MapReduce / Spark) — 클러스터 전체 병렬 연산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 오케스트레이션 (Kubernetes) — 동적 Scale-Out 자동화·자원 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[단일 서버 (Monolithic Server) — 수직 확장(Scale-Up)의 물리적 한계]
+    │
+    ▼
+[수평 확장 (Scale-Out) — 동일 서버 복제·로드 밸런싱으로 처리량 선형 증가]
+    │
+    ▼
+[분산 파일 시스템 (HDFS / GFS) — 데이터 샤딩과 복제로 고가용성 저장]
+    │
+    ▼
+[분산 컴퓨팅 프레임워크 (MapReduce / Spark) — 클러스터 전체 병렬 연산]
+    │
+    ▼
+[컨테이너 오케스트레이션 (Kubernetes) — 동적 Scale-Out 자동화·자원 최적화]
+```
 
 이 흐름은 단일 서버의 수직 확장 한계를 수평 확장과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 프레임워크가 극복하며 오케스트레이션으로 자동화되는 과정을 나타낸다.
 

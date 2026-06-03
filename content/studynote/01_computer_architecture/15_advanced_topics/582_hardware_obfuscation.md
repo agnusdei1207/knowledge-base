@@ -27,20 +27,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 제조 단계와 활성화 단계가 어떻게 분리되는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Locked hardware across an untrusted supply chain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Design owner inserts locking / camouflage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Foundry sees locked netlist and builds chip</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no key -&gt; wrong output / limited function</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ trusted activation -&gt; correct key / device-unique secret</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">full intended behavior</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Locked hardware across an untrusted supply chain                          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Design owner inserts locking / camouflage                                 │
+│        │                                                                   │
+│        ▼                                                                   │
+│ Foundry sees locked netlist and builds chip                               │
+│        │                                                                   │
+│        ├─ no key      -> wrong output / limited function                  │
+│        │                                                                   │
+│        └─ trusted activation -> correct key / device-unique secret        │
+│                                   │                                        │
+│                                   ▼                                        │
+│                             full intended behavior                         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 하드웨어 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 비밀 요리책을 남에게 맡겨 인쇄하되, 핵심 양념 비율은 암호로 적어 둬서 정답을 모르면 요리 모양은 비슷해도 맛은 절대 같아지지 않게 만드는 방식과 같다.
 
@@ -61,20 +64,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)된 칩이 왜 키와 함께 설계되어야 하는지 구조적으로 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Obfuscated chip = locked logic + hidden key path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inputs -&gt; locked combinational / sequential logic -&gt; outputs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">secret key source</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PUF or trusted provisioning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ wrong key -&gt; corrupted outputs / dead modes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ correct key -&gt; intended function</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Obfuscated chip = locked logic + hidden key path                          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Inputs -> locked combinational / sequential logic -> outputs              │
+│                ▲                                                          │
+│                │                                                           │
+│         secret key source                                                 │
+│     (PUF or trusted provisioning)                                         │
+│                │                                                           │
+│                ├─ wrong key -> corrupted outputs / dead modes             │
+│                └─ correct key -> intended function                        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 다만 단순 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 잠금만으로 충분하지는 않다. 활성화된 칩을 하나 확보한 공격자는 그 칩을 "정답 오라클"처럼 이용해 불리언 충족성 (Boolean [Satisfiability](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/), [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/)) 공격으로 키를 역추론할 수 있다. 그래서 현대 연구와 실무는 반SAT 구조, 순차 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/), 스캔 체인 차폐를 함께 묶어, <strong>기능 숨김 + 분석 난도 증가 + 테스트 경로 통제</strong>를 동시에 노린다.
 
@@ -152,25 +155,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">글로벌 분업형 반도체 공급망</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IP 유출 · 과잉 생산 · 역공학 우려</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">논리 잠금 · 레이아웃 위장 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SAT 저항 구조 · 스캔 보호 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PUF 기반 칩별 활성화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">생애주기 인증 · 공급망 추적 강화</div>
-</div>
-</div>
-
-
+```text
+글로벌 분업형 반도체 공급망
+        │
+        ▼
+IP 유출 · 과잉 생산 · 역공학 우려
+        │
+        ▼
+논리 잠금 · 레이아웃 위장 도입
+        │
+        ▼
+SAT 저항 구조 · 스캔 보호 결합
+        │
+        ▼
+PUF 기반 칩별 활성화
+        │
+        ▼
+생애주기 인증 · 공급망 추적 강화
+```
 
 이 흐름은 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)가 단순 회로 꼬기가 아니라, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체에서 "누가 설계를 이해하고 활성화할 수 있는가"를 통제하는 방향으로 발전했음을 보여 준다.
 

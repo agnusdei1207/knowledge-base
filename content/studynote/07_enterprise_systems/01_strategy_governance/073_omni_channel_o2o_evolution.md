@@ -100,37 +100,25 @@ Customer Experience
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Channels</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Omni-Channel</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Customer Experience</div>
-</div>
-</div>
-
-
+```text
+Channels
+  ↓
+Omni-Channel
+  ↓
+Customer Experience
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">O2O</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Omni-Channel</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Customer Journey</div>
-</div>
-</div>
-
-
+```text
+O2O
+  ↓
+Omni-Channel
+  ↓
+Customer Journey
+```
 
 ---
 

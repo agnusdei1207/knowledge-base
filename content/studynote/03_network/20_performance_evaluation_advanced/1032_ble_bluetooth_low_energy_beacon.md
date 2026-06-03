@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">블루투스</a> 클래식 (Classic, ~3.0)</strong>: 무선 이어폰(오디오 스트리밍)처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **'끊임없이 연속으로'** 흘러가야 하는 곳에 씁니다. 항상 연결을 유지(Keep-Alive)하느라 전력 소모가 엄청납니다.
 - <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">BLE</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/">Bluetooth Low Energy</a>, 4.0~5.0) 🌟</strong>: 스마트 워치의 심박수, 백화점 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))처럼 어쩌다 한 번 **'간헐적이고 찔끔찔끔'** 보내는 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위해 아예 아키텍처를 갈아엎은 초저전력 짠돌이 버전입니다. (둘은 2.4GHz 주파수만 같이 쓸 뿐, 말하는 언어가 아예 다릅니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT 전력 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 LE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지그비 메쉬</div></div>
-</div>
-</div>
-
-
+```text
+[NB-IoT 전력 최적화]
+    │
+    ▼
+[블루투스 LE]
+    │
+    └──▶ [지그비 메쉬]
+```
 
 - **📢 섹션 요약 비유**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - BLE는 40개 채널 중 <strong>딱 3개(37, 38, 39번 채널)</strong>만 '방송 전용(Advertising) 채널'로 고정해 둡니다. 백화점 비콘(송신기)이 "나 여기 있어! 할인 쿠폰 받아!"라고 외칠 때는 무조건 이 3개 채널에만 번갈아 가며 뿌립니다. 
 - 내 스마트폰도 이 3개 채널만 0.1초 스캔하면 비콘을 100% 찾아낼 수 있어, 주파수를 뒤지는 공회전 배터리 낭비가 0이 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT 전력 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 LE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지그비 메쉬</div></div>
-</div>
-</div>
-
-
+```text
+[NB-IoT 전력 최적화]
+    │
+    ▼
+[블루투스 LE]
+    │
+    └──▶ [지그비 메쉬]
+```
 
 - **📢 섹션 요약 비유**: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NB-IoT 전력 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블루투스 LE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 지그비 메쉬</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NB-IoT 전력 최적화]
+    │
+    ▼
+[현재 개념: 블루투스 LE]
+    │
+    ├──▶ [확장 A: 지그비 메쉬]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE는 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화에서 출발해 현재 메커니즘을 정교화하고, 이후 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

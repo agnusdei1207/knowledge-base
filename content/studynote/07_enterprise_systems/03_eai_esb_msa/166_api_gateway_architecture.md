@@ -24,23 +24,21 @@ tags = ["studynote-enterprise-systems"]
 
 아래 그림은 게이트웨이가 없을 때의 직접 연결 구조와, 게이트웨이를 둔 뒤의 단일 진입 구조를 대비해 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API 게이트웨이의 필요성: 다중 호출을 단일 진입으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Without Gateway</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ─▶ Order Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ─▶ Payment Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ─▶ Delivery Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With Gateway</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ─▶ API Gateway ─ ─▶ Order Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Payment Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Delivery Service</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│              API 게이트웨이의 필요성: 다중 호출을 단일 진입으로      │
+├──────────────────────────────────────────────────────────────────────┤
+│ Without Gateway                                                     │
+│ Client ─▶ Order Service                                             │
+│ Client ─▶ Payment Service                                           │
+│ Client ─▶ Delivery Service                                          │
+│                                                                      │
+│ With Gateway                                                        │
+│ Client ─▶ API Gateway ─┬─▶ Order Service                            │
+│                        ├─▶ Payment Service                          │
+│                        └─▶ Delivery Service                         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 내부 복잡성을 감추고 외부와의 계약을 안정화하는 경계 계층이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많아질수록 그 가치는 더 커진다.
 
@@ -63,20 +61,25 @@ tags = ["studynote-enterprise-systems"]
 
 아래 그림은 게이트웨이가 단순 전달자가 아니라, 요청 입구에서 여러 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 순차 적용하는 계층임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API 게이트웨이 요청 처리 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Request</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Auth</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Rate Limit</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Route Decision</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Backend Call</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service A Service B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Aggregate / Transform</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Response</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                   API 게이트웨이 요청 처리 파이프라인               │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client Request                                                      │
+│      │                                                              │
+│      ▼                                                              │
+│ [Auth] → [Rate Limit] → [Route Decision] → [Backend Call]           │
+│                                              │                       │
+│                           ┌──────────────────┴───────────────┐       │
+│                           ▼                                  ▼       │
+│                    Service A                           Service B      │
+│                           └──────────────┬───────────────────┘       │
+│                                          ▼                           │
+│                                 [Aggregate / Transform]              │
+│                                          ▼                           │
+│                                   Client Response                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 게이트웨이가 모든 일을 대신하면 안 된다는 것이다. 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 외부 계약 안정화는 게이트웨이의 역할이지만, 주문 계산이나 결제 규칙 같은 핵심 비즈니스 로직은 각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 남겨야 한다. 그렇지 않으면 게이트웨이가 또 하나의 거대한 모놀리식 병목이 된다.
 
@@ -152,23 +155,20 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클라이언트 직접 호출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">API 게이트웨이 (API Gateway)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">인증·인가</div>
-<div class="kb-diagram-tree-item" style="--depth:2">라우팅</div>
-<div class="kb-diagram-tree-item" style="--depth:2">속도 제한</div>
-<div class="kb-diagram-tree-item" style="--depth:2">응답 조합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BFF · 서비스 메시 · 제로 트러스트 경계 강화</div>
-</div>
-</div>
-
-
+```text
+클라이언트 직접 호출
+    │
+    ▼
+API 게이트웨이 (API Gateway)
+    │
+    ├─ 인증·인가
+    ├─ 라우팅
+    ├─ 속도 제한
+    └─ 응답 조합
+    │
+    ▼
+BFF · 서비스 메시 · 제로 트러스트 경계 강화
+```
 
 이 흐름은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 단순 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)를 넘어, 외부 경계 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 클라이언트 최적화를 분리하는 방향으로 발전하고 있음을 보여 준다.
 

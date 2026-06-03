@@ -31,20 +31,17 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 다이어그램: 비보호 구조 vs <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 구조 비교</strong>
 이 구조도는 듀얼 모드가 없을 때의 위험성과 듀얼 모드 도입 후의 자원 격리 원리를 보여준다. [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구조에서는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 자원 접근의 유일한 게이트웨이 역할을 수행함을 명시한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비보호 구조 (No Mode)</div><div class="kb-diagram-node">보호 구조 (Dual Mode)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User App A ──</div><div class="kb-diagram-cell">User App A (Mode 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Direct Access</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User App B ── ▶ HW</div><div class="kb-diagram-cell">OS Kernel (Mode 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Kernel ──</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware</div></div>
-</div>
-</div>
-
-
+```text
+[비보호 구조 (No Mode)]           [보호 구조 (Dual Mode)]
+┌───────────────────────┐        ┌─────────────────────────────┐
+│  User App A ──┐       │        │   User App A (Mode 1)       │
+├───────────────┤  Direct Access │  ┌──────────┴─────────┐     │
+│  User App B ──┼───▶ HW    │        │  │ OS Kernel (Mode 0) │ │
+├───────────────┤       │        │  └──────────┬─────────┘     │
+│  OS Kernel  ──┘       │        │             ▼               │
+└───────────────────────┘        │          Hardware           │
+                                 └─────────────────────────────┘
+```
 
 **[다이어그램 해설]** 왼쪽의 비보호 구조에서는 모든 프로세스가 하드웨어 자원에 직접 접근할 수 있어, 앱 A의 오류가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 앱 B의 영역을 오염시킬 위험이 상존한다. 반면 오른쪽의 듀얼 모드 구조에서는 사용자 앱이 실행되는 영역과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 실행되는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역이 하드웨어 수준에서 격리된다. 사용자 앱은 'Mode 1' 상태로 실행되어 특권 명령 (Privileged [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))을 직접 수행할 수 없으며, 반드시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) (Mode 0)을 거쳐야만 하드웨어에 접근할 수 있다. 이러한 간접 접근 방식은 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))이라는 정해진 통로를 통해서만 이루어지므로, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 모든 요청을 사전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 제어할 수 있게 한다. 이는 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 안정성의 가장 기초적인 전제 조건이다.
 
@@ -67,20 +64,17 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 구조 다이어그램: 모드 전환 프로세스</strong>
 이 도식은 사용자 프로그램이 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)을 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 진입하고 다시 사용자 모드로 복귀하는 순환 과정을 상세히 나타낸다. CPU 내부의 [모드 비트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/) 변화와 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 메커니즘이 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">User Process (Mode 1) OS Kernel (Mode 0)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Execute App</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. System Call (Trap)──▶</div><div class="kb-diagram-cell">3. Check Privileges</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Wait...)</div><div class="kb-diagram-cell">4. Execute Task</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Resume App</div><div class="kb-diagram-cell">◀──(Return)─ 5. Set Mode Bit=1</div></div>
-<div class="kb-diagram-tree-item" style="--depth:6">Mode Bit Switch</div>
-</div>
-</div>
-
-
+```text
+  User Process (Mode 1)              OS Kernel (Mode 0)
+ ┌─────────────────────┐            ┌──────────────────────┐
+ │  1. Execute App     │            │                      │
+ │  2. System Call ────┼───(Trap)──▶│ 3. Check Privileges  │
+ │     (Wait...)       │            │ 4. Execute Task      │
+ │  6. Resume App      │◀──(Return)─┼─── 5. Set Mode Bit=1 │
+ └─────────────────────┘            └──────────────────────┘
+            ▲                                              │
+            └────────── Mode Bit Switch ───────────────────┘
+```
 
 **[다이어그램 해설]** 이 프로세스는 크게 6단계로 나뉜다. ① 사용자가 일반적인 연산을 수행할 때는 [모드 비트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)가 1(사용자 모드)이다. ② [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기와 같은 특권 작업이 필요하면 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)을 발생시킨다. 이때 CPU는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))이라는 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시킨다. ③ 하드웨어는 즉시 [모드 비트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)를 0으로 변경하고 제어권을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 넘긴다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 요청이 정당한지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. ④ [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드에서 실제 하드웨어 제어 명령을 수행한다. ⑤ 작업이 완료되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 리턴 명령을 수행하며 [모드 비트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)를 다시 1로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)한다. ⑥ 제어권이 다시 사용자 프로세스로 돌아와 중단되었던 지점부터 실행을 재개한다. 이 일련의 과정에서 [모드 비트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)는 하드웨어와 소프트웨어가 협력하여 관리하는 핵심 스위치이며, 사용자 모드에서 직접 [모드 비트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)를 0으로 바꾸려는 시도는 하드웨어에 의해 차단된다.
 
@@ -137,18 +131,20 @@ void handle_sys_open() {
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 비교 다이어그램: <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>에서의 모드 확장</strong>
 현대 CPU는 단순 듀얼 모드를 넘어 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 지원하기 위해 모드 계층을 확장했다. 이 그림은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 추가된 링 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 3: User Apps</div><div class="kb-diagram-cell">← 가장 낮은 권한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 1/2: Drivers/OS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 0: OS Kernel</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring -1: VMM</div><div class="kb-diagram-cell">← 가장 높은 권한 (가상화)</div></div>
-</div>
-</div>
-
-
+```text
+       ┌───────────────────────────┐
+       │   Ring 3: User Apps       │  ← 가장 낮은 권한
+       │ ┌───────────────────────┐ │
+       │ │ Ring 1/2: Drivers/OS  │ │
+       │ │ ┌───────────────────┐ │ │
+       │ │ │ Ring 0: OS Kernel │ │ │
+       │ │ │ ┌───────────────┐ │ │ │
+       │ │ │ │ Ring -1: VMM   │ │ │ │  ← 가장 높은 권한 (가상화)
+       │ │ │ └───────────────┘ │ │ │
+       │ │ └───────────────────┘ │ │
+       │ └───────────────────────┘ │
+       └───────────────────────────┘
+```
 
 **[다이어그램 해설]** 전통적인 x86 아키텍처는 링 (Ring) 0부터 3까지의 계층을 가진다. 링 3은 사용자 모드, 링 0은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드에 대응한다. [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술이 도입되면서 '[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)' 또는 'VMM ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))'이 게스트 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)보다 더 높은 권한을 가져야 할 필요성이 생겼고, 이를 흔히 링 -1 (또는 VMX Root 모드)이라고 부른다. 가상 머신 안의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 링 0에서 실행된다고 생각하지만, 실제로는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)에 의해 제어되는 링 0(Non-root) 상태이며, 특권 명령 실행 시 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)되어 처리된다. 이러한 다층적 권한 구조는 시스템 자원을 물리적 층위에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 층위로 안전하게 격리할 수 있게 한다.
 
@@ -176,20 +172,18 @@ void handle_sys_open() {
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 운영 플로우: 장애 격리 메커니즘</strong>
 이 플로우는 사용자 프로세스에서 오류가 발생했을 때 듀얼 모드가 어떻게 전체 시스템을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는지 보여준다.
 
+```text
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">User App Event / 사용자 앱 이벤트</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CPU Detection / CPU 감지</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Kernel Handler / 커널 핸들러</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Is System Critical? / 시스템에 치명적인가?</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Terminate Only Process / 프로세스만 종료</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Next Proc / 다음 프로세스</div></div>
-<div class="kb-diagram-note">Yes</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Panic / Halt / 커널 패닉 / 정지</div></div>
-</div>
-</div>
-
-
+[User App Event / 사용자 앱 이벤트] --Fault--> [CPU Detection / CPU 감지] --Mode Switch--> [Kernel Handler / 커널 핸들러]
+                                                                  │
+      ┌───────────────────────────────────────────────────────────┘
+      ▼
+[Is System Critical? / 시스템에 치명적인가?] --No--> [Terminate Only Process / 프로세스만 종료] --Mode Switch--> [Next Proc / 다음 프로세스]
+                                                                  │
+     Yes
+      ▼
+[Kernel Panic / Halt / 커널 패닉 / 정지]
+```
 
 **[다이어그램 해설]** 사용자 애플리케이션에서 0으로 나누기 (Divide by [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))나 잘못된 메모리 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault)와 같은 예외 (Exception)가 발생하면, 하드웨어는 즉시 이를 감지하고 [모드 비트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)를 0으로 바꾸어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 진입한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 예외 처리기는 이 오류가 시스템 전체에 치명적인지 판단한다. 일반적인 사용자 프로세스의 오류인 경우, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 해당 프로세스만 종료하고 자원을 회수하며, 다른 프로세스에게 CPU 제어권을 넘긴다. 만약 이러한 권한 분리가 없다면 사용자 앱의 오류가 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 오염시켜 시스템 전체가 멈췄을 것이다. 듀얼 모드는 "실패의 전파"를 물리적으로 차단하는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 역할을 수행하여 시스템의 연속성을 보장한다.
 
@@ -233,23 +227,21 @@ void handle_sys_open() {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실행 모드 비트 (Mode Bit) — 하드웨어 레벨에서 커널/사용자 구분</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 모드 (User Mode) — 제한된 명령어 셋, 응용 프로그램 실행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 호출 (System Call) — 모드 전환 트리거, 트랩(Trap) 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 모드 (Kernel Mode) — 특권 명령어 허용, OS 핵심 기능 수행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 처리 완료 후 사용자 모드 복귀 — 컨텍스트 스위치(Context Switch)</div></div>
-</div>
-</div>
-
-
+```text
+[실행 모드 비트 (Mode Bit) — 하드웨어 레벨에서 커널/사용자 구분]
+    │
+    ▼
+[사용자 모드 (User Mode) — 제한된 명령어 셋, 응용 프로그램 실행]
+    │
+    ▼
+[시스템 호출 (System Call) — 모드 전환 트리거, 트랩(Trap) 발생]
+    │
+    ▼
+[커널 모드 (Kernel Mode) — 특권 명령어 허용, OS 핵심 기능 수행]
+    │
+    ▼
+[인터럽트 처리 완료 후 사용자 모드 복귀 — 컨텍스트 스위치(Context Switch)]
+```
 
 이 흐름은 OS가 하드웨어 자원을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하면서 사용자 프로그램에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 제공하는 듀얼 모드 실행 사이클을 나타낸다.
 

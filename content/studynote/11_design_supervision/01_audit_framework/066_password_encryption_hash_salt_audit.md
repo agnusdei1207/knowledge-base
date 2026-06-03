@@ -29,21 +29,15 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Password</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Salt</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hash Function</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Stored Digest</div>
-</div>
-</div>
-
-
+```text
+Password
+  ↓
+Salt
+  ↓
+Hash Function
+  ↓
+Stored Digest
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -112,41 +106,29 @@ tags = ["studynote-design"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Password</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Salt</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hash / KDF</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Verification</div>
-</div>
-</div>
-
-
+```text
+Password
+  ↓
+Salt
+  ↓
+Hash / KDF
+  ↓
+Verification
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Plain Text</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hash + Salt</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">KDF</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Password Security</div>
-</div>
-</div>
-
-
+```text
+Plain Text
+  ↓
+Hash + Salt
+  ↓
+KDF
+  ↓
+Password Security
+```
 
 ---
 

@@ -33,16 +33,12 @@ tags = ["studynote-design-supervision"]
 
 사이클로매틱 복잡도는 보통 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 계산하며, 실무적으로는 “결정점 수 + 1”로 이해해도 충분하다. [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구는 소스 코드를 읽어 분기 구조를 식별하고, 함수·메서드·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위로 복잡도를 산출한 뒤, [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 여부를 품질 게이트로 연결한다. 즉 <strong>측정 → 판정 → 조치</strong>가 핵심 메커니즘이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 코드</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">CFG 생성</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">복잡도 계산</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">임계치 판정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if / for / case</div><div class="kb-diagram-cell">경로·분기 모델</div><div class="kb-diagram-cell">M 값 산출</div><div class="kb-diagram-cell">리팩토링 여부</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 소스 코드     │──▶│ CFG 생성      │──▶│ 복잡도 계산   │──▶│ 임계치 판정   │
+│ if / for / case│   │ 경로·분기 모델 │   │ M 값 산출     │   │ 리팩토링 여부 │
+└──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
+```
 
 복잡도는 보통 `M = E - N + 2P`로 표현한다. 여기서 `E`는 간선 수, `N`은 노드 수, `P`는 연결 요소 수다. 시험에서는 수식을 길게 전개하기보다 “독립 경로 수를 나타내며, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 최소 수와 밀접하다”는 의미를 정확히 쓰는 편이 실전적이다.
 
@@ -123,23 +119,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">코드 리뷰 경험칙</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 분석 자동 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사이클로매틱 복잡도 임계치 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리팩토링 · 테스트 보강 · CI 품질 게이트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유지보수성 향상 · 장애 예방 · 설계 단순화</div>
-</div>
-</div>
-
-
+```text
+코드 리뷰 경험칙
+      │
+      ▼
+정적 분석 자동 측정
+      │
+      ▼
+사이클로매틱 복잡도 임계치 관리
+      │
+      ▼
+리팩토링 · 테스트 보강 · CI 품질 게이트
+      │
+      ▼
+유지보수성 향상 · 장애 예방 · 설계 단순화
+```
 
 이 흐름은 사람의 감각적 리뷰에서 출발해, 자동 측정과 품질 게이트를 거쳐, 다시 설계 개선으로 이어지는 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)의 관리 순환을 보여 준다.
 

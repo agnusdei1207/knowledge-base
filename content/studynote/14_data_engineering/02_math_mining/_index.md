@@ -23,22 +23,25 @@ tags = ["data_engineering"]
 
 이 그림은 수학적 이론이 어떻게 물리적인 데이터 엔진으로 승화되는지 계층 구조를 보여준다.
 
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 From Math Theory to Mining Engine           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Layer 3: Application ] ──▶ 추천, 사기 탐지, 수요 예측   │
+│          ▲                                                  │
+│   [ Layer 2: Algorithms ]  ──▶ K-Means, XGBoost, PageRank   │
+│          ▲                                                  │
+│   [ Layer 1: Engineering ] ──▶ Spark MLlib, Distributed GD  │
+│          ▲                                                  │
+│   [ Layer 0: Math Found ]  ──▶ Matrix, Calculus, Stats      │
+│                                                             │
+│   * 핵심: 수학적 원리가 분산 프레임워크(L1)를 만나야 실현됨 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From Math Theory to Mining Engine</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 3: Application</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">추천, 사기 탐지, 수요 예측</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 2: Algorithms</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">K-Means, XGBoost, PageRank</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 1: Engineering</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Spark MLlib, Distributed GD</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 0: Math Found</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Matrix, Calculus, Stats</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 수학적 원리가 분산 프레임워크(L1)를 만나야 실현됨</div></div>
-</div>
-</div>
-
-
-
-이 다이어그램의 핵심은 'Layer 1 (Engineering)'의 역할이다. 행렬 곱셈 (Matrix Multiplication)이라는 수학적 수식이 GPU의 수만 개 코어나 하둡의 수백 개 노드에서 어떻게 쪼개져서 실행되는지가 엔지니어링의 정수이다. 실무에서는 이 단계에서의 최적화가 분석 리드 타임을 수 일에서 수 분으로 단축시킨다.
+이 다이어그램의 핵심은 'Layer 1 (엔진ering)'의 역할이다. 행렬 곱셈 (Matrix Multiplication)이라는 수학적 수식이 GPU의 수만 개 코어나 하둡의 수백 개 노드에서 어떻게 쪼개져서 실행되는지가 엔지니어링의 정수이다. 실무에서는 이 단계에서의 최적화가 분석 리드 타임을 수 일에서 수 분으로 단축시킨다.
 
 ### 마이닝 공학의 주요 수학적 기초
 
@@ -67,20 +70,21 @@ tags = ["data_engineering"]
 
 이 구조도는 대규모 추천 시스템의 핵심인 <strong>협업 필터링 (Collaborative Filtering)</strong>의 행렬 분해 (Matrix Factorization) 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Matrix Factorization for Recommendation</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User-Item Matrix</div><div class="kb-diagram-note">≈</div><div class="kb-diagram-node">User Latent</div><div class="kb-diagram-note">x</div><div class="kb-diagram-node">Item Latent</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Large/Sparse) (Dense) (Dense)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- R (m x n) ──▶ P (m x k) x Q^T (k x n)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 공학적 이슈: 수억 건의 행렬을 어떻게 메모리 부족 없이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 연산(ALS 알고리즘 등)으로 구현할 것인가?</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Matrix Factorization for Recommendation     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ User-Item Matrix ] ≈ [ User Latent ] x [ Item Latent ]  │
+│       (Large/Sparse)         (Dense)           (Dense)      │
+│                                                             │
+│   - R (m x n) ──▶ P (m x k) x Q^T (k x n)                   │
+│                                                             │
+│   * 공학적 이슈: 수억 건의 행렬을 어떻게 메모리 부족 없이   │
+│     분산 연산(ALS 알고리즘 등)으로 구현할 것인가?           │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'Latent Factor (잠재 요인)'의 추출이다. 사용자의 취향을 '로맨스 지수', '액션 지수'와 같은 몇 개의 숫자로 압축하여 저장한다. 실무에서는 이 분해된 행렬을 실시간 검색이 가능한 <strong>벡터 인덱스</strong>에 태우는 것이 엔지니어링의 최종 단계이다.
 
@@ -122,20 +126,22 @@ tags = ["data_engineering"]
 
 이 도식은 데이터 마이닝 프로젝트의 '성공을 위한 의사결정 프로세스'를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Mining Decision Workflow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Prep</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Feature Eng. (수학적 가공)</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Model Selection &amp; Train</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Re-tuning</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Validation &amp; Metric Check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 핵심: 성능이 안 나오면 알고리즘을 바꾸기 전에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수학적 피처링(Feature Eng.)을 먼저 의심해야 함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Data Mining Decision Workflow                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Data Prep ] ──▶ [ Feature Eng. (수학적 가공) ] ──┐      │
+│          ▲                    │                      │      │
+│          │          [ Model Selection & Train ] ◀────┘      │
+│          │                    │                             │
+│   [ Re-tuning ] ◀── [ Validation & Metric Check ]           │
+│                               │                             │
+│   * 실무 핵심: 성능이 안 나오면 알고리즘을 바꾸기 전에      │
+│     수학적 피처링(Feature Eng.)을 먼저 의심해야 함          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 마이닝 판단은 '요리 재료 손질 전문가'와 같습니다. 요리(알고리즘)를 하기 전, 재료(데이터)를 어떤 모양으로 썰고(피처링) 어떤 양념(파라미터)을 쳐야 가장 맛있는 결과가 나올지 수학적 안목으로 결정하는 마스터 셰프입니다.
 
@@ -157,7 +163,7 @@ tags = ["data_engineering"]
 ---
 
 ### 📌 관련 개념 맵 (Knowledge Graph)
-- **Feature Engineering**: 수학적 직관으로 데이터를 요리하는 기술
+- **Feature 엔진ering**: 수학적 직관으로 데이터를 요리하는 기술
 - **PCA**: 정보 손실을 최소화하는 차원 다이어트
 - **Gradient Descent**: 최적해를 향해 내려가는 미분의 지혜
 - **Parameter Server**: 대규모 분산 학습의 사령탑
@@ -171,26 +177,23 @@ tags = ["data_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수학 기초 (선형대수 · 미적분 · 확률론)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 마이닝 알고리즘</div>
-<div class="kb-diagram-tree-item" style="--depth:2">분류: SVM · Random Forest · XGBoost</div>
-<div class="kb-diagram-tree-item" style="--depth:2">군집화: K-Means · DBSCAN · GMM</div>
-<div class="kb-diagram-tree-item" style="--depth:2">연관 분석: Apriori · FP-Growth</div>
-<div class="kb-diagram-tree-item" style="--depth:2">회귀: 선형 · Lasso · Ridge · Elastic Net</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이닝 공학 (Engineering)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">분산 학습: Parameter Server · AllReduce</div>
-<div class="kb-diagram-tree-item" style="--depth:2">피처 엔지니어링: PCA · 인코딩 · 정규화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">행렬 분해: SVD · ALS · NMF</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">딥러닝 임베딩 → 벡터 검색 → LLM 시대 (미래)</div>
-</div>
-</div>
-
-
+```text
+수학 기초 (선형대수 · 미적분 · 확률론)
+    │
+    ▼
+데이터 마이닝 알고리즘
+    ├─► 분류: SVM · Random Forest · XGBoost
+    ├─► 군집화: K-Means · DBSCAN · GMM
+    ├─► 연관 분석: Apriori · FP-Growth
+    └─► 회귀: 선형 · Lasso · Ridge · Elastic Net
+    │
+    ▼
+마이닝 공학 (Engineering)
+    ├─► 분산 학습: Parameter Server · AllReduce
+    ├─► 피처 엔지니어링: PCA · 인코딩 · 정규화
+    └─► 행렬 분해: SVD · ALS · NMF
+    │
+    ▼
+딥러닝 임베딩 → 벡터 검색 → LLM 시대 (미래)
+```
 

@@ -27,20 +27,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 필요한지를, [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)과 고정 크기 매핑의 차이로 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속 할당의 한계와 페이징의 해결 방식 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속 할당</div><div class="kb-diagram-cell">페이징</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">빈칸</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">빈칸</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">F0</div><div class="kb-diagram-node">F1</div><div class="kb-diagram-node">F2</div><div class="kb-diagram-node">F3</div><div class="kb-diagram-node">F4</div><div class="kb-diagram-node">F5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총합은 충분하지만</div><div class="kb-diagram-cell">Pg2 Pg0 - Pg1 - Pg3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큰 프로세스를 넣을 연속 구간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 없음</div><div class="kb-diagram-cell">빈 프레임이면 어디든 적재 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│              연속 할당의 한계와 페이징의 해결 방식 비교                   │
+├───────────────────────────────┬────────────────────────────────────────────┤
+│ 연속 할당                     │ 페이징                                    │
+│                               │                                            │
+│ [P1][빈칸][P2][빈칸][P3]      │ [F0][F1][F2][F3][F4][F5]                 │
+│      ↑     ↑                 │   │   │   │   │   │   │                  │
+│ 총합은 충분하지만             │  Pg2 Pg0  -  Pg1  -  Pg3                 │
+│ 큰 프로세스를 넣을 연속 구간  │                                            │
+│ 이 없음                       │ 빈 프레임이면 어디든 적재 가능            │
+└───────────────────────────────┴────────────────────────────────────────────┘
+```
 
 왼쪽은 빈 공간의 총량과 실제 적재 가능성이 다를 수 있음을 보여주고, 오른쪽은 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 통일하면 빈 프레임만 있으면 된다는 점을 보여준다. 그래서 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 단순 저장 기법이 아니라, 메모리 배치를 주소 변환으로 추상화한 구조적 해법이다.
 
@@ -66,21 +65,25 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 CPU가 가상 주소를 실제 물리 주소로 바꾸는 최소 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징 기반 주소 변환의 핵심 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 가상 주소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 번호 | 오프셋</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프레임 번호 | 오프셋</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이지 테이블 조회 ── Present=1 ─▶ 물리 주소 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Present=0 ─▶ 페이지 부재 (Page Fault)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS가 디스크에서 적재</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    페이징 기반 주소 변환의 핵심 경로                      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ CPU 가상 주소                                                              │
+│      │                                                                     │
+│      ▼                                                                     │
+│  [ 페이지 번호 | 오프셋 ]                                                   │
+│      │                                                                     │
+│      ├──────────────▶ TLB 조회 ────── Hit ─────▶ [ 프레임 번호 | 오프셋 ]  │
+│      │                                                                     │
+│      └──────────────▶ 페이지 테이블 조회 ── Present=1 ─▶ 물리 주소 생성    │
+│                                   │                                        │
+│                                   └─ Present=0 ─▶ 페이지 부재 (Page Fault) │
+│                                                     │                      │
+│                                                     ▼                      │
+│                                            OS가 디스크에서 적재             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 없애는 대신 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))를 감수한다. 예를 들어 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 4KB인데 프로세스의 마지막 조각이 1KB만 필요하면 나머지 3KB는 남더라도 그 프레임을 다른 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 공유할 수 없다. 그러나 이 낭비는 보통 "마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 일부"에 국한되므로, [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문에 큰 프로세스 전체가 못 들어가는 상황보다 훨씬 관리 가능하다.
 
@@ -163,25 +166,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">연속 할당 · 외부 단편화 (External Fragmentation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이징 (Paging) · 페이지/프레임 고정 크기 분할</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이지 테이블 (Page Table) · PTE (Page Table Entry)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TLB (Translation Lookaside Buffer) · 다단계 페이지 테이블</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">요구 페이징 (Demand Paging) · 페이지 부재 (Page Fault)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Huge Page · 역페이지 테이블 · 가상화 이중 주소 변환</div>
-</div>
-</div>
-
-
+```text
+연속 할당 · 외부 단편화 (External Fragmentation)
+        │
+        ▼
+페이징 (Paging) · 페이지/프레임 고정 크기 분할
+        │
+        ▼
+페이지 테이블 (Page Table) · PTE (Page Table Entry)
+        │
+        ▼
+TLB (Translation Lookaside Buffer) · 다단계 페이지 테이블
+        │
+        ▼
+요구 페이징 (Demand Paging) · 페이지 부재 (Page Fault)
+        │
+        ▼
+Huge Page · 역페이지 테이블 · 가상화 이중 주소 변환
+```
 
 이 흐름은 "[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 해결 → 주소 변환 정립 → 변환 가속 → [동적 적재](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) → 현대 확장"으로 이어지는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 발전 맥락을 보여준다.
 

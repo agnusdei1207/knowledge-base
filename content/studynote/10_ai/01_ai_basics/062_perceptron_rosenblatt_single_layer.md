@@ -29,21 +29,17 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">x1, x2, x3</div>
-<div class="kb-diagram-note">w1, w2, w3</div>
-<div class="kb-diagram-note">Σ(wi × xi) + b</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Activation / Threshold</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">y</div>
-</div>
-</div>
-
-
+```text
+x1, x2, x3
+  ↓   ↓   ↓
+w1, w2, w3
+  ↓   ↓   ↓
+   Σ(wi × xi) + b
+          ↓
+   Activation / Threshold
+          ↓
+          y
+```
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -107,43 +103,31 @@ tags = ["studynote-ai"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Input</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Weighted Sum</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Threshold</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Perceptron</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MLP / Deep Learning</div>
-</div>
-</div>
-
-
+```text
+Input
+   ↓
+Weighted Sum
+   ↓
+Threshold
+   ↓
+Perceptron
+   ↓
+MLP / Deep Learning
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MCP 뉴런</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Perceptron</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">XOR 한계</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MLP / Backpropagation</div>
-</div>
-</div>
-
-
+```text
+MCP 뉴런
+   ↓
+Perceptron
+   ↓
+XOR 한계
+   ↓
+MLP / Backpropagation
+```
 
 ---
 

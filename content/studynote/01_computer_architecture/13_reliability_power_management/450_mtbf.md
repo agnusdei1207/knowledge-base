@@ -25,17 +25,14 @@ MTBF (Mean Time Between Failures)는 수리 가능한 장비나 시스템에서 
 
 특히 데이터센터나 클라우드 환경에서는 고장이 예외가 아니라 상수다. MTBF를 모르면 예비 부품 재고, 유지보수 계약, 교체 주기, 장애 대응 인력 배치를 감으로 정해야 한다. 반대로 MTBF를 이해하면 "고장은 반드시 난다"는 전제 위에서 운영을 수치화할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTBF가 답하는 질문: "얼마나 오래 버티는가"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고장 발생 ──▶ 복구 완료 정상 운영 ▶ 다음 고장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;----------- 평균 간격 = MTBF -----------&gt;</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        MTBF가 답하는 질문: "얼마나 오래 버티는가"          │
+├──────────────────────────────────────────────────────────────┤
+│ 고장 발생 ──▶ 복구 완료 ───────── 정상 운영 ─────────▶ 다음 고장 │
+│              │<----------- 평균 간격 = MTBF ----------->│      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 MTBF가 "고장이 없는 이상세계"를 뜻하지 않는다는 점이다. 오히려 고장이 반복된다는 현실을 인정하고, 그 사이 간격을 평균값으로 다루는 운영 지표에 가깝다.
 
@@ -57,17 +54,16 @@ MTBF는 보통 고장률이 비교적 안정적인 구간에서 의미가 크다
 
 아래 그림은 MTBF와 MTTR이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)으로 이어지는 관계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 운영 주기: 신뢰성은 간격과 복구의 합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 운영(MTBF) 장애 감지/수리(MTTR) 정상 운영(MTBF)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 체감 품질 = 고장 사이 간격이 길수록 ↑, 복구 시간이 짧을수록 ↑</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          장애 운영 주기: 신뢰성은 간격과 복구의 합          │
+├──────────────────────────────────────────────────────────────┤
+│ 정상 운영(MTBF)        장애 감지/수리(MTTR)   정상 운영(MTBF) │
+│ ────────────────────┬──────────────────────┬──────────────── │
+│                     │                      │                 │
+│ 서비스 체감 품질  = 고장 사이 간격이 길수록 ↑, 복구 시간이 짧을수록 ↑ │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약인 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 관점에서는 보통 `Availability ≈ MTBF / (MTBF + MTTR)` 형태로 직관적으로 설명한다. 예를 들어 MTBF가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000시간이고 MTTR이 1시간이면 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 매우 높지만, MTBF가 100,000시간이라도 MTTR이 24시간이면 고객 체감 품질은 크게 흔들릴 수 있다.
 
@@ -89,20 +85,17 @@ MTBF를 제대로 쓰려면 비슷해 보이는 지표와의 경계를 분명히
 
 운영체제와 클라우드 관점으로 확장하면, MTBF는 결국 [RAS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/) ([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/), [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), Serviceability) 중 Reliability를 수치화한 입력값이다. 여기에 자동 장애 감지, 핫스왑, [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/), 오토스케일링이 붙으면 "부품이 안 고장 나는 시스템"이 아니라 "고장 나도 멈추지 않는 시스템"으로 사고방식이 옮겨간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개별 부품 신뢰성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">높음 ──▶ 단일 장비 안정성 향상</div>
-<div class="kb-diagram-tree-item" style="--depth:2">낮음 ──▶ 이중화·복제 없으면 서비스 장애 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시스템 수준 설계 필요</div>
-<div class="kb-diagram-note">(RAID, Failover, Cluster)</div>
-</div>
-</div>
-
-
+```text
+개별 부품 신뢰성
+    │
+    ├─ 높음 ──▶ 단일 장비 안정성 향상
+    │
+    └─ 낮음 ──▶ 이중화·복제 없으면 서비스 장애 증가
+                         │
+                         ▼
+                 시스템 수준 설계 필요
+                 (RAID, Failover, Cluster)
+```
 
 📢 섹션 요약 비유: MTBF만 보는 것은 선수 개인 기록만 보고 축구팀 우승 가능성을 판단하는 것과 같다. 스트라이커가 좋아도 수비와 골키퍼가 약하면 팀은 무너지고, 반대로 팀워크와 교체 전략이 좋으면 개인 기록이 평범해도 우승할 수 있다.
 
@@ -155,23 +148,21 @@ MTBF를 제대로 이해하면 [신뢰성](/knowledge-base/studynote/04_software
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">부품 고장 통계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MTTF · MTBF · MTTR</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가용성 계산 · 장애 대응 시간 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAID · 이중 전원 · 클러스터 페일오버</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">예지 정비 · 텔레메트리 기반 신뢰성 운영</div>
-</div>
-</div>
-
-
+```text
+부품 고장 통계
+    │
+    ▼
+MTTF · MTBF · MTTR
+    │
+    ▼
+가용성 계산 · 장애 대응 시간 관리
+    │
+    ▼
+RAID · 이중 전원 · 클러스터 페일오버
+    │
+    ▼
+예지 정비 · 텔레메트리 기반 신뢰성 운영
+```
 
 이 흐름은 "개별 부품의 평균 고장 이해"에서 출발해 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준의 장애 흡수 설계"로 확장되는 방향을 보여준다.
 

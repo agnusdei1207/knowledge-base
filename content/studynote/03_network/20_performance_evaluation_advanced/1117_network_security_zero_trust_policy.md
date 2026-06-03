@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **흔한 착각**: "시스코나 팰로알토에서 [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) 솔루션 장비 10억 주고 샀으니까 우리 회사 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 완성임 ㅋ" 
 - **진실**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 장비 1대가 아니라 네트워크 설계의 <strong>'철학이자 방법론'</strong>입니다. 기존 네트워크를 완전히 해체하고 재조립하는 과정이 필요합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율 구동 네트워크 레벨링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 보안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정보통신 기술사 최근 기출 토픽 기반</div></div>
-</div>
-</div>
-
-
+```text
+[자율 구동 네트워크 레벨링]
+    │
+    ▼
+[네트워크 보안]
+    │
+    └──▶ [정보통신 기술사 최근 기출 토픽 기반]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 보안은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ tags = ["studynote-network"]
 ### 5. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) - "최종 목적지 철갑"
 - 서버가 뚫려도 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 못 훔쳐 가게, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체에 꼬리표([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 태그)를 붙이고 원격으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 깨부수는 궁극의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화([DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 등)를 씌웁니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율 구동 네트워크 레벨링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 보안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정보통신 기술사 최근 기출 토픽 기반</div></div>
-</div>
-</div>
-
-
+```text
+[자율 구동 네트워크 레벨링]
+    │
+    ▼
+[네트워크 보안]
+    │
+    └──▶ [정보통신 기술사 최근 기출 토픽 기반]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 보안의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -134,19 +126,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 자율 구동 네트워크 레벨링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 보안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 정보통신 기술사 최근 기출 토픽 기반</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 자율 구동 네트워크 레벨링]
+    │
+    ▼
+[현재 개념: 네트워크 보안]
+    │
+    ├──▶ [확장 A: 정보통신 기술사 최근 기출 토픽 기반]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 네트워크 보안는 자율 구동 네트워크 레벨링에서 출발해 현재 메커니즘을 정교화하고, 이후 정보통신 기술사 최근 기출 토픽 기반와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

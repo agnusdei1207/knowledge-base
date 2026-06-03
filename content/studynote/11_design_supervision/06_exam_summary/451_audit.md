@@ -21,17 +21,12 @@ tags = ["studynote-design-supervision"]
 
 빈출 키워드 매핑 요약 연결망은 이 문제를 해결하기 위해 <strong>키워드를 생명주기와 평가 관점에 재배치</strong>한다. 즉 “무엇인가?”보다 “어느 단계에서 왜 중요하고, 어떤 증적과 함께 써야 하는가?”를 먼저 떠올리게 만드는 구조다. 정보관리와 시스템 감리는 범위가 넓기 때문에, 이런 연결망이 있어야 주제 전환이 빨라도 답안 중심축이 흔들리지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">키워드 회상 구조</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개별 용어 암기 ─▶ 평가 축 분류 ─▶ 증적·위험 연결 ─▶ 답안 문장화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(점 단위 기억) (선으로 연결) (판정 근거 확보) (실전 답안 완성)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────── 키워드 회상 구조 ───────────────────────────────┐
+│ 개별 용어 암기 ─▶ 평가 축 분류 ─▶ 증적·위험 연결 ─▶ 답안 문장화                 │
+│ (점 단위 기억)    (선으로 연결)    (판정 근거 확보)    (실전 답안 완성)         │
+└───────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 이 주제는 단순 요약 노트가 아니라, 방대한 감리 지식을 <strong>채점 가능한 구조로 재조합하는 메타 프레임</strong>으로 보는 것이 맞다.
 - **📢 섹션 요약 비유**: 지하철 노선도처럼 역 이름만 외우는 것보다 어떤 역이 어디와 연결되는지 알 때 훨씬 빨리 목적지에 갈 수 있다.
@@ -41,19 +36,14 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 연결망의 핵심 원리는 세 축이다. 첫째, 생명주기 축(계획-분석-설계-구현-운영-개선). 둘째, 평가 축(통제, 품질, 보안, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 추적성). 셋째, 증적 축(문서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트 결과, 변경 이력, 인터뷰). 이 세 축을 교차시키면 어떤 키워드도 답안에서 고립되지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">지식 매핑 3축</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생명주기 축 : 계획 → 분석 → 설계 → 구현 → 운영 → 개선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 축 : 품질 / 보안 / 성능 / 통제 / 추적성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">증적 축 : 문서 / 로그 / 테스트 결과 / 변경 이력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 교차 지점이 곧 답안 포인트</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────── 지식 매핑 3축 ────────────────────────────┐
+│ 생명주기 축 : 계획 → 분석 → 설계 → 구현 → 운영 → 개선               │
+│ 평가 축     : 품질 / 보안 / 성능 / 통제 / 추적성                     │
+│ 증적 축     : 문서 / 로그 / 테스트 결과 / 변경 이력                  │
+│                      └─ 교차 지점이 곧 답안 포인트                   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 평가 축 | 대표 키워드 | 답안 연결 포인트 |
 | :--- | :--- | :--- |
@@ -113,21 +103,18 @@ tags = ["studynote-design-supervision"]
 - **기술사 답안 템플릿**: 정의, 비교, 절차, 판단, 기대효과를 빠르게 조합하는 실전 틀
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개별 키워드 암기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">생명주기·평가 축 매핑</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">위험·통제·증적 연결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비교형·판단형 답안으로 전개</div>
-</div>
-</div>
-
-
+```text
+개별 키워드 암기
+        │
+        ▼
+생명주기·평가 축 매핑
+        │
+        ▼
+위험·통제·증적 연결
+        │
+        ▼
+비교형·판단형 답안으로 전개
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 단어를 하나씩 따로 외우는 건 길 이름만 외우는 것과 같아요.

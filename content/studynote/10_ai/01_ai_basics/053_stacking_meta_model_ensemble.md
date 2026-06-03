@@ -31,17 +31,11 @@ tags = ["studynote-ai"]
 
 스태킹은 1단계에서 여러 base model이 예측값을 만들고, 2단계에서 meta model이 그 예측값들을 입력으로 받아 최종 결정을 내린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">X → Model A</div>
-<div class="kb-diagram-note">X → Model B → OOF Predictions → Meta Model → Final Prediction</div>
-<div class="kb-diagram-note">X → Model C</div>
-</div>
-</div>
-
-
+```text
+X → Model A ┐
+X → Model B ├→ OOF Predictions → Meta Model → Final Prediction
+X → Model C ┘
+```
 
 | 구성 요소 | 역할 | 포인트 |
 | :--- | :--- | :--- |
@@ -116,21 +110,18 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 모델</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Bagging / Boosting</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Stacking</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Meta Learner + OOF</div>
-</div>
-</div>
-
-
+```text
+단일 모델
+    │
+    ▼
+Bagging / Boosting
+    │
+    ▼
+Stacking
+    │
+    ▼
+Meta Learner + OOF
+```
 
 이 흐름은 한 모델의 한계를 평균화, 보정, 재학습으로 확장해 온 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 발전을 보여준다.
 

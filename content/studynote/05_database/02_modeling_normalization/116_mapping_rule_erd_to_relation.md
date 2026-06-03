@@ -18,22 +18,19 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7대 매핑 규칙 순서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 강한 엔터티 → 테이블 (PK = 식별자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 약한 엔터티 → 테이블 (PK = 소유자FK + 부분키)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 1:1 관계 → 한쪽 테이블에 FK 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 1:N 관계 → N쪽 테이블에 FK 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. M:N 관계 → 교차 테이블 생성 (양쪽 PK가 복합키)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 다치 속성 → 별도 테이블 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. N-ary 관계 → 관계 테이블 생성</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    7대 매핑 규칙 순서                                  │
+├───────────────────────────────────────────────────────┤
+│  1. 강한 엔터티 → 테이블 (PK = 식별자)               │
+│  2. 약한 엔터티 → 테이블 (PK = 소유자FK + 부분키)    │
+│  3. 1:1 관계 → 한쪽 테이블에 FK 추가                 │
+│  4. 1:N 관계 → N쪽 테이블에 FK 추가                  │
+│  5. M:N 관계 → 교차 테이블 생성 (양쪽 PK가 복합키)   │
+│  6. 다치 속성 → 별도 테이블 분리                      │
+│  7. N-ary 관계 → 관계 테이블 생성                    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 매핑 규칙은 외국어 번역 문법이다. "주어+동사+목적어" 순서를 지키지 않으면 엉뚱한 문장(잘못된 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))이 나온다.
 
@@ -92,23 +89,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ER 모델 (Chen, 1976) — 개념적 데이터 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매핑 규칙 체계화 (1980s) — ERD→릴레이션 7대 규칙</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CASE 도구 (ERwin, 1990s) — 자동 매핑 구현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-as-Code (2020s) — 코드 기반 스키마 생성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 ERD→스키마 자동 변환</div></div>
-</div>
-</div>
-
-
+```text
+[ER 모델 (Chen, 1976) — 개념적 데이터 모델]
+    │
+    ▼
+[매핑 규칙 체계화 (1980s) — ERD→릴레이션 7대 규칙]
+    │
+    ▼
+[CASE 도구 (ERwin, 1990s) — 자동 매핑 구현]
+    │
+    ▼
+[Schema-as-Code (2020s) — 코드 기반 스키마 생성]
+    │
+    ▼
+[현재: AI 기반 ERD→스키마 자동 변환]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ERD는 "학생이 과목을 듣는다"라는 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>를 그림</strong>으로 표현한 거예요.

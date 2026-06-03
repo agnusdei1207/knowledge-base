@@ -23,27 +23,31 @@ tags = ["studynote-network"]
 - **필요성**: 빌딩 옥상에 세운 거대한 매크로 기지국 하나가 반경 5km를 커버하면 설치비가 저렴하고 관리하기 좋다. 그러나 이 구역 안에 10만 명이 모여 유튜브를 켜면, 매크로 기지국의 한정된 주파수(용량)가 꽉 차 통신망이 뻗어버린다. 주파수를 늘릴 수 없다면, 방법은 하나뿐이다. 기지국의 전파 출력을 확 낮춰 반경을 100m짜리로 줄이고, 그 빈 공간에 수백 개의 꼬마 기지국([Small Cell](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/))을 촘촘히 박아넣어 공간([주파수 재사용](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/))을 기하급수적으로 쪼개는 것이다.
 - **등장 배경**: ① 매크로 셀의 주파수 자원 한계와 도심 핫스팟 지역의 통신 마비 → ② 건물 내부, 지하실 등 전파 음영 지역(Dead Zone) 해소 요구 → ③ [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 초고주파의 짧은 도달 거리에 대응하기 위한 초소형, 저출력 '스몰 셀 고밀도화' 아키텍처의 필수 도입.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매크로 셀(Macro) 중심 vs 이기종(HetNet) 스몰 셀 융합 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 매크로 셀 중심 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🗼 (매크로 기지국 - 높은 철탑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(음영 발생!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱(잘 터짐) 🏢빌딩 숲 ▶ 📱(안 터짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단점: 건물 뒤나 지하, 또는 핫스팟에 사람이 몰리면 트래픽 병목 발생.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재/미래: HetNet (이기종 네트워크) 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🗼 (우산 역할 제어) 📱(마이크로 셀-가로등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📡</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🏢빌딩 숲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 📡 (피코/펨토 셀-사무실 내부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 매크로 셀은 제어(우산)를 맡고, 수많은 스몰 셀이 트래픽을 폭식함!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             매크로 셀(Macro) 중심 vs 이기종(HetNet) 스몰 셀 융합 시각화 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거: 매크로 셀 중심 아키텍처]                                 │
+│   ┌───────────────────────────────────────────────────┐│
+│   │ 🗼 (매크로 기지국 - 높은 철탑)                            ││
+│   │                                (음영 발생!)           ││
+│   │  📱(잘 터짐)          🏢빌딩 숲───▶ 📱(안 터짐)        ││
+│   │                                                       ││
+│   └───────────────────────────────────────────────────┘│
+│   * 단점: 건물 뒤나 지하, 또는 핫스팟에 사람이 몰리면 트래픽 병목 발생.   │
+│                                                             │
+│   [현재/미래: HetNet (이기종 네트워크) 아키텍처]                     │
+│   ┌───────────────────────────────────────────────────┐│
+│   │ 🗼 (우산 역할 제어)   📱(마이크로 셀-가로등)                ││
+│   │                       📡                              ││
+│   │                     🏢빌딩 숲                           ││
+│   │                        └─▶ 📡 (피코/펨토 셀-사무실 내부)││
+│   │                             📱                         ││
+│   └───────────────────────────────────────────────────┘│
+│   * 장점: 매크로 셀은 제어(우산)를 맡고, 수많은 스몰 셀이 트래픽을 폭식함!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 도식은 스몰 셀 도입이 단순한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 추가가 아니라, 100년 이동통신 역사의 패러다임을 바꾼 구조적 변혁임을 보여준다. 예전에는 거대한 철탑 기지국이 모든 것을 담당했다. 건물 안에서 안 터지면 출력을 억지로 올렸다. 하지만 HetNet 환경에서는 거대한 우산(매크로 셀)이 넓은 지역의 컨트롤을 담당하고, 빗물이 떨어지는 구석구석(가로등, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 정류장, 사무실 천장)에 작은 물받이(스몰 셀)를 놓아 막대한 양의 트래픽을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 흡수한다. 이를 통해 전력 소모를 줄이면서도 통신 용량을 100배 이상 폭증시킨다.
 
@@ -70,25 +74,30 @@ tags = ["studynote-network"]
 
 이 두 가지를 해결하기 위해 등장한 혁신적인 아키텍처가 <strong>이기종 네트워크 (HetNet)의 이중 연결성(Dual Connectivity)</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5G HetNet: 듀얼 커넥티비티 (C/U Plane 분리) 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 통제권 상실</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차량 ──(1초마다 끊어짐)──▶ 피코 셀 1 ──▶ 피코 셀 2 ──▶ 피코 셀 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: C-Plane(제어)과 U-Plane(데이터)의 완벽한 분리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매크로 셀 (거대한 우산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Control Plane: "너는 내 그늘 아래 있으니 안심하고 달려!")</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🚘 이동하는 단말기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User Plane: 4K 유튜브 데이터 폭격)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스몰셀 1</div><div class="kb-diagram-node">스몰셀 2</div><div class="kb-diagram-node">스몰셀 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 차량은 매크로 셀과 통화 제어 끈을 단단히 묶어둔 채(끊김 방지),</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지나치는 스몰 셀들로부터 데이터만 쏙쏙 빨아먹으며 달린다!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               5G HetNet: 듀얼 커넥티비티 (C/U Plane 분리) 원리    │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [과거: 통제권 상실]                                            │
+│   차량 ──(1초마다 끊어짐)──▶ 피코 셀 1 ──▶ 피코 셀 2 ──▶ 피코 셀 3  │
+│                                                               │
+│   [혁신: C-Plane(제어)과 U-Plane(데이터)의 완벽한 분리]               │
+│                                                               │
+│    [매크로 셀 (거대한 우산)]                                       │
+│          │                                                    │
+│          │ (Control Plane: "너는 내 그늘 아래 있으니 안심하고 달려!")│
+│          ▼                                                    │
+│   [ 🚘 이동하는 단말기 ]                                           │
+│          ▲         ▲         ▲                                │
+│          │         │         │                                │
+│          │(User Plane: 4K 유튜브 데이터 폭격)                    │
+│     [스몰셀 1]  [스몰셀 2]  [스몰셀 3]                              │
+│                                                               │
+│   => 결과: 차량은 매크로 셀과 통화 제어 끈을 단단히 묶어둔 채(끊김 방지), │
+│            지나치는 스몰 셀들로부터 데이터만 쏙쏙 빨아먹으며 달린다!     │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 최신 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 아키텍처의 꽃인 C/U Plane 분리(Control/User Plane Separation) 기술이다. 스마트폰은 두 개의 기지국과 동시에 끈을 연결한다. 절대 안 끊기는 넓은 '매크로 셀'과는 "나 여기 살아있어요"라는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(C-Plane)만 주고받는다. 그리고 좁지만 속도가 미친 듯이 빠른 '스몰 셀' 아래를 휙 지나갈 때는 찰나의 순간에 유튜브 영상(U-Plane [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 기가비트로 쓸어 담는다. 덕분에 사용자는 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)가 실패해 폰이 끊기는(Drop) 공포 없이, 스몰 셀이 주는 속도의 축복만을 누릴 수 있게 되었다.
 
@@ -112,24 +121,25 @@ tags = ["studynote-network"]
 
 DAS는 물탱크 하나에서 호스를 수백 개 빼서 각 층에 물을 뿌리는 방식이다. 설치는 비싸지만 관리가 편하다. 그러나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에 접어들며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사용량이 폭증하자, 하나의 물탱크(용량)로는 감당이 안 되기 시작했다. 그래서 각 층마다 정수기(스몰 셀)를 아예 새로 설치해버리는 스몰 셀 아키텍처가 최신 대형 쇼핑몰과 스마트 팩토리의 실내망 표준으로 융합/대체되고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매크로 셀과 스몰 셀의 간섭(Interference) 방어 기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문제 발생: 고막 테러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매크로 셀(100W) ──(강한 빔!)──▶ 📱 ◀──(약한 빔)── 스몰 셀(1W)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말기(📱) 입장: "매크로 셀 소리가 너무 커서 바로 옆 스몰 셀 소리가 안 들려!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해결책: eICIC (Enhanced Inter-Cell Interference Coordination)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매크로 셀과 스몰 셀이 백홀 통신망(X2 인터페이스)으로 서로 은밀히 대화함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매크로 셀: "스몰 셀아, 내가 0.1초 동안은 아예 입 다물고 숨죽여 줄게"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이 숨죽이는 빈 시간을 ABS, Almost Blank Subframe라 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스몰 셀: "오케이! 매크로 형이 입 다물어준(ABS) 0.1초 동안 내가 단말기에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미친 듯이 데이터를 쏟아부을게!"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               매크로 셀과 스몰 셀의 간섭(Interference) 방어 기법     │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [문제 발생: 고막 테러]                                         │
+│   매크로 셀(100W) ──(강한 빔!)──▶ 📱 ◀──(약한 빔)── 스몰 셀(1W)  │
+│   단말기(📱) 입장: "매크로 셀 소리가 너무 커서 바로 옆 스몰 셀 소리가 안 들려!"│
+│                                                               │
+│   [해결책: eICIC (Enhanced Inter-Cell Interference Coordination)]│
+│   매크로 셀과 스몰 셀이 백홀 통신망(X2 인터페이스)으로 서로 은밀히 대화함.  │
+│                                                               │
+│   매크로 셀: "스몰 셀아, 내가 0.1초 동안은 아예 입 다물고 숨죽여 줄게"   │
+│              (이 숨죽이는 빈 시간을 **ABS, Almost Blank Subframe**라 함)│
+│                                                               │
+│   스몰 셀: "오케이! 매크로 형이 입 다물어준(ABS) 0.1초 동안 내가 단말기에  │
+│            미친 듯이 데이터를 쏟아부을게!"                       │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 스몰 셀을 매크로 셀 근처에 깔면 반드시 발생하는 '간섭' 문제를 해결하는 현대 셀룰러 공학의 최고 걸작이 바로 eICIC 기술의 <strong>ABS(Almost Blank Subframe)</strong>다. 매크로 기지국이 스스로 전파를 쏘지 않고 텅 비워두는 시간(서브프레임)을 억지로 만든다. 이때 스몰 셀은 주변 눈치를 안 보고 자기 코앞에 있는 스마트폰들에게 폭풍처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏟아낸다. 철저한 타이밍 동기화를 통해 두 기지국이 교대하며 말하는 이 스마트한 간섭 제어 덕분에 도심 한가운데 수만 개의 스몰 셀을 심을 수 있게 되었다.
 
@@ -187,19 +197,15 @@ DAS는 물탱크 하나에서 호스를 수백 개 빼서 각 층에 물을 뿌�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 주파수 분할 방식 vs 시분할 방식 무선 환…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 매크로 뷰 토폴로지 / 피코 셀/마이크로 셀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 주파수 재사용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 주파수 분할 방식 vs 시분할 방식 무선 환…]
+    │
+    ▼
+[현재 개념: 매크로 뷰 토폴로지 / 피코 셀/마이크로 셀]
+    │
+    ├──▶ [확장 A: 주파수 재사용]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 매크로 뷰 토폴로지 / 피코 셀/마이크로 셀는 [주파수 분할 방식](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/552_fdd_vs_tdd_wireless_duplexing/) vs 시분할 방식 무선 환…에서 출발해 현재 메커니즘을 정교화하고, 이후 [주파수 재사용](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

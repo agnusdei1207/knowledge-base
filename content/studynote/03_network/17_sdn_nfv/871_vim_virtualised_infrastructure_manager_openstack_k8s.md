@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 868번 MANO 아키텍처의 3계층 중 <strong>가장 맨 밑바닥에서, 물리적 서버/스토리지/네트워크 장비들(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/867_nfvi_nfv_infrastructure_physical_virtual_resources/">NFVI</a>)을 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>하여 거대한 자원 풀(Pool)로 만들고, 윗선(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/">VNFM</a>, <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/869_nfvo_nfv_orchestrator_network_service_lifecycle/">NFVO</a>)의 명령에 따라 가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)이나 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>를 실제로 뚝딱 만들어내어 하드웨어 자원을 할당(Allocation)하고 회수하는 인프라 관리 플랫폼</strong>입니다.
 - **실무의 제왕**: 이 VIM 자리를 전 세계 100% 독점하다시피 한 거대한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 괴물이 바로 <strong>오픈스택(OpenStack)</strong>입니다. (최근엔 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 시대가 오며 <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>(k8s)</strong>가 VIM의 자리를 급속도로 뺏어 먹고 있습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VNFM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VIM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서비스 체이닝 (Service Chainin…</div></div>
-</div>
-</div>
-
-
+```text
+[VNFM]
+    │
+    ▼
+[VIM]
+    │
+    └──▶ [서비스 체이닝 (Service Chainin…]
+```
 
 - **📢 섹션 요약 비유**: VIM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 - VIM은 땅 바닥의 흙(서버) 상태를 24시간 현미경으로 감시합니다.
 - "10번 서버 하드디스크가 뻑났습니다! 5번 서버 온도가 100도입니다!"라는 비명 소리(물리적 장애)를 가장 먼저 수집하여, 위에 있는 사령관([NFVO](/knowledge-base/studynote/03_network/17_sdn_nfv/869_nfvo_nfv_orchestrator_network_service_lifecycle/))과 매니저([VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/))에게 긴급 보고타전(Notification)을 날립니다. 이 보고를 받아야 VNFM이 앱([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))을 다른 서버로 살려서 이사(마이그레이션)시킬 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VNFM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VIM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서비스 체이닝 (Service Chainin…</div></div>
-</div>
-</div>
-
-
+```text
+[VNFM]
+    │
+    ▼
+[VIM]
+    │
+    └──▶ [서비스 체이닝 (Service Chainin…]
+```
 
 - **📢 섹션 요약 비유**: VIM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ VIM는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VNFM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VIM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 서비스 체이닝 (Service Chainin…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: VNFM]
+    │
+    ▼
+[현재 개념: VIM]
+    │
+    ├──▶ [확장 A: 서비스 체이닝 (Service Chainin…]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 VIM는 VNFM에서 출발해 현재 메커니즘을 정교화하고, 이후 [서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Chainin…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

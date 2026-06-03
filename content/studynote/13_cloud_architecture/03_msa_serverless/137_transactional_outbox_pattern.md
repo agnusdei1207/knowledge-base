@@ -18,18 +18,12 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. 비즈니스 로직: INSERT orders + INSERT outbox (같은 트랜잭션)</div>
-<div class="kb-diagram-note">2. CDC (Debezium): outbox 테이블 변경 감지 → Kafka 발행</div>
-<div class="kb-diagram-note">3. 소비자: Kafka에서 이벤트 소비</div>
-<div class="kb-diagram-note">→ DB 트랜잭션 = 이벤트 발행 원자성 보장</div>
-</div>
-</div>
-
-
+```text
+1. 비즈니스 로직: INSERT orders + INSERT outbox (같은 트랜잭션)
+2. CDC (Debezium): outbox 테이블 변경 감지 → Kafka 발행
+3. 소비자: Kafka에서 이벤트 소비
+→ DB 트랜잭션 = 이벤트 발행 원자성 보장
+```
 
 - **📢 섹션 요약 비유**: Outbox는 **보내야 할 편지를 우편함(Outbox)에 넣으면 우체부(Debezium)가 가져가는** 것이다.
 
@@ -53,18 +47,12 @@ Transactional Outbox는 <strong><a href="/knowledge-base/studynote/01_computer_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">직접 Kafka 발행 (문제: 불일치)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Outbox 패턴 (2016~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Debezium CDC (2017~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Outbox + Saga + CQRS — 통합 패턴</div></div>
-</div>
-</div>
-
-
+```text
+[직접 Kafka 발행 (문제: 불일치)]
+    → [Outbox 패턴 (2016~)]
+    → [Debezium CDC (2017~)]
+    → [현재: Outbox + Saga + CQRS — 통합 패턴]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Outbox는 **보내야 할 편지를 우편함에 넣는** 거예요.

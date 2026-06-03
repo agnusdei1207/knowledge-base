@@ -18,7 +18,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-대기업 IT 환경은 수십~수백 개의 시스템이 독립적으로 발전해 온 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 구조다. 영업팀은 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 재무팀은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), 물류팀은 [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/))를 각자 쓴다. 이 시스템들이 서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유하지 못하면 중복 입력, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치, 업무 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다.
+대기업 IT 환경은 수십~수백 개의 시스템이 독립적으로 발전해 온 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 구조다. 영업팀은 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 재무팀은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), 물류팀은 [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/))를 각자 쓴다. 이 시스템들이 서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유하지 못하면 중복 입력, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치, 업무 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다.
 
 통합은 세 수준에서 이루어진다:
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 레벨</strong>: 각 DB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공통 저장소로 통합 → [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)
@@ -33,24 +33,27 @@ tags = ["studynote-enterprise-systems"]
 
 ### 1. 통합 유형 비교
 
+```text
+엔터프라이즈 통합 3계층
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">엔터프라이즈 통합 3계층</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPM (Business Process Management)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사람 + 시스템 + 규칙 → 업무 프로세스 자동화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 구매 승인 → 발주 → 입고 → 정산 자동화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 통합 (API / 메시지 / ESB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 A ←─ REST API / MQ ─→ 시스템 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 주문 시스템 → 재고 확인 API → 배송 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 통합 (ETL / ELT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source DB ─► Extract ─► Transform ─► Load ─► DW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: ERP·CRM 데이터 → 데이터 웨어하우스 적재</div></div>
-</div>
-</div>
-
-
+  ┌──────────────────────────────────────────────────────┐
+  │  BPM (Business Process Management)                   │
+  │  사람 + 시스템 + 규칙 → 업무 프로세스 자동화            │
+  │  예: 구매 승인 → 발주 → 입고 → 정산 자동화              │
+  └──────────────────┬───────────────────────────────────┘
+                     │
+  ┌──────────────────▼───────────────────────────────────┐
+  │  애플리케이션 통합 (API / 메시지 / ESB)                │
+  │  시스템 A ←─ REST API / MQ ─→ 시스템 B               │
+  │  예: 주문 시스템 → 재고 확인 API → 배송 시스템          │
+  └──────────────────┬───────────────────────────────────┘
+                     │
+  ┌──────────────────▼───────────────────────────────────┐
+  │  데이터 통합 (ETL / ELT)                               │
+  │  Source DB ─► Extract ─► Transform ─► Load ─► DW     │
+  │  예: ERP·CRM 데이터 → 데이터 웨어하우스 적재            │
+  └──────────────────────────────────────────────────────┘
+```
 
 ### 2. [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract-Transform-Load) 심화
 
@@ -59,18 +62,12 @@ tags = ["studynote-enterprise-systems"]
 2. **Transform(변환)**: [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/)·표준화·가공 (null 처리, 코드 매핑, 집계 등)
 3. **Load(적재)**: [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)) 또는 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)에 저장
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ETL 흐름</div>
-<div class="kb-diagram-note">ERP DB ─</div>
-<div class="kb-diagram-note">CRM DB ─ ─► Staging Area ─► Transform ─► DW / Data Mart</div>
-<div class="kb-diagram-note">API 데이터 (원본 임시 저장) (정제·변환) (분석 최적화 저장)</div>
-</div>
-</div>
-
-
+```text
+ETL 흐름
+  ERP DB  ─┐
+  CRM DB  ─┼─► Staging Area ─► Transform ─► DW / Data Mart
+  API 데이터┘   (원본 임시 저장)   (정제·변환)   (분석 최적화 저장)
+```
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/">ELT</a>(Extract-Load-Transform)</strong>: 클라우드 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/))의 대규모 연산 능력을 활용해 적재 후 변환. ETL과 순서가 다름.
 
@@ -118,19 +115,18 @@ tags = ["studynote-enterprise-systems"]
 
 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/">BPM</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/199_bpm_business_process_management_orchestrator/">Business Process Management</a>)</strong> 은 업무 프로세스를 모델링·자동화·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·최적화하는 종합 체계다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BPM 구성 요소</div>
-<div class="kb-diagram-note">BPMN 모델 (Business Process Model &amp; Notation)</div>
-<div class="kb-diagram-note">BPMS (BPM Suite) — 프로세스 엔진 실행</div>
-<div class="kb-diagram-note">사람 태스크 시스템 태스크 규칙 엔진</div>
-<div class="kb-diagram-note">담당자 승인 API 호출 DR 결정</div>
-</div>
-</div>
-
-
+```text
+BPM 구성 요소
+  ┌──────────────────────────────────────────┐
+  │  BPMN 모델 (Business Process Model & Notation)
+  │  ↓
+  │  BPMS (BPM Suite) — 프로세스 엔진 실행
+  │  ↓
+  │  사람 태스크 ─── 시스템 태스크 ─── 규칙 엔진
+  │         ↓               ↓              ↓
+  │  담당자 승인        API 호출        DR 결정
+  └──────────────────────────────────────────┘
+```
 
 ### 의사결정 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -172,26 +168,25 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사일로(Silo) 시스템 난립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Point-to-Point 통합 (스파게티) → 복잡도 폭발</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EAI → ESB (중앙 버스) → API Gateway (분산)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ETL → ELT → 실시간 CDC</div>
-<div class="kb-diagram-tree-item" style="--depth:2">REST API / gRPC / GraphQL</div>
-<div class="kb-diagram-tree-item" style="--depth:2">메시지 큐 (Kafka, RabbitMQ)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BPM — 사람+시스템 복합 프로세스 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EDA (Event-Driven Architecture) / Data Mesh (차세대)</div>
-</div>
-</div>
-
-
+```text
+사일로(Silo) 시스템 난립
+    │
+    ▼
+Point-to-Point 통합 (스파게티) → 복잡도 폭발
+    │
+    ▼
+EAI → ESB (중앙 버스) → API Gateway (분산)
+    │
+    ├─► ETL → ELT → 실시간 CDC
+    ├─► REST API / gRPC / GraphQL
+    ├─► 메시지 큐 (Kafka, RabbitMQ)
+    │
+    ▼
+BPM — 사람+시스템 복합 프로세스 자동화
+    │
+    ▼
+EDA (Event-Driven Architecture) / Data Mesh (차세대)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

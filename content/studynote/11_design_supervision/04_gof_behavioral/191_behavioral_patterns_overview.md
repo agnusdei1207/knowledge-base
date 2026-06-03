@@ -23,30 +23,30 @@ GoF의 '[Design Patterns](/knowledge-base/studynote/04_software_engineering/04_t
 
 [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)이 해결하는 핵심 문제: ① 조건 분기(if-else, [switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))의 캡슐화 → [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·[상태 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/394_process/), ② 객체 간 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 최소화 → [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)·[미디에이터 패턴](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/201_mediator_pattern/), ③ 실행 취소([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))·재실행([Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/)) 구현 → [커맨드 패턴](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/196_command_pattern/), ④ [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 공통 골격 재사용 → [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GoF 행위 패턴 11가지 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘 캡슐화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Strategy (전략): 알고리즘군 교환 가능하게 캡슐화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Template Method (템플릿 메서드): 알고리즘 골격 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태·요청 캡슐화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ State (상태): 상태별 동작 캡슐화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Command (커맨드): 요청을 객체로 캡슐화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신·통지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Observer (옵저버): 이벤트 발행-구독</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Mediator (미디에이터): 객체 간 중재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Chain of Responsibility (책임 연쇄): 요청 체인 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순회·접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Iterator (반복자): 컬렉션 순회 캡슐화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Visitor (방문자): 데이터 구조와 알고리즘 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Interpreter (인터프리터): 언어 해석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Memento (메멘토): 객체 상태 저장·복원</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│            GoF 행위 패턴 11가지 분류                         │
+├─────────────────────────────────────────────────────────────┤
+│  알고리즘 캡슐화                                            │
+│  ├─ Strategy (전략): 알고리즘군 교환 가능하게 캡슐화        │
+│  └─ Template Method (템플릿 메서드): 알고리즘 골격 정의     │
+│                                                             │
+│  상태·요청 캡슐화                                           │
+│  ├─ State (상태): 상태별 동작 캡슐화                        │
+│  └─ Command (커맨드): 요청을 객체로 캡슐화                  │
+│                                                             │
+│  통신·통지                                                   │
+│  ├─ Observer (옵저버): 이벤트 발행-구독                     │
+│  ├─ Mediator (미디에이터): 객체 간 중재                     │
+│  └─ Chain of Responsibility (책임 연쇄): 요청 체인 처리      │
+│                                                             │
+│  순회·접근                                                   │
+│  ├─ Iterator (반복자): 컬렉션 순회 캡슐화                   │
+│  ├─ Visitor (방문자): 데이터 구조와 알고리즘 분리           │
+│  ├─ Interpreter (인터프리터): 언어 해석                     │
+│  └─ Memento (메멘토): 객체 상태 저장·복원                   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)은 사람들(객체) 간의 소통 방식을 표준화하는 프로토콜이다. 이메일([옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)), 회의(미디에이터), 업무 지시([커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)), [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))처럼 각 상황에 맞는 소통 방식이 있다.
 
@@ -66,21 +66,20 @@ GoF의 '[Design Patterns](/knowledge-base/studynote/04_software_engineering/04_t
 | 객체 간 직접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 제거 | [Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) | [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) 객체로 통신 |
 | 요청 처리자 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) | [Chain of Responsibility](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/276_chain_of_responsibility_pattern/) | 처리자 체인 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행위 패턴 간 관계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy ↔ State: 상태(State)는 전략(Strategy)과 구조 동일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하지만 State는 자기 자신을 교체 가능, Strategy는 외부 교체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Observer ↔ Mediator: 둘 다 객체 간 결합도 낮추지만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Observer는 1:N 이벤트, Mediator는 N:N 통신 중재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Template Method ↔ Factory Method: 둘 다 서브클래스에 위임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Template은 알고리즘 골격, Factory는 객체 생성</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       행위 패턴 간 관계                                      │
+├─────────────────────────────────────────────────────────────┤
+│  Strategy ↔ State: 상태(State)는 전략(Strategy)과 구조 동일 │
+│  하지만 State는 자기 자신을 교체 가능, Strategy는 외부 교체│
+│                                                             │
+│  Observer ↔ Mediator: 둘 다 객체 간 결합도 낮추지만        │
+│  Observer는 1:N 이벤트, Mediator는 N:N 통신 중재           │
+│                                                             │
+│  Template Method ↔ Factory Method: 둘 다 서브클래스에 위임  │
+│  Template은 알고리즘 골격, Factory는 객체 생성              │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)은 요리 기법(볶음, 찜, 굽기)처럼, 재료(객체)와 목적(요구사항)에 맞는 기법을 선택하여 요리(소프트웨어)를 만드는 것이다.
 

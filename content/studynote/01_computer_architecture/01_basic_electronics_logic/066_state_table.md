@@ -90,41 +90,29 @@ tags = ["studynote-computer-architecture"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">State Diagram</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">State Table</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Logic Synthesis</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sequential Circuit</div>
-</div>
-</div>
-
-
+```text
+State Diagram
+  ↓
+State Table
+  ↓
+Logic Synthesis
+  ↓
+Sequential Circuit
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">상태도</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">상태표</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">상태 머신</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">순차 회로</div>
-</div>
-</div>
-
-
+```text
+상태도
+  ↓
+상태표
+  ↓
+상태 머신
+  ↓
+순차 회로
+```
 
 ---
 

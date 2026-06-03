@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - 랜선을 탈 때 패킷의 최대 크기는 1.5KB(MTU)이므로 이 거대한 짐을 1.5KB짜리로 잘게 40조각 썰어야 합니다([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)).
 - **VXLAN의 비극**: VXLAN은 포장지가 '[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)'입니다. 불행히도 대부분의 컴퓨터 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))는 TCP만 자동으로 썰어주는 기능이 있고, [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 박스는 자를 줄 모릅니다. 그래서 결국 컴퓨터 메인 뇌(서버 CPU)가 소프트웨어로 땀을 뻘뻘 흘리며 64KB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 40개로 조각내고, 거기에 일일이 40번의 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 껍데기를 포장하느라(Encapsulation) 과부하가 걸립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NVGRE MS 주도 캡슐화 통신 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EVPN</div></div>
-</div>
-</div>
-
-
+```text
+[NVGRE MS 주도 캡슐화 통신 체계]
+    │
+    ▼
+[STT 가상화 망 패킷 오프로드 LSO 지원…]
+    │
+    └──▶ [EVPN]
+```
 
 - **📢 섹션 요약 비유**: STT [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ VMWare 산하의 Nicira에서 개발한 이 [터널링](/knowledge-base/studynot
 ### 2. [Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) (무상태)의 아이러니
 - 이름에 '[Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)(무상태)'가 들어간 이유는, 겉모습은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(연결지향, 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))를 흉내 내어 랜카드를 속였지만, <strong>실제로는 3-Way Handshake 연결 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>이나 에러 체크를 단 1도 하지 않고 UDP처럼 그냥 막 던지는 쿨한 무상태(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>) 프로토콜로 작동하기 때문</strong>입니다. (진짜 TCP처럼 꼼꼼히 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 속도가 느려지니까 겉 껍질만 베낀 것입니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NVGRE MS 주도 캡슐화 통신 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EVPN</div></div>
-</div>
-</div>
-
-
+```text
+[NVGRE MS 주도 캡슐화 통신 체계]
+    │
+    ▼
+[STT 가상화 망 패킷 오프로드 LSO 지원…]
+    │
+    └──▶ [EVPN]
+```
 
 - **📢 섹션 요약 비유**: STT [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -76,7 +68,7 @@ VMWare 산하의 Nicira에서 개발한 이 [터널링](/knowledge-base/studynot
 - **장점 (오프로드의 극의)**: 거대한 트래픽이 쏟아져도 컴퓨터 서버의 CPU는 포장 업무를 랜카드 하드웨어에 다 떠넘겼으므로(Offload) 점유율이 바닥을 치고 본업인 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연산에 집중할 수 있습니다. VMWare NSX [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델에 핵심적으로 투입되었습니다.
 - **한계 (비운의 도태)**: 
   1. 가짜 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷을 만들다 보니, 중간 언더레이망 라우터 방화벽들이 "어? 이거 TCP인데 통신 상태가 이상하네? 불량 패킷인가?" 하고 버려버리는 일이 종종 터졌습니다.
-  2. 인텔(Intel) 같은 랜카드 제조사들이 "알았어, 우리가 다음 세대 랜카드 칩셋부터는 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))도 썰어주는 기능 칩에 넣어줄게!" 라며 신형 칩([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) Offload)을 찍어내기 시작했습니다.
+  2. 인텔(Intel) 같은 랜카드 제조사들이 "알았어, 우리가 다음 세대 랜카드 칩셋부터는 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))도 썰어주는 기능 칩에 넣어줄게!" 라며 새로운 유형의 칩([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) Offload)을 찍어내기 시작했습니다.
   - 결국 랜카드가 스스로 VXLAN을 썰어주게 되면서, 굳이 TCP로 사기를 치던 STT 기술은 존재 이유가 사라져 역사의 뒤안길로 사라졌습니다.
 
 STT [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [NVGRE](/knowledge-base/studynote/03_network/16_data_center_cloud/818_nvgre_network_virtualization_using_generic_routing_encapsulation/) MS 주도 캡슐화 통신 체계가 기반 조건을 만든다면, STT [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…는 그 위에서 핵심 메커니즘을 구현하고, EVPN는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -129,19 +121,15 @@ STT [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualizatio
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NVGRE MS 주도 캡슐화 통신 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EVPN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NVGRE MS 주도 캡슐화 통신 체계]
+    │
+    ▼
+[현재 개념: STT 가상화 망 패킷 오프로드 LSO 지원…]
+    │
+    ├──▶ [확장 A: EVPN]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 STT [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…는 [NVGRE](/knowledge-base/studynote/03_network/16_data_center_cloud/818_nvgre_network_virtualization_using_generic_routing_encapsulation/) MS 주도 캡슐화 통신 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 EVPN와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

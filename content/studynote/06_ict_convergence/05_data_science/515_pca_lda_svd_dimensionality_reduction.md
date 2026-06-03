@@ -38,22 +38,20 @@ tags = ["studynote-ict-convergence"]
 
 ### [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) vs LDA vs [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 데이터 X (n × p 행렬)</div>
-<div class="kb-diagram-note">PCA LDA SVD</div>
-<div class="kb-diagram-note">비지도 지도 범용 분해</div>
-<div class="kb-diagram-note">분산 클래스 A=UΣVᵀ</div>
-<div class="kb-diagram-note">최대화 분리</div>
-<div class="kb-diagram-note">주성분 판별축 U, Σ, Vᵀ</div>
-<div class="kb-diagram-note">(PC1,PC2) (LD1) (좌특이벡터,</div>
-<div class="kb-diagram-note">특이값,우특이벡터)</div>
-</div>
-</div>
-
-
+```
+원본 데이터 X (n × p 행렬)
+        │
+   ┌────┼──────────┐
+   ▼    ▼          ▼
+  PCA  LDA        SVD
+  비지도 지도     범용 분해
+  분산  클래스    A=UΣVᵀ
+  최대화 분리
+   │    │          │
+ 주성분 판별축   U, Σ, Vᵀ
+(PC1,PC2) (LD1) (좌특이벡터,
+               특이값,우특이벡터)
+```
 
 ### [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) 분해: A = UΣVᵀ
 

@@ -28,17 +28,14 @@ tags = ["studynote-ai"]
 "A 지점에 돌을 놓았을 때 이길까 질까? 계산하지 마! 그냥 여기서부터 게임이 끝날 때까지 무작위(Random)로 1,000판을 미친 듯이 시뮬레이션해 봐. 어라? A에 놨더니 1,000판 중 800판을 이겼네? 그럼 A가 80% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 좋은 길이야!"
 이 무식하고 폭력적인 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 시뮬레이션이 고전 AI의 오만함을 부수고 탄생시킨 위대한 비대칭 탐색 아키텍처, 그것이 바로 <strong>몬테카를로 트리 탐색 (MCTS)</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)(고전 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))는 '완벽주의 내비게이션'이다. 서울에서 부산 가는 길의 모든 골목길의 돌멩이 개수까지 다 계산하려다가 출발도 못 하고 죽는다. 몬테카를로(MCTS)는 '미친 택시 기사 1,000명 풀기'다. 계산 싹 다 집어치우고 서울역에서 택시 1,000대를 무작위로 아무 골목이나 막 달리게 출발시킨다. 부산에 도착한 택시 기사들한테 "어느 쪽 길로 갔어?" 물어봐서 제일 많이 도착한 길([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))을 그냥 정답으로 찍어버리는 가장 야만적이고 확실한 실용주의다.
 
@@ -48,29 +45,29 @@ tags = ["studynote-ai"]
 
 MCTS는 1초라는 짧은 시간 동안 <strong>[선택 ─▶ 확장 ─▶ 시뮬레이션 ─▶ 피드백]</strong>이라는 4단계 롤오버 루프를 수만 번 미친 듯이 회전시킨다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">몬테카를로 트리 탐색 (MCTS)의 4단계 폭주 기관차 루프 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 선택 (Selection) - "UCT 공식으로 맛집 찾기"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 현재 바둑판에서 뻗어 나간 여러 가지 길 중, "승률이 제일 높은 길(활용)"과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아직 안 가본 낯선 길(탐험)"을 섞어서 최적의 노드(잎사귀) 하나를 콕 찍음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 확장 (Expansion) - "새로운 우물 파기"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 선택된 노드에서 게임이 안 끝났다면, 그 밑에 자식 노드(다음 수)를 하나 새로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추가해서 나무(Tree)를 밑으로 한 칸 기르기 시작함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 시뮬레이션 (Simulation / Roll-out) - "무지성 막 두기!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ★ 이 아키텍처의 심장! 새로 추가된 방에서부터 게임이 끝날 때까지(승/패),</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머리 쓰지 않고 무조건 랜덤(Random)으로 돌을 미친 듯이 놔서 승부를 봄!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: "아싸! 백돌 승리!" (1승 적립)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 역전파 피드백 (Backpropagation) - "내가 걸어온 길에 점수 뿌리기"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 방금 시뮬레이션에서 이겼다는 기쁜 소식을, 내가 걸어 내려왔던 뿌리(Root)까지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거꾸로 올라가며 모든 길목 간판에 업데이트함! "이 길은 1승 0패짜리 맛집이요!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 이 1~4단계를 1초에 1만 번 반복하면, 승률이 높은 길목만 엄청나게 두꺼워짐!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           몬테카를로 트리 탐색 (MCTS)의 4단계 폭주 기관차 루프 도해       │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 선택 (Selection) - "UCT 공식으로 맛집 찾기"]                  │
+│   * 현재 바둑판에서 뻗어 나간 여러 가지 길 중, "승률이 제일 높은 길(활용)"과     │
+│     "아직 안 가본 낯선 길(탐험)"을 섞어서 최적의 노드(잎사귀) 하나를 콕 찍음.   │
+│                                                              │
+│  [2. 확장 (Expansion) - "새로운 우물 파기"]                       │
+│   * 선택된 노드에서 게임이 안 끝났다면, 그 밑에 자식 노드(다음 수)를 하나 새로   │
+│     추가해서 나무(Tree)를 밑으로 한 칸 기르기 시작함.                  │
+│                                                              │
+│  [3. 시뮬레이션 (Simulation / Roll-out) - "무지성 막 두기!"]        │
+│   * ★ 이 아키텍처의 심장! 새로 추가된 방에서부터 게임이 끝날 때까지(승/패),   │
+│     머리 쓰지 않고 무조건 랜덤(Random)으로 돌을 미친 듯이 놔서 승부를 봄!     │
+│   * 결과: "아싸! 백돌 승리!" (1승 적립)                               │
+│                                                              │
+│  [4. 역전파 피드백 (Backpropagation) - "내가 걸어온 길에 점수 뿌리기"]│
+│   * 방금 시뮬레이션에서 이겼다는 기쁜 소식을, 내가 걸어 내려왔던 뿌리(Root)까지 │
+│     거꾸로 올라가며 모든 길목 간판에 업데이트함! "이 길은 1승 0패짜리 맛집이요!"│
+│   ─▶ 이 1~4단계를 1초에 1만 번 반복하면, 승률이 높은 길목만 엄청나게 두꺼워짐!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (UCT 방정식의 기적)**:
 1번 단계(선택)에서 무조건 승률 높은 길(맛집)만 파면, 옆에 숨겨진 진짜 필승 루트를 영원히 놓친다. 이를 막기 위한 마법의 수학 공식이 <strong>UCT (Upper <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a> Bound 1 applied to Trees)</strong>다.
@@ -110,7 +107,7 @@ MCTS는 1초라는 짧은 시간 동안 <strong>[선택 ─▶ 확장 ─▶ 시
 게임 서버 백엔드나 물류 배송 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 최적화에 MCTS를 무지성 깡통 코드로 배포하면, 1턴 계산에 CPU가 100%를 찍으며 클라우드 요금으로 파산한다.
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
-1. <strong>Roll-out (시뮬레이션) <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 경량화 결단</strong>: MCTS 3단계에서 게임 끝날 때까지 무지성으로 돌을 두는 롤아웃(Roll-out) 과정이 무거우면 루프가 하루에 100번밖에 안 돈다. MCTS의 생명은 '1초에 수만 번의 압도적 물량(시뮬레이션)'이다. 아키텍트는 롤아웃 스크립트에 절대 무거운 딥러닝이나 복잡한 IF 문을 넣지 말고, <strong>C++이나 Rust로 짠 극단적인 초경량 랜덤 난수 봇(Fast Random Rollout <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong>을 이식해야 한다. 똑똑하게 1번 두는 것보다, 멍청하게 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 둬서 통계의 법칙([대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/))을 끌어내는 것이 MCTS [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 핵심이기 때문이다.
+1. <strong>Roll-out (시뮬레이션) <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 경량화 결단</strong>: MCTS 3단계에서 게임 끝날 때까지 무지성으로 돌을 두는 롤아웃(Roll-out) 과정이 무거우면 루프가 하루에 100번밖에 안 돈다. MCTS의 생명은 '1초에 수만 번의 압도적 수량(시뮬레이션)'이다. 아키텍트는 롤아웃 스크립트에 절대 무거운 딥러닝이나 복잡한 IF 문을 넣지 말고, <strong>C++이나 Rust로 짠 극단적인 초경량 랜덤 난수 봇(Fast Random Rollout <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong>을 이식해야 한다. 똑똑하게 1번 두는 것보다, 멍청하게 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 둬서 통계의 법칙([대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/))을 끌어내는 것이 MCTS [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 핵심이기 때문이다.
 2. **트리 재사용 (Tree Reuse) 아키텍처**: 내가 10초 동안 미친 듯이 시뮬레이션해서 거대한 승률 트리를 짜놨는데, 내 턴이 끝나고 상대방이 돌을 둔 뒤 내 턴이 오자 "자, 처음부터 다시 트리 1단계부터 만들자!"라고 메모리를 날려버리는 최악의 비효율 버그. 상대방이 돌을 둔 순간, 내 머릿속 거대 트리에서 상대가 둔 돌의 가지(Sub-tree) 밑부분으로 포인터 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))만 쓱 옮겨주면, <strong>과거에 시뮬레이션해 뒀던 수백만 번의 승률 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 그대로 유지한 채(Tree Reuse) 이어서 탐색</strong>할 수 있어 후반부로 갈수록 AI의 뇌가 무한대로 똑똑해지는 가속을 경험할 수 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)

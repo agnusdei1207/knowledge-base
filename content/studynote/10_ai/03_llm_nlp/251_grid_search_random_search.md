@@ -39,17 +39,14 @@ tags = ["studynote-ai"]
 | Ridge/[Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계수(λ, [alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)) | 과대적합 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 강도 |
 | [KNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) | K 값 | 작을수록 복잡한 경계 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 하이퍼파라미터는 오븐 온도와 굽는 시간 같은 것이다. 반죽([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))과 레시피(모델 구조)가 같아도 온도와 시간(하이퍼파라미터)을 잘 맞춰야 맛있는 빵(좋은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))이 나온다.
 
@@ -59,24 +56,23 @@ tags = ["studynote-ai"]
 
 ### 2.1 탐색 기법 비교 도식
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼파라미터 탐색 공간 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터 A</div><div class="kb-diagram-cell">그리드 서치</div><div class="kb-diagram-cell">랜덤 서치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(학습률)</div><div class="kb-diagram-cell">● ● ● ● ●</div><div class="kb-diagram-cell">● ● ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10⁻¹</div><div class="kb-diagram-cell">● ● ● ● ●</div><div class="kb-diagram-cell">● ● ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10⁻²</div><div class="kb-diagram-cell">● ● ● ● ●</div><div class="kb-diagram-cell">● ● ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10⁻³</div><div class="kb-diagram-cell">● ● ● ● ●</div><div class="kb-diagram-cell">● ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10⁻⁴</div><div class="kb-diagram-cell">● ● ● ● ●</div><div class="kb-diagram-cell">● ● ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터 B(깊이) 파라미터 B(깊이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그리드: 격자 모든 교점 탐색 → 완전 탐색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜덤: 무작위 샘플링 → 같은 시간에 더 넓은 범위 탐색</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│            하이퍼파라미터 탐색 공간 비교                     │
+│                                                          │
+│  파라미터 A  │  그리드 서치      │  랜덤 서치              │
+│  (학습률)    │  ● ● ● ● ●      │  ●   ●   ●            │
+│  10⁻¹       │  ● ● ● ● ●      │      ● ●    ●         │
+│  10⁻²       │  ● ● ● ● ●      │  ●      ●   ●         │
+│  10⁻³       │  ● ● ● ● ●      │     ●    ●            │
+│  10⁻⁴       │  ● ● ● ● ●      │  ●   ●       ●        │
+│             └────────────────   └────────────────        │
+│              파라미터 B(깊이)     파라미터 B(깊이)          │
+│                                                          │
+│  그리드: 격자 모든 교점 탐색 → 완전 탐색                    │
+│  랜덤:   무작위 샘플링 → 같은 시간에 더 넓은 범위 탐색        │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 그리드 서치 (Grid Search)
 
@@ -85,17 +81,11 @@ tags = ["studynote-ai"]
 - **단점**: 조합 수 폭발적 증가 (파라미터 수 × 범위 크기)
 - **계산 비용**: n₁ × n₂ × ... × nₖ 번 모델 학습
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">예시: LR = {0.001, 0.01, 0.1} × Depth = {3, 5, 7, 10} × λ = {0.1, 1.0}</div>
-<div class="kb-diagram-note">→ 3 × 4 × 2 = 24번 모델 학습 필요</div>
-<div class="kb-diagram-note">각 학습에 K=5 CV 적용 시 → 24 × 5 = 120번 학습</div>
-</div>
-</div>
-
-
+```
+예시: LR = {0.001, 0.01, 0.1} × Depth = {3, 5, 7, 10} × λ = {0.1, 1.0}
+→ 3 × 4 × 2 = 24번 모델 학습 필요
+각 학습에 K=5 CV 적용 시 → 24 × 5 = 120번 학습
+```
 
 ### 2.3 랜덤 서치 (Random Search)
 
@@ -143,21 +133,16 @@ tags = ["studynote-ai"]
 
 ### 3.3 [하이퍼파라미터 튜닝](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/)과 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)
 
+```
+하이퍼파라미터 튜닝 전체 프로세스:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하이퍼파라미터 튜닝 전체 프로세스:</div>
-<div class="kb-diagram-note">탐색 공간 정의</div>
-<div class="kb-diagram-note">→ Grid/Random/Bayesian 중 선택</div>
-<div class="kb-diagram-note">→ 각 후보에 K-Fold CV 적용</div>
-<div class="kb-diagram-note">→ CV 평균 성능 기준 최적 파라미터 선택</div>
-<div class="kb-diagram-note">→ 최적 파라미터로 전체 훈련 데이터 재학습</div>
-<div class="kb-diagram-note">→ 테스트 세트 최종 평가</div>
-</div>
-</div>
-
-
+탐색 공간 정의
+→ Grid/Random/Bayesian 중 선택
+→ 각 후보에 K-Fold CV 적용
+→ CV 평균 성능 기준 최적 파라미터 선택
+→ 최적 파라미터로 전체 훈련 데이터 재학습
+→ 테스트 세트 최종 평가
+```
 
 - **📢 섹션 요약 비유**: 그리드 서치는 수능 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 모든 기출문제 유형을 빠짐없이 풀어보는 것이고, 랜덤 서치는 무작위로 여러 단원에서 골고루 풀어보는 것이다. 베이지안 최적화는 "이 단원에서 자꾸 틀리네, 집중 공략하자"는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
@@ -176,21 +161,16 @@ tags = ["studynote-ai"]
 
 ### 4.2 탐색 공간 설계 원칙
 
+```
+좋은 탐색 공간:
+  학습률: [1e-5, 1e-1] (로그 스케일)  ← 수십 배 범위
+  트리 깊이: {3, 5, 7, 10, 15}
+  정규화: [1e-4, 1e2] (로그 스케일)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">좋은 탐색 공간:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">학습률:</div><div class="kb-diagram-node">1e-5, 1e-1</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">수십 배 범위</div></div>
-<div class="kb-diagram-note">트리 깊이: {3, 5, 7, 10, 15}</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">정규화:</div><div class="kb-diagram-node">1e-4, 1e2</div><div class="kb-diagram-note">(로그 스케일)</div></div>
-<div class="kb-diagram-note">나쁜 탐색 공간:</div>
-<div class="kb-diagram-note">학습률: {0.001, 0.0011, 0.0012, ...} ← 너무 촘촘</div>
-<div class="kb-diagram-note">트리 깊이: {3, 4} ← 너무 좁음</div>
-</div>
-</div>
-
-
+나쁜 탐색 공간:
+  학습률: {0.001, 0.0011, 0.0012, ...} ← 너무 촘촘
+  트리 깊이: {3, 4} ← 너무 좁음
+```
 
 ### 4.3 기술사 핵심 판단 포인트
 - **모델 학습 횟수 계산**: `그리드 서치 = Π(각 파라미터 후보 수) × K(CV fold 수)`

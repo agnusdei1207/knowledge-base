@@ -43,24 +43,26 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading의 실행 경로를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lazy loading execution path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service / Use case</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order entity loaded</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ id, status, orderedAt -&gt; loaded now</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ member, items -&gt; proxy / lazy collection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">first access</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Persistence Context / Session</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL / cache lookup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB or 2nd-level cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ real object initialized</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Lazy loading execution path                                          │
+├──────────────────────────────────────────────────────────────────────┤
+│ Service / Use case                                                   │
+│    │                                                                 │
+│    ▼                                                                 │
+│ Order entity loaded                                                  │
+│   ├─ id, status, orderedAt   -> loaded now                           │
+│   └─ member, items           -> proxy / lazy collection              │
+│                                  │ first access                      │
+│                                  ▼                                   │
+│                       Persistence Context / Session                  │
+│                                  │ SQL / cache lookup                │
+│                                  ▼                                   │
+│                           DB or 2nd-level cache                      │
+│                                  │                                   │
+│                                  └─ real object initialized          │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"이지 "무료"가 아니라는 점이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 가벼워지지만, 나중에 접근하는 순간 추가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 발생한다. 따라서 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading의 품질은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 기술 자체보다, 어떤 화면과 서비스가 어떤 시점에 어떤 연관을 실제로 읽는지 예측하고 설계했는가에 달려 있다.
 
@@ -144,25 +146,23 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">객체 그래프 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">즉시 로딩의 과다 JOIN / 메모리 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lazy Loading + Virtual Proxy 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:2">first access -&gt; 추가 SQL</div>
-<div class="kb-diagram-tree-item" style="--depth:2">transaction boundary 중요</div>
-<div class="kb-diagram-tree-item" style="--depth:2">N+1 -&gt; fetch join / batch fetch</div>
-<div class="kb-diagram-tree-item" style="--depth:2">API 응답 -&gt; DTO projection 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유스케이스별 Fetch Plan 설계</div>
-</div>
-</div>
-
-
+```text
+객체 그래프 확장
+    │
+    ▼
+즉시 로딩의 과다 JOIN / 메모리 증가
+    │
+    ▼
+Lazy Loading + Virtual Proxy 도입
+    │
+    ├─ first access -> 추가 SQL
+    ├─ transaction boundary 중요
+    ├─ N+1 -> fetch join / batch fetch
+    └─ API 응답 -> DTO projection 필요
+    │
+    ▼
+유스케이스별 Fetch Plan 설계
+```
 
 이 흐름은 [Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Loading이 단순 ORM 속성이 아니라, 객체 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 비용을 유스케이스 단위로 재배치하는 설계 기법임을 보여 준다.
 

@@ -23,23 +23,18 @@ tags = ["studynote-ai"]
 
 순전파는 신경망에 입력 x를 넣으면 출력 ŷ이 계산되는 <strong>전방향 연산 흐름</strong>이다. 각 층(Layer)에서 수행되는 연산:
 
+```
+층 ℓ의 순전파 연산:
+  zˡ = Wˡ × aˡ⁻¹ + bˡ    ← 선형 변환 (Linear Transformation)
+  aˡ = f(zˡ)              ← 활성화 함수 적용 (Non-linear)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">층 ℓ의 순전파 연산:</div>
-<div class="kb-diagram-note">zˡ = Wˡ × aˡ⁻¹ + bˡ ← 선형 변환 (Linear Transformation)</div>
-<div class="kb-diagram-note">aˡ = f(zˡ) ← 활성화 함수 적용 (Non-linear)</div>
-<div class="kb-diagram-note">여기서:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">aˡ : 층 ℓ의 활성화 출력 (Activation Output)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Wˡ : 층 ℓ의 가중치 행렬 (Weight Matrix)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">bˡ : 층 ℓ의 편향 벡터 (Bias Vector)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">zˡ : 층 ℓ의 사전 활성화 값 (Pre-activation)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">f : 활성화 함수 (Activation Function)</div>
-</div>
-</div>
-
-
+  여기서:
+  - aˡ   : 층 ℓ의 활성화 출력 (Activation Output)
+  - Wˡ   : 층 ℓ의 가중치 행렬 (Weight Matrix)
+  - bˡ   : 층 ℓ의 편향 벡터 (Bias Vector)
+  - zˡ   : 층 ℓ의 사전 활성화 값 (Pre-activation)
+  - f    : 활성화 함수 (Activation Function)
+```
 
 ### 순전파의 역할
 
@@ -55,23 +50,24 @@ tags = ["studynote-ai"]
 
 ### 3층 MLP 순전파 전체 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순전파 (Forward Propagation) 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력층 은닉층 1 은닉층 2 출력층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a⁰ = x z¹ = W¹a⁰+b¹ z² = W²a¹+b² z³ = W³a²+b³</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">x₁</div><div class="kb-diagram-note">a¹ = ReLU(z¹) a² = ReLU(z²) ŷ = σ(z³)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">x₂</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">x₃</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">저장: z¹,a¹ 저장: z²,a² 저장: z³</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(역전파에서 사용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손실 계산: L = loss(ŷ, y_target)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">예) 이진 분류: L = -</div><div class="kb-diagram-node">y·log(ŷ) + (1-y)·log(1-ŷ)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                순전파 (Forward Propagation) 흐름                  │
+│                                                                  │
+│  입력층         은닉층 1         은닉층 2         출력층            │
+│                                                                  │
+│  a⁰ = x         z¹ = W¹a⁰+b¹   z² = W²a¹+b²   z³ = W³a²+b³    │
+│  ↓               ↓               ↓               ↓              │
+│ [x₁]           a¹ = ReLU(z¹)   a² = ReLU(z²)  ŷ = σ(z³)       │
+│ [x₂]                                                             │
+│ [x₃]    ←─────  저장: z¹,a¹  ───  저장: z²,a²  ───  저장: z³   │
+│                   (역전파에서 사용)                                │
+│                                                                  │
+│  ↓                                                               │
+│  손실 계산: L = loss(ŷ, y_target)                                 │
+│  예) 이진 분류: L = -[y·log(ŷ) + (1-y)·log(1-ŷ)]               │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 ### 행렬 연산으로 이해하는 순전파
 
@@ -91,23 +87,23 @@ Z = W × X + b (브로드캐스팅)
 
 ### 연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 그래프 (Computational Graph)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">W ──►</div><div class="kb-diagram-node">×</div><div class="kb-diagram-note">──► z = Wx+b ──►</div><div class="kb-diagram-node">f</div><div class="kb-diagram-note">──► a ──►</div><div class="kb-diagram-node">Loss</div><div class="kb-diagram-note">──► L│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">b ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y_true</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드: 연산 (×, +, f, Loss)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엣지: 데이터 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순전파: 왼쪽 → 오른쪽 (예측)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파: 오른쪽 → 왼쪽 (기울기 전파)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│              연산 그래프 (Computational Graph)                │
+│                                                              │
+│  x ────────────────────────────────────────────────────┐    │
+│                                                         │    │
+│  W ──► [×] ──► z = Wx+b ──► [f] ──► a ──► [Loss] ──► L│    │
+│                  ↑                                      │    │
+│  b ─────────────┘                          ↑            │    │
+│                                       y_true ───────────┘    │
+│                                                              │
+│  노드: 연산 (×, +, f, Loss)                                  │
+│  엣지: 데이터 흐름                                            │
+│  순전파: 왼쪽 → 오른쪽 (예측)                                 │
+│  역전파: 오른쪽 → 왼쪽 (기울기 전파)                           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) ([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/)) 계산
 

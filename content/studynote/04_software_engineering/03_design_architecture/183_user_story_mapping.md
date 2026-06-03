@@ -25,17 +25,14 @@ tags = ["studynote-software-engineering"]
 
 즉 유저 스토리 맵은 문서를 더 예쁘게 그리는 도구가 아니라, <strong>백로그를 사용자 중심으로 다시 배열해 제품 범위와 우선순위를 동시에 설명하는 프레임</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평면 백로그의 한계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로그인</div><div class="kb-diagram-node">검색</div><div class="kb-diagram-node">필터</div><div class="kb-diagram-node">결제</div><div class="kb-diagram-node">알림</div><div class="kb-diagram-node">환불</div><div class="kb-diagram-node">리뷰</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위는 보여도, 사용자가 어떤 순서로 경험하는지는 흐려진다</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ 평면 백로그의 한계                                                │
+├───────────────────────────────────────────────────────────────────┤
+│ [로그인] [검색] [필터] [결제] [알림] [환불] [리뷰] ...            │
+│   우선순위는 보여도, 사용자가 어떤 순서로 경험하는지는 흐려진다   │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 유저 스토리 맵은 장보기 목록을 품목 가나다순으로 적는 대신, 마트 동선대로 배열해 "어떻게 돌아다니며 장을 볼지"가 보이게 만드는 지도와 같다.
 
@@ -54,21 +51,21 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 전자상거래 예시에서 유저 스토리 맵이 어떻게 구성되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Story Map Example</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backbone Browse Select Pay Track</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상품 탐색 상품 선택 결제 주문 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slice 1 검색 장바구니 담기 카드 결제 주문 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(MVP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slice 2 필터 수량 변경 간편 결제 알림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slice 3 추천 찜하기 쿠폰 적용 환불 조회</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ User Story Map Example                                            │
+├───────────────────────────────────────────────────────────────────┤
+│ Backbone     Browse        Select         Pay            Track     │
+│              상품 탐색      상품 선택       결제            주문 확인 │
+├───────────────────────────────────────────────────────────────────┤
+│ Slice 1      검색           장바구니 담기   카드 결제       주문 상태 │
+│ (MVP)                                                             │
+├───────────────────────────────────────────────────────────────────┤
+│ Slice 2      필터           수량 변경       간편 결제       알림      │
+├───────────────────────────────────────────────────────────────────┤
+│ Slice 3      추천           찜하기          쿠폰 적용       환불 조회 │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 것은 세 가지다. 첫째, <strong>가로축은 시간/행동 흐름</strong>이지 조직도나 화면 목록이 아니다. 둘째, <strong>세로축은 중요도와 세부화 수준</strong>을 표현한다. 셋째, 릴리스는 세로가 아니라 **가로로 얇게 잘라야** 사용자가 처음부터 끝까지 경험 가능한 제품이 된다. 예를 들어 탐색만 완성하고 결제를 나중에 만드는 수평 분할은 기능은 많아 보여도 사용자 가치를 전달하지 못한다.
 
@@ -146,23 +143,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">제품 비전 · 사용자 목표 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사용자 활동(backbone) 배열</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">세부 유저 스토리 적재</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MVP · 릴리스 슬라이스 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스프린트 백로그 · 사용자 피드백으로 재조정</div>
-</div>
-</div>
-
-
+```text
+제품 비전 · 사용자 목표 정의
+        │
+        ▼
+사용자 활동(backbone) 배열
+        │
+        ▼
+세부 유저 스토리 적재
+        │
+        ▼
+MVP · 릴리스 슬라이스 도출
+        │
+        ▼
+스프린트 백로그 · 사용자 피드백으로 재조정
+```
 
 이 흐름도는 유저 스토리 맵이 단순 시각 자료가 아니라, 제품 목표에서 릴리스 계획과 학습 루프까지 이어지는 운영 도구임을 보여 준다.
 

@@ -18,21 +18,20 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Positional Encoding</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력 임베딩:</div><div class="kb-diagram-node">I, love, you</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">위치 인코딩:</div><div class="kb-diagram-node">pos=0, pos=1, pos=2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sinusoidal:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE(pos, 2i) = sin(pos / 10000^(2i/d))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE(pos, 2i+1) = cos(pos / 10000^(2i/d))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 입력 = 단어 임베딩 + 위치 인코딩</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Positional Encoding                                │
+├───────────────────────────────────────────────────────┤
+│  입력 임베딩: [I, love, you]                          │
+│  위치 인코딩: [pos=0, pos=1, pos=2]                   │
+│                                                       │
+│  Sinusoidal:                                          │
+│   PE(pos, 2i)   = sin(pos / 10000^(2i/d))            │
+│   PE(pos, 2i+1) = cos(pos / 10000^(2i/d))            │
+│                                                       │
+│  최종 입력 = 단어 임베딩 + 위치 인코딩               │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Positional Encoding은 좌석 번호이다. Self-Attention은 모든 사람을 볼 수 있지만, 좌석 번호가 없으면 "누가 앞줄이고 뒷줄인지" 모른다.
 
@@ -89,23 +88,21 @@ Positional Encoding은 <strong>Transformer가 순서를 이해하게 하는 유�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RNN 순서 (내재적, ~2016)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sinusoidal PE (Transformer, 2017)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Learned PE (BERT/GPT-2, 2018~2019)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RoPE (2021) — 상대 위치 인코딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: YaRN / NTK-RoPE — 긴 컨텍스트 확장</div></div>
-</div>
-</div>
-
-
+```text
+[RNN 순서 (내재적, ~2016)]
+    │
+    ▼
+[Sinusoidal PE (Transformer, 2017)]
+    │
+    ▼
+[Learned PE (BERT/GPT-2, 2018~2019)]
+    │
+    ▼
+[RoPE (2021) — 상대 위치 인코딩]
+    │
+    ▼
+[현재: YaRN / NTK-RoPE — 긴 컨텍스트 확장]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Positional Encoding은 교실의 <strong>좌석 번호</strong>예요.

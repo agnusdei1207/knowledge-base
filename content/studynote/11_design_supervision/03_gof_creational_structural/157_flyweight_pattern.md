@@ -35,24 +35,21 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 여러 클라이언트가 같은 공유 객체를 사용하되, 위치와 크기 같은 값은 외부에서 따로 전달하는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared object holds only reusable state</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client A: pos(10,20), size=12 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client B: pos(10,40), size=12 ─ ─▶ Flyweight Factory ─▶ Glyph "A"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client C: pos(10,60), size=18 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ intrinsic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">font, path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bitmap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ extrinsic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x, y, size</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">from call</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Shared object holds only reusable state                             │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client A: pos(10,20), size=12 ─┐                                    │
+│ Client B: pos(10,40), size=12 ─┼─▶ Flyweight Factory ─▶ Glyph "A"  │
+│ Client C: pos(10,60), size=18 ─┘                       │            │
+│                                                         ├─ intrinsic │
+│                                                         │  font, path│
+│                                                         │  bitmap    │
+│                                                         └─ extrinsic │
+│                                                            x, y, size│
+│                                                            from call │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -133,28 +130,26 @@ tags = ["studynote-design-supervision"]
 | [Flyweight](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/) Factory | 공유 객체를 키 기반으로 관리하는 진입점 |
 | Object Pool | 재사용이라는 점은 비슷하지만 목적은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용 절감에 더 가까움 |
 | String Pool | 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유한다는 점에서 대표적 유사 사례 |
-| Rendering Engine | [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)가 자주 적용되는 실무 영역 |
+| Rendering 엔진 | [플라이웨이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/)가 자주 적용되는 실무 영역 |
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Repeated Objects Explosion</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Intrinsic / Extrinsic State Split</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Flyweight Factory + Shared Cache</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ String Pool</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Rendering Symbol Reuse</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Game Tile / Glyph Sharing</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Memory Footprint Reduction + Scalable Rendering</div>
-</div>
-</div>
-
-
+```text
+Repeated Objects Explosion
+         │
+         ▼
+Intrinsic / Extrinsic State Split
+         │
+         ▼
+Flyweight Factory + Shared Cache
+         │
+         ├──▶ String Pool
+         ├──▶ Rendering Symbol Reuse
+         └──▶ Game Tile / Glyph Sharing
+         │
+         ▼
+Memory Footprint Reduction + Scalable Rendering
+```
 
 이 흐름은 "객체 폭증 문제 인식 → 상태 분리 → 공유 관리 → 대량 렌더링 최적화"로 이어지는 적용 맥락을 보여준다.
 

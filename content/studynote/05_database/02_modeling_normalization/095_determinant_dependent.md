@@ -32,18 +32,19 @@ tags = ["database"]
 
 복합 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 결정자가 될 수도 있다. 예를 들어 수강 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)(학번, 과목코드, 성적)에서 '학번' 단독으로는 여러 과목을 수강하므로 성적을 결정할 수 없고, '과목코드' 단독으로도 수강생이 많아 성적을 결정할 수 없다. 오직 `{학번, 과목코드}`라는 복합 키가 뭉쳐야만 하나의 결정자 집합으로서 `성적`을 종속자로 거느릴 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수적 종속성(FD) 관계도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결정자 (Determinant, X)</div><div class="kb-diagram-node">종속자 (Dependent, Y)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 속성: 학번 ▶ 이름, 학과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복합 속성: {학번, 과목코드} ▶ 성적</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  함수적 종속성(FD) 관계도                  │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│       [ 결정자 (Determinant, X) ]      [ 종속자 (Dependent, Y) ] │
+│                                                              │
+│   단일 속성:       학번 ───────────────────▶ 이름, 학과       │
+│                                                              │
+│   복합 속성: {학번, 과목코드} ───────────────▶ 성적             │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
 이 그림은 결정자가 단일 컬럼일 수도 있고 복합 컬럼일 수도 있으며, 화살표의 방향이 곧 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 식별의 주도권임을 보여준다.
 
 - **📢 섹션 요약 비유**: 복합 결정자는 은행의 <strong>투투 (Two-man) 룰 금고</strong>와 같다. 지점장의 열쇠(학번)와 부지점장의 열쇠(과목코드)가 동시에 꽂혀야만 금고(성적)가 열리듯, 두 값이 합쳐져야 완전한 결정권이 생긴다.
@@ -94,23 +95,21 @@ tags = ["database"]
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong> | 결정자와 종속자 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 꼬여 있을 때 발생하는 삽입/삭제/갱신 오류 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">엔티티 및 속성 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결정자 (Determinant) 및 종속자 (Dependent) 식별</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">함수적 종속성 (Functional Dependency) 분석 (완전, 부분, 이행)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정규화 (Normalization) 수행 (1NF ~ BCNF)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">반정규화 (De-normalization) 판단 (성능 요건 고려)</div>
-</div>
-</div>
-
-
+```text
+엔티티 및 속성 도출
+    │
+    ▼
+결정자 (Determinant) 및 종속자 (Dependent) 식별
+    │
+    ▼
+함수적 종속성 (Functional Dependency) 분석 (완전, 부분, 이행)
+    │
+    ▼
+정규화 (Normalization) 수행 (1NF ~ BCNF)
+    │
+    ▼
+반정규화 (De-normalization) 판단 (성능 요건 고려)
+```
 이 흐름도는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 나열한 뒤, 권력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(결정자)를 파악하고, 이를 기반으로 테이블을 쪼개고([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 합치는(반정규화) 실무 설계 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

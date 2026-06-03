@@ -20,24 +20,22 @@ tags = ["studynote-algorithm"]
 - **특징**: 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 내부에 직접 저장되므로 'Closed Hashing'이라고도 불린다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
+```text
+[ 개방 주소법 탐사 기법 / Open Addressing Probing ]
 
+  Index  [0]  [1]  [2]  [3]  [4]  [5]
+  Table +----+----+----+----+----+----+
+        | K1 |    | K2 | K3 |    |    |
+        +----+----+----+----+----+----+
+          ^         |    |
+          |         +----+ (Collision at [2]!)
+          |         |
+          +---------+ (Linear Probing: Find next empty [3]... occupied! -> [4] OK!)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">개방 주소법 탐사 기법 / Open Addressing Probing</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Index</div><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">4</div><div class="kb-diagram-node">5</div></div>
-<div class="kb-diagram-note">Table +----+----+----+----+----+----+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K1</div><div class="kb-diagram-cell">K2</div><div class="kb-diagram-cell">K3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">+----+ (Collision at</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">+---------+ (Linear Probing: Find next empty</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">OK!)</div></div>
-<div class="kb-diagram-note">1. 선형 탐사 (Linear Probing): h(k, i) = (h(k) + i) % m. 고정 폭만큼 이동.</div>
-<div class="kb-diagram-note">2. 이차 탐사 (Quadratic Probing): h(k, i) = (h(k) + c1*i + c2*i^2) % m. 제곱수만큼 이동.</div>
-<div class="kb-diagram-note">3. 이중 해싱 (Double Hashing): h(k, i) = (h1(k) + i * h2(k)) % m. 제2의 해시 함수 사용.</div>
-</div>
-</div>
-
-
+1. 선형 탐사 (Linear Probing): h(k, i) = (h(k) + i) % m. 고정 폭만큼 이동.
+2. 이차 탐사 (Quadratic Probing): h(k, i) = (h(k) + c1*i + c2*i^2) % m. 제곱수만큼 이동.
+3. 이중 해싱 (Double Hashing): h(k, i) = (h1(k) + i * h2(k)) % m. 제2의 해시 함수 사용.
+```
 - **탐사(Probing)**: 충돌 시 다음 저장 위치를 결정하는 함수이다.
 - <strong>클러스터링(<a href="/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/">Clustering</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 특정 구역에 뭉쳐서 탐사 시간이 길어지는 현상이다. 일차 클러스터링(선형 탐사 시)과 이차 클러스터링(이차 탐사 시)이 있다.
 - **삭제 처리(Deletion)**: 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지우면 탐색 경로가 끊기므로 'Deleted' 마킹([Tombstone](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/300_schema_on_write_vs_read/))을 통해 경로를 유지해야 한다.
@@ -68,23 +66,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">직접 주소 테이블 (Direct Address Table) — 키를 인덱스로 직접 사용, 공간 낭비</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">체인법 (Chaining) — 충돌 시 연결 리스트로 분리, 외부 메모리 할당</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개방 주소법 — 선형 탐사 → 이차 탐사 → 이중 해싱, 테이블 내부 배치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로빈 후드 해싱 (Robin Hood Hashing) — 탐사 거리 편차를 균등화하는 개선판</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쿠쿠 해싱 (Cuckoo Hashing) — 최악 O(1) 조회 보장, 두 테이블 교차 배치</div></div>
-</div>
-</div>
-
-
+```text
+[직접 주소 테이블 (Direct Address Table) — 키를 인덱스로 직접 사용, 공간 낭비]
+    │
+    ▼
+[체인법 (Chaining) — 충돌 시 연결 리스트로 분리, 외부 메모리 할당]
+    │
+    ▼
+[개방 주소법 — 선형 탐사 → 이차 탐사 → 이중 해싱, 테이블 내부 배치]
+    │
+    ▼
+[로빈 후드 해싱 (Robin Hood Hashing) — 탐사 거리 편차를 균등화하는 개선판]
+    │
+    ▼
+[쿠쿠 해싱 (Cuckoo Hashing) — 최악 O(1) 조회 보장, 두 테이블 교차 배치]
+```
 이 흐름은 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)을 외부 자료구조에 위임하는 [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)의 포인터 오버헤드를 줄이기 위해 테이블 내부에서 탐사를 수행하는 개방 주소법이 등장하고, 클러스터링 문제를 해결하는 방향으로 점진적으로 정교화되는 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

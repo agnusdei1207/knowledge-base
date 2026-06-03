@@ -76,33 +76,33 @@ TPS:            7         ~30       ~4,000   ~250
 
 ## III. 레이어1 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+레이어1 자체 확장:
 
+1. 샤딩 (Sharding):
+   블록체인을 여러 샤드(조각)로 분할
+   각 샤드가 독립적으로 트랜잭션 처리
+   이더리움 로드맵: Danksharding
+   
+   문제: 샤드 간 통신, 보안 복잡성
+   
+2. 합의 알고리즘 개선:
+   PoW -> PoS (이더리움 머지 2022)
+   에너지 99.95% 절약
+   TPS 직접 향상 효과는 제한적
+   
+3. 블록 크기/타임 조정:
+   단기 처리량 향상 but 중앙화 위험
+   (큰 블록 -> 일반 노드 운영 어려움)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레이어1 자체 확장:</div>
-<div class="kb-diagram-note">1. 샤딩 (Sharding):</div>
-<div class="kb-diagram-note">블록체인을 여러 샤드(조각)로 분할</div>
-<div class="kb-diagram-note">각 샤드가 독립적으로 트랜잭션 처리</div>
-<div class="kb-diagram-note">이더리움 로드맵: Danksharding</div>
-<div class="kb-diagram-note">문제: 샤드 간 통신, 보안 복잡성</div>
-<div class="kb-diagram-note">2. 합의 알고리즘 개선:</div>
-<div class="kb-diagram-note">PoW -&gt; PoS (이더리움 머지 2022)</div>
-<div class="kb-diagram-note">에너지 99.95% 절약</div>
-<div class="kb-diagram-note">TPS 직접 향상 효과는 제한적</div>
-<div class="kb-diagram-note">3. 블록 크기/타임 조정:</div>
-<div class="kb-diagram-note">단기 처리량 향상 but 중앙화 위험</div>
-<div class="kb-diagram-note">(큰 블록 -&gt; 일반 노드 운영 어려움)</div>
-<div class="kb-diagram-note">레이어2 위임:</div>
-<div class="kb-diagram-note">L1: 보안/합의만 담당</div>
-<div class="kb-diagram-note">L2 (롤업): 실제 트랜잭션 처리</div>
-<div class="kb-diagram-note">L2가 주기적으로 L1에 증명 제출</div>
-<div class="kb-diagram-note">Optimistic Rollup: ETH 위에 10x TPS</div>
-<div class="kb-diagram-note">ZK Rollup: ETH 위에 100x TPS (zkSync)</div>
-</div>
-</div>
-
-
+레이어2 위임:
+  L1: 보안/합의만 담당
+  L2 (롤업): 실제 트랜잭션 처리
+  L2가 주기적으로 L1에 증명 제출
+  
+  Optimistic Rollup: ETH 위에 10x TPS
+  ZK Rollup: ETH 위에 100x TPS (zkSync)
+```
 
 > 📢 **섹션 요약 비유**: L1 직접 확장은 고속도로 확장 공사, L2는 고속도로 위에 2층 도로 만들기 — 2층이 더 빠르지만 기초(L1)가 안전해야 함.
 
@@ -141,34 +141,34 @@ EVM 트레이드오프:
 
 ## V. 실무 시나리오 — [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) L1 선택
 
+```
+DeFi 프로토콜 개발팀 L1 선택 기준:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DeFi 프로토콜 개발팀 L1 선택 기준:</div>
-<div class="kb-diagram-note">기능 요구사항:</div>
-<div class="kb-diagram-note">스마트 컨트랙트 필수 -&gt; Bitcoin 제외</div>
-<div class="kb-diagram-note">성능 요구사항:</div>
-<div class="kb-diagram-note">DEX (탈중앙 거래소): 초당 수천 트랜잭션</div>
-<div class="kb-diagram-tree-item" style="--depth:1">이더리움 직접: ~30TPS 부족</div>
-<div class="kb-diagram-tree-item" style="--depth:1">이더리움 + L2 (Arbitrum): ~2,000TPS</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Solana: 고성능 but 다운타임 이력 있음</div>
-<div class="kb-diagram-note">보안/탈중앙화:</div>
-<div class="kb-diagram-note">$1B+ TVL(총 예치금) -&gt; 보안 최우선</div>
-<div class="kb-diagram-note">이더리움: 가장 검증된 L1</div>
-<div class="kb-diagram-note">비용:</div>
-<div class="kb-diagram-note">이더리움 가스비: 피크 시 $50/트랜잭션</div>
-<div class="kb-diagram-note">Solana: $0.0001/트랜잭션</div>
-<div class="kb-diagram-note">결정:</div>
-<div class="kb-diagram-note">소규모 DeFi: Solana 또는 L2</div>
-<div class="kb-diagram-note">대규모 DeFi (TVL &gt; $1B): Ethereum + L2</div>
-<div class="kb-diagram-note">2024년 현재:</div>
-<div class="kb-diagram-note">DeFi TVL 상위: Ethereum L1+L2 (&gt;60%)</div>
-<div class="kb-diagram-note">성장세: Solana, Base(Coinbase L2)</div>
-</div>
-</div>
-
-
+기능 요구사항:
+  스마트 컨트랙트 필수 -> Bitcoin 제외
+  
+성능 요구사항:
+  DEX (탈중앙 거래소): 초당 수천 트랜잭션
+  -> 이더리움 직접: ~30TPS 부족
+  -> 이더리움 + L2 (Arbitrum): ~2,000TPS
+  -> Solana: 고성능 but 다운타임 이력 있음
+  
+보안/탈중앙화:
+  $1B+ TVL(총 예치금) -> 보안 최우선
+  이더리움: 가장 검증된 L1
+  
+비용:
+  이더리움 가스비: 피크 시 $50/트랜잭션
+  Solana: $0.0001/트랜잭션
+  
+결정:
+  소규모 DeFi: Solana 또는 L2
+  대규모 DeFi (TVL > $1B): Ethereum + L2
+  
+2024년 현재:
+  DeFi TVL 상위: Ethereum L1+L2 (>60%)
+  성장세: Solana, Base(Coinbase L2)
+```
 
 > 📢 **섹션 요약 비유**: 큰 돈이 오가는 DeFi는 보안 검증된 이더리움을, 빠른 실험은 저렴한 Solana를 선택 — 안전과 속도의 트레이드오프.
 

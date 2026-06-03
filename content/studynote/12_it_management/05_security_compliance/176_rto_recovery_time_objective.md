@@ -25,22 +25,21 @@ RTO는 "얼마나 빨리 [복구](/knowledge-base/studynote/09_security/13_secop
 
 아래 그림은 RTO가 단순히 장비 부팅 시간이 아니라, 탐지와 선언, 전환, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함하는 목표라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTO timeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ detection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ disaster declaration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ infrastructure / data / app recovery</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ service validation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acceptable service restored</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;------------------- must fit inside RTO -----------------------&gt;</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ RTO timeline                                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Incident                                                             │
+│   │                                                                  │
+│   ├─ detection                                                       │
+│   ├─ disaster declaration                                            │
+│   ├─ infrastructure / data / app recovery                            │
+│   ├─ service validation                                              │
+│   ▼                                                                  │
+│ Acceptable service restored                                          │
+│   <------------------- must fit inside RTO ----------------------->  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 RTO는 기술팀의 편의 숫자가 아니라, "이 업무는 몇 시간 멈추면 안 되는가"를 조직 차원에서 선언한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 마감 시각이다.
 
@@ -63,23 +62,24 @@ RTO는 먼저 BIA와 MTPD (Maximum Tolerable Period of Disruption)에서 나온�
 
 아래 그림은 RTO가 어떻게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 아키텍처 결정으로 이어지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From business impact to recovery architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BIA / MTPD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTO target</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ automation level</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ standby infrastructure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ network / DNS (Domain Name System) failover</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ application startup order</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ business validation plan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">feasible recovery strategy</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ From business impact to recovery architecture                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ BIA / MTPD                                                           │
+│    │                                                                 │
+│    ▼                                                                 │
+│ RTO target                                                           │
+│    │                                                                 │
+│    ├─ automation level                                               │
+│    ├─ standby infrastructure                                         │
+│    ├─ network / DNS (Domain Name System) failover                    │
+│    ├─ application startup order                                      │
+│    └─ business validation plan                                       │
+│    ▼                                                                 │
+│ feasible recovery strategy                                           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 실무에서 자주 놓치는 점은 RTO가 "기술 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간"과 같지 않다는 것이다. 선언 승인, 인력 호출, 배치 재시작, 외부 연계 점검, 사용자 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함해야 실제 목표가 된다. 따라서 좋은 RTO 설계는 시스템만이 아니라 운영 절차와 의사결정 체계를 함께 계산한다.
 
@@ -161,31 +161,31 @@ RTO를 명확히 정의하면 [복구](/knowledge-base/studynote/09_security/13_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">업무 영향 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MTPD (Maximum Tolerable Period of Disruption)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RTO / RPO 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">복구 전략 선택</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Active-Active</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Hot Site</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Warm Site</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Cold Site</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자동화 · 전환 절차 · 검증 기준 수립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모의훈련 / failover / failback 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속 개선형 업무 연속성 관리</div>
-</div>
-</div>
-
-
+```text
+업무 영향 분석
+    │
+    ▼
+MTPD (Maximum Tolerable Period of Disruption)
+    │
+    ▼
+RTO / RPO 설정
+    │
+    ▼
+복구 전략 선택
+    ├─ Active-Active
+    ├─ Hot Site
+    ├─ Warm Site
+    └─ Cold Site
+    │
+    ▼
+자동화 · 전환 절차 · 검증 기준 수립
+    │
+    ▼
+모의훈련 / failover / failback 측정
+    │
+    ▼
+지속 개선형 업무 연속성 관리
+```
 
 이 흐름은 RTO가 단일 숫자가 아니라, 영향 분석에서 아키텍처 선택과 훈련 체계까지 이어지는 의사결정 축임을 보여 준다.
 

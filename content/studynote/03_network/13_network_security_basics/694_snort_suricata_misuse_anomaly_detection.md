@@ -31,18 +31,14 @@ NIDS가 패킷을 가져와서 해커인지 정상인인지 구별하는 뇌([�
 - **장점**: 수배 전단지에 없는 완전 새로운 신종/변종 공격([Zero-day](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/))도 패턴의 이상함만으로 기가 막히게 탐지해 냅니다.
 - **단점 (양치기 소년)**: 정상적인 이벤트(예: 수강 신청 날 갑자기 트래픽이 몰림)를 해킹으로 착각해서 "삐용삐용!" 알람을 울려대는 오탐지(False Positive)가 너무 심합니다. 관리자가 알람 끄기에 지쳐버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NIDS 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPS 차단 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[NIDS 공격]
+    │
+    ▼
+[스노트, Suricata 와 오용 탐지 vs…]
+    │
+    └──▶ [IPS 차단 아키텍처]
+```
 
 - **📢 섹션 요약 비유**: 스노트, [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -61,18 +57,14 @@ NIDS가 패킷을 가져와서 해커인지 정상인인지 구별하는 뇌([�
 ### 3. [Zeek](/knowledge-base/studynote/09_security/05_web_app_security/241_zeek_bro_network_traffic_metadata_analysis/) (지크, 구 Bro)
 - 위 두 개가 해커의 '지문(시그니처)'을 찾는 데 특화되었다면, Zeek는 통신의 '흐름(행위)'을 기록하고 분석하는 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/">Anomaly</a>)</strong> 및 네트워크 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 분석에 훨씬 더 특화된 강력한 도구입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NIDS 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPS 차단 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[NIDS 공격]
+    │
+    ▼
+[스노트, Suricata 와 오용 탐지 vs…]
+    │
+    └──▶ [IPS 차단 아키텍처]
+```
 
 - **📢 섹션 요약 비유**: 오용 탐지는 공항의 '지명 수배자 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인식 카메라'입니다. 범죄자 명단(시그니처 DB)에 있는 얼굴과 똑같은 사람이 지나가면 100% 확률로 체포하지만, 명단에 없는 처음 보는 테러범은 유유히 빠져나갑니다. [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 노련한 '공항 마약 탐지견'입니다. 평범해 보여도 유독 식은땀을 많이 흘리거나 안절부절못하는 이상한 낌새([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))를 보이면 일단 짖어서 잡아 세웁니다. 신종 마약범도 기가 막히게 잡지만, 가끔 그냥 배가 아파서 땀을 흘리는 일반 여행객(False Positive)에게도 짖어대는 피곤한 부작용이 있습니다.
 
@@ -130,19 +122,15 @@ NIDS가 패킷을 가져와서 해커인지 정상인인지 구별하는 뇌([�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NIDS 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스노트, Suricata 와 오용 탐지 vs…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPS 차단 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NIDS 공격]
+    │
+    ▼
+[현재 개념: 스노트, Suricata 와 오용 탐지 vs…]
+    │
+    ├──▶ [확장 A: IPS 차단 아키텍처]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 스노트, [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…는 [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/) 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 차단 아키텍처와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

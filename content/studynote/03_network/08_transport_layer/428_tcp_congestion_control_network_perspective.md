@@ -20,24 +20,20 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 네트워크 내의 트래픽 양이 처리 가능한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 초과하여 라우터의 큐 오버플로우로 인한 패킷 유실이 발생할 때, 송신 측이 전송 윈도우 크기를 동적으로 조절하여 혼잡을 완화하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
-- **필요성**: 1980년대 초, TCP는 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)(수신자 눈치 보기)밖에 몰랐다. 수신자가 "나 1GB 받을 수 있어!"라고 하면, 송신자는 그냥 냅다 1GB를 풀악셀로 때려 박았다. 문제는 이 둘을 이어주는 중간 통신사 라우터의 성능이 고작 10MB였다는 거다. 라우터는 쏟아지는 패킷을 감당 못 하고 다 쓰레기통에 버렸다(Drop). 패킷이 버려지니 송신자는 빡쳐서 1GB를 또 재전송했다. 라우터는 더 죽어났다. 전 세계의 모든 PC가 이기적으로 재전송을 갈겨대자 1986년 10월, 인터넷망 전체의 속도가 32Kbps에서 40bps로 추락하는 **인터넷 대붕괴(Congestion Collapse)** 사태가 터졌다. **"안 되겠다! 수신자 눈치만 보지 말고, 도로(네트워크)가 꽉 막힌 거 같으면 우리 스스로 속도를 확 줄여주는 자제력(혼잡 제어)을 코딩해 넣자!!"** 반 브슨(Van Jacobson)의 이 천재적인 패치가 인터넷을 구원했다.
+- **필요성**: 1980년대 초, TCP는 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)(수신자 눈치 보기)밖에 몰랐다. 수신자가 "나 1GB 받을 수 있어!"라고 하면, 송신자는 그냥 냅다 1GB를 풀악셀로 때려 박았다. 문제는 이 둘을 이어주는 중간 통신사 라우터의 성능이 고작 10MB였다는 거다. 라우터는 쏟아지는 패킷을 감당 못 하고 다 쓰레기통에 버렸다(Drop). 패킷이 버려지니 송신자는 빡쳐서 1GB를 또 재전송했다. 라우터는 더 죽어났다. 전 세계의 모든 PC가 이기적으로 재전송을 갈겨대자 1986년 10월, 인터넷망 전체의 속도가 32Kbps에서 40bps로 추락하는 **인터넷 대붕괴(Congestion Collapse)** 사태가 터졌다. **"안 되겠다! 수신자 눈치만 보지 말고, 도로(네트워크)가 꽉 막힌 거 같으면 우리 스스로 속도를 확 줄여주는 자제력(혼잡 제어)을 코딩해 넣자!!"** 반 아각브슨(Van Jacobson)의 이 천재적인 패치가 인터넷을 구원했다.
 
 - **💡 비유**: 혼잡 제어는 고속도로 톨게이트 전방의 <strong>"가변 속도 제한 시스템"</strong>과 같습니다.
-- <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a></strong>: 목적지 펜션 주인(수신자)이 "우리 펜션 주차장 3자리 남았어"라고 해서 차를 3대만 보내는 겁니다.
-- **혼잡 제어**: 펜션 주차장은 100자리가 비어있지만, 명절이라 경부고속도로(인터넷 망) 전체가 주차장이 되었습니다. 차들이 가다가 서다를 반복합니다. 내비게이션([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))이 이걸 눈치채고 "야! 고속도로 꽉 막혔어! 시속 100km로 밟지 말고 시속 20km로 천천히 가!"라며 도로 전체의 붕괴를 막는 공공의 브레이크입니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a></strong>: 목적지 펜션 주인(수신자)이 "우리 펜션 주차장 3자리 남았어"라고 해서 차를 3대만 보내는 겁니다.
+  - **혼잡 제어**: 펜션 주차장은 100자리가 비어있지만, 명절이라 경부고속도로(인터넷 망) 전체가 주차장이 되었습니다. 차들이 가다가 서다를 반복합니다. 내비게이션([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))이 이걸 눈치채고 "야! 고속도로 꽉 막혔어! 시속 100km로 밟지 말고 시속 20km로 천천히 가!"라며 도로 전체의 붕괴를 막는 공공의 브레이크입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지연된 ACK</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 혼잡 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">혼잡 윈도우</div></div>
-</div>
-</div>
-
-
+```text
+[지연된 ACK]
+    │
+    ▼
+[TCP 혼잡 제어]
+    │
+    └──▶ [혼잡 윈도우]
+```
 
 - **📢 섹션 요약 비유**: <strong> 혼잡 제어는 뷔페에서 음식(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 쓸어 담으려는 손님에게, "당신 배(수신 버퍼)가 아무리 고파도, 지금 요리사(라우터)들이 파업 직전이니까 </strong>당장 접시 내려놓고 5분에 1개씩만 집어가라!**"고 제지하는 식당 매니저의 위기관리 능력입니다.
 
@@ -58,31 +54,33 @@ tags = ["studynote-network"]
 내 PC는 라우터가 아니니까 라우터 속을 들여다볼 수 없다. 오직 '영수증(ACK)'이 오는 꼴을 보고 눈치껏 때려 맞춘다.
 
 1. <strong>완벽한 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a> Expiration) - "심정지 상태"</strong>
-- 내가 패킷을 쐈는데, 정해진 시간([Retransmission TimeOut](/knowledge-base/studynote/03_network/08_transport_layer/440_rto_retransmission_timeout_measurement/))이 훌쩍 지나도록 아무 대답도 안 온다.
-- 내 PC의 판단: **"헐, 길이 완전히 아작나서 패킷이 형체도 없이 터졌구나! 최악의 혼잡 상황이다! 속도 0으로 곤두박질 쳐라!!"**
+   - 내가 패킷을 쐈는데, 정해진 시간([Retransmission TimeOut](/knowledge-base/studynote/03_network/08_transport_layer/440_rto_retransmission_timeout_measurement/))이 훌쩍 지나도록 아무 대답도 안 온다.
+   - 내 PC의 판단: **"헐, 길이 완전히 아작나서 패킷이 형체도 없이 터졌구나! 최악의 혼잡 상황이다! 속도 0으로 곤두박질 쳐라!!"**
 2. **3 중복 ACK (3 Dup-ACKs) - "가벼운 접촉 사고"**
-- 영수증은 제깍제깍 오는데, `ACK 300`, `ACK 300`, `ACK 300` 이렇게 똑같은 번호가 3번 연속으로 날아온다.
-- 내 PC의 판단: "음, 대답이 오긴 오니까 길이 아예 꽉 막힌 건 아니네. 근데 300번 패킷 딱 한 놈만 가다가 옆 차선 차랑 부딪혀서(유실) 드랍됐나 보네. **가벼운 정체 상황이군! 속도를 절반으로만 깎자!**"
+   - 영수증은 제깍제깍 오는데, `ACK 300`, `ACK 300`, `ACK 300` 이렇게 똑같은 번호가 3번 연속으로 날아온다.
+   - 내 PC의 판단: "음, 대답이 오긴 오니까 길이 아예 꽉 막힌 건 아니네. 근데 300번 패킷 딱 한 놈만 가다가 옆 차선 차랑 부딪혀서(유실) 드랍됐나 보네. **가벼운 정체 상황이군! 속도를 절반으로만 깎자!**"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">혼잡 제어(Congestion Control)의 거시적 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 출발! (Slow Start)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 도로가 어떤지 모르니까 아주 천천히 1개 쏘고, 2개 쏘고 조심조심 출발.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 가속! (Congestion Avoidance)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오? 뻥 뚫렸네? 영수증 잘 오네? 액셀 밟자! 속도 서서히 증가!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 사고 발생! (Packet Drop 감지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앗 ㅆ... 톨게이트 꽉 차서 내 패킷 죽음! 영수증이 안 오거나 징징댐!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 급브레이크! (Window Size 삭감)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타임아웃 났어?! ──▶ 속도 1로 완전 초기화! 찌그러져 있자...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 3 Dup-ACK 났어?! ──▶ 속도 절반으로만 줄이자! (Fast Recovery)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 짓을 평생 반복하며 톱니바퀴 모양(Sawtooth) 그래프를 그린다."</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                혼잡 제어(Congestion Control)의 거시적 사이클       │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   1. 출발! (Slow Start)                                      │
+ │      - 도로가 어떤지 모르니까 아주 천천히 1개 쏘고, 2개 쏘고 조심조심 출발.│
+ │                                                             │
+ │   2. 가속! (Congestion Avoidance)                            │
+ │      - 오? 뻥 뚫렸네? 영수증 잘 오네? 액셀 밟자! 속도 서서히 증가!       │
+ │                                                             │
+ │   3. 사고 발생! (Packet Drop 감지)                              │
+ │      - 앗 ㅆ... 톨게이트 꽉 차서 내 패킷 죽음! 영수증이 안 오거나 징징댐! │
+ │                                                             │
+ │   4. 급브레이크! (Window Size 삭감)                            │
+ │      - 타임아웃 났어?! ──▶ 속도 1로 완전 초기화! 찌그러져 있자...     │
+ │      - 3 Dup-ACK 났어?! ──▶ 속도 절반으로만 줄이자! (Fast Recovery) │
+ │                                                             │
+ │   ▶ "이 짓을 평생 반복하며 톱니바퀴 모양(Sawtooth) 그래프를 그린다."   │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 왜 이게 위대한가?
 누가 시키지도 않았는데 전 세계 50억 대의 컴퓨터가 각자 자기 패킷이 유실될 때마다 스스로 브레이크를 밟아준다(Distributed Control). 이 거대한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통제 이타주의 덕분에 우리는 지금 넷플릭스와 유튜브를 끊김 없이 보고 있는 것이다.
@@ -143,19 +141,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 지연된 ACK</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP 혼잡 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 혼잡 윈도우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 지연된 ACK]
+    │
+    ▼
+[현재 개념: TCP 혼잡 제어]
+    │
+    ├──▶ [확장 A: 혼잡 윈도우]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 ACK에서 출발해 현재 메커니즘을 정교화하고, 이후 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

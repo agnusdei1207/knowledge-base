@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a></strong>: [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 4.0 핵심 규격으로 2010년에 발표되었습니다. (이전까지의 속도 중심 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 규격은 Classic Bluetooth라 부름)
 - **목적**: 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송(음악, 영상)은 과감히 포기하고, 심박수 측정기, 피트니스 밴드, 온도 센서, 분실물 태그 등 <strong>"아주 작은 양의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 띄엄띄엄 보내며, 동전 크기의 코인 배터리(CR2032) 하나로 최소 1~2년 이상을 뻗대야 하는" <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 디바이스</strong>를 위해 완전히 뼈대를 새로 설계한 초저전력 통신입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 버전</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BLE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비컨 기술</div></div>
-</div>
-</div>
-
-
+```text
+[블루투스 버전]
+    │
+    ▼
+[BLE]
+    │
+    └──▶ [비컨 기술]
+```
 
 - **📢 섹션 요약 비유**: BLE는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 - 클래식 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 주파수 채널이 79개라 주파수를 이리저리 갈아타며 남을 찾느라 전력 소모가 컸습니다.
 - BLE는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 지나다니는 채널을 40개(2MHz 폭)로 큼직하게 쳐내고, 특히 기기들끼리 처음 만날 때 "나 여기 있어!"라고 소리치는 <strong>광고(Advertising) 채널을 딱 3개로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>했습니다. 덕분에 스캔을 할 때 3개 채널만 집중적으로 들여다보면 되므로 배터리 낭비가 획기적으로 줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 버전</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BLE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비컨 기술</div></div>
-</div>
-</div>
-
-
+```text
+[블루투스 버전]
+    │
+    ▼
+[BLE]
+    │
+    └──▶ [비컨 기술]
+```
 
 - **📢 섹션 요약 비유**: BLE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -116,19 +108,15 @@ BLE는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_io
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 블루투스 버전</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BLE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 비컨 기술</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 블루투스 버전]
+    │
+    ▼
+[현재 개념: BLE]
+    │
+    ├──▶ [확장 A: 비컨 기술]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 BLE는 [블루투스 버전](/knowledge-base/studynote/03_network/12_iot_wpan_edge/606_bluetooth_edr_hs_speed_extension/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [비컨](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/) 기술와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

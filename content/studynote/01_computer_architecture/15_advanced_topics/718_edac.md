@@ -43,22 +43,26 @@ EDAC의 진짜 가치는 단순 출력이 아니라 <strong>토폴로지 해석<
 
 아래 그림은 EDAC이 오류를 "고치는 기술"이 아니라, 하드웨어의 조용한 복구를 밖으로 꺼내는 관측 파이프라인임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EDAC의 관측 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DIMM 비트 오류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECC / 메모리 컨트롤러 ──▶ CE 교정 또는 UE 판정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MCA 레지스터 · IMC 카운터에 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EDAC 커널 드라이버가 슬롯/채널 정보로 디코딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── /sys/devices/system/edac/... 카운터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── dmesg / 커널 로그</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── rasdaemon · 모니터링 시스템으로 전달</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                     EDAC의 관측 파이프라인                          │
+├──────────────────────────────────────────────────────────────────────┤
+│ DIMM 비트 오류                                                      │
+│     │                                                               │
+│     ▼                                                               │
+│ ECC / 메모리 컨트롤러 ──▶ CE 교정 또는 UE 판정                     │
+│     │                                                               │
+│     ▼                                                               │
+│ MCA 레지스터 · IMC 카운터에 기록                                   │
+│     │                                                               │
+│     ▼                                                               │
+│ EDAC 커널 드라이버가 슬롯/채널 정보로 디코딩                       │
+│     │                                                               │
+│     ├── /sys/devices/system/edac/... 카운터                         │
+│     ├── dmesg / 커널 로그                                            │
+│     └── rasdaemon · 모니터링 시스템으로 전달                        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 결국 EDAC의 핵심 원리는 <strong>하드웨어 오류를 시간축이 있는 운영 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 바꾸는 것</strong>이다. 이 덕분에 운영자는 일회성 노이즈와 지속적 열화를 구분할 수 있고, 장애가 현실화되기 전에 부품 교체를 예약할 수 있다.
 
@@ -131,23 +135,21 @@ EDAC의 기대효과는 장애가 터진 뒤 원인을 찾는 시간을 줄이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ECC 메모리 보호</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MCA 기반 오류 기록</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EDAC 커널 가시화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">rasdaemon · 중앙 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">예지 정비 · 자동 교체 판단 · 운영 RAS 고도화</div>
-</div>
-</div>
-
-
+```text
+ECC 메모리 보호
+    │
+    ▼
+MCA 기반 오류 기록
+    │
+    ▼
+EDAC 커널 가시화
+    │
+    ▼
+rasdaemon · 중앙 모니터링
+    │
+    ▼
+예지 정비 · 자동 교체 판단 · 운영 RAS 고도화
+```
 
 이 흐름은 "하드웨어 내부 교정"에서 출발해 "운영 자동화"까지 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 관리가 확장되는 과정을 요약한다.
 

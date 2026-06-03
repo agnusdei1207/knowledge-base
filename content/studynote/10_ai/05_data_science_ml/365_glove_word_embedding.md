@@ -21,17 +21,14 @@ tags = ["studynote-ai"]
 
 Word2Vec은 문맥 창(Window) 내에서만 학습하므로 전체 코퍼스의 전역 통계를 활용하지 못한다. "ice"와 "steam"은 서로 다르지만 둘 다 "water"와 자주 등장한다. 반면 "ice"는 "[solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/)"와, "steam"은 "[gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)"와 더 자주 등장한다. 이 전역적 비율(X_ice,[solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) / X_ice,[gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) vs X_steam,[solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) / X_steam,[gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/))이 의미 차이를 담는다는 통찰이 GloVe의 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Word2Vec이 "이웃집만 보는 정보원"이라면, GloVe는 "도시 전체 통계청 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하는 인구학자"다. 이웃집만 보면 단편적이지만, 도시 전체 통계(전역 [동시 등장 행렬](/knowledge-base/studynote/10_ai/05_data_science_ml/366_cooccurrence_matrix/))를 보면 더 넓은 패턴을 포착한다.
 
@@ -39,26 +36,26 @@ Word2Vec은 문맥 창(Window) 내에서만 학습하므로 전체 코퍼스의 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GloVe 학습 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 동시 등장 행렬 구성:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X_ij = 단어 i와 j가 윈도우 k 내 함께 등장한 횟수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(</div><div class="kb-diagram-cell">V</div><div class="kb-diagram-cell">×</div><div class="kb-diagram-cell">V</div><div class="kb-diagram-cell">희소 행렬, V=어휘 크기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. GloVe 목적 함수:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">J = Σᵢⱼ f(X_ij)·(wᵢᵀw̃ⱼ + bᵢ + b̃ⱼ - log X_ij)²</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 가중치 함수 f(x):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">f(x) = (x/x_max)^α if x &lt; x_max</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 otherwise</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(α=0.75, x_max=100 일반적 설정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 최적화: AdaGrad로 wᵢ, w̃ⱼ, bᵢ, b̃ⱼ 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 최종 벡터: wᵢ + w̃ⱼ 평균 (두 벡터 평균이 더 우수)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│                GloVe 학습 파이프라인                      │
+├──────────────────────────────────────────────────────────┤
+│  1. 동시 등장 행렬 구성:                                 │
+│     X_ij = 단어 i와 j가 윈도우 k 내 함께 등장한 횟수    │
+│     (|V|×|V| 희소 행렬, V=어휘 크기)                   │
+│                                                          │
+│  2. GloVe 목적 함수:                                    │
+│     J = Σᵢⱼ f(X_ij)·(wᵢᵀw̃ⱼ + bᵢ + b̃ⱼ - log X_ij)²  │
+│                                                          │
+│  3. 가중치 함수 f(x):                                   │
+│     f(x) = (x/x_max)^α  if x < x_max                  │
+│             1            otherwise                      │
+│     (α=0.75, x_max=100 일반적 설정)                    │
+│                                                          │
+│  4. 최적화: AdaGrad로 wᵢ, w̃ⱼ, bᵢ, b̃ⱼ 학습           │
+│  5. 최종 벡터: wᵢ + w̃ⱼ 평균 (두 벡터 평균이 더 우수) │
+└──────────────────────────────────────────────────────────┘
+```
 
 | 방법 | 학습 방식 | 전역 통계 | 희귀 단어 | 계산 효율 |
 |:---|:---|:---|:---|:---|

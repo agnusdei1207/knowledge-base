@@ -30,30 +30,34 @@ tags = ["studynote-operating-system"]
   2. **TLC/QLC의 마모 촉진**: 용량을 늘리기 위해 셀 하나에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 8단계(TLC)로 쪼개면서 수명이 1만 번에서 1천 번으로 기하급수적으로 폭락함.
   3. **소프트웨어의 멱살 캐리**: 이 쓰레기 같은 하드웨어 특성을 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/), [Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/), GC라는 3대장 펌웨어로 덮어서 "완벽한 디스크"처럼 포장해 팔기 시작함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낸드 플래시의 덮어쓰기 불가(In-place Update Fail) 딜레마 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 블록(2MB) 안에 4개의 페이지(A, B, C, D)가 꽉 차 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 1번</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page A</div><div class="kb-diagram-node">Page B</div><div class="kb-diagram-node">Page C</div><div class="kb-diagram-node">Page D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 사용자의 요구: "Page B 의 값을 'X'로 덮어써줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 불가능한 시도 (HDD 방식의 In-place Update)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">💥 하드웨어 에러! (거부당함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"지우기(Erase) 전엔 전자를 못 넣는다! 근데 지우려면 블록 통째로 지워야 해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. SSD의 눈물겨운 꼼수 (Out-of-place Update)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">블록 1번의 B를 지우는 걸 포기함. 그냥</div><div class="kb-diagram-node">Page B</div><div class="kb-diagram-note">에 '무효(Invalid)'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">딱지(쓰레기)만 붙여두고 버려둠.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">그리고 저 멀리 비어있는</div><div class="kb-diagram-node">블록 2번</div><div class="kb-diagram-note">의 텅 빈 새 페이지를 찾음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 2번</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page X</div><div class="kb-diagram-node">빈 방</div><div class="kb-diagram-node">빈 방</div><div class="kb-diagram-node">빈 방</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여기에 새로운 'X'를 쓴 뒤, OS 장부의 화살표를 블록 2번으로 몰래 바꿈.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 덮어쓰기 성공! 단, 블록 1번에 평생 못 쓰는 '쓰레기 공간' 발생.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────────┐
+│        낸드 플래시의 덮어쓰기 불가(In-place Update Fail) 딜레마 시각화        │
+├───────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│ [ 상황: 블록(2MB) 안에 4개의 페이지(A, B, C, D)가 꽉 차 있음 ]                │
+│ ┌────────────────── 블록 1번 ──────────────────┐                              │
+│ │ [ Page A ] [ Page B ] [ Page C ] [ Page D ] │                               │
+│ └────────────────────────────────────────────┘                                │
+│                                                                               │
+│ ▶ 1. 사용자의 요구: "Page B 의 값을 'X'로 덮어써줘!"                          │
+│                                                                               │
+│ ▶ 2. 불가능한 시도 (HDD 방식의 In-place Update)                               │
+│    [ Page B ] 자리에 'X'를 쑤셔 넣음 ──▶ 💥 하드웨어 에러! (거부당함)         │
+│    "지우기(Erase) 전엔 전자를 못 넣는다! 근데 지우려면 블록 통째로 지워야 해!"│
+│                                                                               │
+│ ▶ 3. SSD의 눈물겨운 꼼수 (Out-of-place Update)                                │
+│    블록 1번의 B를 지우는 걸 포기함. 그냥 [ Page B ]에 '무효(Invalid)'         │
+│    딱지(쓰레기)만 붙여두고 버려둠.                                            │
+│    그리고 저 멀리 비어있는 [ 블록 2번 ]의 텅 빈 새 페이지를 찾음.             │
+│                                                                               │
+│ ┌────────────────── 블록 2번 ──────────────────┐                              │
+│ │ [ Page X ] [  빈 방  ] [  빈 방  ] [  빈 방  ] │                            │
+│ └────────────────────────────────────────────┘                                │
+│    여기에 새로운 'X'를 쓴 뒤, OS 장부의 화살표를 블록 2번으로 몰래 바꿈.      │
+│    ✅ 결과: 덮어쓰기 성공! 단, 블록 1번에 평생 못 쓰는 '쓰레기 공간' 발생.    │
+└───────────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "쓰레기(Invalid [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))"가 발생한다는 것이 모든 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 비극의 서막이다. 덮어쓰기가 안 되어서 새 공간을 찾아 떠돌아다니는(Out-of-place) 유목민 생활을 하다 보면, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 안은 온통 내가 예전에 썼다가 지운 '가짜 삭제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(쓰레기)'들로 꽉 차게 된다. 이 쓰레기들이 임계점을 넘는 순간, SSD는 더 이상 도망갈 새 빈방(Free [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 찾지 못하고 서버가 멈춰버리는 재앙([가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)의 발동)을 맞이하게 된다.
 
 - **📢 섹션 요약 비유**: 이삿짐을 박스(블록)에 넣습니다. 한 박스 안에 옷(A), 책(B), 신발(C)이 꽉 차 있습니다. 책(B)을 꺼내고 새 책(X)을 넣고 싶은데, 이 미친 박스는 한 번 닫으면 열 때 박스 안의 물건이 폭탄처럼 전부 다 타버리게 설계되어 있습니다. 할 수 없이 원래 박스는 놔두고(옷과 신발은 살려야 하니), 아예 텅 빈 새 박스를 가져와 거기에 새 책(X)을 넣는 겁니다. 이렇게 쓰다 보면 집안엔 안 쓰는 책(쓰레기)이 들어있는 옛날 박스들만 산더미처럼 쌓이게 됩니다.
@@ -109,17 +113,14 @@ tags = ["studynote-operating-system"]
 - **역할 1**: 유저가 1TB를 꽉 채워도, 뒤에 100GB 텅 빈 공터가 남아있으므로 Out-of-place 덮어쓰기 도망갈 곳이 항상 보장되어 속도가 느려지지 않는다.
 - **역할 2**: 특정 블록이 수명을 다해 타버리면(Dead Block), 이 뒤로 빼돌려둔 100GB의 건강한 예비 블록을 꺼내와서 땜빵 교체(Remapping)를 친다. 그래서 유저 눈에는 5년 내내 1TB 100% 수명이 살아있는 것처럼 보이는 훌륭한 속임수다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드라이브 용량</div><div class="kb-diagram-cell">제조사 OP 비율</div><div class="kb-diagram-cell">꽉 채웠을 때 렉</div><div class="kb-diagram-cell">수명 연장 효과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 꽉 채움</div><div class="kb-diagram-cell">7% (기본)</div><div class="kb-diagram-cell">☠️ 지옥 렉 터짐</div><div class="kb-diagram-cell">위험함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">80%만 씀</div><div class="kb-diagram-cell">7% + 유저 여유분</div><div class="kb-diagram-cell">🚀 로켓 속도 유지</div><div class="kb-diagram-cell">영구기관 급 생존</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────┐
+│ 드라이브 용량│ 제조사 OP 비율 │ 꽉 채웠을 때 렉 │ 수명 연장 효과 │
+├──────────┼────────────┼────────────┼─────────────────────────────┤
+│ 100% 꽉 채움│ 7% (기본)   │ ☠️ 지옥 렉 터짐 │ 위험함             │
+│ 80%만 씀  │ 7% + 유저 여유분│ 🚀 로켓 속도 유지│ 영구기관 급 생존│
+└──────────┴────────────┴────────────┴─────────────────────────────┘
+```
 **[매트릭스 해설]** "SSD는 절대 용량 꽉 채워서 쓰지 마라. 빨간불 들어오면 속도 반토막 난다"는 PC방 사장님들의 전설 같은 팁이 100% 정확한 컴퓨터 공학의 진리다. 유저가 20%를 비워두면, FTL은 그 20%를 공짜 OP 공간으로 간주하고 도망 다닐 텅 빈 방으로 자유롭게 활용하여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 렉(GC)을 0으로 만들어 버리기 때문이다.
 
 - **📢 섹션 요약 비유**: 식당([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에 테이블이 10개 있습니다. 손님을 10명 다 받아버리면(100% 채움), 새 손님이 왔을 때 밥 다 먹은 테이블을 치우고(Erase) 손님을 받아야 해서 대기 시간이 생깁니다. 하지만 애초에 예비용 숨겨진 테이블 2개(OP)를 더 놔두면, 새 손님을 숨겨진 2번 테이블로 바로 안내하고(빠른 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) 기존 10번 테이블은 손님 없을 때 천천히 치우면 되는 회전율의 진리입니다.
@@ -175,19 +176,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">플래시 메모리 한계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가비지 컬렉션 (Garbage Collection in SSD)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FTL (Flash Translation Layer)</div></div>
-</div>
-</div>
-
-
+```text
+[솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조]
+    │
+    ▼
+[플래시 메모리 한계]
+    │
+    ├──▶ [가비지 컬렉션 (Garbage Collection in SSD)]
+    └──▶ [FTL (Flash Translation Layer)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -25,19 +25,18 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 왜 두 패턴을 함께 쓰는지 직관적으로 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 절차, 다른 산출물이라는 문제를 해결하는 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공통 흐름: validate ─▶ create product ─▶ execute ─▶ cleanup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변하는 부분: create product</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PDF면 PdfDocument, SMS면 SmsSender, DB면 OracleSession</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: 흐름은 Template Method, 생성은 Factory Method로 분리</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         같은 절차, 다른 산출물이라는 문제를 해결하는 구조      │
+├──────────────────────────────────────────────────────────────┤
+│ 공통 흐름: validate ─▶ create product ─▶ execute ─▶ cleanup │
+│                                                              │
+│ 변하는 부분:                create product                    │
+│   PDF면 PdfDocument, SMS면 SmsSender, DB면 OracleSession      │
+│                                                              │
+│ 해결: 흐름은 Template Method, 생성은 Factory Method로 분리     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조는 [할리우드 원칙](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/) ([Hollywood Principle](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)), 즉 "Don't [call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) us, we'll [call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) you"와도 맞닿아 있다. 하위 클래스가 절차 전체를 주도하지 않고, 상위 클래스가 정한 시점에만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지점을 열어 준다는 점에서 제어 역전 (IoC, Inversion of Control)의 전형적 형태다.
 
@@ -51,24 +50,26 @@ tags = ["studynote-design-supervision"]
 
 아래 구조도는 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 안에 [팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)가 어떻게 들어가는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AbstractProcessor (상위 클래스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">template run()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. validate() ── 공통 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. createProduct() ── Factory Method</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. process(product) ── 추상/훅 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. audit() ── 공통 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. cleanup() ── 공통 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PdfProcessor</div><div class="kb-diagram-cell">SmsProcessor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">createProduct() -&gt; PDF</div><div class="kb-diagram-cell">createProduct() -&gt; SMS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">process(product)</div><div class="kb-diagram-cell">process(product)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│              AbstractProcessor (상위 클래스)                 │
+├──────────────────────────────────────────────────────────────┤
+│ template run()                                              │
+│   1. validate()          ── 공통 단계                        │
+│   2. createProduct()     ── Factory Method                  │
+│   3. process(product)    ── 추상/훅 단계                    │
+│   4. audit()             ── 공통 단계                        │
+│   5. cleanup()           ── 공통 단계                        │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+             ┌─────────────────┴─────────────────┐
+             ▼                                   ▼
+┌──────────────────────────┐       ┌──────────────────────────┐
+│ PdfProcessor             │       │ SmsProcessor             │
+│ createProduct() -> PDF   │       │ createProduct() -> SMS   │
+│ process(product)         │       │ process(product)         │
+└──────────────────────────┘       └──────────────────────────┘
+```
 
 | 지점 | 누가 책임지는가 | 의미 |
 | :--- | :--- | :--- |
@@ -152,25 +153,24 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중복된 절차 로직 발견</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Template Method로 공통 흐름 고정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">생성 지점 분리 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Factory Method 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제품군 확장 시 Abstract Factory · DI</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 정책 전환 시 Strategy 중심 구조</div>
-</div>
-</div>
-
-
+```text
+중복된 절차 로직 발견
+    │
+    ▼
+Template Method로 공통 흐름 고정
+    │
+    ▼
+생성 지점 분리 필요
+    │
+    ▼
+Factory Method 결합
+    │
+    ▼
+제품군 확장 시 Abstract Factory · DI
+    │
+    ▼
+동적 정책 전환 시 Strategy 중심 구조
+```
 
 이 흐름도는 클래스 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반 재사용이 점차 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 추상화와 합성 기반 설계로 확장되는 과정을 보여준다.
 

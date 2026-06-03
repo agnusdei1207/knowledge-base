@@ -31,25 +31,28 @@ tags = ["studynote-devops-sre"]
 
 페일오버 아키텍처는 단순히 서버를 하나 더 두는 문제가 아니다. 헬스 체크 (Health Check), [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방식, 트래픽 전환 계층, 상태 저장 위치, 복귀 절차가 함께 맞물려야 한다. 특히 무상태 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 전환이 비교적 쉽지만, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)·[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·캐시처럼 상태가 있는 계층은 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 핵심 병목이 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페일오버/페일백의 기본 흐름과 상태 동기화 지점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS / Load Balancer ──▶ Primary Region / AZ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 서비스 인스턴스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Primary DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 감지 ▶ Standby Region / AZ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Standby 서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Replica DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failover : 트래픽을 Standby로 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failback : 데이터 재동기화 확인 후 Primary로 점진 복귀</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            페일오버/페일백의 기본 흐름과 상태 동기화 지점           │
+├──────────────────────────────────────────────────────────────────────┤
+│  Client                                                              │
+│    │                                                                  │
+│    ▼                                                                  │
+│  DNS / Load Balancer ──▶ Primary Region / AZ                          │
+│           │                     │                                      │
+│           │                     ├─ 서비스 인스턴스                    │
+│           │                     └─ Primary DB                          │
+│           │                           │ 복제                            │
+│           │                           ▼                                 │
+│           └──────── 장애 감지 ─────▶ Standby Region / AZ              │
+│                                         │                               │
+│                                         ├─ Standby 서비스              │
+│                                         └─ Replica DB                  │
+│                                                                      │
+│  Failover : 트래픽을 Standby로 전환                                   │
+│  Failback : 데이터 재동기화 확인 후 Primary로 점진 복귀               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 말해 주는 핵심은 전환 대상이 서버 한 대가 아니라 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 계층 + <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 계층 + <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 계층</strong>이라는 점이다. 헬스 체크가 빨라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 늦으면 RPO가 커지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 맞아도 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) TTL이 길면 체감 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 늘어난다.
 
@@ -127,27 +130,25 @@ tags = ["studynote-devops-sre"]
 | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) | 페일오버 자동화 효과를 측정하는 운영 지표 |
 | 헬스 체크 (Health Check) | 전환 여부를 판단하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)원 |
 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Replication Lag](/knowledge-base/studynote/05_database/04_transactions_concurrency/556_master_slave_replication_lag_inconsistency/)) | 페일백과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 위험의 핵심 지표 |
-| [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)) | 설계된 전환이 실제로 동작하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방법 |
+| [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)) | 설계된 전환이 실제로 동작하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SPOF 제거 필요성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RTO · RPO 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">핫/웜/콜드 스탠바이 · 파일럿 라이트 선택</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">헬스 체크 · 자동 전환 · 데이터 복제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페일백 검증 · 카오스 테스트 · SRE 운영 자동화</div>
-</div>
-</div>
-
-
+```text
+SPOF 제거 필요성
+    │
+    ▼
+RTO · RPO 정의
+    │
+    ▼
+핫/웜/콜드 스탠바이 · 파일럿 라이트 선택
+    │
+    ▼
+헬스 체크 · 자동 전환 · 데이터 복제
+    │
+    ▼
+페일백 검증 · 카오스 테스트 · SRE 운영 자동화
+```
 
 이 흐름은 "장애 위험 인식 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 수립 → 아키텍처 선택 → 자동 전환 → 복귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 이어지는 설계 사고를 정리한다.
 

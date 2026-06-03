@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 마이크로 들어온 <strong>연속적인 <a href="/knowledge-base/studynote/03_network/01_data_communication/003_아날로그_신호_vs_디지털_신호/">아날로그 신호</a>(음성, 음악)를 '<a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">표본화</a> ➜ <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a> ➜ 부호화'라는 3단계 컨베이어 벨트를 거쳐 0과 1의 불연속적인 디지털 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 스트림(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a>)으로 변환하는 통신/<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 방식의 글로벌 표준 규격</strong>입니다.
 - 우리가 컴퓨터로 듣는 MP3 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 전화 통화 소리(G.711 코덱), WAV [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 근본 뼈대가 바로 이 PCM 덩어리입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">에일리어싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">펄스부호변조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
-</div>
-</div>
-
-
+```text
+[에일리어싱]
+    │
+    ▼
+[펄스부호변조]
+    │
+    └──▶ [다중화기 / 역다중화기]
+```
 
 - **📢 섹션 요약 비유**: 펄스부호변조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -56,18 +52,14 @@ tags = ["studynote-network"]
 - [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)로 반올림된 정수값 '3'을 컴퓨터가 읽을 수 있는 8비트 이진수(예: `00000011`)로 변환합니다.
 - 결과적으로 1초에 8,000번 점을 찍고, 1개 점당 8비트의 숫자를 부여했으니, 1초의 전화 통화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 **$8,000 \times 8 = 64,000 bps (64Kbps)$**의 인터넷 트래픽을 잡아먹게 됩니다. (전 세계 전화기 ISDN의 절대 표준 속도)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">에일리어싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">펄스부호변조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
-</div>
-</div>
-
-
+```text
+[에일리어싱]
+    │
+    ▼
+[펄스부호변조]
+    │
+    └──▶ [다중화기 / 역다중화기]
+```
 
 - **📢 섹션 요약 비유**: 펄스부호변조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 에일리어싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 펄스부호변조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다중화기 / 역다중화기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 에일리어싱]
+    │
+    ▼
+[현재 개념: 펄스부호변조]
+    │
+    ├──▶ [확장 A: 다중화기 / 역다중화기]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 펄스부호변조는 [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

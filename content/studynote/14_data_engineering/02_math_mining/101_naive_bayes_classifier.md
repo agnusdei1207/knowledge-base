@@ -37,23 +37,22 @@ tags = ["studynote-data-engineering"]
 | **우 도 (Likelihood)** | $P(F \vert C)$ | 스팸 메일 중에서 '무료'라는 단어가 등장할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
 | <strong>사후 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> (Posterior)</strong> | $P(C \vert F)$ | '무료' 단어가 들어간 메일을 받았을 때, 이것이 스팸일 최종 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나이브 베이즈의 곱셈과 라플라스 스무딩 보정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Zero Probability 문제 발생:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(스팸</div><div class="kb-diagram-cell">"안녕", "무료", "비트코인")</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= P(스팸) × P("안녕"</div><div class="kb-diagram-cell">스팸) × P("무료"</div><div class="kb-diagram-cell">스팸) × P("비트코인"</div><div class="kb-diagram-cell">스팸)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 0.5 × 0.1 × 0.4 × 0 (학습 때 못 본 단어 등장!) = 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Laplace Smoothing 개입 (보통 α=1):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 확률: (특정 단어 등장 횟수) / (해당 클래스 전체 단어 수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보정 확률: (등장 횟수 + α) / (전체 단어 수 + α × 단어종류수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Log-sum 보정: 아주 작은 확률들의 곱셈을 로그 덧셈으로 변환!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           나이브 베이즈의 곱셈과 라플라스 스무딩 보정         │
+├──────────────────────────────────────────────────────────────┤
+│ 1. Zero Probability 문제 발생:                               │
+│    P(스팸 | "안녕", "무료", "비트코인")                      │
+│    = P(스팸) × P("안녕"|스팸) × P("무료"|스팸) × P("비트코인"|스팸) │
+│    = 0.5 × 0.1 × 0.4 × 0 (학습 때 못 본 단어 등장!) = 0       │
+│                                                              │
+│ 2. Laplace Smoothing 개입 (보통 α=1):                        │
+│    기존 확률: (특정 단어 등장 횟수) / (해당 클래스 전체 단어 수)   │
+│    보정 확률: (등장 횟수 + α) / (전체 단어 수 + α × 단어종류수) │
+│                                                              │
+│ 3. Log-sum 보정: 아주 작은 확률들의 곱셈을 로그 덧셈으로 변환! │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램이 보여주듯, 스무딩을 적용하면 한 번도 보지 못한 단어(비트코인)가 나오더라도 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 0이 아니라 0.001 같은 아주 작은 값을 갖게 된다. 덕분에 "안녕", "무료" 같은 다른 중요한 단어들의 정보가 0에 곱해져 증발해버리는 대참사를 막을 수 있다.
 
@@ -115,23 +114,21 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">조건부 확률과 베이즈 정리 (이론적 토대)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">순진한 독립성 가정 (연산량 폭발 문제 해결)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Naive Bayes Classifier (초고속 분류기 탄생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Zero Probability 에러 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">라플라스 스무딩 (Laplace Smoothing 결합)</div>
-</div>
-</div>
-
-
+```text
+조건부 확률과 베이즈 정리 (이론적 토대)
+    │
+    ▼
+순진한 독립성 가정 (연산량 폭발 문제 해결)
+    │
+    ▼
+Naive Bayes Classifier (초고속 분류기 탄생)
+    │
+    ▼
+Zero Probability 에러 발생
+    │
+    ▼
+라플라스 스무딩 (Laplace Smoothing 결합)
+```
 
 이 흐름도는 "복잡한 수학 계산 → 과감한 생략으로 가속화 → 예외 상황 발생 → 보정 수학 도입"으로 완성되는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)형 알고리즘의 발전 궤적을 보여준다.
 

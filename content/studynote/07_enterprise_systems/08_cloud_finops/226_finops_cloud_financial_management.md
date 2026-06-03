@@ -25,20 +25,19 @@ FinOps는 클라우드 비용을 재무팀만의 월말 정산 업무가 아니�
 
 아래 그림은 전통적 예산 통제와 FinOps의 차이를 요약한다. 핵심은 속도를 포기하지 않으면서도 비용 책임을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 내려보내는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why FinOps exists</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Traditional IT finance:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request ─▶ approval ─▶ purchase</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud reality:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">engineer click/API ─▶ resource created ─▶ bill later</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FinOps adds: tagging + visibility + shared accountability</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Why FinOps exists                                           │
+├──────────────────────────────────────────────────────────────┤
+│ Traditional IT finance:                                     │
+│   request ─▶ approval ─▶ purchase                           │
+│                                                              │
+│ Cloud reality:                                               │
+│   engineer click/API ─▶ resource created ─▶ bill later       │
+│                                                              │
+│ FinOps adds: tagging + visibility + shared accountability    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 따라서 FinOps는 비용 절감 프로젝트가 아니라 operating model의 변화다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 속도와 비용 책임을 동시에 잡기 위해 만들어진다.
 
@@ -58,22 +57,22 @@ FinOps는 클라우드 비용을 재무팀만의 월말 정산 업무가 아니�
 
 아래 구조는 FinOps를 단순 보고 체계가 아니라 운영 루프로 보는 이유를 보여 준다. 각 단계는 다른 부서가 따로 하는 일이 아니라 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위에서 연결된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FinOps operating loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inform ▶ Optimize ▶ Operate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ policy / automation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ rightsize ─ anomaly response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ tagging ─ RI / SP ─ budget guardrail</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ showback ─ waste remove</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">finance ◀ shared cost data ▶ engineering</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">product / business</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ FinOps operating loop                                        │
+├──────────────────────────────────────────────────────────────┤
+│ Inform ─────▶ Optimize ─────▶ Operate                        │
+│   │             │               │                            │
+│   │             │               ├─ policy / automation       │
+│   │             ├─ rightsize    ├─ anomaly response          │
+│   ├─ tagging    ├─ RI / SP      └─ budget guardrail          │
+│   └─ showback   └─ waste remove                               │
+│                                                              │
+│ finance ◀──────── shared cost data ────────▶ engineering      │
+│                       ▲                                       │
+│                       └──────── product / business            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 FinOps의 실질적 성과는 단위 비용 (Unit Cost)을 통해 드러난다. 총비용이 조금 늘어도 사용자 수나 거래량이 더 빠르게 늘어 단위당 비용이 내려가면 좋은 최적화일 수 있다. 그래서 FinOps는 절대 금액만 보는 비용 절감과 구별된다.
 
@@ -144,23 +143,21 @@ FinOps가 정착되면 클라우드 비용은 더 이상 월말 놀라움이 아
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Cloud bill visibility</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Tagging and showback</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Rightsizing and commitment strategy</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Policy automation and anomaly response</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Continuous FinOps operating model</div>
-</div>
-</div>
-
-
+```text
+Cloud bill visibility
+        │
+        ▼
+Tagging and showback
+        │
+        ▼
+Rightsizing and commitment strategy
+        │
+        ▼
+Policy automation and anomaly response
+        │
+        ▼
+Continuous FinOps operating model
+```
 
 이 흐름은 비용을 보는 단계에서 시작해 최적화와 자동화 중심 운영 모델로 발전하는 과정을 보여 준다.
 

@@ -28,18 +28,14 @@ tags = ["studynote-network"]
   - 그래서 계약을 처음 맺을 때(SYN), 서류 맨 밑 빈칸(Options)에 특약 사항을 적습니다. **"앞으로 이 송장에 적힌 숫자는 뒤에 무조건 0을 두 개(100배) 더 붙여서 읽읍시다(Window Scale)."**
   - 이제 송장에 "99,999"라고 적으면, 상대방은 그걸 "9,999,900원"으로 뻥튀기해서 해석합니다. 송장 칸을 안 늘리고도 천만 원 거래가 가능해집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 흐름 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 스케일옵션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">송신 버퍼 / 수신 버퍼</div></div>
-</div>
-</div>
-
-
+```text
+[TCP 흐름 제어]
+    │
+    ▼
+[윈도우 스케일옵션]
+    │
+    └──▶ [송신 버퍼 / 수신 버퍼]
+```
 
 - **📢 섹션 요약 비유**: ** 윈도우 스케일은 시골의 좁은 1차선 톨게이트(기본 16비트 헤더)를 부수지 않고도, **"지금부터 통과하는 차 한 대는 사실 트럭 256대가 하나로 압축된 캡슐 차다!"라는 마법의 주문(Shift 연산)**을 걸어 톨게이트 통과량을 256배로 늘려버리는 4차원 마법입니다.
 
@@ -65,23 +61,23 @@ tags = ["studynote-network"]
 - 나는 1Gbps 선을 샀는데, TCP의 64KB 룰 때문에 실효 속도가 2.5Mbps로 박살이 난 것이다!
 - **해결**: Window Scale을 켜서 창문 크기를 1GB로 늘려버리면, 대답(ACK)이 200ms 걸리든 10초가 걸리든 닥치고 1GB를 풀악셀로 때려 넣을 수 있으므로 1Gbps 선로 속도를 100% 뽑아낼 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">와이어샤크(Wireshark)에서 분석한 Window Scale</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 연결 수립 (SYN 패킷 내부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Options: (12 bytes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Window scale: 8 (multiply by 256) ◀─ "우리 256배 하자!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 실제 데이터 통신 (ACK 패킷 내부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Window size value: 500 ◀─ 낡은 16비트 헤더에 강제로 적힌 좁은 숫자</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Calculated window size: 128000</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 와이어샤크가 똑똑하게 계산해줌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(500 * 256 = 128,000)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "스케일 협상은 오직 SYN 패킷에서만 1번 일어난다. 중간에 바꿀 수 없다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                와이어샤크(Wireshark)에서 분석한 Window Scale     │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 1단계: 연결 수립 (SYN 패킷 내부) ]                          │
+ │   Options: (12 bytes)                                       │
+ │     - Window scale: 8 (multiply by 256) ◀─ "우리 256배 하자!" │
+ │                                                             │
+ │   [ 2단계: 실제 데이터 통신 (ACK 패킷 내부) ]                     │
+ │   Window size value: 500  ◀─ 낡은 16비트 헤더에 강제로 적힌 좁은 숫자│
+ │   [Calculated window size: 128000] ◀─ 와이어샤크가 똑똑하게 계산해줌 │
+ │                                  (500 * 256 = 128,000)      │
+ │                                                             │
+ │   ▶ "스케일 협상은 오직 SYN 패킷에서만 1번 일어난다. 중간에 바꿀 수 없다!"│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 윈도우 스케일옵션의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -135,19 +131,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP 흐름 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 윈도우 스케일옵션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 송신 버퍼 / 수신 버퍼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TCP 흐름 제어]
+    │
+    ▼
+[현재 개념: 윈도우 스케일옵션]
+    │
+    ├──▶ [확장 A: 송신 버퍼 / 수신 버퍼]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 윈도우 스케일옵션는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [송신 버퍼](/knowledge-base/studynote/03_network/08_transport_layer/423_send_buffer_receive_buffer/) / 수신 버퍼와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

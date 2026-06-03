@@ -21,21 +21,19 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배치 처리 (Hadoop MapReduce)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로 배치 (Spark Streaming)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">진정한 스트리밍 (Apache Flink, Apache Storm)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Apache Kafka — 분산 메시지 큐 (영속성 스트림)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Exactly-Once 시맨틱</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Watermark 기반 이벤트 시간 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카파 아키텍처 (배치 제거, 스트림 단일화)</div>
-</div>
-</div>
-
-
+```text
+배치 처리 (Hadoop MapReduce)
+    │
+    ▼
+마이크로 배치 (Spark Streaming)
+    │
+    ▼
+진정한 스트리밍 (Apache Flink, Apache Storm)
+    │
+    ├─► Apache Kafka — 분산 메시지 큐 (영속성 스트림)
+    ├─► Exactly-Once 시맨틱
+    └─► Watermark 기반 이벤트 시간 처리
+    │
+    ▼
+카파 아키텍처 (배치 제거, 스트림 단일화)
+```

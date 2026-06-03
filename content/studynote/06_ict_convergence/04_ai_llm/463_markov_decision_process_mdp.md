@@ -33,28 +33,29 @@ tags = ["studynote-ict-convergence"]
 
 MDP는 기계(Agent)와 세상([Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))이 끝없이 핑퐁을 치는 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 결정 과정 (MDP)의 5대 수학적 요소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. S (State, 상태) : "지금 내가 어디 있지?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로봇이 현재 있는 위치나 상황 (예: 미로의 (2,3) 좌표)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. A (Action, 행동) : "이제 뭘 할까?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현재 상태에서 로봇이 할 수 있는 행동 (예: 상, 하, 좌, 우)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. R (Reward, 보상) : "잘했어! 100점!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 행동을 했을 때 환경이 주는 점수. (출구 도착 +10점, 벽 충돌 -1점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로봇의 유일한 목표는 이 보상의 '총합'을 극대화하는 것임!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. P (Transition Probability, 전이 확률) : "세상의 억까"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 위로 가려고(A) 했는데, 바람이 불어서 옆 칸으로 밀려날 확률(P)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 세상이 100% 내 마음대로 움직이지 않는다는 현실성을 반영함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. γ (Gamma, 할인율) : "내일의 100원 vs 오늘의 100원"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 0~1 사이의 값. 100스텝 뒤에 받는 100점 보상을, 지금 현재는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">얼마의 가치로 쳐줄 것인가를 계산하는 이자율(감가상각) 개념</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│             [ 마르코프 결정 과정 (MDP)의 5대 수학적 요소 ]      │
+├────────────────────────────────────────────────────────┤
+│ 1. S (State, 상태) : "지금 내가 어디 있지?"                │
+│    - 로봇이 현재 있는 위치나 상황 (예: 미로의 (2,3) 좌표)       │
+│                                                        │
+│ 2. A (Action, 행동) : "이제 뭘 할까?"                   │
+│    - 현재 상태에서 로봇이 할 수 있는 행동 (예: 상, 하, 좌, 우)  │
+│                                                        │
+│ 3. R (Reward, 보상) : "잘했어! 100점!"                  │
+│    - 행동을 했을 때 환경이 주는 점수. (출구 도착 +10점, 벽 충돌 -1점)│
+│    - 로봇의 유일한 목표는 이 보상의 '총합'을 극대화하는 것임!      │
+│                                                        │
+│ 4. P (Transition Probability, 전이 확률) : "세상의 억까"   │
+│    - 위로 가려고(A) 했는데, 바람이 불어서 옆 칸으로 밀려날 확률(P)│
+│    - 세상이 100% 내 마음대로 움직이지 않는다는 현실성을 반영함     │
+│                                                        │
+│ 5. γ (Gamma, 할인율) : "내일의 100원 vs 오늘의 100원"    │
+│    - 0~1 사이의 값. 100스텝 뒤에 받는 100점 보상을, 지금 현재는   │
+│      얼마의 가치로 쳐줄 것인가를 계산하는 이자율(감가상각) 개념     │
+└────────────────────────────────────────────────────────┘
+```
 
 1. <strong>마르코프성 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/">Markov Property</a>)</strong>: $P[S_{t+1} | S_t] = P[S_{t+1} | S_1, S_2, \dots, S_t]$. 내일 날씨(상태)를 맞출 때, 오늘 날씨 하나만 보나 어제, 그제 날씨 100일 치를 다 보나 똑같이 정확하다는 뜻이다. 오직 "[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)" 안에 과거의 모든 정보가 다 농축되어 있다고 믿는 극한의 쿨가이 마인드다. 이 룰이 없으면 로봇은 1보 걸을 때마다 자기가 태어난 날부터의 모든 기록을 다 계산해야 해서 메모리가 터진다.
 2. **[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)$)**: MDP를 푸는 최종 목적지다. "어느 상태(S)에서는 무조건 이 행동(A)을 해라!"라고 기계의 뇌 속에 콱 박아주는 완벽한 지침서(매뉴얼)다.

@@ -30,29 +30,33 @@ tags = ["studynote-operating-system"]
 - <strong>랜덤 모터 파괴의 종말과 LFS 무한 질주 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 메커니즘 뷰</strong>:
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용 3개를 동시에 동시다발적으로 고칠 때, 디스크 헤드 모터가 찢어지는 대신 LFS [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 어떻게 하나로 엮어버리는지 그 렌더 체계를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"제자리 찾아갈 필요 없어! 그냥 막노동으로 끝에 이어 붙여 쏴!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">❌</div><div class="kb-diagram-node">기존 일반 File System : 모터의 미친 랜덤 탐색 Random I/O 폭망 늪</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 명령: A파일 고쳐, C파일 고쳐, i-node 메타정보 갱신해!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤드 모터</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">징~ (1번 구역 이동 랙) A 덮어써!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤드 모터</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">지이잉~ (999번 구역 탐색 랙 터짐) C 덮어써!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤드 모터</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">지이이이잉~~ (25번 구역 메타블록 랙) i-node 변경!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 총 디스크 이동시간 수백 밀리초 모터 화재 오버헤드 OOM 프리징!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">LFS(Log-structured) : 순차 기차 압축 펀치 발사 (Append-only 스왑 빔)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">메모리(캐시) Segment 공간에 모아 압축 타결</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">디스크 맨 마지막 꼬리 빈 공간 (로그 끝단 포인터 위치) 📌</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">모터 1번만 이동 부스트!</div><div class="kb-diagram-note">──&gt; 쾅! 쾅! 쾅! 연속해서 기차처럼 내리꽂음 록백!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기록된 디스크 블록 형상)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">...</div><div class="kb-diagram-node">옛날데이터</div><div class="kb-diagram-node">새 A 블록</div><div class="kb-diagram-node">새 C 블록</div><div class="kb-diagram-node">메타 블록 맵 i-node</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(끝)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 여러 곳에 흩어져야 할 수정 내용 파편을 그냥 1방에 일렬종대 1콤보로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">찍어 굽기 완료! 탐색 랙 제로 $O(1)$ 초광속 쓰루풋 방패 발현 증명!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────┐
+  │                 "제자리 찾아갈 필요 없어! 그냥 막노동으로 끝에 이어 붙여 쏴!"    │
+  ├──────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                  │
+  │  ❌ [ 기존 일반 File System : 모터의 미친 랜덤 탐색 Random I/O 폭망 늪 ]         │
+  │     (유저 명령: A파일 고쳐, C파일 고쳐, i-node 메타정보 갱신해!)                 │
+  │       [헤드 모터] -> 징~ (1번 구역 이동 랙) A 덮어써!                            │
+  │       [헤드 모터] -> 지이잉~ (999번 구역 탐색 랙 터짐) C 덮어써!                 │
+  │       [헤드 모터] -> 지이이이잉~~ (25번 구역 메타블록 랙) i-node 변경!           │
+  │     => 총 디스크 이동시간 수백 밀리초 모터 화재 오버헤드 OOM 프리징!             │
+  │                                                                                  │
+  │  =========================▼===================================                   │
+  │                                                                                  │
+  │  ✅ [ LFS(Log-structured) : 순차 기차 압축 펀치 발사 (Append-only 스왑 빔) ]     │
+  │                                                                                  │
+  │     (유저 명령 접수) -> 전부 [ 메모리(캐시) Segment 공간에 모아 압축 타결 ]      │
+  │                                                                                  │
+  │     [[ 디스크 맨 마지막 꼬리 빈 공간 (로그 끝단 포인터 위치) 📌 ]]               │
+  │      - [모터 1번만 이동 부스트!] ──> 쾅! 쾅! 쾅! 연속해서 기차처럼 내리꽂음 록백!│
+  │                                                                                  │
+  │      (기록된 디스크 블록 형상)                                                   │
+  │      ...[옛날데이터]| [새 A 블록] | [새 C 블록] | [메타 블록 맵 i-node] -> (끝)  │
+  │      => 결과: 여러 곳에 흩어져야 할 수정 내용 파편을 그냥 1방에 일렬종대 1콤보로 │
+  │              찍어 굽기 완료! 탐색 랙 제로 $O(1)$ 초광속 쓰루풋 방패 발현 증명!   │
+  └──────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 상단의 구형 체제는 `Update-in-place(덮어쓰기 정착)` 패러다임이라 파편화된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 제자리에서 고치다 모터 탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰는 시간의 90%를 다 갉아먹는 배보다 배꼽이 큰 오버헤드 악취를 풍겼다. 
 하단의 <strong>LFS <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a></strong> 구조는 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 `Segment(통상 수 MB 대용량 단위 뭉치 압축 블록)` 로 캐시에서 묶은 뒤, 빈 디스크 꼬리에 냅다 1타일로 줄줄이 이어서 써버린다. 과거에 지워진 본래의 A 블록, C 블록 자리는 "쓰레기 폐기물(Garbage 데드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))" 상태로 버려진다. 이 Append-only 구조는 정전(Crash)이 나도 제일 꼬리 부분 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Checkpoint 구간)만 거슬러 올라가면 디스크가 1초 만에 최신 상태로 재구축되는(저널링 539장과 융합 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 엄청난 자가 치유 무결 복원력까지 동시에 쟁취해 냈다 결착.
@@ -131,19 +135,15 @@ LFS (Log-structured [File](/knowledge-base/studynote/02_operating_system/09_file
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -&gt; 커밋 -&gt; 실제 파일시스템 반영)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LFS (Log-structured File System)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFS (Network File System)</div></div>
-</div>
-</div>
-
-
+```text
+[메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -> 커밋 -> 실제 파일시스템 반영)]
+    │
+    ▼
+[LFS (Log-structured File System)]
+    │
+    ├──▶ [COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)]
+    └──▶ [NFS (Network File System)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

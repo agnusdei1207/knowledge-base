@@ -33,19 +33,19 @@ CAP을 저장 시스템 관점에서 보면 [복제](/knowledge-base/studynote/1
 
 아래 그림은 세 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 중 한쪽이 네트워크로 분리되었을 때 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지가 맞닥뜨리는 선택을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Replica set under a network partition</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Replica A</div><div class="kb-diagram-note">---</div><div class="kb-diagram-node">Replica B</div><div class="kb-diagram-note">X</div><div class="kb-diagram-node">Replica C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">link broken</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CP choice: block or reject minority-side requests</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AP choice: answer on both sides and reconcile later</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Replica set under a network partition                             │
+├────────────────────────────────────────────────────────────────────┤
+│ Client L -> [Replica A] --- [Replica B]      X      [Replica C]   │
+│                               ▲                                   │
+│                               │                                   │
+│                          link broken                              │
+│                                                                   │
+│ CP choice: block or reject minority-side requests                 │
+│ AP choice: answer on both sides and reconcile later               │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 요소 | 의미 | 저장 시스템에서의 해석 |
 | :--- | :--- | :--- |
@@ -123,23 +123,21 @@ CAP은 보통 CP와 AP의 비교로 가장 잘 드러난다. [CP](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Single-node storage assumptions</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Replication across unreliable networks</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CAP trade-off under partition</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Quorum / eventual consistency design patterns</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PACELC and workload-specific consistency tuning</div>
-</div>
-</div>
-
-
+```text
+Single-node storage assumptions
+    │
+    ▼
+Replication across unreliable networks
+    │
+    ▼
+CAP trade-off under partition
+    │
+    ▼
+Quorum / eventual consistency design patterns
+    │
+    ▼
+PACELC and workload-specific consistency tuning
+```
 
 이 흐름은 저장 시스템 논의가 `복제하면 더 안전하다`는 수준에서, `복제 중 어떤 실패 행동을 선택할 것인가`를 설계하는 수준으로 깊어졌음을 보여 준다.
 

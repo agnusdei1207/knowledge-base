@@ -38,24 +38,26 @@ tags = ["cicd", "devsecops", "studynote-devops-sre"]
 | 3. 내재화된 스캔 | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) / [SCA](/knowledge-base/studynote/09_security/05_web_app_security/453_sca/) 자동 검사 및 Hard Gate 적용 | 취약점 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 시 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 즉각 중단(Break) |
 | 4. 이미지 서명 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | Cosign 등으로 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지에 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 서명 추가 | 변조된 이미지가 운영 환경(K8s)에 배포되는 것 차단 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure CI/CD Pipeline Lock-in Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발자</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저장소 (Branch Protection)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI Build Pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) 일회성 노드 (Ephemeral Node) 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) 코드 취약점 자동 검사 (SAST/SCA Scan)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) 이미지 빌드 및 서명 생성 (Image Signing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락인 통과 및 서명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CD Deployment &amp; Runtime</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Artifact Registry</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">K8s Admission Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서명 검증 후 배포 허가)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             Secure CI/CD Pipeline Lock-in Flow             │
+├──────────────────────────────────────────────────────────────┤
+│ [개발자] ─▶ (Git Commit) ─▶ [ 저장소 (Branch Protection) ] │
+│                                          │                   │
+│ ┌────────────────────────────────────────▼─────────────────┐ │
+│ │                  CI Build Pipeline                       │ │
+│ │  (1) 일회성 노드 (Ephemeral Node) 할당                   │ │
+│ │  (2) 코드 취약점 자동 검사 (SAST/SCA Scan)               │ │
+│ │  (3) 이미지 빌드 및 서명 생성 (Image Signing)            │ │
+│ └────────────────────────────────────────┬─────────────────┘ │
+│                                          │ 락인 통과 및 서명 │
+│ ┌────────────────────────────────────────▼─────────────────┐ │
+│ │               CD Deployment & Runtime                    │ │
+│ │  [ Artifact Registry ] ──▶ [ K8s Admission Controller ]  │ │
+│ │                               (서명 검증 후 배포 허가)   │ │
+│ └──────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
+```
 
 가장 핵심적인 원리는 한 번 빌드된 이미지는 변경할 수 없다는 '불변성(Immutability)'과, 암호화 키를 통한 '증명(Attestation)'이다. K8s 클러스터 앞단에 있는 Admission Controller는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 정상적으로 찍어준 '서명 도장'이 없는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 실행을 가차 없이 거부한다.
 
@@ -119,23 +121,21 @@ tags = ["cicd", "devsecops", "studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 런타임 보안 방어 (WAF, IDS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Shift-Left 사상 · DevSecOps 태동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SAST / SCA 스캔 내재화 · Pipeline Hard Gate 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">일회성 러너 (Ephemeral Node) · SBOM 의무화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아티팩트 서명 (Image Signing) · SLSA 레벨 보증 체계</div>
-</div>
-</div>
-
-
+```text
+전통적 런타임 보안 방어 (WAF, IDS)
+    │
+    ▼
+Shift-Left 사상 · DevSecOps 태동
+    │
+    ▼
+SAST / SCA 스캔 내재화 · Pipeline Hard Gate 적용
+    │
+    ▼
+일회성 러너 (Ephemeral Node) · SBOM 의무화
+    │
+    ▼
+아티팩트 서명 (Image Signing) · SLSA 레벨 보증 체계
+```
 
 이 흐름도는 "사후 탐지 → 사전 예방 → 스캔 자동화 → 환경 격리 → [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 증명"으로 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 방어 체계가 진화하는 과정을 보여준다.
 

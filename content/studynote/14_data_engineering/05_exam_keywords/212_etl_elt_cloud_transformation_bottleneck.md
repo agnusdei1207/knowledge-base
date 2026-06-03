@@ -22,20 +22,16 @@ tags = ["studynote-data-engineering"]
 
 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract, Transform, Load)은 1970~80년대 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 시대에 탄생했다. 소스 시스템에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추출(Extract)하고, 중간 서버에서 정제·변환(Transform)한 뒤, 최종 DW에 적재(Load)하는 순서다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 DB</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">ETL 서버 (변환)</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">DW/목적지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP/CRM</div><div class="kb-diagram-cell">데이터 정제</div><div class="kb-diagram-cell">Teradata</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일/API</div><div class="kb-diagram-cell">타입 변환</div><div class="kb-diagram-cell">Oracle DW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스 룰 적용</div></div>
-<div class="kb-diagram-note">↑ 병목 지점 (Bottleneck)</div>
-<div class="kb-diagram-note">처리 용량 = ETL 서버 CPU/메모리</div>
-</div>
-</div>
-
-
+```
+┌───────────┐    ┌──────────────────────┐    ┌─────────────┐
+│  소스 DB  │───►│  ETL 서버 (변환)     │───►│  DW/목적지  │
+│  ERP/CRM  │    │  데이터 정제         │    │  Teradata   │
+│  파일/API │    │  타입 변환           │    │  Oracle DW  │
+└───────────┘    │  비즈니스 룰 적용    │    └─────────────┘
+                 └──────────────────────┘
+                   ↑ 병목 지점 (Bottleneck)
+                   처리 용량 = ETL 서버 CPU/메모리
+```
 
 **ETL의 병목 문제**: 모든 변환이 중간 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버를 통과하므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 볼륨이 늘어날수록 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버가 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure)이자 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 된다.
 
@@ -63,22 +59,24 @@ tags = ["studynote-data-engineering"]
 
 ### 2.2 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 상세 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Extract</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 시스템</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">클라우드 DW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MySQL/API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3/Kafka</div><div class="kb-diagram-cell">Load</div><div class="kb-diagram-cell">Transform</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">RAW 레이어</div><div class="kb-diagram-cell">►</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STAGING 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dbt/SQL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MART 레이어</div></div>
-</div>
-</div>
-
-
+```
+┌────────────┐   Extract   ┌──────────────────────────────────────┐
+│  소스 시스템│──────────►│            클라우드 DW               │
+│  MySQL/API │             │                                      │
+│  S3/Kafka  │   Load      │  ┌──────────┐   Transform            │
+│            │──────────►│  │ RAW 레이어│──────────────►  │
+└────────────┘             │  └──────────┘                │       │
+                           │                              ▼       │
+                           │                    ┌──────────────┐  │
+                           │                    │ STAGING 레이어│  │
+                           │                    └──────┬───────┘  │
+                           │                           │ dbt/SQL  │
+                           │                           ▼          │
+                           │                    ┌──────────────┐  │
+                           │                    │ MART 레이어   │  │
+                           │                    └──────────────┘  │
+                           └──────────────────────────────────────┘
+```
 
 ### 2.3 dbt ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Build Tool)를 활용한 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)
 
@@ -138,20 +136,15 @@ transformed_df.write.mode("overwrite").parquet("s3://data-lake/mart/daily_orders
 
 ETL에서 ELT로의 전환은 단순한 순서 변경이 아니라 <strong>책임의 이동</strong>이다.
 
+```
+ETL 시대:
+  소스 ──► [ETL 서버가 모든 책임] ──► DW
+           ↑ 병목, 단일 실패점
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ETL 시대:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">소스 ──►</div><div class="kb-diagram-node">ETL 서버가 모든 책임</div><div class="kb-diagram-note">──► DW</div></div>
-<div class="kb-diagram-note">↑ 병목, 단일 실패점</div>
-<div class="kb-diagram-note">ELT 시대:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">소스 ──► DW RAW ──►</div><div class="kb-diagram-node">DW 컴퓨팅이 책임</div><div class="kb-diagram-note">──► DW MART</div></div>
-<div class="kb-diagram-note">↑ 탄력적 확장, 원본 보존</div>
-</div>
-</div>
-
-
+ELT 시대:
+  소스 ──► DW RAW ──► [DW 컴퓨팅이 책임] ──► DW MART
+                      ↑ 탄력적 확장, 원본 보존
+```
 
 ### 3.2 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))와의 연계
 
@@ -169,23 +162,19 @@ ETL에서 ELT로의 전환은 단순한 순서 변경이 아니라 <strong>책�
 
 ### 4.1 [ETL vs ELT](/knowledge-base/studynote/12_it_management/05_security_compliance/317_etl_vs_elt/) 선택 기준
 
+```
+데이터가 민감하고 정제 전 적재가 불가한가?
+       ↓ YES
+       ETL (금융·의료 컴플라이언스 환경)
 
+       ↓ NO
+클라우드 DW를 사용하고 대용량인가?
+       ↓ YES
+       ELT + dbt (BigQuery, Snowflake, Redshift)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터가 민감하고 정제 전 적재가 불가한가?</div>
-<div class="kb-diagram-note">↓ YES</div>
-<div class="kb-diagram-note">ETL (금융·의료 컴플라이언스 환경)</div>
-<div class="kb-diagram-note">↓ NO</div>
-<div class="kb-diagram-note">클라우드 DW를 사용하고 대용량인가?</div>
-<div class="kb-diagram-note">↓ YES</div>
-<div class="kb-diagram-note">ELT + dbt (BigQuery, Snowflake, Redshift)</div>
-<div class="kb-diagram-note">↓ NO (온프레미스, 소규모)</div>
-<div class="kb-diagram-note">ETL (Informatica, Talend, SSIS)</div>
-</div>
-</div>
-
-
+       ↓ NO (온프레미스, 소규모)
+       ETL (Informatica, Talend, SSIS)
+```
 
 ### 4.2 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 적용 시 주의사항
 
@@ -236,22 +225,17 @@ ETL에서 ELT로의 전환은 단순한 순서 변경이 아니라 <strong>책�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ETL: Extract → Transform → Load (DW 외부 변환)</div>
-<div class="kb-diagram-note">클라우드 컴퓨팅 저렴화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ELT: Extract → Load → Transform (DW 내부 변환)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">dbt: SQL 기반 변환 자동화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">BigQuery · Snowflake 컴퓨팅 활용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실시간 ETL/ELT: Kafka + Flink 스트리밍 변환</div>
-</div>
-</div>
-
-
+```text
+ETL: Extract → Transform → Load (DW 외부 변환)
+    │ 클라우드 컴퓨팅 저렴화
+    ▼
+ELT: Extract → Load → Transform (DW 내부 변환)
+    ├─► dbt: SQL 기반 변환 자동화
+    └─► BigQuery · Snowflake 컴퓨팅 활용
+    │
+    ▼
+실시간 ETL/ELT: Kafka + Flink 스트리밍 변환
+```
 2. ELT는 책을 일단 도서관에 다 가져다 넣고, 도서관 안에 있는 빠른 기계로 분류하는 방식이야.
 3. 어느 게 더 좋냐고? 도서관(클라우드)이 크고 빠르다면 ELT가 훨씬 편리해 — 책을 기다리게 하지 않아도 되거든!
 

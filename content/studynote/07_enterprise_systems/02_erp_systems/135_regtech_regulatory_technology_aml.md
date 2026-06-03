@@ -47,17 +47,11 @@ RegTech는 <strong>금융 규제 준수의 필수 인프라</strong>이며, AI�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수작업 규제 준수 (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RegTech 등장 (2015~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AI AML·eKYC (2018~)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SupTech (감독 기술)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI RegTech — 규제 변경 자동 적용</div></div>
-</div>
-</div>
-
-
+```text
+[수작업 규제 준수 (2000s)] → [RegTech 등장 (2015~)]
+    → [AI AML·eKYC (2018~)] → [SupTech (감독 기술)]
+    → [현재: AI RegTech — 규제 변경 자동 적용]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. RegTech는 <strong>자동 교통단속 카메라</strong>예요. 위반(불법 거래)을 <strong>AI가 자동 탐지</strong>해요.

@@ -29,18 +29,14 @@ tags = ["studynote-network"]
   - 다음 날, 1번 랙 꼭대기에 달린 랙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 고장 나거나 1번 랙 전체 전원 플러그가 뽑혔습니다.
   - 1번 랙이 통째로 죽으면서, 그 안에 있던 원본과 복사본 2개가 한날한시에 다 날아가 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 우주에서 완벽하게 영구 삭제(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Loss)</strong>되는 대재앙이 터집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하둡 랙 인식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로 터스트 존 방화벽 보안 적용 체계…]
+    │
+    ▼
+[하둡 랙 인식]
+    │
+    └──▶ [가상머신 하이퍼바이저 가상 스위치 구조 병목…]
+```
 
 - **📢 섹션 요약 비유**: 하둡 랙 인식은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 
 하둡 랙 인식는 대규모 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경의 연결 구조와 운영 효율을 다루는 축라는 관점에서 이해해야 한다. 마이크로 터스트 존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안 적용 체계…와 가상머신 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 구조 병목… 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하둡 랙 인식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로 터스트 존 방화벽 보안 적용 체계…]
+    │
+    ▼
+[하둡 랙 인식]
+    │
+    └──▶ [가상머신 하이퍼바이저 가상 스위치 구조 병목…]
+```
 
 - **📢 섹션 요약 비유**: 하둡 랙 인식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 하둡 랙 인식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 마이크로 터스트 존 방화벽 보안 적용 체계…]
+    │
+    ▼
+[현재 개념: 하둡 랙 인식]
+    │
+    ├──▶ [확장 A: 가상머신 하이퍼바이저 가상 스위치 구조 병목…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 하둡 랙 인식는 마이크로 터스트 존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안 적용 체계…에서 출발해 현재 메커니즘을 정교화하고, 이후 가상머신 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 구조 병목…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

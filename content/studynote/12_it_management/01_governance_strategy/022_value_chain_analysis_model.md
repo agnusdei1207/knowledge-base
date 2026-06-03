@@ -38,26 +38,25 @@ tags = ["studynote-it-management"]
 
 마이클 포터의 전통적인 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 모델은 5개의 주활동(Primary Activities)과 4개의 지원활동([Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Activities)으로 구성된 화살표 모양의 다이어그램 아키텍처를 가집니다. 화살표 끝에 모이는 것이 바로 마진(Margin)입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이클 포터의 가치 사슬 (Value Chain) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지원 활동 - Support Activities</div><div class="kb-diagram-note">(간접 가치 창출, 주활동 지원) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 기업 인프라 (Firm Infrastructure): 재무, 기획, 법무, 경영진</div><div class="kb-diagram-cell">＼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 인적 자원 관리 (HR Management): 채용, 교육, 보상 체계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 기술 개발 (Technology Development): R&amp;D, 제품/공정 IT 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 조달/구매 (Procurement): 원자재, 설비 구매 프로세스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이익</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Margin)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입고물류</div><div class="kb-diagram-cell">운영/생산</div><div class="kb-diagram-cell">출고물류</div><div class="kb-diagram-cell">마케팅&amp;</div><div class="kb-diagram-cell">서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Inbound</div><div class="kb-diagram-cell">(Operation</div><div class="kb-diagram-cell">(Outbound</div><div class="kb-diagram-cell">영업</div><div class="kb-diagram-cell">(Service)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logistics)</div><div class="kb-diagram-cell">)</div><div class="kb-diagram-cell">Logistics)</div><div class="kb-diagram-cell">(M&amp;S)</div><div class="kb-diagram-cell">／</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주 활동 - Primary Activities</div><div class="kb-diagram-note">(제품의 물리적 생성 및 판매 과정)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│              [ 마이클 포터의 가치 사슬 (Value Chain) 아키텍처 ]               │
+│                                                                   │
+│ ┌───────────────────────────────────────────────────────────────┐ │
+│ │ [지원 활동 - Support Activities] (간접 가치 창출, 주활동 지원) │ │
+│ │ 1. 기업 인프라 (Firm Infrastructure): 재무, 기획, 법무, 경영진  │ │ ＼
+│ │ 2. 인적 자원 관리 (HR Management): 채용, 교육, 보상 체계         │ │  │
+│ │ 3. 기술 개발 (Technology Development): R&D, 제품/공정 IT 설계  │ │  │
+│ │ 4. 조달/구매 (Procurement): 원자재, 설비 구매 프로세스           │ │  │
+│ └───────────────────────────────────────────────────────────────┘ │ 이익
+│ ┌─────────┬─────────┬─────────┬─────────┬─────────┐             │(Margin)
+│ │ 입고물류 │ 운영/생산│ 출고물류 │ 마케팅& │ 서비스   │             │  │
+│ │(Inbound │(Operation│(Outbound│ 영업    │(Service) │             │  │
+│ │Logistics)│ )        │Logistics)│(M&S)    │          │             │ ／
+│ └─────────┴─────────┴─────────┴─────────┴─────────┘             │
+│   [주 활동 - Primary Activities] (제품의 물리적 생성 및 판매 과정)│
+└───────────────────────────────────────────────────────────────────┘
+```
 
 ### 1. 주활동 (Primary Activities) - 엔터프라이즈 시스템 연계
 제품의 가치가 물리적으로 생성되어 고객에게 전달되는 5단계입니다.
@@ -105,7 +104,7 @@ tags = ["studynote-it-management"]
 *(추가 실무 적용 가이드 - IT 예산 배분 및 시스템 도입 로드맵)*
 - CIO/CDO가 전사적 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 계획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 수립할 때, 부서별 떼쓰기식 예산 분배를 막는 유일한 기준이 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)입니다. 
 - 기업이 '원가 우위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)'을 택했다면, [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 상 비용 병목이 심한 <strong>'입고/출고 물류'</strong>와 **'조달'** 사슬에 SCM과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 수요 예측 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) IT 예산을 최우선 배정해야 합니다.
-- 반면 '차별화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(예: 명품 화장품)'을 택했다면, 생산 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) 최적화보다는 **'마케팅&영업'** 사슬에 초개인화 [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)([Customer Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/))와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 시스템을 도입하는 아키텍처 의사결정이 정당성을 확보하게 됩니다.
+- 반면 '차별화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(예: 명품 화장품)'을 택했다면, 생산 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) 최적화보다는 **'마케팅&영업'** 사슬에 초개인화 [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)([C고객 Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/))와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 시스템을 도입하는 아키텍처 의사결정이 정당성을 확보하게 됩니다.
 
 - **📢 섹션 요약 비유**: 실무 적용은 "집을 지을 때 터를 다지고 자재를 고르는 과정"과 같이, 환경과 예산에 맞춘 최적의 선택이 필요합니다. 한정된 예산으로 IT 시스템을 도입할 때, [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 도면 없이 아무 솔루션이나 사들이는 것은 "지붕에 물이 새는데 최고급 이탈리아제 화장실 변기를 사 오는 것"과 같은 경영 실패입니다.
 
@@ -133,7 +132,7 @@ tags = ["studynote-it-management"]
 *   **엔터프라이즈 IT 시스템과의 1:1 매핑**
     *   생산/인프라/회계 -> [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))
     *   입고/출고/조달 -> [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))
-    *   마케팅/영업/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) -> [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))
+    *   마케팅/영업/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) -> [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))
     *   기술 개발(R&D) -> [PLM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/) ([Product Lifecycle Management](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/122_plm_product_lifecycle_management/))
 *   <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 모델 생태계 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a> Frameworks)</strong>
     *   거시 환경: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석
@@ -154,23 +153,21 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">원자재 입고 (Inbound Logistics) — 공급망 시작</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주활동 5단계 (생산·물류·마케팅·서비스)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지원활동 (HR·기술·조달·인프라) — 주활동 강화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마진 (Margin) 창출 — 경쟁 우위 원천 규명</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ERP/SCM IT 융합 → 가치 시스템(Value System) 확장</div></div>
-</div>
-</div>
-
-
+```text
+[원자재 입고 (Inbound Logistics) — 공급망 시작]
+    │
+    ▼
+[주활동 5단계 (생산·물류·마케팅·서비스)]
+    │
+    ▼
+[지원활동 (HR·기술·조달·인프라) — 주활동 강화]
+    │
+    ▼
+[마진 (Margin) 창출 — 경쟁 우위 원천 규명]
+    │
+    ▼
+[ERP/SCM IT 융합 → 가치 시스템(Value System) 확장]
+```
 원자재부터 최종 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 각 활동 구간의 부가가치와 비용을 규명하고, IT([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)·[SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))로 융합·자동화하여 기업 경계를 넘어 가치 시스템 전체를 최적화하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 발전 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

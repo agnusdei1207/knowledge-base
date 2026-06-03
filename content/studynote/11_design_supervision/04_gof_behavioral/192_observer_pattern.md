@@ -23,24 +23,23 @@ tags = ["studynote-design-supervision"]
 
 실세계 예시: ① 유튜브 구독 알림(Subject: 유튜버, [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/): 구독자), ② 주식 가격 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(Subject: 주가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/): 차트·알림·봇), ③ MVC 패턴의 Model-View 통신(Model이 Subject, View가 [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)), ④ 스프링의 ApplicationEvent-ApplicationListener.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옵저버 패턴 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subject (발행자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ registerObserver(o: Observer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ removeObserver(o: Observer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ notifyObservers()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1:N 통지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ Observer A: update(data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ Observer B: update(data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ Observer C: update(data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subject는 Observer 인터페이스만 알고 구체 클래스 모름</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│            옵저버 패턴 구조                                  │
+├─────────────────────────────────────────────────────────────┤
+│  Subject (발행자)                                           │
+│  + registerObserver(o: Observer)                            │
+│  + removeObserver(o: Observer)                              │
+│  + notifyObservers()                                        │
+│       │                                                     │
+│       │ (1:N 통지)                                          │
+│       ├──→ Observer A: update(data)                         │
+│       ├──→ Observer B: update(data)                         │
+│       └──→ Observer C: update(data)                         │
+│                                                             │
+│  Subject는 Observer 인터페이스만 알고 구체 클래스 모름      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 신문사(Subject)가 구독자([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))에게 새 호(이벤트)를 발송한다. 신문사는 구독자 명단(인터페이스)만 관리하고, 각 구독자가 신문을 어떻게 읽는지 알 필요가 없다.
 
@@ -56,24 +55,22 @@ tags = ["studynote-design-supervision"]
 | Pull (변경 통지만) | Observer가 필요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 요청 | 낮음 |
 | EventBus (비동기) | 느슨한 결합, 비동기 처리 | 매우 낮음 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스프링 ApplicationEvent 기반 옵저버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// Subject (이벤트 발행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@Service class OrderService {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">applicationEventPublisher.publishEvent(</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">new OrderCompletedEvent(orderId));</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// Observer (이벤트 구독)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@EventListener class EmailNotificationService {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void onOrderCompleted(OrderCompletedEvent event) { ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       스프링 ApplicationEvent 기반 옵저버                   │
+├─────────────────────────────────────────────────────────────┤
+│  // Subject (이벤트 발행)                                   │
+│  @Service class OrderService {                              │
+│    applicationEventPublisher.publishEvent(                  │
+│      new OrderCompletedEvent(orderId));                     │
+│  }                                                          │
+│                                                             │
+│  // Observer (이벤트 구독)                                  │
+│  @EventListener class EmailNotificationService {            │
+│    void onOrderCompleted(OrderCompletedEvent event) { ... } │
+│  }                                                          │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 알림 시스템(Subject)이 이벤트를 발생시키면 이메일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·SMS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)·푸시 알림 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/))가 각자의 방식으로 처리한다. 알림 시스템은 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부를 알 필요 없다.
 

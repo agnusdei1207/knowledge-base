@@ -35,25 +35,23 @@ tags = ["studynote-ict-convergence"]
 
 ### 상태 분류와 체인 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">마르코프 체인 상태 유형</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일시적 상태 (Transient)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 번 떠나면 돌아올 보장 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재귀적 상태 (Recurrent)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언제나 반드시 다시 방문</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 양성 재귀 (Positive Recurrent)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평균 재방문 시간 유한 → 정상분포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 영 재귀 (Null Recurrent)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평균 재방문 시간 무한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">흡수 상태 (Absorbing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진입 후 탈출 불가: P(i→i) = 1</div></div>
-</div>
-</div>
-
-
+```
+마르코프 체인 상태 유형
+┌───────────────────────────────────────┐
+│  일시적 상태 (Transient)              │
+│  한 번 떠나면 돌아올 보장 없음         │
+├───────────────────────────────────────┤
+│  재귀적 상태 (Recurrent)              │
+│  언제나 반드시 다시 방문              │
+│  ├─ 양성 재귀 (Positive Recurrent)   │
+│  │  평균 재방문 시간 유한 → 정상분포  │
+│  └─ 영 재귀 (Null Recurrent)         │
+│     평균 재방문 시간 무한             │
+├───────────────────────────────────────┤
+│  흡수 상태 (Absorbing)               │
+│  진입 후 탈출 불가: P(i→i) = 1       │
+└───────────────────────────────────────┘
+```
 
 ### 정상 분포 (Stationary Distribution)
 

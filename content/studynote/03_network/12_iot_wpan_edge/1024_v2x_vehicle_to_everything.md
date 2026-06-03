@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 
 이 인지적 사각지대를 해소하기 위해 자동차에 '입과 귀(통신)'를 달아 주변 환경과 실시간으로 대화하게 만든 것이 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">Vehicle-to-Everything</a>)</strong>다. 내가 보지 못하는 위험을 도로의 신호등이나 앞차가 밀리초(ms) 단위로 내비게이션에 꽂아주는 '협력형(Cooperative) 자율주행'으로 진화하기 위한 필수 불가결한 신경망이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">위성 통신 핸드오버 (ISL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">V2X</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C-V2X / WAVE 매체 제어</div></div>
-</div>
-</div>
-
-
+```text
+[위성 통신 핸드오버 (ISL]
+    │
+    ▼
+[V2X]
+    │
+    └──▶ [C-V2X / WAVE 매체 제어]
+```
 
 - **📢 섹션 요약 비유**: 내 눈(카메라)으로만 운전하는 초보 운전자에게, 하늘에서 헬기를 탄 교통 캐스터([V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 통신망)가 "1km 앞 코너 돌자마자 공사 중이니 미리 브레이크 밟으세요"라고 귀에 속삭여주는 것이다.
 
@@ -44,22 +40,23 @@ tags = ["studynote-network"]
 
 V2X는 누구와 통신하느냐에 따라 4가지 핵심 서브 아키텍처로 나뉜다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 / 관제 센터 (V2N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기상 정보, 광역 교통 정체 상황, HD 맵 업데이트 제공)</div></div>
-<div class="kb-diagram-note">(4G/5G Uu 인터페이스: 수십 ms 지연)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">V2I (Infrastructure)</div><div class="kb-diagram-node">V2P (Pedestrian)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신호등, RSU(노변 기지국)</div><div class="kb-diagram-cell">보행자 스마트폰</div></div>
-<div class="kb-diagram-note">(DSRC/WAVE 또는 C-V2X PC5 인터페이스: 1~5ms 지연)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">V2V (Vehicle)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앞차</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">뒷차</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  [ 클라우드 / 관제 센터 (V2N) ]              │
+│  (기상 정보, 광역 교통 정체 상황, HD 맵 업데이트 제공)       │
+└──────────────▲───────────────────────────────────────────────┘
+               │ (4G/5G Uu 인터페이스: 수십 ms 지연)
+┌──────────────▼────────────────┐        ┌─────────────────────┐
+│ [ V2I (Infrastructure) ]      │        │ [ V2P (Pedestrian) ]│
+│  신호등, RSU(노변 기지국)     │        │ 보행자 스마트폰     │
+└──────────────▲────────────────┘        └──────────▲──────────┘
+               │                                    │
+               │ (DSRC/WAVE 또는 C-V2X PC5 인터페이스: 1~5ms 지연)
+┌──────────────▼────────────────────────────────────▼──────────┐
+│                          [ V2V (Vehicle) ]                   │
+│        [ 앞차 ] ◀───── (급정거 정보 공유) ─────▶ [ 뒷차 ]     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. **V2V (Vehicle-to-Vehicle)**: 차량 간 통신. 앞차가 급정거하거나 사고가 나면 뒤따르는 수십 대의 차량에 즉각적으로 경고 브로드캐스트를 쏜다 (센서 시야 한계 극복).
 2. **V2I (Vehicle-to-Infrastructure)**: 차량과 도로 인프라(신호등, 가로등) 통신. 신호등이 빨간불로 바뀔 때까지 남은 초를 차에 알려주어 교차로 딜레마 존 사고를 막는다.
@@ -129,19 +126,15 @@ V2X는 자동차를 단순한 이동 수단에서 '바퀴 달린 거대한 스�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 위성 통신 핸드오버 (ISL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: V2X</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: C-V2X / WAVE 매체 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 위성 통신 핸드오버 (ISL]
+    │
+    ▼
+[현재 개념: V2X]
+    │
+    ├──▶ [확장 A: C-V2X / WAVE 매체 제어]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 V2X는 [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1023_isl_inter_satellite_link_low_earth_orbit_routing/) (ISL에서 출발해 현재 메커니즘을 정교화하고, 이후 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

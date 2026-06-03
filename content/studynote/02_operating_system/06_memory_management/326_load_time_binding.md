@@ -31,27 +31,28 @@ OS가 램을 뒤져보니 "오, 7000번지부터 텅 비었네? 야 너 기준�
 
 **💡 비유**: 당신이 캠핑장에 전화했다. "나 텐트 + 의자 100cm 거리, 텐트 + 화로 500cm 거리에 세팅할 건데 설계도는 짜놨어(컴파일 완료-재배치 코드)." 캠핑장에 도착(메모리 적재)하니 사장님이 "어이쿠 A구역은 다 찼고 B구역 70번 구석 비었으니 거기 치쇼!" 라고 한다. 당신은 70번 자리(기준 주소)를 베이스로 아까 짠 설계도 거리만큼 정확히 짐을 푼다. 자리싸움이 전혀 벌어지지 않는다!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적재 시간 바인딩: 링커(Linker)와 로더(Loader)의 합작</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컴파일 시점 (Compile Time)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 소스코드: "HP 변수는 그냥 내 방(0번지기준) + 120번칸!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일러: "ㅇㅋ. 결과 파일(<code>재배치_가능_코드.obj</code>) 생성.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진짜 위치는 난 몰라. 이건 로더 형님이 나중에 알아서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준점 더해 줄 상대(Relative) 거리표임."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">적재 시점 (Load Time) - 더블클릭하는 순간!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 로더(Loader): "디스크의 exe를 램(RAM)에 퍼올리자 영차!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">음~ 지금 램 10만 번지부터 텅텅 비었네? 럭키비키!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아까 너네 파일 적힌 +120 표에 10만을 싹 다 더해줄게!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 촤라락! HP 변수 = 100,120번지로 물리 주소 확정!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 한 번 더블 클릭 때마다 빈 곳 찾아서 박아주니 앱 여러 개 동시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구동 충돌률 0% 달성 (멀티태스킹 혁명)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│         적재 시간 바인딩: 링커(Linker)와 로더(Loader)의 합작    │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  [ 컴파일 시점 (Compile Time) ]                                 │
+│  개발자 소스코드: "HP 변수는 그냥 내 방(0번지기준) + 120번칸!"  │
+│                                                                 │
+│  컴파일러: "ㅇㅋ. 결과 파일(`재배치_가능_코드.obj`) 생성.       │
+│            진짜 위치는 난 몰라. 이건 로더 형님이 나중에 알아서  │
+│            기준점 더해 줄 상대(Relative) 거리표임."             │
+│                                                                 │
+│  [ 적재 시점 (Load Time) - 더블클릭하는 순간! ]                 │
+│  OS 로더(Loader): "디스크의 exe를 램(RAM)에 퍼올리자 영차!      │
+│            음~ 지금 램 10만 번지부터 텅텅 비었네? 럭키비키!     │
+│            아까 너네 파일 적힌 +120 표에 10만을 싹 다 더해줄게! │
+│            ▶ 촤라락! HP 변수 = 100,120번지로 물리 주소 확정!"   │
+│                                                                 │
+│  ▶ 한 번 더블 클릭 때마다 빈 곳 찾아서 박아주니 앱 여러 개 동시 │
+│     구동 충돌률 0% 달성 (멀티태스킹 혁명)                       │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 이 방식은 이사 갈 때 "나는 문에서 세 발짝에 침대 둔다(재배치 코드 상대 주소)"라는 원칙만 가지면, 강남 빌라든 부산 아파트든 어디로 발령(Load) 나도 똑같이 적응해서 예쁘게 살아남는 훌륭한 생존 유연성 탑재형 기법입니다.
 
@@ -117,19 +118,15 @@ OS가 램을 뒤져보니 "오, 7000번지부터 텅 비었네? 야 너 기준�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">컴파일 시간 바인딩 (Compile Time)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">적재 시간 바인딩 (Load Time)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실행 시간 바인딩 (Execution Time)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MMU (Memory-Management Unit)</div></div>
-</div>
-</div>
-
-
+```text
+[컴파일 시간 바인딩 (Compile Time)]
+    │
+    ▼
+[적재 시간 바인딩 (Load Time)]
+    │
+    ├──▶ [실행 시간 바인딩 (Execution Time)]
+    └──▶ [MMU (Memory-Management Unit)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 기업이 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)(통합 관제)을 샀더니 하루에 경고 알람이 1만 개씩 쏟아집니다. 보안 담당자 3명이 1만 개를 일일이 분석하다 지쳐버려 진짜 해킹 알람을 놓치는 '경고 피로도(Alert Fatigue)' 문제가 발생했습니다.
 - 이를 해결하기 위해, 가트너는 단순 반복 업무를 기계가 대신하고 보안 장비들을 오케스트라 지휘자처럼 하나로 조종하는 <strong>SOAR (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>, Automation and Response)</strong>라는 차세대 자동 대응 플랫폼을 제창했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOAR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TI 융합 / STIX, TAXII 표준 지…</div></div>
-</div>
-</div>
-
-
+```text
+[침해 사고 대응 체계 분석, 실시간 로그 수…]
+    │
+    ▼
+[SOAR]
+    │
+    └──▶ [TI 융합 / STIX, TAXII 표준 지…]
+```
 
 - **📢 섹션 요약 비유**: SOAR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
 ### 3. 위협 인텔리전스 연동 ([Threat Intelligence](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/))
 - SOAR는 자체 두뇌 외에도 전 세계 해커들의 최신 IP와 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 해시값이 실시간으로 업데이트되는 거대한 DB([TI](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/), 다음 746번 문서)와 연동되어 스스로 지능을 높입니다. "어? 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [TI](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/) 데이터베이스에 물어보니 어제 러시아 해커가 쓴 거라네? 차단!"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOAR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TI 융합 / STIX, TAXII 표준 지…</div></div>
-</div>
-</div>
-
-
+```text
+[침해 사고 대응 체계 분석, 실시간 로그 수…]
+    │
+    ▼
+[SOAR]
+    │
+    └──▶ [TI 융합 / STIX, TAXII 표준 지…]
+```
 
 - **📢 섹션 요약 비유**: SOAR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ SOAR는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performanc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SOAR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TI 융합 / STIX, TAXII 표준 지…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 침해 사고 대응 체계 분석, 실시간 로그 수…]
+    │
+    ▼
+[현재 개념: SOAR]
+    │
+    ├──▶ [확장 A: TI 융합 / STIX, TAXII 표준 지…]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 SOAR는 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…에서 출발해 현재 메커니즘을 정교화하고, 이후 [TI](/knowledge-base/studynote/03_network/14_network_security_threats/746_ti_threat_intelligence_ioc_stix_taxii/) 융합 / STIX, TAXII 표준 지…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -31,22 +31,23 @@ FP16이 도입된 이유는 딥러닝 [가중치](/knowledge-base/studynote/10_a
 
 FP16은 16비트라는 제한된 공간 안에 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)을 욱여넣기 위해 지수와 가수 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 극단적으로 삭감했다. 이로 인해 표현할 수 있는 수의 범위와 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)에 치명적인 한계가 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반정밀도 (FP16) 아키텍처 비트 분배 및 범위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 크기: 16 bits (2 Bytes)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">15</div><div class="kb-diagram-node">14 &lt;--- 5 bits ---&gt; 10</div><div class="kb-diagram-node">9 &lt;--- 10 bits ---&gt; 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">지수부 (E)</div><div class="kb-diagram-cell">가수부 (M)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호 편향 (Bias) = 15 유효 숫자 (약 3.3자리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">치명적 한계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최대 표현 값: 65,504 (조금만 커져도 Overflow ➔ NaN 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최소 정규수: 6.10 x 10^-5 (조금만 작아져도 Underflow ➔ 0)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           반정밀도 (FP16) 아키텍처 비트 분배 및 범위         │
+├──────────────────────────────────────────────────────────────┤
+│ 전체 크기: 16 bits (2 Bytes)                                 │
+│                                                              │
+│  [15]   [14 <--- 5 bits ---> 10]   [9 <--- 10 bits ---> 0]   │
+│  ┌─┐    ┌────────────────────┐     ┌─────────────────────┐   │
+│  │S│    │     지수부 (E)     │     │     가수부 (M)      │   │
+│  └─┘    └────────────────────┘     └─────────────────────┘   │
+│ 부호     편향 (Bias) = 15            유효 숫자 (약 3.3자리)  │
+│                                                              │
+│ [치명적 한계]                                                │
+│ - 최대 표현 값: 65,504 (조금만 커져도 Overflow ➔ NaN 발생)   │
+│ - 최소 정규수: 6.10 x 10^-5 (조금만 작아져도 Underflow ➔ 0)  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 가장 큰 문제는 지수부가 5비트에 불과하여 바이어스([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))가 15라는 점이다. 따라서 지수는 $2^{-14}$부터 $2^{15}$까지만 표현할 수 있고, 다룰 수 있는 최댓값은 65,504에 그친다. 이 범위를 넘어가는 연산 결과는 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)로 인해 즉시 `NaN (Not a Number)` 혹은 `Infinity`로 붕괴한다. 또한 너무 작은 소수점 값은 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)가 발생해 0으로 처리(Flush-to-Zero)되어버린다.
 
@@ -107,23 +108,21 @@ FP16 규격은 정확도 100%를 포기하고 '충분히 쓸만한 정확도'와
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IEEE 754 단정밀도 (FP32)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">반정밀도 (FP16) · 메모리 대역폭 한계 돌파</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">혼합 정밀도 (Mixed Precision) · 오버플로우/언더플로우 보완</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">bfloat16 (Brain Float 16) · 지수부 확장 아키텍처</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">극단적 양자화 (FP8, INT4 등) · 추론 가속 전용 규격</div>
-</div>
-</div>
-
-
+```text
+IEEE 754 단정밀도 (FP32)
+    │
+    ▼
+반정밀도 (FP16) · 메모리 대역폭 한계 돌파
+    │
+    ▼
+혼합 정밀도 (Mixed Precision) · 오버플로우/언더플로우 보완
+    │
+    ▼
+bfloat16 (Brain Float 16) · 지수부 확장 아키텍처
+    │
+    ▼
+극단적 양자화 (FP8, INT4 등) · 추론 가속 전용 규격
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

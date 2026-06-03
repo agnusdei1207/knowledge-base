@@ -39,58 +39,66 @@ tags = ["studynote-design-supervision"]
 
 자바(Java)와 C# 스프링 클라우드 제국을 100% 지배 독재하는 영구 0순위 마스터 뼈대다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체 어댑터 (Object Adapter) — 런타임 합성/위임 기만 텐트 도해 ✨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">Client (우리 최신 시스템)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 호출: <code>target.request();</code> 찌르기 툭 핑!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (오직 Target 인터페이스만 찌름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🎯 Target (표준 인터페이스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ request()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (구현 Implements 락킹)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔌 Object Adapter</div><div class="kb-diagram-cell">위임</div><div class="kb-diagram-cell">🦖 Adaptee (낡은 레거시 봇)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- adaptee: Adaptee</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">+ specificRequest()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ request() {</div><div class="kb-diagram-cell">(품음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">adaptee.specificReq()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜 (합성의 기적 🚀): <code>ObjectAdapter</code> 뱃속에는 <code>Adaptee</code> 객체가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포인터(has-a)로 들어있다. 밖에서 <code>request()</code> 찌르면 ➔ 어댑터가 안에서 몰래</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자기 뱃속 장기한테 <code>specificReq()</code> 짬처리 위임(Delegation)을 날려버린다 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만약 낡은 로봇이 고장 났다? ➔ 런타임 0.01초 찰나에 딴 로봇(Adaptee v2) 객체로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생성자(Constructor) 주입 DI 스위칭 찰칵! 갈아 끼우면 무정단 생존 달성 100% 컷✨!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          객체 어댑터 (Object Adapter) — 런타임 합성/위임 기만 텐트 도해 ✨ │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 👨‍💻 [ Client (우리 최신 시스템) ]                              │
+│   - 호출: `target.request();` 찌르기 툭 핑!                    │
+│            │                                                │
+│            ▼ (오직 Target 인터페이스만 찌름)                       │
+│ ┌────────────────────────┐                                  │
+│ │ 🎯 Target (표준 인터페이스)│                                  │
+│ │ + request()            │                                  │
+│ └────────────────────────┘                                  │
+│            ▲                                                │
+│            ├── (구현 Implements 락킹)                        │
+│            │                                                │
+│ ┌────────────────────────┐      ┌────────────────────────┐  │
+│ │ 🔌 Object Adapter      │  위임  │ 🦖 Adaptee (낡은 레거시 봇)│  │
+│ │  - adaptee: Adaptee    │ ──▶ │ + specificRequest()    │  │
+│ │  + request() {         │ (품음)│                        │  │
+│ │    adaptee.specificReq()│      │                        │  │
+│ │  }                     │      │                        │  │
+│ └────────────────────────┘      └────────────────────────┘  │
+│ 🌟 아키텍트 극딜 (합성의 기적 🚀): `ObjectAdapter` 뱃속에는 `Adaptee` 객체가   │
+│   포인터(has-a)로 들어있다. 밖에서 `request()` 찌르면 ➔ 어댑터가 안에서 몰래 │
+│   자기 뱃속 장기한테 `specificReq()` 짬처리 위임(Delegation)을 날려버린다 쾅!! │
+│   만약 낡은 로봇이 고장 났다? ➔ 런타임 0.01초 찰나에 딴 로봇(Adaptee v2) 객체로 │
+│   생성자(Constructor) 주입 DI 스위칭 찰칵! 갈아 끼우면 무정단 생존 달성 100% 컷✨!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 클래스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) (Class [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) — 다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Multiple Inheritance) 피바람 💀
 
 C++ 같이 미친 다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 허용하는 고대 유물 언어에서나 쓰이던 쇳덩이 강결합 폭탄이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스 어댑터 (Class Adapter) — 핏줄 융합 이중국적 파국 도해 💀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">🎯 Target 인터페이스 찌름 툭 ㅋ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(implements 구현)</div><div class="kb-diagram-cell">(extends 상속 핏줄 섞기 💥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔌 Class Adapter</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ request() {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">this.specificRequest();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위 어댑터가 상속받은 부모)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🦖 Adaptee 클래스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ specificRequest()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 팩폭 메스 🪓: 어댑터 놈이 낡은 <code>Adaptee</code> 클래스를 직접 상속(is-a)받아 버렸다!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래서 <code>this.specificReq()</code> 라고 걍 지 몸뚱이 함수 부르듯 다이렉트 직통 찌르기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Direct Call) 속도는 광속 쾌속 개빠름 🚀. 근데 자바(Java)는 클래스 다중 상속 100%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원천 금지 불법 에러 사살 컷이라 ➔ 저 짓거리 짜는 순간 컴파일 빨간줄 뻗음 멸망 💀!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          클래스 어댑터 (Class Adapter) — 핏줄 융합 이중국적 파국 도해 💀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 👨‍💻 [ Client ] ──▶ 🎯 Target 인터페이스 찌름 툭 ㅋ                │
+│                         ▲               ▲                   │
+│         (implements 구현) │               │ (extends 상속 핏줄 섞기 💥)│
+│                         │               │                   │
+│                ┌────────┴───────────────┴────────┐          │
+│                │      🔌 Class Adapter           │          │
+│                │ + request() {                   │          │
+│                │   this.specificRequest();       │          │
+│                │ }                               │          │
+│                └─────────────────────────────────┘          │
+│                          (위 어댑터가 상속받은 부모)               │
+│                          🦖 Adaptee 클래스                    │
+│                          + specificRequest()                │
+│                                                             │
+│ 🌟 팩폭 메스 🪓: 어댑터 놈이 낡은 `Adaptee` 클래스를 직접 상속(is-a)받아 버렸다!!│
+│   그래서 `this.specificReq()` 라고 걍 지 몸뚱이 함수 부르듯 다이렉트 직통 찌르기│
+│   (Direct Call) 속도는 광속 쾌속 개빠름 🚀. 근데 자바(Java)는 클래스 다중 상속 100% │
+│   원천 금지 불법 에러 사살 컷이라 ➔ 저 짓거리 짜는 순간 컴파일 빨간줄 뻗음 멸망 💀!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 이 두 개의 뼈대 차이는 <strong>'렌터카(객체 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>)'</strong>와 <strong>'자동차 불법 개조 용접(클래스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>)'</strong>입니다. 객체 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 맘에 안 드는 차(Adaptee) 타고 다니다 고장 나면 1초 컷 버리고 딴 렌터카로 스위칭(런타임 교체 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/) 주입) 꿀 빨면 100% 무결점 생존합니다 🚀. 반면 클래스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)는 내 몸체에 낡은 차 엔진을 인두기로 지져 영구 용접 떡칠(extends [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 강결합 💥) 쳐버린 겁니다! 당장 엔진 직통 제어 속도는 빠르지만, 고장 나는 날엔 엔진 분리 불가라 내 차 통째로 폐차장 압축기 소각 멸망 파산 직행하는 돌이킬 수 없는 생지옥 늪입니다 💀.
 
@@ -106,7 +114,7 @@ C++ 같이 미친 다중 [상속](/knowledge-base/studynote/04_software_engineer
 | <strong>Adaptee와의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong> | **has-a (필드로 품기 은닉 텐트 쉴드 🛡️)** | <strong>is-a (핏줄 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 일체화 덩어리 💀)</strong> | 피를 섞느냐([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) 밖에서 리모컨만 쥐느냐(합성)의 0순위 유연성 운명 갈림길. |
 | **언어(Language) 종속 한계**| **자바(Java), C#, Python 등 전 우주 언어 100% 완벽 호환 프리패스 ✨** | <strong>C++ 같은 다중 클래스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 허용 고인물 언어에서만 생존 가능 컷 🪓</strong> | (아키텍트 팩폭 🪓): "자바 코더는 클래스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 쳐다도 보지 마 컴파일 뻗어 타죽어 쾅!!" |
 | **런타임 Adaptee 쾌속 교체**| **[극강 유연성 🚀]** 실행 도중 `setAdaptee(new_obj)` 주사 놓으면 0.1초 컷 갈아 끼우기 무결점 생존 록온! | **[절.대. 불.가. 파국 💥]** 컴파일 칠 때 호적(extends)에 이름 박혔으므로 죽을 때까지 못 바꿈 시멘트 락킹 뻗음 💀. | Adaptee가 v1 ➔ v2 ➔ v3 널뛰기 발광 칠 미래가 보이면 하늘이 두 쪽 나도 객체 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 몰빵 필수 쾅! |
-| **protected 뱃속 멤버 접근**| **[불가 ❌]** 외부 남남 객체라 낡은 놈 뱃속 은닉 변수 못 후벼 팜 ㅠ 캡슐화 락 막힘. | **[쌉가능 😈]** 핏줄 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 아들이니까 부모(Adaptee) 뱃속 `protected` 메모리 다 찢어발겨 직접 엑스레이 까볼 수 있음 쾅! | 낡은 로봇의 소스를 못 고치는데 **"얘 내부 동작을 내가 좀 덮어쓰고(Override) 싶은데?"** 욕망 터질 땐 어쩔 수 없이 클래스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 도끼 메스를 들어야만 하는 유일무이한 합법적 타점 구원 투수다 ✨. |
+| **protected 뱃속 멤버 접근**| **[불가 ❌]** 외부 남남 객체라 낡은 놈 뱃속 은닉 변수 못 후벼 팜 ㅠ 캡슐화 락 병목. | **[쌉가능 😈]** 핏줄 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 아들이니까 부모(Adaptee) 뱃속 `protected` 메모리 다 찢어발겨 직접 엑스레이 까볼 수 있음 쾅! | 낡은 로봇의 소스를 못 고치는데 **"얘 내부 동작을 내가 좀 덮어쓰고(Override) 싶은데?"** 욕망 터질 땐 어쩔 수 없이 클래스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 도끼 메스를 들어야만 하는 유일무이한 합법적 타점 구원 투수다 ✨. |
 
 **[🚨 아키텍트 다중 타겟(Multiple Adaptees) 폭격 팩폭 🪓]**: 
 "야!! 우리 회사 시스템이 [카카오페이 낡은 모듈], [네이버페이 낡은 모듈] 2가지를 다 써야 하는데 ➔ 클래스 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)로 이거 2개 동시 지원 쳐 봐 쾅!!" 
@@ -173,23 +181,21 @@ C++ 같이 미친 다중 [상속](/knowledge-base/studynote/04_software_engineer
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지성 하드코딩 구시대 / 규격 안 맞는 낡은 B2B 쇳덩이 모듈 가져와 ➔ 내 메인 소스 코드 100군데를 그 낡은 함수명으로 다이렉트 쌩 직통 찌름 강결합 떡칠 파국 터짐 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모듈 업데이트 대재앙 멸망 💀 / 낡은 쇳덩이 모듈 버전 V2로 함수 파라미터 1개 바뀌어 엎어짐 ➔ 내 소스 100군데 싹 다 시뻘겋게 연쇄 살인 컴파일 에러 뻗음 올스탑 동반 타살 야근 재배포 셧다운 뻗음 쾅!!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">GoF 어댑터(Adapter) 껍데기 방폭문 강림 ✨ / "야 낡은 모듈 직접 찌르지 마 다 죽어 쾅! 대문 앞 1mm에</div><div class="kb-diagram-node">표준 규격 어댑터 젠더 봇</div><div class="kb-diagram-note">1개 허공 렌더링 띄워 찰칵 록온 박고 우회 위임(Delegation) 핑퐁 쳐라 🚀!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클래스 어댑터 (다중 상속) vs 객체 어댑터 (합성) 피 터지는 십자 전쟁 🪓 / 다중 상속 피 섞어 짰다 부모 똥 노출되어 LSP 붕괴 폭사 멸망 터짐 💀 ➔ 자바 제국에서 "상속 쓰지 마 이 씨발 객체 합성(Composition) 변수로만 품어라 쾅!!" 객체 어댑터 1타 쌍피 몰빵 스위칭 통일 선언!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Spring 프레임워크 AOP 및 DI 융합 제국 (현재) 🚀 / 개발자가 어댑터 껍데기 <code>new</code> 치는 노가다 짓거리 싹 다 불태워 소각 오프로드 짬처리 시키고! ➔ Spring IoC 대장 뇌가 런타임 0.001초 유저 클릭 찰나 순간에</div><div class="kb-diagram-node">프록시/어댑터 가짜 봇</div><div class="kb-diagram-note">지 혼자 오토 허공 무한 복제 띄워 찰칵 주입 조립 록온 쳐버려 ➔ 백엔드 코더는 오직 순수 비즈니스 로직(Core)만 짜며 100% 무결점 스텔스 디커플링 평화 생존 꿀 빨기 극강 다이어트 우주 대통합 완성 ✨</div></div>
-</div>
-</div>
-
-
+```text
+무지성 하드코딩 구시대 / 규격 안 맞는 낡은 B2B 쇳덩이 모듈 가져와 ➔ 내 메인 소스 코드 100군데를 그 낡은 함수명으로 다이렉트 쌩 직통 찌름 강결합 떡칠 파국 터짐 💥
+    │
+    ▼
+모듈 업데이트 대재앙 멸망 💀 / 낡은 쇳덩이 모듈 버전 V2로 함수 파라미터 1개 바뀌어 엎어짐 ➔ 내 소스 100군데 싹 다 시뻘겋게 연쇄 살인 컴파일 에러 뻗음 올스탑 동반 타살 야근 재배포 셧다운 뻗음 쾅!!
+    │
+    ▼
+GoF 어댑터(Adapter) 껍데기 방폭문 강림 ✨ / "야 낡은 모듈 직접 찌르지 마 다 죽어 쾅! 대문 앞 1mm에 [표준 규격 어댑터 젠더 봇] 1개 허공 렌더링 띄워 찰칵 록온 박고 우회 위임(Delegation) 핑퐁 쳐라 🚀!!"
+    │
+    ▼
+클래스 어댑터 (다중 상속) vs 객체 어댑터 (합성) 피 터지는 십자 전쟁 🪓 / 다중 상속 피 섞어 짰다 부모 똥 노출되어 LSP 붕괴 폭사 멸망 터짐 💀 ➔ 자바 제국에서 "상속 쓰지 마 이 씨발 객체 합성(Composition) 변수로만 품어라 쾅!!" 객체 어댑터 1타 쌍피 몰빵 스위칭 통일 선언!
+    │
+    ▼
+Spring 프레임워크 AOP 및 DI 융합 제국 (현재) 🚀 / 개발자가 어댑터 껍데기 `new` 치는 노가다 짓거리 싹 다 불태워 소각 오프로드 짬처리 시키고! ➔ Spring IoC 대장 뇌가 런타임 0.001초 유저 클릭 찰나 순간에 [프록시/어댑터 가짜 봇] 지 혼자 오토 허공 무한 복제 띄워 찰칵 주입 조립 록온 쳐버려 ➔ 백엔드 코더는 오직 순수 비즈니스 로직(Core)만 짜며 100% 무결점 스텔스 디커플링 평화 생존 꿀 빨기 극강 다이어트 우주 대통합 완성 ✨
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

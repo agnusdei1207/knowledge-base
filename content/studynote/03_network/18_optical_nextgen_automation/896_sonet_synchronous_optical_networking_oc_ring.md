@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 미국 국가표준협회(ANSI)에서 북미 지역(미국, 캐나다, 일본 등)을 위해 제정한 <strong>동기식(<a href="/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/">Synchronous</a>) 광케이블 디지털 전송망 국제 표준</strong>입니다.
 - **역사적 의의**: 1980년대 후반, 각기 다른 장비 회사들의 광통신 신호를 하나로 통일하기 위해 만들어진 최초의 표준이며, 이 SONET을 뼈대로 삼아 ITU-T가 전 세계 글로벌 표준으로 살짝 다듬어 발표한 것이 바로 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/">SDH</a> (895번)</strong>입니다. (SONET이 형, SDH가 동생격입니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDH</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SONET</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROF</div></div>
-</div>
-</div>
-
-
+```text
+[SDH]
+    │
+    ▼
+[SONET]
+    │
+    └──▶ [ROF]
+```
 
 - **📢 섹션 요약 비유**: SONET는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ SONET은 이 51.84Mbps짜리 OC-1 박스를 계속 곱해서 속도를 올립니
 - <strong>OC-192 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> Gbps)</strong>: ➜ (SDH의 STM-64와 일치)
 - 이 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 덕분에 한국([SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/))에서 미국(SONET)으로 광케이블을 쏴도 중간에서 포장지를 뜯을 필요 없이 100% 직통으로 데이터가 넘어갈 수 있었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDH</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SONET</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROF</div></div>
-</div>
-</div>
-
-
+```text
+[SDH]
+    │
+    ▼
+[SONET]
+    │
+    └──▶ [ROF]
+```
 
 - **📢 섹션 요약 비유**: SONET의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ SONET는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SDH</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SONET</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ROF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SDH]
+    │
+    ▼
+[현재 개념: SONET]
+    │
+    ├──▶ [확장 A: ROF]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 SONET는 SDH에서 출발해 현재 메커니즘을 정교화하고, 이후 ROF와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

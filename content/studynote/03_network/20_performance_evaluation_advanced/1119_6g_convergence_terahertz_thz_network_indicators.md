@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **한계**: 5G의 28GHz([밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)) 대역은 넓긴 하지만 진정한 [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)([메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/), XR 홀로그램)을 실시간으로 뿜어내기엔 여전히 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 좁습니다.
 - **초공간 융합**: 5G는 땅바닥의 자동차, 사람만 엮었습니다. 6G는 [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(에어택시), 태평양의 선박, 우주의 저궤도 위성까지 통신망을 수직으로 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000km 확장하는 <strong>3D 입체 통신망</strong>이 필수적입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보통신 기술사 최근 기출 토픽 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">6G 융합 테라헤르츠 예측 지표망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
-</div>
-</div>
-
-
+```text
+[정보통신 기술사 최근 기출 토픽 기반]
+    │
+    ▼
+[6G 융합 테라헤르츠 예측 지표망]
+    │
+    └──▶ [위성 기반 도심항공교통 라우팅 통신 구조 모…]
+```
 
 - **📢 섹션 요약 비유**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ ITU-R 등 국제 기구에서 정의하는 6G의 괴물 같은 스펙 목표입�
 - 5G는 1제곱킬로미터(km²)당 100만 대의 센서([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))를 수용했습니다. 6G는 10배인 <strong>1,000만 대(천장, 바닥, 옷, 안경, 피부 속 센서까지 모조리 접속)</strong>를 동시에 뻗지 않고 소화해야 합니다.
 - 5G는 시속 500km KTX 정도에서 터졌습니다. 6G는 **마하 1에 가까운 시속 1,000km로 날아가는 하이퍼루프나 에어택시, 여객기** 안에서도 1Tbps 넷플릭스가 끊기지 않는 끈질긴 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) 방어 및 빔 트래킹(추적) 기술을 요구합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보통신 기술사 최근 기출 토픽 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">6G 융합 테라헤르츠 예측 지표망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
-</div>
-</div>
-
-
+```text
+[정보통신 기술사 최근 기출 토픽 기반]
+    │
+    ▼
+[6G 융합 테라헤르츠 예측 지표망]
+    │
+    └──▶ [위성 기반 도심항공교통 라우팅 통신 구조 모…]
+```
 
 - **📢 섹션 요약 비유**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -133,19 +125,15 @@ ITU-R 등 국제 기구에서 정의하는 6G의 괴물 같은 스펙 목표입�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 정보통신 기술사 최근 기출 토픽 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 6G 융합 테라헤르츠 예측 지표망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 정보통신 기술사 최근 기출 토픽 기반]
+    │
+    ▼
+[현재 개념: 6G 융합 테라헤르츠 예측 지표망]
+    │
+    ├──▶ [확장 A: 위성 기반 도심항공교통 라우팅 통신 구조 모…]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망는 정보통신 기술사 최근 기출 토픽 기반에서 출발해 현재 메커니즘을 정교화하고, 이후 [위성 기반 도심항공교통](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1120_uam_urban_air_mobility_satellite_routing/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 통신 구조 모…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

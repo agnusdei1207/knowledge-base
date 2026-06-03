@@ -24,20 +24,19 @@ tags = ["studynote-software-engineering"]
 개발자가 화이트박스를 주장하며 "제 코드는 수학적으로 오류 확률이 제로입니다."라고 말해도, 고객이 "네 수학은 맞는데, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 버튼을 누르니까 메인 화면으로 안 가고 회원가입 창이 뜨잖아요!"라고 화를 내는 상황이 바로 <strong>명세(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a>)의 불일치</strong>입니다.
 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/)는 이 껍데기 박스(소프트웨어) 속 안에 기어가 들어있든 외계인이 들어있든 관심 없습니다. 오로지 <strong>"명세서에 <code>a</code>라는 지폐를 넣으면 <code>콜라</code>가 나온다"</strong>라고 쓰여 있으니, 정말 `a`를 넣어서 `콜라`가 나오는지 100번 눌러보고, 일부러 `수표`를 넣어보고, `돌멩이`를 넣어봐서 뱉어내는가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 작업입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블랙박스 테스트의 도식도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 (Input)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">💻 ⬛⬛⬛⬛⬛⬛⬛⬛⬛ 💻</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력 (Output)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 나이: 25 ( 안에서 if/for 문이 - 성인 인증 성공?!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메뉴: 커피 어떻게 도는지는 - 주문 영수증 인쇄?!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 한도초과 카드 철저히 무시, 알 수 없음 ) - 결제 실패 문자?!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 판정 기준: 오로지 '요구사항 명세서'에 적힌 대로 행동하는가?</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  블랙박스 테스트의 도식도                       │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [ 입력 (Input) ] ──▶  [ 💻 ⬛⬛⬛⬛⬛⬛⬛⬛⬛ 💻 ]  ──▶ [ 출력 (Output) ] │
+│   - 나이: 25             ( 안에서 if/for 문이         - 성인 인증 성공?!   │
+│   - 메뉴: 커피              어떻게 도는지는            - 주문 영수증 인쇄?!  │
+│   - 한도초과 카드           철저히 무시, 알 수 없음 )    - 결제 실패 문자?!   │
+│                                                              │
+│       ※ 판정 기준: 오로지 '요구사항 명세서'에 적힌 대로 행동하는가?        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 이 상자 안에 마법사가 숨어서 요리를 하는지, 로봇이 요리를 하는지는 내 알 바 아닙니다. 레시피 북(명세서)에 "10원 넣으면 핫도그 나온다"라고 적혀 있으니, 10원 넣어서 핫도그 나오는지만 입구와 출구에서 감시하는 무서운 평가단입니다.
 
@@ -129,30 +128,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) ([Black-box Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) / 명세 기반 테스트)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) ([Black-box Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) / 명세 기반 테스트)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) ([Black-box Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) / 명세 기반 테스트)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) ([Black-box Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) / 명세 기반 테스트) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) ([Black-box Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) / 명세 기반 테스트)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블랙박스 테스트 (Black-box Test / 명세 기반 테스트) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+블랙박스 테스트 (Black-box Test / 명세 기반 테스트) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

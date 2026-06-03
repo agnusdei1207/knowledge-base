@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **토폴로지(Topology)**: 노드(컴퓨터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))와 링크(랜선)가 어떻게 얽혀있는지 그린 네트워크 지도입니다.
 - **동적 프로비저닝의 저주**: 클라우드([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/[NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/)) 환경에서는 트래픽이 몰리면 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 가상머신([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)) 100개가 순식간에 생겨나고, IP가 난수처럼 쏟아지며, 허공에 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 터널 수백 개가 뚫립니다. 관리자가 네트워크 지도를 펼쳐보면 이미 옛날 버전이라, 에러가 터졌을 때 트래픽이 어디로 가다가 막혔는지 죽어도 찾을 수 없습니다(가시성 완전 상실).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 실시간 토폴로지 동기…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼시스턴트 토폴로지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
-</div>
-</div>
-
-
+```text
+[디지털 트윈 네트워크 실시간 토폴로지 동기…]
+    │
+    ▼
+[퍼시스턴트 토폴로지]
+    │
+    └──▶ [멀티캐스트 오디오/비디오 스트리밍 프로토콜]
+```
 
 - **📢 섹션 요약 비유**: 퍼시스턴트 토폴로지는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
 - 관리자가 "어제 새벽 2시에 왜 결제 서버가 뻗었지?" 하고 타임머신 다이얼을 어제 새벽 2시로 쫙 돌립니다.
 - 모니터에 <strong>"어제 새벽 2시 정각에 정확히 형성되어 있던 가상 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 1만 개의 연결 거미줄(토폴로지) 형상"이 눈앞에 완벽히 복원</strong>되어 나타납니다. 뻗기 직전의 연결 상태를 추적해 범인을 단숨에 색출해 냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 실시간 토폴로지 동기…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼시스턴트 토폴로지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
-</div>
-</div>
-
-
+```text
+[디지털 트윈 네트워크 실시간 토폴로지 동기…]
+    │
+    ▼
+[퍼시스턴트 토폴로지]
+    │
+    └──▶ [멀티캐스트 오디오/비디오 스트리밍 프로토콜]
+```
 
 - **📢 섹션 요약 비유**: 기존 정적 토폴로지 지도(엑셀)는 벽에 붙여놓은 '종이 세계지도'입니다. 국가의 국경선이 100년 동안 안 바뀔 때는 쓸만하지만, 매일 밤 국경이 수천 번씩 바뀌는 춘추전국시대(클라우드)에는 종이 지도를 보며 길을 찾는 건 자살 행위입니다. <strong>퍼시스턴트 토폴로지 관리</strong>는 하늘에 떠 있는 전능한 '타임머신 위성 레이더망([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB)'입니다. 적군([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))이 텐트를 100개 치고 길(가상 랜선)을 낼 때마다, 레이더가 0.1초 만에 사진을 찍어 완벽한 3D 입체 그물망 지도로 만들어 영구히 하드디스크에 저장합니다. 관리자는 언제든 다이얼을 돌려 "어제 3시에 얘네들 텐트 어떻게 쳐놨었지?" 라며 1초의 오차도 없이 과거의 복잡한 그물망 진형을 100% 되살려내 분석(가시성 확보)할 수 있는 궁극의 작전 통제 지도입니다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 디지털 트윈 네트워크 실시간 토폴로지 동기…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 퍼시스턴트 토폴로지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 디지털 트윈 네트워크 실시간 토폴로지 동기…]
+    │
+    ▼
+[현재 개념: 퍼시스턴트 토폴로지]
+    │
+    ├──▶ [확장 A: 멀티캐스트 오디오/비디오 스트리밍 프로토콜]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 퍼시스턴트 토폴로지는 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 실시간 토폴로지 동기…에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

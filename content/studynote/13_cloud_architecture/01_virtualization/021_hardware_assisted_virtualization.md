@@ -42,27 +42,29 @@ tags = ["studynote-cloud"]
 ### 1. Root Mode와 Non-Root Mode (VMX 아키텍처)
 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)는 기존의 Ring 0~3 체계를 놔둔 채, 이 전체를 두 개의 거대한 공간으로 다시 분할합니다. (VMX: [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Extensions)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 보조 가상화 (VMX) 권한 링 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VMX Non-Root Mode (게스트 공간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 3: Guest Application (앱)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 0: Guest OS (VM의 커널)</div><div class="kb-diagram-cell">&lt;-- 게스트 OS가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자신이 최고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(명령 실행) 권한자라고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 착각하게 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========= VM Exit (제어권 전환 트랩) ============</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VMX Root Mode (호스트/하이퍼바이저 공간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 0: Hypervisor (VMM, 호스트)</div><div class="kb-diagram-cell">&lt;-- 진짜 최고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 통제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">권한을 가짐</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Hardware (CPU, Memory, I/O)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          [ 하드웨어 보조 가상화 (VMX) 권한 링 아키텍처 ]        │
+│                                                             │
+│       [ VMX Non-Root Mode (게스트 공간) ]                     │
+│       ┌─────────────────────────────────────┐               │
+│       │ Ring 3: Guest Application (앱)      │               │
+│       │ Ring 0: Guest OS (VM의 커널)        │<-- 게스트 OS가  │
+│       └─────────────────────────────────────┘    자신이 최고  │
+│              │ (명령 실행)                       권한자라고   │
+│              ▼                                  착각하게 함   │
+│   ========= VM Exit (제어권 전환 트랩) ============          │
+│              │                                              │
+│              ▼                                              │
+│       [ VMX Root Mode (호스트/하이퍼바이저 공간) ]             │
+│       ┌─────────────────────────────────────┐               │
+│       │ Ring 0: Hypervisor (VMM, 호스트)    │<-- 진짜 최고   │
+│       └─────────────────────────────────────┘    하드웨어 통제│
+│              │                                   권한을 가짐  │
+│              ▼                                              │
+│     [ Physical Hardware (CPU, Memory, I/O) ]                │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]**
 1. 게스트 OS는 <strong>VMX Non-Root Mode의 Ring 0</strong>에 배치됩니다. 게스트 OS는 자신이 시스템의 진정한 주인이라고 착각하며 마음껏 특권 명령을 내립니다.
@@ -143,23 +145,21 @@ CPU가 하드웨어적으로 [가상화](/knowledge-base/studynote/13_cloud_arch
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전가상화 (Full Virtualization — 이진 변환, 소프트웨어 에뮬레이션)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">반가상화 (Paravirtualization — Guest OS 수정, 하이퍼콜)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 보조 가상화 (HW-assisted — Intel VT-x / AMD-V)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SR-IOV / VT-d (I/O 디바이스 직접 접근 — PCIe 가상화)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Firecracker MicroVM (컨테이너 + VM 보안 — FaaS 기반)</div></div>
-</div>
-</div>
-
-
+```text
+[전가상화 (Full Virtualization — 이진 변환, 소프트웨어 에뮬레이션)]
+    │
+    ▼
+[반가상화 (Paravirtualization — Guest OS 수정, 하이퍼콜)]
+    │
+    ▼
+[하드웨어 보조 가상화 (HW-assisted — Intel VT-x / AMD-V)]
+    │
+    ▼
+[SR-IOV / VT-d (I/O 디바이스 직접 접근 — PCIe 가상화)]
+    │
+    ▼
+[Firecracker MicroVM (컨테이너 + VM 보안 — FaaS 기반)]
+```
 소프트웨어 에뮬레이션의 오버헤드를 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)(VT-x)가 CPU 레벨에서 해결했고, SR-IOV는 I/O까지 직접 접근을 제공하며, Firecracker는 이를 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 초경량 MicroVM으로 완성했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

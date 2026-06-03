@@ -23,17 +23,15 @@ tags = ["studynote-ai"]
 
 행동 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 상태-행동 쌍을 모아 지도학습처럼 학습하는 가장 직관적인 방식이다. 즉, "사람이 브레이크를 밟는 상황"을 보고 모델도 같은 판단을 하게 만드는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Imitation Learning from Expert Demonstrations</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Expert Driving</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">State-Action Pairs</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Policy Network</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Action Output</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           Imitation Learning from Expert Demonstrations      │
+├──────────────────────────────────────────────────────────────┤
+│ [Expert Driving] → [State-Action Pairs] → [Policy Network]   │
+│                                             ↓                │
+│                                         [Action Output]       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 운전 선생님 옆자리에 앉아 "왜 지금 핸들을 꺾는지"를 배우는 것과 같다.
 
@@ -49,17 +47,15 @@ tags = ["studynote-ai"]
 | **Inverse RL** | 보상 함수를 추정 | 의도 해석 가능 | 복잡하고 느림 |
 | **DAgger** | 모델이 만든 상태를 다시 수집 | 분포 이동 완화 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용 증가 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Behavior Cloning Pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">demo state ──▶ supervised learner ──▶ action policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">expert label / action</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  Behavior Cloning Pipeline                   │
+├──────────────────────────────────────────────────────────────┤
+│ demo state ──▶ supervised learner ──▶ action policy          │
+│     ▲                                               │        │
+│     └──────────── expert label / action ────────────┘        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 모방 학습의 가장 큰 위험은 covariate shift다. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 전문가가 잘 운전한 상황만 포함하지만, 실제 모델은 스스로 조금씩 잘못된 상태를 만들고 그 상태에선 더 이상 전문가처럼 행동하지 못한다.
 

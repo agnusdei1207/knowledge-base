@@ -48,28 +48,29 @@ tags = ["studynote-operating-system"]
 
 가장 단순한 형태의 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)(Base & [Limit Register](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/))가 작동하는 2단계 알고리즘이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ─ MMU ─ RAM 주소 변환 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "논리 주소 346 번지에 있는 값을 가져와라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (논리 주소 346)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=========================</div><div class="kb-diagram-node">MMU 칩셋</div><div class="kb-diagram-note">===========================</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 방어 (Protection) 검사:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">Limit Register (한계치)</div><div class="kb-diagram-note">= 1000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 346 &lt; 1000 이므로 합격! (만약 1500이었으면 즉시 Trap 발생시켜 OS 호출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 변환 (Translation):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">Base Register (기준점)</div><div class="kb-diagram-note">= 14000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 346 (논리) + 14000 (Base) = 14346 (물리) 계산 완료!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (물리 주소 14346)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=========================</div><div class="kb-diagram-node">RAM</div><div class="kb-diagram-note">===============================</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 14346 번지의 데이터를 찾아 CPU로 반환!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 CPU ─ MMU ─ RAM 주소 변환 아키텍처                   │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [ CPU ]                                                          │
+  │   - "논리 주소 346 번지에 있는 값을 가져와라!"                           │
+  │             │                                                     │
+  │             ▼ (논리 주소 346)                                       │
+  │  ========================= [ MMU 칩셋 ] ===========================│
+  │   1. 방어 (Protection) 검사:                                        │
+  │      - [Limit Register (한계치)] = 1000                           │
+  │      - 346 < 1000 이므로 합격! (만약 1500이었으면 즉시 Trap 발생시켜 OS 호출)│
+  │                                                                   │
+  │   2. 변환 (Translation):                                           │
+  │      - [Base Register (기준점)] = 14000                           │
+  │      - 346 (논리) + 14000 (Base) = 14346 (물리) 계산 완료!            │
+  │             │                                                     │
+  │             ▼ (물리 주소 14346)                                     │
+  │  ========================= [ RAM ] ===============================│
+  │   - 14346 번지의 데이터를 찾아 CPU로 반환!                              │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** CPU(코어)는 자기가 `14346`번지를 불렀는지 모른다. 그냥 `346`번지를 달라고 했을 뿐이다. RAM도 자기가 `346`번지로 불렸는지 모른다. 그냥 `14346`번지에 전기 신호가 와서 답을 줬을 뿐이다. **오직 MMU만이 두 세계의 진실을 알고 있다.** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)는 프로세스를 바꿀 때마다 이 MMU의 `Base/Limit 레지스터` 값만 쓱 바꿔치기해 주면, 완벽한 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/)과 메모리 격리가 달성된다.
 
@@ -120,27 +121,30 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 접근 및 보안 아키텍처 (MMU 활용) 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱 구동 시 메모리 접근 제어 및 보호 메커니즘 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 라이브러리(.so, .dll) 코드를 여러 프로세스가 동시에 쓰는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MMU의 Shared Page 매핑 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: A 프로세스와 B 프로세스의 논리 주소는 다르지만,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU가 이 둘을 램의 '동일한 하나의 물리 주소'로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">번역하게 세팅하여 램(RAM) 낭비를 막음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 메모리 영역의 용도가 데이터 저장용인가, 코드 실행용인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">읽기(R)와 실행(X)만 부여, 쓰기(W) 금지 설정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">읽기(R)와 쓰기(W) 부여, 실행(X) 금지 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ W^X 원칙 (Write XOR Execute): MMU 단에서 쓸 수 있는 메모리는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행할 수 없게 만들어 버퍼 오버플로우 공격을 원천 차단!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 접근 및 보안 아키텍처 (MMU 활용) 플로우              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [앱 구동 시 메모리 접근 제어 및 보호 메커니즘 설정]                        │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      공유 라이브러리(.so, .dll) 코드를 여러 프로세스가 동시에 쓰는가?           │
+  │          ├─ 예 ─────▶ [MMU의 Shared Page 매핑 적용]                 │
+  │          │            대책: A 프로세스와 B 프로세스의 논리 주소는 다르지만,    │
+  │          │                  MMU가 이 둘을 램의 '동일한 하나의 물리 주소'로     │
+  │          │                  번역하게 세팅하여 램(RAM) 낭비를 막음.         │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      이 메모리 영역의 용도가 데이터 저장용인가, 코드 실행용인가?                │
+  │          ├─ 코드 ─▶ [읽기(R)와 실행(X)만 부여, 쓰기(W) 금지 설정]         │
+  │          │                                                        │
+  │          └─ 데이터 ─▶ [읽기(R)와 쓰기(W) 부여, 실행(X) 금지 설정]        │
+  │            ★ W^X 원칙 (Write XOR Execute): MMU 단에서 쓸 수 있는 메모리는 │
+  │               실행할 수 없게 만들어 버퍼 오버플로우 공격을 원천 차단!         │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 가상 주소 분리의 마법은 단순히 '이사를 편하게 하는 것'에 그치지 않는다. 해커로부터의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)([DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)), 자원의 절약([공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)), 심지어 프로세스가 포크(`fork`)될 때 메모리 복사를 늦추는 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)([Copy-On-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)) 기법까지, 현대 OS의 모든 기적 같은 트릭들은 결국 MMU라는 문지기가 주소와 권한을 실시간으로 조작해 주기 때문에 가능한 것이다.
 
@@ -183,19 +187,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">주소 바인딩 컴파일/로드/실행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리 주소 물리 주소 변환 MMU (Logical Physical Address Translation MMU)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">외부 단편화 가변 분할</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">내부 단편화 고정/페이징</div></div>
-</div>
-</div>
-
-
+```text
+[주소 바인딩 컴파일/로드/실행]
+    │
+    ▼
+[논리 주소 물리 주소 변환 MMU (Logical Physical Address Translation MMU)]
+    │
+    ├──▶ [외부 단편화 가변 분할]
+    └──▶ [내부 단편화 고정/페이징]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

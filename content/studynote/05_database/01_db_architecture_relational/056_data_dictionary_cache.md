@@ -109,21 +109,18 @@ SQL/DDL → Dictionary Lookup → Cache → Metadata
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메타데이터 조회</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 사전 캐시</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빠른 SQL 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">일관성 / 무효화 관리</div>
-</div>
-</div>
-
-
+```text
+메타데이터 조회
+    │
+    ▼
+데이터 사전 캐시
+    │
+    ▼
+빠른 SQL 처리
+    │
+    ▼
+일관성 / 무효화 관리
+```
 
 이 흐름은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 조회 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이기 위한 캐시의 역할을 보여준다.
 

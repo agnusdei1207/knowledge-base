@@ -1,5 +1,5 @@
 +++
-title = "780. 물리적 분해 분석 (Reverse Engineering)"
+title = "780. 물리적 분해 분석 (Reverse 엔진ering)"
 date = 2026-05-08
 
 [taxonomies]
@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 물리적 분해 분석은 패키지를 열고 층을 벗겨 다이 이미지를 얻은 뒤, 배선·[트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)·[ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) (Read-Only Memory) 구조를 다시 조합해 칩 내부 회로와 저장 정보를 복원하는 파괴적 Reverse Engineering이다.
+> 1. **본질**: 물리적 분해 분석은 패키지를 열고 층을 벗겨 다이 이미지를 얻은 뒤, 배선·[트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)·[ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) (Read-Only Memory) 구조를 다시 조합해 칩 내부 회로와 저장 정보를 복원하는 파괴적 Reverse 엔진ering이다.
 > 2. **가치**: 목표는 키 한 번 탈취에 그치지 않고 IP (Intellectual Property) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 보안 로직 우회, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) ([Focused Ion Beam](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)) 수정, 프로빙 표적화까지 가능한 <strong>후속 공격의 지도</strong>를 얻는 데 있다.
 > 3. **판단 포인트**: 저장된 비밀은 언젠가 사진과 배선 수준에서 읽힐 수 있다는 전제를 두고, [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/), 회로 위장, [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) (Physically Unclonable Function) 기반 키 파생처럼 "열어보면 가치가 사라지는" 구조를 설계해야 한다.
 
@@ -25,20 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 물리적 분해 분석이 단순 분해가 아니라 "패키지 제거 → 층별 관찰 → 구조 복원"으로 이어지는 파이프라인임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical reverse engineering pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Package removal</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delayering</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Imaging</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──► ROM / fuse read</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──► Netlist recovery ► probe / FIB / copy</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│ Physical reverse engineering pipeline                           │
+├──────────────────────────────────────────────────────────────────┤
+│ Package removal                                                 │
+│        │                                                        │
+│        ▼                                                        │
+│ Delayering                                                      │
+│        │                                                        │
+│        ▼                                                        │
+│ Imaging                                                         │
+│        │                                                        │
+│        ├──► ROM / fuse read                                     │
+│        └──► Netlist recovery ───► probe / FIB / copy            │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 즉 물리적 분해 분석은 "무엇이 들어 있나"를 넘어서 "어떻게 만들어졌고 어디를 찌르면 되나"까지 알려 주는 상위 단계의 공격 준비 과정이다.
 
@@ -62,22 +64,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 단면도는 물리적 분해 분석이 왜 레이어별 작업인지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Simplified die cross-section</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Passivation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metal 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metal 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metal 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metal 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Poly / diffusion</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Silicon substrate</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│ Simplified die cross-section                                     │
+├──────────────────────────────────────────────────────────────────┤
+│ Passivation                                                     │
+│ Metal 4                                                         │
+│ Metal 3                                                         │
+│ Metal 2                                                         │
+│ Metal 1                                                         │
+│ Poly / diffusion                                                │
+│ Silicon substrate                                               │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 공격자는 위에서부터 한 층씩 벗기며 이미지를 쌓아 올린다. 방어자는 결국 "한 층을 봐도 전체 의미가 드러나지 않게" 만들거나, 레이어에 접근하는 순간 비밀이 사라지게 만들어야 한다.
 
@@ -87,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-물리적 분해 분석은 [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/), 프로빙, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정과 긴밀히 연결되지만 역할은 서로 다르다. [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)은 내부 접근을 여는 "입구", 프로빙은 살아 있는 신호를 읽는 "실시간 관찰", [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정은 회로를 자르고 이어 바꾸는 "능동 개입"이다. Reverse Engineering은 이들을 가능하게 하는 <strong>구조 이해의 기반</strong>에 가깝다.
+물리적 분해 분석은 [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/), 프로빙, [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정과 긴밀히 연결되지만 역할은 서로 다르다. [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)은 내부 접근을 여는 "입구", 프로빙은 살아 있는 신호를 읽는 "실시간 관찰", [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) 수정은 회로를 자르고 이어 바꾸는 "능동 개입"이다. Reverse 엔진ering은 이들을 가능하게 하는 <strong>구조 이해의 기반</strong>에 가깝다.
 
 | 기법 | 주된 목적 | 얻는 정보 | 특징 |
 | :--- | :--- | :--- | :--- |
@@ -100,7 +99,7 @@ tags = ["studynote-computer-architecture"]
 
 보안 관점에서는 "회로를 숨기면 된다"는 생각이 가장 위험하다. 공정이 복잡할수록 분석 비용은 오르지만, 한 번 분석에 성공하면 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·우회·공격 자동화까지 이어질 수 있다. 그래서 obscurity는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 수단일 뿐, 단독 방어책이 되기 어렵다.
 
-- **📢 섹션 요약 비유**: [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)이 문을 여는 일이라면, Reverse Engineering은 집 안 구조를 평면도로 다시 그리는 일이다. 문 한 번 열어 본 것보다 평면도를 손에 넣는 쪽이 훨씬 위험하다.
+- **📢 섹션 요약 비유**: [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)이 문을 여는 일이라면, Reverse 엔진ering은 집 안 구조를 평면도로 다시 그리는 일이다. 문 한 번 열어 본 것보다 평면도를 손에 넣는 쪽이 훨씬 위험하다.
 
 ---
 
@@ -158,24 +157,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Package 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Delayering · Layer Imaging</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Netlist / ROM / eFuse 복원</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Probing (live signal 관측)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">FIB edit (회로 우회)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">IP cloning (복제)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Active Mesh · Zeroization · PUF · Camouflaging</div>
-</div>
-</div>
-
-
+```text
+Package 제거
+    │
+    ▼
+Delayering · Layer Imaging
+    │
+    ▼
+Netlist / ROM / eFuse 복원
+    │
+    ├──► Probing (live signal 관측)
+    ├──► FIB edit (회로 우회)
+    └──► IP cloning (복제)
+    │
+    ▼
+Active Mesh · Zeroization · PUF · Camouflaging
+```
 
 이 흐름은 물리적 접근이 구조 복원으로 이어지고, 다시 실시간 관측·회로 수정·[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 같은 후속 공격으로 확장되며, 이에 대응해 [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/)와 키 무효화 설계가 요구되는 과정을 보여준다.
 

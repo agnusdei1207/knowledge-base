@@ -125,34 +125,33 @@ SQL:
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). JOIN과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
+```
+JOIN = 카티션 프로덕트 + 조건 선택
 
+Theta Join (θ Join):
+  R × S 후 조건 θ로 선택
+  R ⋈θ S = σθ(R × S)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">JOIN = 카티션 프로덕트 + 조건 선택</div>
-<div class="kb-diagram-note">Theta Join (θ Join):</div>
-<div class="kb-diagram-note">R × S 후 조건 θ로 선택</div>
-<div class="kb-diagram-note">R ⋈θ S = σθ(R × S)</div>
-<div class="kb-diagram-note">Natural Join (자연 조인):</div>
-<div class="kb-diagram-note">공통 속성 이름으로 자동 동등 조인</div>
-<div class="kb-diagram-note">중복 속성 제거</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">학생(학번, 이름) × 수강(학번, 과목)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">θ: 학생.학번 = 수강.학번</div>
-<div class="kb-diagram-note">= Natural Join</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">학번 이름 과목</div>
-<div class="kb-diagram-note">001 홍길동 수학</div>
-<div class="kb-diagram-note">001 홍길동 영어</div>
-<div class="kb-diagram-note">SQL 최적화:</div>
-<div class="kb-diagram-note">카티션 프로덕트 직접 쿼리 금지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">항상 JOIN 조건 명시</div>
-<div class="kb-diagram-tree-item" style="--depth:1">쿼리 옵티마이저: 조건 푸시다운(Push-down)</div>
-<div class="kb-diagram-note">선택 먼저 -&gt; 카티션 프로덕트 결과 최소화</div>
-</div>
-</div>
+Natural Join (자연 조인):
+  공통 속성 이름으로 자동 동등 조인
+  중복 속성 제거
+  
+예:
+  학생(학번, 이름) × 수강(학번, 과목)
+  -> θ: 학생.학번 = 수강.학번
+  = Natural Join
+  
+결과:
+  학번  이름     과목
+  001   홍길동   수학
+  001   홍길동   영어
 
-
+SQL 최적화:
+  카티션 프로덕트 직접 쿼리 금지
+  -> 항상 JOIN 조건 명시
+  -> 쿼리 옵티마이저: 조건 푸시다운(Push-down)
+     선택 먼저 -> 카티션 프로덕트 결과 최소화
+```
 
 > 📢 **섹션 요약 비유**: JOIN은 선택 조건이 있는 스마트한 [카티션 프로덕트](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/) — "같은 학번끼리만" 조합해 결과를 최소화.
 
@@ -160,34 +159,33 @@ SQL:
 
 ## V. 실무 시나리오 — UNION ALL [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화
 
+```
+요구사항: 지난 1년간 전체 주문 내역 조회
+  orders_2024 (1억 건) -- 2024년 테이블
+  orders_2025 (5천만 건) -- 2025년 테이블
 
+비효율적:
+  SELECT * FROM orders_2024
+  UNION
+  SELECT * FROM orders_2025;
+  -- 중복 제거를 위해 전체 정렬/해시 필요
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요구사항: 지난 1년간 전체 주문 내역 조회</div>
-<div class="kb-diagram-note">orders_2024 (1억 건) -- 2024년 테이블</div>
-<div class="kb-diagram-note">orders_2025 (5천만 건) -- 2025년 테이블</div>
-<div class="kb-diagram-note">비효율적:</div>
-<div class="kb-diagram-note">SELECT * FROM orders_2024</div>
-<div class="kb-diagram-note">UNION</div>
-<div class="kb-diagram-note">SELECT * FROM orders_2025;</div>
-<div class="kb-diagram-tree-item" style="--depth:1">중복 제거를 위해 전체 정렬/해시 필요</div>
-<div class="kb-diagram-note">최적화:</div>
-<div class="kb-diagram-note">SELECT * FROM orders_2024</div>
-<div class="kb-diagram-note">UNION ALL -- 중복 체크 없음!</div>
-<div class="kb-diagram-note">SELECT * FROM orders_2025;</div>
-<div class="kb-diagram-note">성능 차이:</div>
-<div class="kb-diagram-note">UNION: 정렬+해시 비용 (10배 이상 느릴 수 있음)</div>
-<div class="kb-diagram-note">UNION ALL: 단순 합치기 (I/O만 필요)</div>
-<div class="kb-diagram-note">주문 ID가 테이블 간 중복될 수 없다면 -&gt; UNION ALL 사용</div>
-<div class="kb-diagram-note">파티션 테이블:</div>
-<div class="kb-diagram-note">orders (range partition by year)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">UNION ALL 없이 파티션 프루닝으로 해결</div>
-<div class="kb-diagram-tree-item" style="--depth:1">더 나은 장기 설계</div>
-</div>
-</div>
+최적화:
+  SELECT * FROM orders_2024
+  UNION ALL              -- 중복 체크 없음!
+  SELECT * FROM orders_2025;
 
+성능 차이:
+  UNION: 정렬+해시 비용 (10배 이상 느릴 수 있음)
+  UNION ALL: 단순 합치기 (I/O만 필요)
+  
+주문 ID가 테이블 간 중복될 수 없다면 -> UNION ALL 사용
 
+파티션 테이블:
+  orders (range partition by year)
+  -> UNION ALL 없이 파티션 프루닝으로 해결
+  -> 더 나은 장기 설계
+```
 
 > 📢 **섹션 요약 비유**: 두 출석부 합칠 때 학생이 두 반에 절대 겹칠 수 없다면 굳이 중복 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 안 해도 됨 — UNION ALL은 "겹칠 거 없으니 그냥 붙이기".
 

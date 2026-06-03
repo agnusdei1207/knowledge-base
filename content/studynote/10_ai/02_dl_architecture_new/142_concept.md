@@ -48,18 +48,12 @@ Chinchilla: N과 D를 1:20 비율로 균형
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GPT-3 스케일링 (2020)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Scaling Laws (Kaplan, 2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Chinchilla (DeepMind, 2022)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LLaMA (Meta, 2023, 데이터 중심)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 추론 시간 스케일링 (Test-time Compute)</div></div>
-</div>
-</div>
-
-
+```text
+[GPT-3 스케일링 (2020)] → [Scaling Laws (Kaplan, 2020)]
+    → [Chinchilla (DeepMind, 2022)]
+    → [LLaMA (Meta, 2023, 데이터 중심)]
+    → [현재: 추론 시간 스케일링 (Test-time Compute)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)은 **연습할수록 실력이 올라가는** 법칙이에요.
@@ -73,6 +67,6 @@ Chinchilla: N과 D를 1:20 비율로 균형
 **진행 상황**: 142 / 420
 
 ← **이전**: [141. LLM 핵심 개념 - 대규모 언어 모델의 원리와 구조](/knowledge-base/studynote/10_ai/02_dl_architecture_new/141_concept/)
-**다음**: [143. 프롬프트 엔지니어링 (Prompt Engineering) - LLM 활용의 핵심](/knowledge-base/studynote/10_ai/02_dl_architecture_new/143_prompt_engineering/) →
+**다음**: [143. 프롬프트 엔지니어링 (Prompt 엔진ering) - LLM 활용의 핵심](/knowledge-base/studynote/10_ai/02_dl_architecture_new/143_prompt_engineering/) →
 
 ---

@@ -61,21 +61,15 @@ tags = ["database"]
 
 인스턴스는 시작되면 메모리를 잡고 백그라운드 프로세스를 띄운다. 그 뒤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 가능해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Instance 시작</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">메모리 할당</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">백그라운드 프로세스 기동</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Database 열기</div>
-</div>
-</div>
-
-
+```text
+Instance 시작
+   ↓
+메모리 할당
+   ↓
+백그라운드 프로세스 기동
+   ↓
+Database 열기
+```
 
 장애가 나면 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 체크포인트 정보를 이용해 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 수행한다.
 
@@ -95,21 +89,15 @@ tags = ["database"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Database 파일</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Instance</div>
-<div class="kb-diagram-tree-item" style="--depth:1">SGA</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Background Processes</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">서비스 동작 / 복구</div>
-</div>
-</div>
-
-
+```text
+Database 파일
+   ↓
+Instance
+   ├─ SGA
+   └─ Background Processes
+   ↓
+서비스 동작 / 복구
+```
 
 ---
 

@@ -47,27 +47,29 @@ tags = ["studynote-operating-system"]
 디스크의 0번 블록에 [FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) 테이블이 저장되어 있고, 부팅 시 RAM에 올라와 있다.
 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)에는 `[파일명: A.txt | 시작 블록: 10]` 이라고 적혀 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FAT (File Allocation Table)의 링크 추적 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디렉터리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 파일 "A.txt", 시작 블록 번호 =</div><div class="kb-diagram-node">10</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAM에 올라와 있는 FAT 테이블 (배열 인덱스 = 블록 번호)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인덱스(블록)</div><div class="kb-diagram-cell">FAT 배열에 적힌 값 (다음 블록 번호)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">25 ◀── (A.txt의 시작점 10번. 다음은 25번!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">25</div><div class="kb-diagram-cell">17 ◀── (A.txt의 2번째 덩어리. 다음은 17번!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">17</div><div class="kb-diagram-cell">EOF ◀── (A.txt의 3번째 덩어리. 파일 끝(End Of File))</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동작 결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS는 디스크를 한 번도 안 읽고, RAM 안에서만 테이블을 뒤져</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A.txt가 "10 -&gt; 25 -&gt; 17" 순서로 저장되어 있음을 알아냈다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 만약 3번째 블록을 원하면 바로 디스크 17번 블록으로 헤드를 옮기면 끝!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 FAT (File Allocation Table)의 링크 추적 원리           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [ 디렉터리 ]                                                      │
+  │   - 파일 "A.txt", 시작 블록 번호 = [ 10 ]                           │
+  │                                                                   │
+  │  [ RAM에 올라와 있는 FAT 테이블 (배열 인덱스 = 블록 번호) ]             │
+  │                                                                   │
+  │   인덱스(블록) │ FAT 배열에 적힌 값 (다음 블록 번호)                    │
+  │  ─────────┼──────────────────────────────────────────         │
+  │      ...    │ ...                                                │
+  │       10    │  25  ◀── (A.txt의 시작점 10번. 다음은 25번!)          │
+  │       25    │  17  ◀── (A.txt의 2번째 덩어리. 다음은 17번!)         │
+  │       17    │  EOF ◀── (A.txt의 3번째 덩어리. 파일 끝(End Of File))│
+  │                                                                   │
+  │  [ 동작 결과 ]                                                     │
+  │   - OS는 디스크를 한 번도 안 읽고, RAM 안에서만 테이블을 뒤져           │
+  │     A.txt가 "10 -> 25 -> 17" 순서로 저장되어 있음을 알아냈다!            │
+  │   - 만약 3번째 블록을 원하면 바로 디스크 17번 블록으로 헤드를 옮기면 끝!    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 테이블의 값은 딱 3종류다. **다음 블록 번호**, **빈 블록 표시(Free, 보통 0)**, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 끝 표시(EOF, 보통 -1이나 특수기호)</strong>. 새로운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓸 때는 테이블을 쫙 스캔해서 0(Free)인 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 찾아 그 번호에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰고 포인터를 이어주면 끝이다.
 
@@ -120,24 +122,26 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이동식 저장 매체(USB/SD카드) 파일 시스템 선택 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 USB 메모리 또는 외장 하드를 포맷하려고 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 드라이브를 Windows와 Mac OS, 스마트TV 등에 번갈아 가며 꽂을 것인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NTFS와 APFS는 상호 호환성 문제로 배제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Mac은 NTFS 쓰기 불가, Win은 APFS 읽기 불가)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 대책:</div><div class="kb-diagram-node">exFAT</div><div class="kb-diagram-note">포맷 적용. 완벽한 크로스플랫폼 호환성 보장.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (오직 윈도우 서버/PC에서만 영구적으로 박아두고 쓴다)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NTFS 포맷 강력 권장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- FAT 계열은 저널링(Journaling) 기능이 없어 정전 시 데이터가 100% 날아감.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- NTFS는 색인 할당(MFT) 기반이라 보안(ACL), 저널링, 압축 기능을 완벽 지원함.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 이동식 저장 매체(USB/SD카드) 파일 시스템 선택 플로우        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [새로운 USB 메모리 또는 외장 하드를 포맷하려고 함]                        │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      이 드라이브를 Windows와 Mac OS, 스마트TV 등에 번갈아 가며 꽂을 것인가?   │
+  │          ├─ 예 ─────▶ [NTFS와 APFS는 상호 호환성 문제로 배제]           │
+  │          │            (Mac은 NTFS 쓰기 불가, Win은 APFS 읽기 불가)      │
+  │          │            대책: [exFAT] 포맷 적용. 완벽한 크로스플랫폼 호환성 보장.│
+  │          └─ 아니오 (오직 윈도우 서버/PC에서만 영구적으로 박아두고 쓴다)      │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      [NTFS 포맷 강력 권장]                                             │
+  │      - FAT 계열은 저널링(Journaling) 기능이 없어 정전 시 데이터가 100% 날아감.│
+  │      - NTFS는 색인 할당(MFT) 기반이라 보안(ACL), 저널링, 압축 기능을 완벽 지원함.│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "그냥 아무거나 포맷하면 되는 거 아냐?" 아니다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 운영체제와 하드웨어가 소통하는 언어다. exFAT은 마이크로소프트가 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)를 위해 FAT의 군더더기를 쫙 빼고(오버헤드 최소화) 배터리를 아끼도록 만든 최고의 모바일용 포맷이다. 반면 서버에 exFAT을 쓰면 정전 한 번에 DB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 몽땅 날아가는 재앙을 맞는다.
 
@@ -181,19 +185,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 시스템 연속, 연결, 색인 할당</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FAT 방식 연결 할당 최적화 (Fat File Allocation Table Optimization)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">i-node 직접/간접 포인터 인덱스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드 링크 / 심볼릭 링크 차이</div></div>
-</div>
-</div>
-
-
+```text
+[파일 시스템 연속, 연결, 색인 할당]
+    │
+    ▼
+[FAT 방식 연결 할당 최적화 (Fat File Allocation Table Optimization)]
+    │
+    ├──▶ [i-node 직접/간접 포인터 인덱스]
+    └──▶ [하드 링크 / 심볼릭 링크 차이]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -32,25 +32,26 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLIP 대조 학습 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 배치 (N개) 텍스트 배치 (N개)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│img_1 │──►</div><div class="kb-diagram-node">이미지 인코더</div><div class="kb-diagram-note">─►│ v_1 (임베딩) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">img_2</div><div class="kb-diagram-cell">(ViT)</div><div class="kb-diagram-cell">v_2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">img_N</div><div class="kb-diagram-cell">v_N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코사인 유사도 행렬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t_1 (텍스트 임베딩)</div><div class="kb-diagram-cell">◄ (N×N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t_2</div><div class="kb-diagram-cell">대각선: 매칭 쌍 ↑ (당기기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">비대각: 비매칭 ↓ (밀기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t_N</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│                CLIP 대조 학습 구조                        │
+│                                                         │
+│  이미지 배치 (N개)         텍스트 배치 (N개)              │
+│  ┌──────┐                 ┌──────────────┐              │
+│  │img_1 │──►[이미지 인코더]─►│ v_1 (임베딩) │              │
+│  │img_2 │  (ViT)          │ v_2          │              │
+│  │ ...  │                 │ ...          │              │
+│  │img_N │                 │ v_N          │              │
+│  └──────┘                 └──────────────┘              │
+│                                   │                     │
+│  ┌──────────────────────┐          │ 코사인 유사도 행렬    │
+│  │ t_1 (텍스트 임베딩)  │◄─────────┘ (N×N)             │
+│  │ t_2                  │  대각선: 매칭 쌍 ↑ (당기기)    │
+│  │ ...                  │  비대각: 비매칭 ↓ (밀기)       │
+│  │ t_N                  │                              │
+│  └──────────────────────┘                              │
+└─────────────────────────────────────────────────────────┘
+```
 
 <strong>대조 학습(Contrastive <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>) 손실 (InfoNCE)</strong>
 

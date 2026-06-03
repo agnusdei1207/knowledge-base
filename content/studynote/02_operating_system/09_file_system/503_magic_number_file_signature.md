@@ -25,26 +25,32 @@ tags = ["studynote-operating-system"]
 - <strong>확장자 맹신 vs 매직 넘버(헤더) 감식 시스템의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 비교 다이어그램</strong>:
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 위장술이 어떻게 OS 단에서 간파당하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 해체도로 까발리면 아래 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일의 겉치레(이름) vs 스펙의 본질(매직 넘버) 감식 방어 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커의 공격</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note"><code>cute_cat.jpg</code></div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 OS의 환상 (확장자 맹신 붕괴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 사용자 클릭!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. OS: ".jpg 니까 착한 그림이구나 그림판(Image Viewer) 열어 얍!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 결과: 그림판 뻗음 &amp; 백그라운드 악성 코드 셸(Shell) 펑 터짐! (시스템 파괴)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 / 보안 S/W 의 진단 (매직 넘버 Signature 스캔 위엄)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 파일의 맨 첫 1행 바이트 뚜껑을 살짝 딴다. (Head Read)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오프셋 0</div><div class="kb-diagram-note">0x4D 0x5A ("MZ") │ ....(어쩌구 저쩌구 데이터) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. OS 커널 / File Utility: "야! 이름은 .jpg 인데, 머리말 헤더 숫자가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'MZ (Mark Zbikowski의 약자, Windows/DOS 실행파일 고유 서명)' 잖아!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 결론: "응 넌 이름만 고양이인 지독한 윈도우 실행파일(Virus)임 꺼져 방어!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────┐
+  │                 파일의 겉치레(이름) vs 스펙의 본질(매직 넘버) 감식 방어 구조   │
+  ├────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                │
+  │  [ 해커의 공격 ] 파일 이름 조작: `virus.exe` ──(이름변경)──▶ `cute_cat.jpg`    │
+  │                                                                                │
+  │  =============================================================                 │
+  │                                                                                │
+  │  [ 윈도우 OS의 환상 (확장자 맹신 붕괴) ]                                       │
+  │    1. 사용자 클릭!                                                             │
+  │    2. OS: ".jpg 니까 착한 그림이구나 그림판(Image Viewer) 열어 얍!"            │
+  │    3. 결과: 그림판 뻗음 & 백그라운드 악성 코드 셸(Shell) 펑 터짐! (시스템 파괴)│
+  │                                                                                │
+  │  =============================================================                 │
+  │                                                                                │
+  │  [ 리눅스 / 보안 S/W 의 진단 (매직 넘버 Signature 스캔 위엄) ]                 │
+  │    1. 파일의 맨 첫 1행 바이트 뚜껑을 살짝 딴다. (Head Read)                    │
+  │     ┌────────────────────────────────────────────────────────┐                 │
+  │     │ [오프셋 0] 0x4D 0x5A ("MZ") │ ....(어쩌구 저쩌구 데이터) │               │
+  │     └────────────────────────────────────────────────────────┘                 │
+  │    2. OS 커널 / File Utility: "야! 이름은 .jpg 인데, 머리말 헤더 숫자가        │
+  │       'MZ (Mark Zbikowski의 약자, Windows/DOS 실행파일 고유 서명)' 잖아!"      │
+  │    3. 결론: "응 넌 이름만 고양이인 지독한 윈도우 실행파일(Virus)임 꺼져 방어!" │
+  └────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이나 보안 백신이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다룰 때 확장자(Extension)는 사용자가 키보드로 지우면 그만인 '휘발성 거짓말 딱지'에 불과하다. 진정한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴 보안 댐의 수비는, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 0번 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Offset 0)부터 시작되는 2~8바이트의 시그니처, 매직 넘버(Magic Number)다. 이 공간은 컴파일러나 포맷 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) S/W 들이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 생성할 때 의무적으로 자기 종족의 도장을 찍게 만들어둔 문신 규약이다. (예: `PDF`의 문신은 `%PDF-` 였다).
 
@@ -129,19 +135,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 속성 (Attributes)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매직 넘버 (Magic Number)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 접근 방법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">색인 접근 (Indexed Access)</div></div>
-</div>
-</div>
-
-
+```text
+[파일 속성 (Attributes)]
+    │
+    ▼
+[매직 넘버 (Magic Number)]
+    │
+    ├──▶ [파일 접근 방법]
+    └──▶ [색인 접근 (Indexed Access)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **전파(EM)의 비극**: 우리가 쓰는 무선 전파는 공기 중에서는 잘 날아가지만, 땅속의 흙(토양), 모래, 특히 <strong>'수분(물기)'</strong>을 만나는 순간 에너지를 빼앗기고 0.5미터도 못 가서 박살 납니다(경로 손실 감쇠).
 - 지하 갱도, 광산, 농업용 토양 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서들을 무선으로 묶으려면 기존의 블루투스나 와이파이는 그냥 쓰레기입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수중 통신 무선 음파</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지중 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">재난 통신망</div></div>
-</div>
-</div>
-
-
+```text
+[수중 통신 무선 음파]
+    │
+    ▼
+[지중 통신]
+    │
+    └──▶ [재난 통신망]
+```
 
 - **📢 섹션 요약 비유**: 지중 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 - **개념**: 전파(전자기파)를 쏘는 대신, 송신기 안에 있는 구리 코일에 전기를 흘려 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~300kHz 대역의 초저주파 <strong>'자기장(Magnetic Field)' 베리어</strong>를 주변에 형성합니다. 수십 미터 떨어진 수신기 코일이 이 자기장의 흔들림 변화를 감지해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(0과 1)로 읽어내는 근거리 통신 방식입니다.
 - **자기장의 무적성 (매질 무시) 🌟**: 자기장은 흙, 돌, 지하수, 콘크리트의 방해를 거의 받지 않습니다. 자석을 책상 밑에 대고 위에서 쇳가루를 흔들 수 있듯, 흙 속 매질 상태가 아무리 변덕스러워도 통신 에러가 폭증하지 않는 100% 신뢰성을 보장합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수중 통신 무선 음파</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지중 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">재난 통신망</div></div>
-</div>
-</div>
-
-
+```text
+[수중 통신 무선 음파]
+    │
+    ▼
+[지중 통신]
+    │
+    └──▶ [재난 통신망]
+```
 
 - **📢 섹션 요약 비유**: 지중 통신의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -116,19 +108,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 수중 통신 무선 음파</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 지중 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 재난 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 수중 통신 무선 음파]
+    │
+    ▼
+[현재 개념: 지중 통신]
+    │
+    ├──▶ [확장 A: 재난 통신망]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 지중 통신는 [수중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/928_uwsn_underwater_acoustic_sensor_network_ofdm/) 무선 음파에서 출발해 현재 메커니즘을 정교화하고, 이후 [재난 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

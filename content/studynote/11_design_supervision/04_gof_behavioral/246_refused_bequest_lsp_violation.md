@@ -20,34 +20,31 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 바바라 리스코프 (Barbara Liskov) 가 1987년 제안한 원칙으로, "서브타입은 그것의 베이스타입으로 치환 가능해야 한다"는 원칙이다. 즉, `T` 타입의 객체가 요구되는 모든 곳에 `S extends T` 타입의 객체를 대입해도 프로그램의 **정확성이 변하지 않아야** 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상속 거부 사례 — 정사각형/직사각형 문제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Rectangle {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int width, height;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void setWidth(int w) { this.width = w; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void setHeight(int h) { this.height = h; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int area() { return width * height; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Square extends Rectangle { ← "is-a?" NO!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@Override</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void setWidth(int w) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">this.width = w; this.height = w; // 거부: height</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@Override</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void setHeight(int h) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">this.width = h; this.height = h; // 거부: width</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-note">Rectangle r = new Square(5);</div>
-<div class="kb-diagram-note">r.setWidth(3); // height도 3으로 변경 → 기대 위반!</div>
-<div class="kb-diagram-note">assert r.area() == 15; ← FAIL (실제: 9)</div>
-</div>
-</div>
-
-
+```
+[ 상속 거부 사례 — 정사각형/직사각형 문제 ]
+┌────────────────────────────────────────────────────────┐
+│  class Rectangle {                                     │
+│    int width, height;                                  │
+│    void setWidth(int w)  { this.width = w; }           │
+│    void setHeight(int h) { this.height = h; }          │
+│    int  area()           { return width * height; }    │
+│  }                                                     │
+│                                                        │
+│  class Square extends Rectangle {  ← "is-a?" NO!      │
+│    @Override                                           │
+│    void setWidth(int w) {                              │
+│      this.width = w; this.height = w;  // 거부: height │
+│    }                                                   │
+│    @Override                                           │
+│    void setHeight(int h) {                             │
+│      this.width = h; this.height = h;  // 거부: width  │
+│    }                                                   │
+│  }                                                     │
+└────────────────────────────────────────────────────────┘
+  Rectangle r = new Square(5);
+  r.setWidth(3);   // height도 3으로 변경 → 기대 위반!
+  assert r.area() == 15;  ← FAIL (실제: 9)
+```
 
 다형성 (Polymorphism) 을 활용하는 코드는 부모 타입으로 객체를 다룬다. LSP가 위반되면 <strong>런타임에 예상치 못한 동작</strong>이 발생하고, 타입 체크 (`instanceof`) 코드가 급증해 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) ([개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/), [Open-Closed Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/244_ocp_open_closed_principle/)) 도 함께 위반된다.
 
@@ -56,48 +53,47 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+┌────────────────────────────────────────────────────────────┐
+│               LSP 위반 유형 분류                           │
+├────────────────────┬───────────────────────────────────────┤
+│  유형              │  설명 및 예시                         │
+├────────────────────┼───────────────────────────────────────┤
+│ 사전 조건 강화     │ 자식이 더 엄격한 입력 조건 요구       │
+│ (Precondition      │ 부모: accept(n >= 0)                  │
+│  Strengthening)    │ 자식: accept(n > 0) ← 위반            │
+├────────────────────┼───────────────────────────────────────┤
+│ 사후 조건 약화     │ 자식이 더 약한 결과 보장              │
+│ (Postcondition     │ 부모: return list non-empty           │
+│  Weakening)        │ 자식: return null 가능 ← 위반         │
+├────────────────────┼───────────────────────────────────────┤
+│ 불변식 위반        │ 자식이 클래스 불변 조건 파괴          │
+│ (Invariant         │ Square가 width≠height 상태 허용       │
+│  Violation)        │                                       │
+├────────────────────┼───────────────────────────────────────┤
+│ 예외 규칙 추가     │ 자식이 부모가 던지지 않는 예외 추가   │
+│ (Exception         │ 자식 override에서 새 예외 throw       │
+│  Addition)         │                                       │
+└────────────────────┴───────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSP 위반 유형 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유형</div><div class="kb-diagram-cell">설명 및 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전 조건 강화</div><div class="kb-diagram-cell">자식이 더 엄격한 입력 조건 요구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Precondition</div><div class="kb-diagram-cell">부모: accept(n &gt;= 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strengthening)</div><div class="kb-diagram-cell">자식: accept(n &gt; 0) ← 위반</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사후 조건 약화</div><div class="kb-diagram-cell">자식이 더 약한 결과 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Postcondition</div><div class="kb-diagram-cell">부모: return list non-empty</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weakening)</div><div class="kb-diagram-cell">자식: return null 가능 ← 위반</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불변식 위반</div><div class="kb-diagram-cell">자식이 클래스 불변 조건 파괴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Invariant</div><div class="kb-diagram-cell">Square가 width≠height 상태 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Violation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예외 규칙 추가</div><div class="kb-diagram-cell">자식이 부모가 던지지 않는 예외 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Exception</div><div class="kb-diagram-cell">자식 override에서 새 예외 throw</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Addition)</div></div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">처방 — 구성 방식 재설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">interface Shape { int area(); }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Rectangle implements Shape {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int width, height;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int area() { return width * height; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Square implements Shape {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int side;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int area() { return side * side; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// Rectangle과 Square는 더 이상 상속 관계 없음</div></div>
-</div>
-</div>
-
-
+```
+[ 처방 — 구성 방식 재설계 ]
+┌────────────────────────────────────────────────┐
+│  interface Shape { int area(); }               │
+│                                                │
+│  class Rectangle implements Shape {           │
+│    int width, height;                          │
+│    int area() { return width * height; }       │
+│  }                                             │
+│                                                │
+│  class Square implements Shape {              │
+│    int side;                                   │
+│    int area() { return side * side; }          │
+│  }                                             │
+│  // Rectangle과 Square는 더 이상 상속 관계 없음 │
+└────────────────────────────────────────────────┘
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|

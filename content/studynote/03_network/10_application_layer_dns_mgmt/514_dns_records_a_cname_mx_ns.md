@@ -42,29 +42,33 @@ tags = ["studynote-network"]
   1. <strong>IPv4의 고갈과 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 대항해 시대</strong>: IP 체계 자체가 `1.1.1.1(32비트)`에서 ➔ `2001:0db8::(128비트)`로 차원이 팽창 폭발하면서, 장부(A 레코드) 하나에 2가지 언어를 담을 수 없었다. "야 IPv6용 장부(AAAA) 하나 옆에 새로 뚫어 록온 쾅!" 
   2. **클라우드 변동성(Volatility) 널뛰기 방어**: 엣날 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)는 서버 IP가 10년 동안 시멘트 떡칠 고정(Static)이라 A 레코드만으로 꿀 빨았다. 클라우드 시대엔 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) IP가 매일 10번씩 널뛰며 뒤졌다 살아난다. "야 IP 바뀔 때마다 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 장부 고칠래 타죽음 ㅠ 걍 IP 대신 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">안 바뀌는 껍데기 로드밸런서 [도메인</a> 이름(CNAME)]</strong>으로 덮어치기 스위칭 쳐서 IP 숨겨 은닉 방어 쉴드 쳐!" 투명 망토 꼼수가 폭발했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS 5대 절대 권력 레코드 엑스레이 타격 도면 (Zone File 팩폭)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🗂️</div><div class="kb-diagram-node">내 회사 도메인 (shop.com) DNS 엑셀 장부 내부 훔쳐보기 🚀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이름(Name) 타입(Type) 값(Value / IP / Domain)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣ shop.com.</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">192.168.10.5 (웹 서버 IPv4 찐 주소)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣ shop.com.</div><div class="kb-diagram-node">AAAA</div><div class="kb-diagram-note">2001:db8::1 (웹 서버 IPv6 찐 주소)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3️⃣ mail.shop.com.</div><div class="kb-diagram-node">CNAME</div><div class="kb-diagram-note">gmail.com. (구글 메일로 별명 짬처리 치환)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4️⃣ shop.com.</div><div class="kb-diagram-node">MX</div><div class="kb-diagram-note">10 mail.shop.com. (메일 오면 일루 던져 쾅!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5️⃣ shop.com.</div><div class="kb-diagram-node">NS</div><div class="kb-diagram-note">ns1.gabia.com. (내 장부 찐 관리자 위임장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: "야 이 코더들아 눈깔 똑바로 뜨고 봐라 쾅!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1, 2번(A/AAAA)은 걍 무식하게</div><div class="kb-diagram-node">이름 ➔ IP 숫자</div><div class="kb-diagram-note">1:1로 찍어주는 단순 변환기 기계.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3번(CNAME)은 IP 숫자 안 뱉고</div><div class="kb-diagram-node">이름 ➔ 다른 이름</div><div class="kb-diagram-note">으로 별명 껍데기 씌워 우회 토스 치는 놈.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4번(MX)은 웹 트래픽은 개무시(Bypass) 쌩까고, 오직</div><div class="kb-diagram-node">이메일 SMTP</div><div class="kb-diagram-note">패킷만 전담 마크해서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메일 통통배를 딴 부두로 튕겨내는 특수 목적 필터링 쉴드.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5번(NS)은 내 도메인 장부를 진짜 권한 갖고 쥐락펴락 편집(Edit)할 수 있는 대장 쇳덩이 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의 위치를 바깥세상(Root)에 외쳐 선포(Publish)하는 통치권 위임(Delegation)의 상징이다!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         DNS 5대 절대 권력 레코드 엑스레이 타격 도면 (Zone File 팩폭) │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 🗂️ [ 내 회사 도메인 (shop.com) DNS 엑셀 장부 내부 훔쳐보기 🚀 ]     │
+  │                                                             │
+  │  이름(Name)      타입(Type)  값(Value / IP / Domain)              │
+  │ ────────────────────────────────────────────────────────────┤
+  │ 1️⃣ shop.com.     [ A ]       192.168.10.5  (웹 서버 IPv4 찐 주소)     │
+  │ 2️⃣ shop.com.     [ AAAA ]    2001:db8::1   (웹 서버 IPv6 찐 주소)     │
+  │                                                             │
+  │ 3️⃣ mail.shop.com.[ CNAME ]   gmail.com.    (구글 메일로 별명 짬처리 치환)│
+  │                                                             │
+  │ 4️⃣ shop.com.     [ MX ]      10 mail.shop.com. (메일 오면 일루 던져 쾅!)│
+  │                                                             │
+  │ 5️⃣ shop.com.     [ NS ]      ns1.gabia.com. (내 장부 찐 관리자 위임장) │
+  │                                                             │
+  │ 🌟 아키텍트 극딜: "야 이 코더들아 눈깔 똑바로 뜨고 봐라 쾅!!                   │
+  │   1, 2번(A/AAAA)은 걍 무식하게 [이름 ➔ IP 숫자] 1:1로 찍어주는 단순 변환기 기계.│
+  │   3번(CNAME)은 IP 숫자 안 뱉고 [이름 ➔ 다른 이름]으로 별명 껍데기 씌워 우회 토스 치는 놈.│
+  │   4번(MX)은 웹 트래픽은 개무시(Bypass) 쌩까고, 오직 [이메일 SMTP] 패킷만 전담 마크해서│
+  │   메일 통통배를 딴 부두로 튕겨내는 특수 목적 필터링 쉴드.                          │
+  │   5번(NS)은 내 도메인 장부를 진짜 권한 갖고 쥐락펴락 편집(Edit)할 수 있는 대장 쇳덩이 서버│
+  │   의 위치를 바깥세상(Root)에 외쳐 선포(Publish)하는 통치권 위임(Delegation)의 상징이다!"│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 창 열었는데 A도 있고 CNAME도 있고 존나 복잡 ㅠ 뭐 써야 함?" 가비아/AWS Route53 세팅하다 뇌 정지 온 주니어를 박살 내는 마스터 맵이다. 
 명심해라! <strong>[A 레코드]</strong>는 최종 종착역 물리 쇳덩이(IP)를 다이렉트로 꽂아버리는 상남자 돌격([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))이다. 속도는 제일 빠르지만 내 IP가 바뀌면 전 세계 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 엑셀 장부에 전파(Propagation [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))될 때까지 유저들은 404 에러 미아 뻗음 파국을 맞는다 💀. 
@@ -119,18 +123,14 @@ tags = ["studynote-network"]
 2순위: 환자 버려 죽임?! 절대 노노 락킹 쾅!! "명부 다시 봐!! 2번 타자 보라매병원(MX 20) 대기 타고 있잖아!! 핸들 돌려 당장 보라매로 풀악셀 밟아 우회 질주 쓩🚀!" 
 이처럼 1등이 뻗으면 자동으로 2등, 3등 예비 텐트로 물 흐르듯 미끄러져 스위칭 핑퐁(Fail-over)을 쳐주는 절대 안 죽는 불멸의 그물망(Net) 세팅이 바로 MX 숫자의 마법입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정방향 조회 vs 역방향 조회</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 레코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 레코드</div></div>
-</div>
-</div>
-
-
+```text
+[정방향 조회 vs 역방향 조회]
+    │
+    ▼
+[DNS 레코드]
+    │
+    └──▶ [DNS 레코드]
+```
 
 - **📢 섹션 요약 비유**: MX 우선순위(Priority) 세팅은, <strong>'병원 응급실 뺑뺑이 100% 방지 3단 전화망'</strong>과 완벽히 100% 똑같습니다. 119 구급차(구글 메일 서버)가 환자(이메일 패킷)를 실었습니다.
 
@@ -201,34 +201,36 @@ tags = ["studynote-network"]
    그리고 그 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).1.1.1 도착지인 Nginx(L7 웹 서버) 대문 문지기가 ➔ 니들이 쳐 달고 온 `Host: pay.corp.com` [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더 껍데기 이름표 텍스트를 읽고 지 뱃속에서 뒷단 100개 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(K8s [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/)) 방으로 요리조리 이정표 찢어 배차 핑퐁 포워딩 노가다 짬처리(Reverse [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 쳐준다 쾅!! 
    수백 줄의 더러운 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 하위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 엑셀 관리 오버헤드 병목을 ➔ L7(웹) 단의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 짬처리로 전량 100% [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)(Off-loading 위임) 도려내 찢어버려, 인프라 관리 코스트 M/M을 O(1) 제로 터치 광속 압살 척살해버린 초일류 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 방벽 아키텍처다 쓩🚀!!!"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: CNAME 투명 망토와 ALIAS 기만술의 클라우드 이사(Migration) 도면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">1차원 주니어의 쌩얼 A 레코드 맹신 폭사 (Tightly Coupled 파국 💥)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저</div><div class="kb-diagram-note">➔ 찌름 ➔</div><div class="kb-diagram-node">DNS 장부: A (10.1.1.5)</div><div class="kb-diagram-note">➔ 10.1.1.5 돌격 쾅!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팩트: 10.1.1.5 서버 디도스 타 죽음. 새 서버 10.1.1.6 띄움.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 파국: 유저 브라우저는 아직도 옛날 10.1.1.5 로만 무지성 박치기 404 에러 뻗음 💀.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 중급 아키텍트의 CNAME 우회 방패 (투명 텐트)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">CNAME 껍데기 별명 치환 융합 (Decoupling 생존술 ✨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저</div><div class="kb-diagram-note">➔ 찌름 ➔</div><div class="kb-diagram-node">DNS 장부: CNAME (my-elb.com)</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">다시 DNS 찔러 ELB IP 따옴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">ELB 도착</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">10.1.1.5 죽으면 ➔ 지 알아서 .6 으로 스위칭 록온 🚀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팩트: 유저는 <code>my-elb.com</code> 별명 1줄만 영원히 맹신(Cache). 뒷단 쇳덩이 IP 널뛰기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이사 삽질(Volatility)은 중간 ELB가 100% 흡수 방어 차단 쉴드 무결점 통과!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🪓 대장 아키텍트의 Zone Apex 헌법 모순 압살 락킹</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌟</div><div class="kb-diagram-node">최종 진화 ALIAS 레코드 (Route53 하이브리드 돌연변이 해킹 🔪)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 버그 팩폭 💥: 도메인 정수리 <code>corp.com</code> 에는 헌법상 CNAME을 절대 못 박음 뻗음 💀!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 해결 록온 🚀: 겉으론</div><div class="kb-diagram-node">A 레코드 (ALIAS 체크 켬) ➔ my-elb.com</div><div class="kb-diagram-note">세팅 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 유저가 찌르면 ➔ Route53(DNS 뇌)가 뒷구멍 밀실에서 <code>my-elb.com</code> IP를 몰래</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지가 직접 빼와서 ➔ 유저한텐 마치 자기가 처음부터 진짜 IP를 알았던 척 쌩얼 [A 레코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP 숫자]로 위장 변환 포장 떡칠해서 1초 컷 뱉어 기만 우회 튕겨버림 쾅!!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS 헌법(루트에 CNAME 금지)을 지키면서, 클라우드의 유연성(ELB 핑퐁)을 100% 무결점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이중 스파이 흡수해 낸 AWS 최고의 독점 매직(Magic) 우주 최강 인프라 꼼수다 쓩!!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: CNAME 투명 망토와 ALIAS 기만술의 클라우드 이사(Migration) 도면 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 💀 [ 1차원 주니어의 쌩얼 A 레코드 맹신 폭사 (Tightly Coupled 파국 💥) ]     │
+  │   [유저] ➔ 찌름 ➔ [ DNS 장부: A (10.1.1.5) ] ➔ 10.1.1.5 돌격 쾅!         │
+  │   - 팩트: 10.1.1.5 서버 디도스 타 죽음. 새 서버 10.1.1.6 띄움.             │
+  │   ➔ 파국: 유저 브라우저는 아직도 옛날 10.1.1.5 로만 무지성 박치기 404 에러 뻗음 💀. │
+  │                                                             │
+  │        ======= [ 🛡️ 중급 아키텍트의 CNAME 우회 방패 (투명 텐트) ] ======== │
+  │                                                             │
+  │ 🚀 [ CNAME 껍데기 별명 치환 융합 (Decoupling 생존술 ✨) ]                 │
+  │   [유저] ➔ 찌름 ➔ [ DNS 장부: CNAME (my-elb.com) ] ➔ [ 다시 DNS 찔러 ELB IP 따옴 ]│
+  │   ➔ [ ELB 도착 ] ➔ [ 10.1.1.5 죽으면 ➔ 지 알아서 .6 으로 스위칭 록온 🚀 ] │
+  │   - 팩트: 유저는 `my-elb.com` 별명 1줄만 영원히 맹신(Cache). 뒷단 쇳덩이 IP 널뛰기   │
+  │     이사 삽질(Volatility)은 중간 ELB가 100% 흡수 방어 차단 쉴드 무결점 통과!!   │
+  │                                                             │
+  │        ======= [ 🪓 대장 아키텍트의 Zone Apex 헌법 모순 압살 락킹 ] ========│
+  │                                                             │
+  │ 🌟 [ 최종 진화 ALIAS 레코드 (Route53 하이브리드 돌연변이 해킹 🔪) ]          │
+  │   - 버그 팩폭 💥: 도메인 정수리 `corp.com` 에는 헌법상 CNAME을 절대 못 박음 뻗음 💀!! │
+  │   - 해결 록온 🚀: 겉으론 [ A 레코드 (ALIAS 체크 켬) ➔ my-elb.com ] 세팅 쾅!! │
+  │   - 결과: 유저가 찌르면 ➔ Route53(DNS 뇌)가 뒷구멍 밀실에서 `my-elb.com` IP를 몰래 │
+  │     지가 직접 빼와서 ➔ 유저한텐 마치 **자기가 처음부터 진짜 IP를 알았던 척 쌩얼 [A 레코드 │
+  │     IP 숫자]로 위장 변환 포장 떡칠해서 1초 컷 뱉어 기만 우회 튕겨버림 쾅!!!**       │
+  │     DNS 헌법(루트에 CNAME 금지)을 지키면서, 클라우드의 유연성(ELB 핑퐁)을 100% 무결점│
+  │     이중 스파이 흡수해 낸 AWS 최고의 독점 매직(Magic) 우주 최강 인프라 꼼수다 쓩!!   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "왜 클라우드(AWS) 띄우면 무조건 Route53 써서 ALIAS 박아야 함? 딴 데(가비아) 쓰면 안 됨 ㅠ?" 이라는 주니어의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 우물 안 식견을 박살 내는 팩폭 도해다. 
 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 최상단(Zone Apex, `shop.com`)에는 무조건 NS(네임서버)와 MX(메일)가 상주한다. [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 절대 헌법상 CNAME은 "나 혼자 이 구역 독식할 거임" 하는 싸가지 없는 독재자라, NS랑 같은 공간에 놓으면 엑셀 장부가 충돌해 폭파 찢어진다 💀. 
@@ -321,19 +323,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 정방향 조회 vs 역방향 조회</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DNS 레코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DNS 레코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 정방향 조회 vs 역방향 조회]
+    │
+    ▼
+[현재 개념: DNS 레코드]
+    │
+    ├──▶ [확장 A: DNS 레코드]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드는 [정방향 조회](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/513_forward_reverse_dns_lookup/) vs 역방향 조회에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

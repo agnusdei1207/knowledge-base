@@ -58,23 +58,28 @@ producer.produce('my-event-hub', key='user-001', value='{"action": "click"}')
 
 ### 1. Event Hubs 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Hubs Namespace</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Hub (토픽): "telemetry"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 0 이벤트 스트림 ──→ Consumer Group A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 1 이벤트 스트림 ──→ Consumer Group A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 2 이벤트 스트림 ──→ Consumer Group B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Capture: 자동 → Azure Blob Storage / ADLS Gen2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토콜: AMQP 1.0 / Kafka API (9093) / HTTPS</div></div>
-<div class="kb-diagram-note">Azure Stream Azure Databricks Azure Function</div>
-<div class="kb-diagram-note">Analytics (Spark Streaming) (서버리스)</div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Event Hubs Namespace                                        │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  Event Hub (토픽): "telemetry"                       │   │
+│  │                                                      │   │
+│  │  파티션 0 ─── 이벤트 스트림 ──→ Consumer Group A     │   │
+│  │  파티션 1 ─── 이벤트 스트림 ──→ Consumer Group A     │   │
+│  │  파티션 2 ─── 이벤트 스트림 ──→ Consumer Group B     │   │
+│  │                                                      │   │
+│  │  Capture: 자동 → Azure Blob Storage / ADLS Gen2      │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  프로토콜: AMQP 1.0 / Kafka API (9093) / HTTPS             │
+└─────────────────────────────────────────────────────────────┘
+                              │
+         ┌───────────────────┼──────────────────┐
+         ▼                   ▼                  ▼
+  Azure Stream           Azure Databricks    Azure Function
+  Analytics              (Spark Streaming)   (서버리스)
+```
 
 ### 2. 티어별 비교
 
@@ -147,33 +152,21 @@ schema_registry = SchemaRegistryClient(
 
 ### 1. Azure + [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 마이그레이션 경로
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">온프레미스 Kafka 클러스터</div>
-<div class="kb-diagram-note">↓ MirrorMaker 2 (병렬 복제)</div>
-<div class="kb-diagram-note">Azure Event Hubs (Kafka 호환)</div>
-<div class="kb-diagram-note">↓ 검증 완료 후 기존 클러스터 종료</div>
-</div>
-</div>
-
-
+```
+온프레미스 Kafka 클러스터
+  ↓ MirrorMaker 2 (병렬 복제)
+Azure Event Hubs (Kafka 호환)
+  ↓ 검증 완료 후 기존 클러스터 종료
+```
 
 ### 2. 이벤트 처리 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IoT 디바이스/웹앱 → Event Hubs → Azure Stream Analytics → Power BI (실시간 대시보드)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">→ Azure Databricks/Spark → ADLS Gen2 (배치 분석)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">→ Azure Functions → Azure Cosmos DB (실시간 상태 업데이트)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">→ Capture → ADLS Gen2 (원본 보존)</div>
-</div>
-</div>
-
-
+```
+IoT 디바이스/웹앱 → Event Hubs → Azure Stream Analytics → Power BI (실시간 대시보드)
+                              └──→ Azure Databricks/Spark → ADLS Gen2 (배치 분석)
+                              └──→ Azure Functions → Azure Cosmos DB (실시간 상태 업데이트)
+                              └──→ Capture → ADLS Gen2 (원본 보존)
+```
 
 ### 3. [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -221,23 +214,21 @@ Azure Event Hubs는 <strong><a href="/knowledge-base/studynote/14_data_engineeri
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 소스 (Event Sources) — IoT·앱·클릭스트림, 초당 수백만 이벤트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아파치 카프카 (Apache Kafka) — 오픈소스 고처리량 메시지 스트리밍</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Azure Event Hubs — Kafka 호환, 완전 관리형 이벤트 스트리밍 서비스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Azure Stream Analytics — 실시간 SQL 쿼리 처리, 창 집계(Window)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Azure Synapse Analytics / Power BI — 배치 분석 및 시각화 대시보드</div></div>
-</div>
-</div>
-
-
+```text
+[이벤트 소스 (Event Sources) — IoT·앱·클릭스트림, 초당 수백만 이벤트]
+    │
+    ▼
+[아파치 카프카 (Apache Kafka) — 오픈소스 고처리량 메시지 스트리밍]
+    │
+    ▼
+[Azure Event Hubs — Kafka 호환, 완전 관리형 이벤트 스트리밍 서비스]
+    │
+    ▼
+[Azure Stream Analytics — 실시간 SQL 쿼리 처리, 창 집계(Window)]
+    │
+    ▼
+[Azure Synapse Analytics / Power BI — 배치 분석 및 시각화 대시보드]
+```
 Azure Event Hubs는 [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) 호환 API를 제공하며, 완전 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 대규모 이벤트를 수집하여 Azure 분석 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 진입점 역할을 한다.
 ### 👶 어린이를 위한 3줄 비유 설명
 

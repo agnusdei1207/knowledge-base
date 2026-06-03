@@ -29,29 +29,29 @@ tags = ["software_engineering"]
 
 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 문서가 법적 효력을 발휘하기 위해서는 형용사가 아닌 컴퓨터 모니터링 시스템으로 100% 추적(Tracking) 및 측정 가능한 명확한 수치([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))로 구성되어야 한다.
 
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│                   SLA (Service Level Agreement) Core Architecture      │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ 1. 보증 지표 (Service Metrics)                                          │
+│    - 가용성 (Availability): 월간 서버 정상 접속 가능 시간 (예: 99.9%)          │
+│    - 응답 시간 (Latency): API 호출 시 2초 이내 응답 보장                    │
+│    - 복구 시간 (MTTR): 장애 인지 후 서비스 정상화까지 걸리는 한계 시간          │
+│                                                                        │
+│ 2. 예외 조항 (Exclusions)                                               │
+│    - 천재지변(지진), 사전 공지된 정기 점검, 고객측 코드 버그로 인한 장애는 무효!   │
+│                                                                        │
+│ 3. 재무적 패널티 (Financial Penalty / Service Credits)                  │
+│    [ 가용성 구간 ]        [ 보상 크레딧 (다음 달 요금 할인율) ]            │
+│    99.9% 이상          ▶  정상 (패널티 없음)                              │
+│    99.0% ~ 99.9% 미만  ▶  10% 환불                                      │
+│    95.0% ~ 99.0% 미만  ▶  30% 환불                                      │
+│    95.0% 미만          ▶  100% 전액 환불                                │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLA (Service Level Agreement) Core Architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 보증 지표 (Service Metrics)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가용성 (Availability): 월간 서버 정상 접속 가능 시간 (예: 99.9%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 응답 시간 (Latency): API 호출 시 2초 이내 응답 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 복구 시간 (MTTR): 장애 인지 후 서비스 정상화까지 걸리는 한계 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 예외 조항 (Exclusions)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 천재지변(지진), 사전 공지된 정기 점검, 고객측 코드 버그로 인한 장애는 무효!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 재무적 패널티 (Financial Penalty / Service Credits)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가용성 구간</div><div class="kb-diagram-node">보상 크레딧 (다음 달 요금 할인율)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">99.9% 이상 ▶ 정상 (패널티 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">99.0% ~ 99.9% 미만 ▶ 10% 환불</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">95.0% ~ 99.0% 미만 ▶ 30% 환불</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">95.0% 미만 ▶ 100% 전액 환불</div></div>
-</div>
-</div>
-
-
-
-이 구조에서 가장 핵심적인 원리는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 크레딧(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Credits)</strong>이라는 재무적 패널티 조항이다. SLA는 제공자가 목표를 미달했을 때 단순히 사과하는 것이 아니라, 다음 달 청구 요금에서 명시된 비율만큼의 금액을 강제로 할인해 주는 구조로 작동한다. 이 배상금(크레딧)은 벤더의 수익률을 직접 타격하므로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 팀이 인프라에 투자해야 할 가장 강력한 동기부여가 된다.
+이 구조에서 가장 핵심적인 원리는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 크레딧(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Credits)</strong>이라는 재무적 패널티 조항이다. SLA는 제공자가 목표를 미달했을 때 단순히 사과하는 것이 아니라, 다음 달 청구 요금에서 명시된 비율만큼의 금액을 강제로 할인해 주는 구조로 작동한다. 이 배상금(크레딧)은 벤더의 수익률을 직접 타격하므로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 팀이 인프라에 투자해야 할 가장 강력한 동기부여가 된다.
 
 - **📢 섹션 요약 비유**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 구조는 <strong>'피자 30분 배달 보증제'</strong>와 완벽히 똑같다. "최대한 빨리 갈게요(추상적)"가 아니라, "30분(보증 지표)이 넘으면, 눈비가 오지 않는 한(예외 조항), 피자값을 안 받겠습니다(패널티 크레딧)"라고 명확한 숫자와 보상액을 걸어두는 것이다.
 
@@ -108,26 +108,21 @@ SLA는 추상적이고 감정적인 IT [서비스](/knowledge-base/studynote/13_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IT 서비스 아웃소싱 및 구두 약속</div>
-<div class="kb-diagram-note">장애 시 책임 공방 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLA (Service Level Agreement) 명문화</div>
-<div class="kb-diagram-note">가용성 지표(Uptime) 및 위약금(Penalty) 계약</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ITIL 및 ITSM 프레임워크 기반 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SRE (Site Reliability Engineering) 체계 도입</div>
-<div class="kb-diagram-note">SLI(측정) → SLO(목표) → SLA(계약) 트리오 완성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Error Budget (에러 예산) 연동 자동화 릴리즈 통제</div>
-</div>
-</div>
-
-
+```text
+IT 서비스 아웃소싱 및 구두 약속
+    │ 장애 시 책임 공방 발생
+    ▼
+SLA (Service Level Agreement) 명문화
+    │ 가용성 지표(Uptime) 및 위약금(Penalty) 계약
+    ▼
+ITIL 및 ITSM 프레임워크 기반 관리
+    │ 
+    ▼
+SRE (Site Reliability Engineering) 체계 도입
+    │ SLI(측정) → SLO(목표) → SLA(계약) 트리오 완성
+    ▼
+Error Budget (에러 예산) 연동 자동화 릴리즈 통제
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

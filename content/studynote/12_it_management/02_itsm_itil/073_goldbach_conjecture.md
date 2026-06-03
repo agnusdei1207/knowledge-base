@@ -99,37 +99,25 @@ Prime + Prime ?
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Even Number</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Goldbach</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Prime Numbers</div>
-</div>
-</div>
-
-
+```text
+Even Number
+  ↓
+Goldbach
+  ↓
+Prime Numbers
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Prime Distribution</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Goldbach's Conjecture</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Number Theory</div>
-</div>
-</div>
-
-
+```text
+Prime Distribution
+  ↓
+Goldbach's Conjecture
+  ↓
+Number Theory
+```
 
 ---
 

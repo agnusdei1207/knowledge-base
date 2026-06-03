@@ -18,17 +18,11 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Choreography: 주문→이벤트→결제→이벤트→배송 (각자 독립)</div>
-<div class="kb-diagram-note">Orchestration: 오케스트레이터→주문, →결제, →배송 (중앙 제어)</div>
-<div class="kb-diagram-note">실패 시: 보상 트랜잭션 (주문 취소, 결제 환불)</div>
-</div>
-</div>
-
-
+```text
+Choreography: 주문→이벤트→결제→이벤트→배송 (각자 독립)
+Orchestration: 오케스트레이터→주문, →결제, →배송 (중앙 제어)
+실패 시: 보상 트랜잭션 (주문 취소, 결제 환불)
+```
 
 - **📢 섹션 요약 비유**: Choreography는 재즈 즉흥(각자 연주), Orchestration은 교향곡(지휘자 지휘)이다.
 
@@ -52,19 +46,13 @@ Saga는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">2PC (1990s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Saga 이론 (Garcia-Molina, 1987)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MSA Saga 재발견 (2014~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Choreography (Kafka 이벤트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Orchestration (Temporal/Cadence, 2020~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Durable Execution — Saga 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[2PC (1990s)] → [Saga 이론 (Garcia-Molina, 1987)]
+    → [MSA Saga 재발견 (2014~)]
+    → [Choreography (Kafka 이벤트)]
+    → [Orchestration (Temporal/Cadence, 2020~)]
+    → [현재: Durable Execution — Saga 자동화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Saga는 <strong>릴레이 달리기</strong>예요. 각 선수가 자기 구간을 달리고 **바톤을 넘겨요**.

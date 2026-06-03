@@ -22,16 +22,11 @@ tags = ["software_engineering"]
 
 CI가 필요한 이유는 코드가 합쳐질수록 문제 원인을 찾기 어려워지기 때문이다. 작은 커밋 하나가 빌드를 깨면 바로 알 수 있지만, 한 달치 변경이 뒤섞이면 원인 추적이 거의 불가능하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">커밋 ─▶ 자동 빌드 ─▶ 자동 테스트 ─▶ 결과 보고</div>
-<div class="kb-diagram-tree-item" style="--depth:1">작은 변경이 바로 검증됨</div>
-</div>
-</div>
-
-
+```text
+커밋 ─▶ 자동 빌드 ─▶ 자동 테스트 ─▶ 결과 보고
+   │                         │
+   └──── 작은 변경이 바로 검증됨 ─────────┘
+```
 
 이 구조는 실패를 없애는 게 아니라, 실패를 빨리 보이게 만드는 데 목적이 있다.
 
@@ -51,19 +46,14 @@ CI가 필요한 이유는 코드가 합쳐질수록 문제 원인을 찾기 어�
 | Report | 알림과 기록 | 피드백 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 | Publish | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물 보관 | 재현성 확보 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개발자 → Commit/PR → CI 서버</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Build</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Test</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Lint / Scan</div>
-<div class="kb-diagram-tree-item" style="--depth:8">알림(성공/실패)</div>
-</div>
-</div>
-
-
+```text
+개발자 → Commit/PR → CI 서버
+                  │
+                  ├─ Build
+                  ├─ Test
+                  ├─ Lint / Scan
+                  └─ 알림(성공/실패)
+```
 
 CI의 철학은 Fail Fast다. 빨리 실패하면 빨리 고칠 수 있다. 그래서 파이프라인은 짧고, 테스트는 안정적이어야 한다.
 
@@ -132,23 +122,21 @@ CI는 문제를 조기에 발견하고, 통합 비용을 낮추며, 릴리스 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 병합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI: 작은 커밋 + 자동 빌드/테스트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Artifact 저장 + PR 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CD로 배포 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선과 피드백 루프</div>
-</div>
-</div>
-
-
+```text
+수동 병합
+    │
+    ▼
+CI: 작은 커밋 + 자동 빌드/테스트
+    │
+    ▼
+Artifact 저장 + PR 검증
+    │
+    ▼
+CD로 배포 자동화
+    │
+    ▼
+지속적 개선과 피드백 루프
+```
 
 이 흐름은 "실패를 늦게 보는 문화"에서 "실패를 빨리 보는 문화"로의 전환을 보여준다. 앞으로는 테스트뿐 아니라 보안 스캔과 품질 게이트가 CI에 더 깊게 붙는다.
 

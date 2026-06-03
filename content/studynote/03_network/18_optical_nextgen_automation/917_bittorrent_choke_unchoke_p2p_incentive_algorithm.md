@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 916번의 냅스터, 당나귀 같은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) P2P는 착한 사람들(Seed)이 자기 컴퓨터를 켜놓고 1GB 영화를 남들에게 희생하며 업로드해 줬습니다.
 - 하지만 <strong>프리라이더(Free-Rider, 무임승차자)</strong>들이 다운로드만 100% 빨아먹고 업로드 끄기를 시전하자, 결국 줄 사람이 없어져 다운로드 속도가 10kbps로 지옥을 쳤습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">P2P</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록체인 네트워크 계층 가십 프로토콜</div></div>
-</div>
-</div>
-
-
+```text
+[P2P]
+    │
+    ▼
+[비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+    │
+    └──▶ [블록체인 네트워크 계층 가십 프로토콜]
+```
 
 - **📢 섹션 요약 비유**: 비트토렌트 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 1개의 거대한 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 256KB짜리 아주 작은 **퍼즐 조각(Piece)** 수천 개로 갈기갈기 찢은 뒤, 다운로드를 받고 있는 수십 명의 사람들(Leecher)끼리 자신들이 방금 다운받은 '퍼즐 조각'들을 서로 실시간으로 교환(물물교환)하게 만들어, 다운로더가 곧 업로더가 되는 기적의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">P2P</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록체인 네트워크 계층 가십 프로토콜</div></div>
-</div>
-</div>
-
-
+```text
+[P2P]
+    │
+    ▼
+[비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+    │
+    └──▶ [블록체인 네트워크 계층 가십 프로토콜]
+```
 
 - **📢 섹션 요약 비유**: 비트토렌트 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: P2P</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 블록체인 네트워크 계층 가십 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: P2P]
+    │
+    ▼
+[현재 개념: 비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+    │
+    ├──▶ [확장 A: 블록체인 네트워크 계층 가십 프로토콜]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 비트토렌트 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…는 P2P에서 출발해 현재 메커니즘을 정교화하고, 이후 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크 계층 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

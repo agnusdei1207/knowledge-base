@@ -31,24 +31,25 @@ tags = ["studynote-operating-system"]
 
   소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 세부 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 발생 원인을 체계적으로 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 인터럽트의 체계적 분류 (Taxonomy)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 인터럽트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트랩 (Trap)</div><div class="kb-diagram-note">: 의도적 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템 콜 (System Call): open(), read() 등</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 디버깅 (Breakpoint): 프로그램 추적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">예외 (Exception)</div><div class="kb-diagram-note">: 비의도적/오류 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 폴트 (Fault): 수정 가능 (Page Fault)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 트랩 (Trap): 명령 직후 인지 (정상 종료 시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 어보트 (Abort): 복구 불가 (하드웨어 장애)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: 현재 실행 중인 PC(Program Counter)와 밀접하게 연동됨</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │         소프트웨어 인터럽트의 체계적 분류 (Taxonomy)             │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │ [소프트웨어 인터럽트]                                            │
+  │    │                                                             │
+  │    ├─▶ [트랩 (Trap)] : 의도적 발생                               │
+  │    │      - 시스템 콜 (System Call): open(), read() 등           │
+  │    │      - 디버깅 (Breakpoint): 프로그램 추적                   │
+  │    │                                                             │
+  │    └─▶ [예외 (Exception)] : 비의도적/오류 발생                   │
+  │           ├─ 폴트 (Fault): 수정 가능 (Page Fault)                │
+  │           ├─ 트랩 (Trap): 명령 직후 인지 (정상 종료 시)          │
+  │           └─ 어보트 (Abort): 복구 불가 (하드웨어 장애)           │
+  │                                                                  │
+  │  특징: 현재 실행 중인 PC(Program Counter)와 밀접하게 연동됨      │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 가장 큰 특징은 '예측 가능성'이다. 특정 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하면 반드시 발생한다. 예를 들어 'INT 0x80' (x86 시스템 콜) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하면 즉시 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 발생하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 진입한다. 반면 예외 (Exception)는 의도하지 않았으나 실행 중인 코드의 결과물이다. 0으로 나누기 연산을 수행하는 즉시 CPU 유닛이 예외 신호를 발생시킨다. 이 도식에서 주목할 점은 '폴트 (Fault)'다. [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)의 경우, 메모리에 데이터가 없다는 예외가 발생하지만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 데이터를 채워준 후 다시 해당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 재실행할 수 있는 '수정 가능한 예외'라는 점에서 시스템 운영의 핵심 동력이 된다.
 
@@ -71,47 +72,54 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a> (시스템 콜) 발생 및 처리 메커니즘</strong>:
   사용자 영역의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수 (예: printf)가 실제 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청하기 위해 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 발생시키고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 진입하는 전 과정을 상세히 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 콜 (트랩) 처리 흐름 (Flow Detail)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Mode</div><div class="kb-diagram-node">Kernel Mode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User App</div><div class="kb-diagram-cell">Kernel Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">read(fd,..)</div><div class="kb-diagram-cell">sys_read() {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 하드웨어 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Library Call)</div><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">syscall(N)</div><div class="kb-diagram-cell">(Dispatcher)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EAX=3</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">INT 0x80</div><div class="kb-diagram-note">│ System Call Table│</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">sys_read │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IRET / Return)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 보안 포인트: 사용자 앱은 sys_read의 주소를 알 필요가 없음</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │            시스템 콜 (트랩) 처리 흐름 (Flow Detail)               │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │ [User Mode]                  [Kernel Mode]                        │
+  │  ┌──────────────┐             ┌───────────────────────────┐       │
+  │  │ User App     │             │ Kernel Service            │       │
+  │  │  read(fd,..) │             │  sys_read() {             │       │
+  │  └──────┬───────┘             │    // 하드웨어 제어        │      │
+  │         │ (Library Call)      │  }                        │       │
+  │         ▼                     └─────────────┬─────────────┘       │
+  │  ┌──────────────┐                           ▲                     │
+  │  │ syscall(N)   │                           │ (Dispatcher)        │
+  │  │  [EAX=3]     │──(Trap 발생)──▶  ┌────────┴─────────┐           │
+  │  │  [INT 0x80]  │                  │ System Call Table│           │
+  │  └──────────────┘                  │ [3] -> sys_read  │           │
+  │         ▲                          └────────┬─────────┘           │
+  │         └──────────(IRET / Return)──────────┘                     │
+  │                                                                   │
+  │ * 보안 포인트: 사용자 앱은 sys_read의 주소를 알 필요가 없음       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 시스템 콜의 핵심은 '간접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)'다. 사용자 애플리케이션은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 함수의 메모리 주소를 절대 알 수 없다. 대신, 약속된 번호 (예: read는 3번)를 특정 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (EAX)에 넣고 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (INT 0x80 또는 SYSCALL)를 실행한다. 그러면 CPU는 하드웨어적으로 IDT를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하여 미리 등록된 '시스템 콜 핸들러'로 점프한다. 핸들러는 EAX 값을 보고 시스템 콜 테이블에서 실제 함수 주소를 찾아 실행한다. 이 구조는 사용자 프로세스가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부로 제멋대로 뛰어드는 것을 막는 완벽한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 역할을 한다. 실무적으로 시스템 콜 오버헤드를 줄이기 위해 최근에는 `VDSO (Virtual Dynamic Shared Object)` 같은 최적화 기법이 사용되기도 한다.
 
 - **심층 동작 원리 (예외 처리 Case Study)**:
   나누기 0 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/))이나 잘못된 주소 접근 ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault) 시 CPU는 현재 명령을 중단하고 예외 번호를 발생시킨다. 이때 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 해당 프로세스에게 `SIGFPE`나 `SIGSEGV` 같은 시그널 ([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 보내어 종료시키거나, 디버거를 붙여 상태를 점검하게 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예외(Exception) 발생 시의 전파 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Exception Handler</div><div class="kb-diagram-note">(Kernel)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">User Process</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Default Action</div><div class="kb-diagram-node">Signal Handler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로세스 강제 종료 - 사용자 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Core Dump 생성 - 에러 로깅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과: 잘못된 연산 결과가 다른 데이터나 시스템을 오염시키는 것 차단</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                예외(Exception) 발생 시의 전파 구조                  │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │ [CPU] ──(Divide by Zero)──▶ [Exception Handler] (Kernel)            │
+  │                                     │                               │
+  │                                     ▼                               │
+  │ [Kernel] ──(Signal: SIGFPE)──▶ [User Process]                       │
+  │                                     │                               │
+  │         ┌───────────────────────────┴─────────────────┐             │
+  │         ▼                                             ▼             │
+  │   [Default Action]                              [Signal Handler]    │
+  │    - 프로세스 강제 종료                           - 사용자 정의     │
+  │    - Core Dump 생성                               - 에러 로깅       │
+  │                                                                     │
+  │ 효과: 잘못된 연산 결과가 다른 데이터나 시스템을 오염시키는 것 차단  │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 예외는 시스템의 자가 치유 능력을 보여준다. 만약 나누기 0 예외를 CPU가 그냥 무시한다면, 이후의 모든 연산 결과는 무한대나 정의되지 않은 값이 되어 원전 제어나 금융 시스템에서 치명적인 사고로 이어질 것이다. CPU는 예외가 발생한 그 '순간' 제어권을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 넘기고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 해당 문제를 일으킨 프로세스만 정밀 타격(종료 또는 시그널 전달)하여 시스템 전체의 평화를 유지한다. 개발자들이 흔히 보는 '[Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault' 메시지는 실질적으로 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 "너의 프로세스가 금지된 구역을 침범해서 내가 강제로 멈췄어"라고 알려주는 보안 메시지와 같다.
 
@@ -132,21 +140,22 @@ tags = ["studynote-operating-system"]
 
   [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계 시 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)과 예외는 성능과 보안 사이의 트레이드오프 지점이 된다. 시스템 콜이 너무 많으면 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용으로 인해 성능이 저하되지만, 시스템 콜을 줄이려고 사용자 모드에 권한을 많이 주면 보안 위협에 노출된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 vs 보안의 시스템 콜 설계 트레이드오프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">높은 추상화/보안</div><div class="kb-diagram-node">높은 성능/최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 잦은 시스템 콜 발생 - 시스템 콜 최소화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널이 모든 자원 관리 - 사용자 영역 I/O (DPDK 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 안전하지만 느림 - 빠르지만 설계 복잡</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Trap Overhead) (User Privilege)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최근 트렌드: eBPF 등을 통해 트랩 없이 커널 내부에서 로직 실행</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │            성능 vs 보안의 시스템 콜 설계 트레이드오프              │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │ [높은 추상화/보안]              [높은 성능/최적화]                 │
+  │   - 잦은 시스템 콜 발생          - 시스템 콜 최소화                │
+  │   - 커널이 모든 자원 관리        - 사용자 영역 I/O (DPDK 등)       │
+  │   - 안전하지만 느림              - 빠르지만 설계 복잡              │
+  │                                                                    │
+  │         ◀────────────────────────────────────▶                     │
+  │        (Trap Overhead)          (User Privilege)                   │
+  │                                                                    │
+  │ 최근 트렌드: eBPF 등을 통해 트랩 없이 커널 내부에서 로직 실행      │
+  └────────────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 전통적인 방식은 모든 보안 검증을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 진입([트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 발생) 후에 수행했다. 하지만 초당 수백만 개의 요청을 처리해야 하는 최신 서버 환경에서는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 발생 시의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용조차 병목이 된다. 이를 해결하기 위해 `DPDK (Data Plane Development Kit)`처럼 아예 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 거치지 않고 사용자 모드에서 직접 하드웨어를 다루거나, `eBPF`처럼 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 발생을 최소화하면서도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 안전성을 유지하는 혁신 기술들이 등장하고 있다. 기술사적 관점에서 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 여전히 근간이지만, 그 오버헤드를 어떻게 '우회'하거나 '최적화'할 것인가가 현대 시스템 엔지니어링의 정수다.
 
@@ -163,21 +172,20 @@ tags = ["studynote-operating-system"]
 
   애플리케이션 장애 시 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)과 예외 정보를 활용한 근본 원인 분석 (RCA) 절차는 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Exception 기반 장애 분석 워크플로우 (RCA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">사건 발생</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">앱 종료 및 "Core Dump" 생성 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">로그 분석</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">dmesg 또는 /var/log/messages에서 주소 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">심볼 매핑</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">gdb 앱 core_file 실행</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">역추적</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">'bt' 명령으로 예외 유발 함수 호출 스택 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">원인 판정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Null Pointer, Stack Overflow 등 확정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 예외가 발생한 시점의 레지스터 상태(Context)가 정답지임</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │            Exception 기반 장애 분석 워크플로우 (RCA)             │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │ 1. [사건 발생] ──▶ 앱 종료 및 "Core Dump" 생성 확인              │
+  │ 2. [로그 분석] ──▶ dmesg 또는 /var/log/messages에서 주소 확인    │
+  │ 3. [심볼 매핑] ──▶ gdb 앱 core_file 실행                         │
+  │ 4. [역추적]    ──▶ 'bt' 명령으로 예외 유발 함수 호출 스택 분석   │
+  │ 5. [원인 판정] ──▶ Null Pointer, Stack Overflow 등 확정          │
+  │                                                                  │
+  │ * 핵심: 예외가 발생한 시점의 레지스터 상태(Context)가 정답지임   │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 실무에서 시스템이 죽었을 때 가장 먼저 찾는 것이 '[코어 덤프](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/) ([Core Dump](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/))'다. 이는 예외 발생 순간의 CPU 문맥 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 그대로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 저장한 것이다. 예외 메커니즘이 없었다면 우리는 프로그램이 왜 죽었는지 알 길 없이 그저 "꺼졌다"는 사실만 알게 되었을 것이다. [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)과 예외 덕분에 우리는 죽기 직전의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 주소를 알 수 있고, 이를 소스 코드와 매핑하여 어떤 줄에서 0으로 나누었는지, 어떤 포인터가 잘못되었는지 정확히 짚어낼 수 있다. 유능한 엔지니어는 시스템 콜의 빈도와 예외 발생 로그를 통해 시스템의 건강 상태를 진단한다.
 
@@ -209,23 +217,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 인터럽트 (HW Interrupt) — 외부 I/O 신호, 비동기 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 인터럽트 (SW Interrupt) — INT 명령, 의도적 커널 진입</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트랩 (Trap) / 예외 (Exception) — 오류·보호 위반, 동기적 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 콜 (System Call) — 사용자 모드 → 커널 모드 안전한 전환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 서비스 루틴 (ISR) → 컨텍스트 복원 → 사용자 모드 복귀</div></div>
-</div>
-</div>
-
-
+```text
+[하드웨어 인터럽트 (HW Interrupt) — 외부 I/O 신호, 비동기 발생]
+    │
+    ▼
+[소프트웨어 인터럽트 (SW Interrupt) — INT 명령, 의도적 커널 진입]
+    │
+    ▼
+[트랩 (Trap) / 예외 (Exception) — 오류·보호 위반, 동기적 발생]
+    │
+    ▼
+[시스템 콜 (System Call) — 사용자 모드 → 커널 모드 안전한 전환]
+    │
+    ▼
+[인터럽트 서비스 루틴 (ISR) → 컨텍스트 복원 → 사용자 모드 복귀]
+```
 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 프로세스가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 안전하게 이용하는 통로로, 시스템 콜의 구현 기반이 된다.
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 우리가 도서관에서 책을 빌리고 싶을 때 "저기요, 사서 선생님!" 하고 부르는 것과 같아요. 사서 선생님만 들어갈 수 있는 창고에서 책을 대신 꺼내다 주시거든요.

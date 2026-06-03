@@ -29,28 +29,29 @@ tags = ["studynote-network"]
   1. <strong><a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/">공개키 기반 구조</a>) 인프라의 보급</strong>: 1990년대 공인인증서 체계가 국가/기업 단위로 확립되면서, 암호화에 필요한 '너의 공개키'를 서로 신뢰하고 교환할 수 있는 바탕이 마련되었다.
   2. **B2B 기밀 유출의 공포**: 기업 간 계약서나 설계 도면이 이메일 서버 해킹으로 유출되는 사고가 터지며, 전송 구간([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))을 넘어선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) at [Rest](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/))의 암호화가 절실해졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S/MIME의 2대 마법: 하이브리드 암호화 &amp; 전자서명 작동 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🛡️ 1단계: 기밀성 (아무도 못 읽게 만들기 - 암호화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 송신자(A): 편지 본문을 '랜덤 생성된 일회용 비밀키(대칭키)'로 꽁꽁 잠금!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(대칭키를 쓰면 용량 큰 첨부파일도 0.1초 만에 초고속 암호화됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ 송신자(A): 그 일회용 비밀키를 '수신자(B)의 공개키'로 튼튼하게 감싸버림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수신자 B의 개인키가 아니면 이 열쇠 상자는 절대 안 열림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 수신자(B): 자기 개인키로 열쇠 상자를 열어 일회용 비밀키를 꺼내고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 키로 편지를 찰칵 열어서 읽음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✍️ 2단계: 무결성과 부인방지 (내가 보낸 거 맞음! 위조 안 됨! - 전자서명)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 송신자(A): 편지 내용을 믹서기(해시 함수)에 갈아 '작은 요약본(해시값)'을 만듦.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ 송신자(A): 그 요약본에 자신의 '개인키'로 도장(서명)을 쾅! 찍어서 첨부함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 수신자(B): 송신자 A의 공개키로 도장을 확인하고, 자기도 편지를 믹서기에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">갈아봐서 요약본이 똑같이 나오는지 비교함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 똑같네? "중간에 글씨 1개도 안 바뀌었고, A가 보낸 거 100% 맞음!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          S/MIME의 2대 마법: 하이브리드 암호화 & 전자서명 작동 원리       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [ 🛡️ 1단계: 기밀성 (아무도 못 읽게 만들기 - 암호화) ]                │
+│                                                             │
+│ 1️⃣ 송신자(A): 편지 본문을 '랜덤 생성된 일회용 비밀키(대칭키)'로 꽁꽁 잠금!  │
+│              (대칭키를 쓰면 용량 큰 첨부파일도 0.1초 만에 초고속 암호화됨)│
+│ 2️⃣ 송신자(A): 그 일회용 비밀키를 '수신자(B)의 공개키'로 튼튼하게 감싸버림! │
+│              (수신자 B의 개인키가 아니면 이 열쇠 상자는 절대 안 열림)    │
+│ 3️⃣ 수신자(B): 자기 개인키로 열쇠 상자를 열어 일회용 비밀키를 꺼내고,       │
+│              그 키로 편지를 찰칵 열어서 읽음!                         │
+│                                                             │
+│ [ ✍️ 2단계: 무결성과 부인방지 (내가 보낸 거 맞음! 위조 안 됨! - 전자서명) ]│
+│                                                             │
+│ 1️⃣ 송신자(A): 편지 내용을 믹서기(해시 함수)에 갈아 '작은 요약본(해시값)'을 만듦.│
+│ 2️⃣ 송신자(A): 그 요약본에 **자신의 '개인키'로 도장(서명)을 쾅!** 찍어서 첨부함.│
+│ 3️⃣ 수신자(B): 송신자 A의 공개키로 도장을 확인하고, 자기도 편지를 믹서기에   │
+│              갈아봐서 요약본이 똑같이 나오는지 비교함.                │
+│              ➔ 똑같네? "중간에 글씨 1개도 안 바뀌었고, A가 보낸 거 100% 맞음!"│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 바로 정보보안기사/기술사 암호학의 알파요 오메가인 <strong>'하이브리드 암호화(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/937_hybrid_encryption/">Hybrid Encryption</a>)'</strong>와 <strong>'<a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">Digital Signature</a>)'</strong>의 교과서적 조합이다. S/MIME은 이 두 가지 수학적 마법을 이메일이라는 낡은 텍스트 창에 완벽히 융합했다. 만약 공개키([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))만 써서 10MB짜리 사진을 암호화하려 들면 수학 연산이 너무 무거워서 컴퓨터가 뻗는다. 그래서 S/MIME은 가볍고 빠른 대칭키([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))로 내용물을 잠그고, 그 대칭키만 공개키로 살포시 감싸서 보내는 환상적인 속도-보안의 트레이드오프(융합)를 완성해 냈다.
 
@@ -76,18 +77,14 @@ S/MIME과 목적(종단간 암호화)은 똑같은데, 철학이 완전히 다�
 | **표준 및 생태계** | B2B 엔터프라이즈. 대기업, 금융권, 관공서의 공식 메일 시스템 보안 표준. Outlook 등 상용 툴 기본 내장. | 사이퍼펑크, 해커, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영의 전유물. 정부의 감시를 극도로 혐오하는 자유주의자들의 메일 암호화 도구. |
 | **적용 아키텍처** | 회사 전산팀이 신입사원에게 이메일 계정과 함께 S/[MIME](/knowledge-base/studynote/03_network/09_application_layer_web_email/492_mime_multipurpose_internet_mail_extensions/) 인증서를 강제로 발급/설치해 줌 (통제 용이). | 개인이 스스로 키 쌍을 만들고 관리해야 하므로 IT 맹인은 절대 못 씀. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MIME</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">S/MIME</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PGP</div></div>
-</div>
-</div>
-
-
+```text
+[MIME]
+    │
+    ▼
+[S/MIME]
+    │
+    └──▶ [PGP]
+```
 
 - **📢 섹션 요약 비유**: S/MIME은 '주민등록증'입니다. 동사무소([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))라는 절대적인 정부 기관이 "이 사람은 홍길동이 맞다"고 보증해 주는 거라 모두가 믿습니다. 반면 PGP는 '친구들의 보증'입니다. 동사무소를 믿지 않고, "내 친구 철수랑 영희가 이 사람은 홍길동이 맞다고 서명해 줬으니 나도 믿을래" 하는 분산형 게릴라 신뢰망입니다.
 
@@ -122,30 +119,33 @@ S/MIME은 수학적으로 100% 완벽한 방패지만, 우리가 카카오톡이
 2. <strong>시나리오 — 10년 전 암호화 메일의 '키 소실(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> Loss)' 파국</strong>: 방산업체 A사. 5년 전 퇴사한 이 이사가 S/MIME으로 수천 건의 해외 무기 계약서를 암호화하여 수신해 왔다. 국세청 세무조사가 터져서 그 메일들을 다 까보라고 지시가 내려왔다. 하지만 이 이사는 퇴사하며 인증서(개인키 .pfx [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))가 담긴 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 하드를 포맷해 버렸고, 회사의 메일 아카이브(DB)에는 아무도 읽을 수 없는 외계어 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1만 개만 덩그러니 남아 회사가 파산 위기에 처했다.
    - **판단**: S/[MIME](/knowledge-base/studynote/03_network/09_application_layer_web_email/492_mime_multipurpose_internet_mail_extensions/), [PGP](/knowledge-base/studynote/03_network/09_application_layer_web_email/494_pgp_pretty_good_privacy_web_of_trust/) 같은 종단간 암호화 아키텍처가 기업 환경에 도입될 때 터지는 0순위 재앙([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Escrow 문제)이다. 개인의 암호화 키를 개인의 USB에만 놔두면, 직원이 죽거나 앙심을 품었을 때 회사의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산은 암호화된 쓰레기 산(Ransomware와 다를 바 없음)이 된다. 엔터프라이즈 환경에서는 임직원의 S/[MIME](/knowledge-base/studynote/03_network/09_application_layer_web_email/492_mime_multipurpose_internet_mail_extensions/) 키 쌍이 발급되는 즉시, 그 개인키의 복사본을 강제로 뺏어와 <strong>중앙 키 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 센터(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> Escrow/<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a> Server)</strong>의 3중 금고에 보관하는 키 위탁 보관 아키텍처가 반드시 선행 구축되어야만 법적 분쟁 시 회사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 강제로 따고(Decryption) 살릴 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: 종단간 암호화(S/MIME)를 파괴하는 '인증서 경고' 창</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🤬 실무에서 S/MIME 도입 시 매일 터지는 아웃룩(Outlook) 에러 화면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠️ 경고: 이 메시지의 디지털 서명에 문제가 있습니다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 원인 1: 인증서 만료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 홍길동이 1년마다 갱신해야 하는 공인인증서를 안 바꿔서, 오늘부터 홍길동이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보내는 모든 메일에 빨간색 엑스(X) 표시가 뜸. 수신자들 멘붕.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 원인 2: 신뢰할 수 없는 루트 기관(Untrusted Root CA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 회사가 돈 아끼겠다고 자기들끼리 사설 인증서(Self-signed) 대충 만들어서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직원들한테 뿌림. 거래처 PC에는 그 회사의 뿌리(Root)가 등록 안 돼 있어서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이 편지 보낸 사람 사기꾼일 수 있음!" 하고 시뻘건 경고창이 터짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 원인 3: 메일 주소와 인증서 불일치 (Mismatched SAN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인증서는 <code>hong@a.com</code>으로 발급받았는데, 아웃룩에서 실수로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>sales@a.com</code>이라는 부서 공용 메일 주소를 찍고 발송함. 위조 메일로 찍힘.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 판단: S/MIME의 적은 해커가 아니라 '인증서 관리(PKI)의 지옥'이다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수만 명 직원의 인증서 발급-만료-폐기(CRL) 라이프사이클을 자동화하지 못하면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 부서는 하루에 걸려 오는 1,000통의 아웃룩 에러 문의 전화에 타 죽는다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: 종단간 암호화(S/MIME)를 파괴하는 '인증서 경고' 창    │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [ 🤬 실무에서 S/MIME 도입 시 매일 터지는 아웃룩(Outlook) 에러 화면 ]   │
+  │                                                             │
+  │ ⚠️ 경고: 이 메시지의 디지털 서명에 문제가 있습니다!                  │
+  │ ----------------------------------------------------------- │
+  │ ❌ 원인 1: 인증서 만료                                        │
+  │    - 홍길동이 1년마다 갱신해야 하는 공인인증서를 안 바꿔서, 오늘부터 홍길동이│
+  │      보내는 모든 메일에 빨간색 엑스(X) 표시가 뜸. 수신자들 멘붕.        │
+  │                                                             │
+  │ ❌ 원인 2: 신뢰할 수 없는 루트 기관(Untrusted Root CA)             │
+  │    - 회사가 돈 아끼겠다고 자기들끼리 사설 인증서(Self-signed) 대충 만들어서│
+  │      직원들한테 뿌림. 거래처 PC에는 그 회사의 뿌리(Root)가 등록 안 돼 있어서│
+  │      "이 편지 보낸 사람 사기꾼일 수 있음!" 하고 시뻘건 경고창이 터짐.      │
+  │                                                             │
+  │ ❌ 원인 3: 메일 주소와 인증서 불일치 (Mismatched SAN)               │
+  │    - 인증서는 `hong@a.com`으로 발급받았는데, 아웃룩에서 실수로         │
+  │      `sales@a.com`이라는 부서 공용 메일 주소를 찍고 발송함. 위조 메일로 찍힘.│
+  │                                                             │
+  │ 🌟 아키텍트 판단: S/MIME의 적은 해커가 아니라 '인증서 관리(PKI)의 지옥'이다.│
+  │ 수만 명 직원의 인증서 발급-만료-폐기(CRL) 라이프사이클을 자동화하지 못하면, │
+  │ 보안 부서는 하루에 걸려 오는 1,000통의 아웃룩 에러 문의 전화에 타 죽는다.   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "S/MIME이 왜 이렇게 훌륭한데 우리는 카카오톡이나 네이버 메일에서 안 쓰나요?"라는 본질적 딜레마에 대한 답이다. 암호화와 복호화의 짐을 중앙 서버(구글, 네이버)가 아니라 말단 '클라이언트 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)'에게 떠넘기는 순간, 전 국민 5천만 명에게 공인인증서 USB를 꽂고 비밀번호 10자리를 치게 만들어야 하는 헬게이트가 열린다. 이것이 대한민국이 20년간 앓았던 공인인증서 액티브X(ActiveX)의 비극과 100% 동일한 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/)) 인프라 관리의 무게(Cost)다.
 
@@ -193,19 +193,15 @@ S/MIME은 수학적으로 100% 완벽한 방패지만, 우리가 카카오톡이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MIME</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: S/MIME</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PGP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MIME]
+    │
+    ▼
+[현재 개념: S/MIME]
+    │
+    ├──▶ [확장 A: PGP]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 S/MIME는 MIME에서 출발해 현재 메커니즘을 정교화하고, 이후 PGP와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

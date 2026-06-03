@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **구조**: 외부망(Untrusted)과 내부망(Trusted)을 나누고, 그 경계선(Perimeter)에만 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비를 몰아넣는 모델입니다.
 - **치명적 약점 (East-West 통신 무방비)**: 성문을 무사히 통과한 내부 서버 A와 내부 서버 B끼리의 통신(East-West 트래픽)에는 아무런 검열이나 제약이 없습니다. 서버 A가 악성코드에 감염되면, 바로 옆의 서버 B, C, D로 미친 듯이 감염이 퍼져나가며 결국 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체가 암호화([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))되어 망합니다. (Lateral Movement 횡적 확산 위협)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BUM 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 트러스트 존</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하둡 랙 인식 토폴로지 통신 데이터 복제 연…</div></div>
-</div>
-</div>
-
-
+```text
+[BUM 트래픽]
+    │
+    ▼
+[마이크로 트러스트 존]
+    │
+    └──▶ [하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
+```
 
 - **📢 섹션 요약 비유**: 마이크로 트러스트 존은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 739번 문서에서 배운 <strong>'<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/">마이크로 세그멘테이션</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/">Micro-Segmentation</a>)'</strong> 기술을 기반으로, 내부망을 믿지 않는 '[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))' 철학을 구현한 클라우드 보안 아키텍처입니다.
 - **구현**: 거대한 서브넷([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)) 단위가 아니라, <strong>개별 가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>), 개별 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>), 심지어 프로세스 1개 단위로 극도로 잘게 쪼갠 최소 단위의 신뢰 구역(Micro-Trust Zone)을 만들고, 그 껍데기에 강력한 소프트웨어 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 룰을 1:1로 씌워버리는 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BUM 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 트러스트 존</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하둡 랙 인식 토폴로지 통신 데이터 복제 연…</div></div>
-</div>
-</div>
-
-
+```text
+[BUM 트래픽]
+    │
+    ▼
+[마이크로 트러스트 존]
+    │
+    └──▶ [하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
+```
 
 - **📢 섹션 요약 비유**: 마이크로 트러스트 존의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BUM 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 마이크로 트러스트 존</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 하둡 랙 인식 토폴로지 통신 데이터 복제 연…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BUM 트래픽]
+    │
+    ▼
+[현재 개념: 마이크로 트러스트 존]
+    │
+    ├──▶ [확장 A: 하둡 랙 인식 토폴로지 통신 데이터 복제 연…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 마이크로 트러스트 존는 BUM 트래픽에서 출발해 현재 메커니즘을 정교화하고, 이후 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 랙 인식 토폴로지 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 연…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

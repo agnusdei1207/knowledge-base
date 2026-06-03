@@ -59,23 +59,27 @@ tags = ["studynote-enterprise-systems"]
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: 토픽 4파티션 → [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 2대
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Topic: user-events (파티션 4개)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition-0</div><div class="kb-diagram-cell">Partition-1</div><div class="kb-diagram-cell">Partition-2</div><div class="kb-diagram-cell">Partition-3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer Group: analytics-group</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer-A</div><div class="kb-diagram-cell">Consumer-B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Partition-0, P-1 담당)</div><div class="kb-diagram-cell">(Partition-2, P-3 담당)</div></div>
-<div class="kb-diagram-note">오프셋 커밋</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka Broker</div><div class="kb-diagram-cell">__consumer_offsets 토픽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P-0: 48200</div><div class="kb-diagram-cell">P-1: 50100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P-2: 47900</div><div class="kb-diagram-cell">P-3: 51200</div></div>
-</div>
-</div>
-
-
+```
+  Topic: user-events (파티션 4개)
+  ┌──────────────────────────────────────────────────────────────┐
+  │  Partition-0   │  Partition-1   │  Partition-2   │  Partition-3   │
+  └───────┬────────┴───────┬────────┴───────┬────────┴───────┬────────┘
+          │                │                │                │
+          ▼                ▼                ▼                ▼
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                Consumer Group: analytics-group                    │
+  │   ┌─────────────────────────────┐   ┌──────────────────────────┐  │
+  │   │         Consumer-A          │   │         Consumer-B       │  │
+  │   │   (Partition-0, P-1 담당)   │   │   (Partition-2, P-3 담당)│  │
+  │   └─────────────────────────────┘   └──────────────────────────┘  │
+  └───────────────────────────────────────────────────────────────────┘
+                │ 오프셋 커밋
+  ┌─────────────────────┐
+  │  Kafka Broker       │  __consumer_offsets 토픽
+  │  P-0: 48200         │  P-1: 50100
+  │  P-2: 47900         │  P-3: 51200
+  └─────────────────────┘
+```
 
 ### [Consumer Lag](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
 
@@ -160,23 +164,21 @@ Lag > 10,000건 → 알람 → 컨슈머 추가 or 처리 로직 최적화
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 큐 메시지 브로커 - 처리량 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Kafka Topic - 논리적 데이터 채널 추상화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Partition - 물리적 분산·병렬 처리 단위</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Consumer Group - 파티션별 독립 소비자 배정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Replication Factor + ISR = 고가용성 보장</div>
-</div>
-</div>
-
-
+```
+단일 큐 메시지 브로커 - 처리량 병목
+    │
+    ▼
+Kafka Topic - 논리적 데이터 채널 추상화
+    │
+    ▼
+Partition - 물리적 분산·병렬 처리 단위
+    │
+    ▼
+Consumer Group - 파티션별 독립 소비자 배정
+    │
+    ▼
+Replication Factor + ISR = 고가용성 보장
+```
 
 > **키워드**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Topic, [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), [Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/), Offset, [Replication Factor](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/), Producer, Broker
 

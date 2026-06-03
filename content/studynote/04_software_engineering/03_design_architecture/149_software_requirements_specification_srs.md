@@ -30,24 +30,27 @@ tags = ["studynote-software-engineering"]
 
 SRS 문서는 기획자 혼자 쓰고 서랍에 넣는 문서가 아니다. 고객(비즈니스), 개발자(구현), 테스터(품질)라는 서로 다른 직군이 유일하게 해석을 일치시켜야 하는 '단일 진실의 원천(SSOT)'이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRS가 프로젝트 전 생명주기(SDLC)에 미치는 파급력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">📜 소프트웨어 요구사항 명세서 (SRS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고객 / 현업</div><div class="kb-diagram-node">설계자 / 개발자</div><div class="kb-diagram-node">QA 테스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이 문서대로 만들어 "이 문서의 명세대로 "이 문서에 적힌 대로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주시면 돈 드릴게요." DB 스키마를 짜고 작동 안 하면 전부 다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(계약 및 인수 기준) 코딩(구현)하겠습니다." 버그(Defect)입니다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 만약 SRS가 엉터리라면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 고객은 "내가 원한 게 아냐!" 라며 시스템 인수를 거부함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 개발자는 상상력을 동원해 엉뚱한 코드를 짬. (Rework 지옥 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 테스터는 이게 버그인지 원래 그런 기능인지 채점할 기준이 없어 싸움만 남.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          SRS가 프로젝트 전 생명주기(SDLC)에 미치는 파급력              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│                 [ 📜 소프트웨어 요구사항 명세서 (SRS) ]              │
+│                         │                                   │
+│    ┌────────────────────┼────────────────────┐              │
+│    ▼                    ▼                    ▼              │
+│ [ 고객 / 현업 ]       [ 설계자 / 개발자 ]        [ QA 테스터 ]     │
+│                                                             │
+│ "이 문서대로 만들어       "이 문서의 명세대로       "이 문서에 적힌 대로  │
+│  주시면 돈 드릴게요."     DB 스키마를 짜고         작동 안 하면 전부 다  │
+│ (계약 및 인수 기준)       코딩(구현)하겠습니다."     버그(Defect)입니다."│
+│                                                             │
+│ 💥 만약 SRS가 엉터리라면?                                        │
+│ ➔ 고객은 "내가 원한 게 아냐!" 라며 시스템 인수를 거부함.                 │
+│ ➔ 개발자는 상상력을 동원해 엉뚱한 코드를 짬. (Rework 지옥 발생)          │
+│ ➔ 테스터는 이게 버그인지 원래 그런 기능인지 채점할 기준이 없어 싸움만 남.    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 잘 쓰인 SRS는 IEEE 830 표준의 6대 품질 조건([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/), 명확성, 완전성, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성, 추적 가능성)을 100% 충족해야 한다. 특히 1개의 문장은 무조건 1가지 뜻으로만 해석되는 '명확성(Unambiguous)'과, 테스터가 O/X로 채점할 수 있는 '[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성(Verifiable)' 수치화가 가장 중요한 뼈대다.
 
@@ -110,23 +113,21 @@ SRS 문서는 기획자 혼자 쓰고 서랍에 넣는 문서가 아니다. 고�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비정형 명세 (자연어 산문) / 고객과 대화로만 요구사항 전달 ➔ 모호성 랙 발생 및 개발자 오해 폭발 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IEEE 830 기반의 엄격한 SRS 문서 정립 / 폭포수 모델의 대관식, 정확한 목차와 검증 가능한 6대 원칙 강제 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">반정형 명세 융합 (UML, Use Case) / 텍스트의 한계를 그림과 다이어그램으로 보완하여 명확성 극대화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">요구사항 추적성 매트릭스 (RTM) / 잦은 변경 요구에 맞서 시스템 파급 효과를 1초 만에 추적하는 방어막 구축</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">애자일(Agile) 시대 도래 및 실행 가능한 명세 (BDD) / 무거운 책자 대신 User Story로 쪼개고, 명세서 텍스트가 곧바로 자동화 테스트 코드로 실행되는 융합</div>
-</div>
-</div>
-
-
+```text
+비정형 명세 (자연어 산문) / 고객과 대화로만 요구사항 전달 ➔ 모호성 랙 발생 및 개발자 오해 폭발 💥
+    │
+    ▼
+IEEE 830 기반의 엄격한 SRS 문서 정립 / 폭포수 모델의 대관식, 정확한 목차와 검증 가능한 6대 원칙 강제 적용
+    │
+    ▼
+반정형 명세 융합 (UML, Use Case) / 텍스트의 한계를 그림과 다이어그램으로 보완하여 명확성 극대화
+    │
+    ▼
+요구사항 추적성 매트릭스 (RTM) / 잦은 변경 요구에 맞서 시스템 파급 효과를 1초 만에 추적하는 방어막 구축
+    │
+    ▼
+애자일(Agile) 시대 도래 및 실행 가능한 명세 (BDD) / 무거운 책자 대신 User Story로 쪼개고, 명세서 텍스트가 곧바로 자동화 테스트 코드로 실행되는 융합
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

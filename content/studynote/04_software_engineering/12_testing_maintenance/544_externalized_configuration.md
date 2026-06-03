@@ -72,20 +72,23 @@ String dbUrl;
 - <strong>비밀 정보</strong>는 일반 [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Server가 아닌 <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/">Vault</a>(514번 문서)</strong>나 **AWS Secrets Manager** 같은 암호화된 금고에 넣어야 한다.
 - [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) Server는 이 금고들과 연동되어, 안전하게 암호화된 상태로 값을 전달하는 통로 역할만 수행한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부화된 구성 관리 (Config Server) 아키텍처 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🐙 GitHub / Git</div><div class="kb-diagram-note">&lt; (설정 파일 저장: prod.yml)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">⚙️ Config Server</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(설정 동기화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(런타임 주입)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주문서비스</div><div class="kb-diagram-node">결제서비스</div><div class="kb-diagram-node">상품서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 특징: git에 설정값만 커밋하면, 운영 중인 서버들의 설정이 바뀜!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           외부화된 구성 관리 (Config Server) 아키텍처 시각화             │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [ 🐙 GitHub / Git ] <─── (설정 파일 저장: prod.yml)           │
+│          │                                                   │
+│          ▼                                                   │
+│  [ ⚙️ Config Server ] ◀─── (설정 동기화)                       │
+│          │                                                   │
+│   ┌──────┴────────┬──────────────┐ (런타임 주입)               │
+│   ▼               ▼              ▼                           │
+│ [주문서비스]     [결제서비스]     [상품서비스]                   │
+│                                                              │
+│ ★ 특징: git에 설정값만 커밋하면, 운영 중인 서버들의 설정이 바뀜!      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -140,30 +143,28 @@ String dbUrl;
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 외부화된 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) (Externalized Configuration)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 외부화된 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) (Externalized Configuration)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 외부화된 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) (Externalized Configuration)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 외부화된 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) (Externalized Configuration) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 외부화된 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) (Externalized Configuration)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">외부화된 구성 관리 (Externalized Configuration) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+외부화된 구성 관리 (Externalized Configuration) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -25,57 +25,54 @@ tags = ["studynote-design-supervision"]
 
 초당 1,000개 요청이 들어오는 서버에서 매 요청마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 초당 1,000번의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/소멸이 발생 → 실제 처리보다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리 비용이 더 커지는 역설.
 
+```
+사전 스레드 생성:
+  Pool 초기화 → N개 스레드를 미리 생성하여 대기(IDLE) 상태로 유지
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사전 스레드 생성:</div>
-<div class="kb-diagram-note">Pool 초기화 → N개 스레드를 미리 생성하여 대기(IDLE) 상태로 유지</div>
-<div class="kb-diagram-note">요청 처리:</div>
-<div class="kb-diagram-note">요청 도착 → Work Queue에 삽입 → 유휴 스레드가 작업 꺼내 실행</div>
-<div class="kb-diagram-note">→ 실행 완료 → 스레드 Pool로 반환 (소멸 X, 재사용 O)</div>
-</div>
-</div>
-
-
+요청 처리:
+  요청 도착 → Work Queue에 삽입 → 유휴 스레드가 작업 꺼내 실행
+              → 실행 완료 → 스레드 Pool로 반환 (소멸 X, 재사용 O)
+```
 
 - 웹 서버의 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 처리
 - [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연결 관리 (Connection Pool과 혼용)
 - 비동기 작업 실행 (Java `CompletableFuture.supplyAsync()`)
 - [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 병렬화
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 택시 회사에서 손님이 올 때마다 기사를 새로 고용하는 것이 아니라, 기사들을 대기실(Pool)에 준비시켜두고 호출이 오면 배차하는 것이 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread Pool Architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">submit()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Work Queue</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ (호출자) │</div><div class="kb-diagram-node">Task1</div><div class="kb-diagram-node">Task2</div><div class="kb-diagram-node">Task3</div><div class="kb-diagram-note">.. │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 가져가기 (take)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread Pool</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread-1</div><div class="kb-diagram-cell">Thread-2</div><div class="kb-diagram-cell">Thread-N</div><div class="kb-diagram-cell">(IDLE)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">Task1</div><div class="kb-diagram-node">Task2</div><div class="kb-diagram-note">│ 대기 중 │ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">corePoolSize ~ maximumPoolSize (동적 확장 구간)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│                   Thread Pool Architecture                     │
+│                                                                │
+│  ┌──────────────┐    submit()    ┌──────────────────────────┐  │
+│  │   Client     │───────────────▶│     Work Queue           │  │
+│  │  (호출자)    │                │  [Task1][Task2][Task3]..  │  │
+│  └──────────────┘                └────────────┬─────────────┘  │
+│                                               │                │
+│                         ┌─────────────────────┘                │
+│                         │ 작업 가져가기 (take)                   │
+│                         ▼                                      │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                   Thread Pool                           │   │
+│  │  ┌───────────┐  ┌───────────┐  ┌───────────┐           │   │
+│  │  │ Thread-1  │  │ Thread-2  │  │ Thread-N  │  (IDLE)   │   │
+│  │  │ [Task1]   │  │ [Task2]   │  │  대기 중   │           │   │
+│  │  └───────────┘  └───────────┘  └───────────┘           │   │
+│  │                                                         │   │
+│  │  corePoolSize ~ maximumPoolSize (동적 확장 구간)         │   │
+│  └─────────────────────────────────────────────────────────┘   │
+└────────────────────────────────────────────────────────────────┘
+```
 
 | 파라미터 | 설명 | 기본값/권장 |
 |:---|:---|:---|
@@ -113,23 +110,18 @@ I/O 바운드 작업:  N_threads = N_cpu × (1 + 대기시간 / 처리시간)
 | `DiscardPolicy` | 작업 조용히 버림 | 손실 허용 가능한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 처리 |
 | `DiscardOldestPolicy` | 가장 오래된 작업 버리고 재시도 | 최신 요청 우선 처리 |
 
+```
+스레드 기아 시나리오:
+  Task A (풀 점유) → 내부에서 Task B를 submit()
+  → Task B는 큐에서 대기
+  → 그러나 모든 스레드가 Task A로 점유되어 Task B를 실행할 스레드 없음
+  → Task A는 Task B 완료를 기다림 → 교착 상태(Deadlock)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스레드 기아 시나리오:</div>
-<div class="kb-diagram-note">Task A (풀 점유) → 내부에서 Task B를 submit()</div>
-<div class="kb-diagram-note">→ Task B는 큐에서 대기</div>
-<div class="kb-diagram-note">→ 그러나 모든 스레드가 Task A로 점유되어 Task B를 실행할 스레드 없음</div>
-<div class="kb-diagram-note">→ Task A는 Task B 완료를 기다림 → 교착 상태(Deadlock)</div>
-<div class="kb-diagram-note">해결책:</div>
-<div class="kb-diagram-note">1. 독립 스레드 풀 사용 (작업 유형별 풀 분리)</div>
-<div class="kb-diagram-note">2. maximumPoolSize를 충분히 크게 설정</div>
-<div class="kb-diagram-note">3. CompletableFuture 비동기 체이닝으로 블로킹 제거</div>
-</div>
-</div>
-
-
+해결책:
+  1. 독립 스레드 풀 사용 (작업 유형별 풀 분리)
+  2. maximumPoolSize를 충분히 크게 설정
+  3. CompletableFuture 비동기 체이닝으로 블로킹 제거
+```
 
 | 메서드 | 특징 | 주의사항 |
 |:---|:---|:---|

@@ -31,28 +31,29 @@ tags = ["studynote-operating-system"]
   2. **컨트롤러(Controller)의 분리 독립**: 각 디바이스에 작은 칩셋(컨트롤러)을 달아서, 기계 제어 노가다는 이 칩셋이 전담하게 만듦.
   3. <strong>표준 인터페이스(3대 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>) 확립</strong>: CPU는 이 컨트롤러에 달린 3개의 1바이트짜리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(구멍)만 콕콕 찌르면 끝나는 초간단 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 아키텍처가 완성됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU와 프린터(I/O 디바이스)의 3대 레지스터 통신 런타임 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. OS(CPU)의 눈치 보기: Status 쳐다보기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- CPU가 프린터의</div><div class="kb-diagram-node">상태 레지스터 (Status)</div><div class="kb-diagram-note">를 읽어봄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "음, 0번 비트가 '0(Ready)'이네? 지금 놀고 있구나. 주문 넣자!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 음식물 밀어 넣기: Data 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- CPU가</div><div class="kb-diagram-node">데이터 레지스터 (Data-out)</div><div class="kb-diagram-note">칸에 'A' 글자 1바이트를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쑤셔 넣음. "이거 프린트해라!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 명령 버튼 꾹 누르기: Control 조작</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- CPU가</div><div class="kb-diagram-node">제어 레지스터 (Control)</div><div class="kb-diagram-note">의 '인쇄 시작 비트'에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'1'을 띡 써서(Write) 전기 스위치를 켬!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 디바이스 컨트롤러의 노가다 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프린터가 명령을 받고 모터를 징징 돌려 'A'를 종이에 찍기 시작.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 이 동안 프린터는 지 스스로</div><div class="kb-diagram-node">상태 레지스터</div><div class="kb-diagram-note">를 '1(Busy)'로 바꿈.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 다 찍으면 다시 '0(Ready)'으로 바꾸거나 CPU에 인터럽트를 날림!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        CPU와 프린터(I/O 디바이스)의 3대 레지스터 통신 런타임 시각화  │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [ 1. OS(CPU)의 눈치 보기: Status 쳐다보기 ]                          │
+│  - CPU가 프린터의 [ 상태 레지스터 (Status) ]를 읽어봄.               │
+│  - "음, 0번 비트가 '0(Ready)'이네? 지금 놀고 있구나. 주문 넣자!"     │
+│                                                                      │
+│ [ 2. 음식물 밀어 넣기: Data 전송 ]                                   │
+│  - CPU가 [ 데이터 레지스터 (Data-out) ] 칸에 'A' 글자 1바이트를      │
+│    쑤셔 넣음. "이거 프린트해라!"                                     │
+│                                                                      │
+│ [ 3. 명령 버튼 꾹 누르기: Control 조작 ]                             │
+│  - CPU가 [ 제어 레지스터 (Control) ] 의 '인쇄 시작 비트'에           │
+│    '1'을 띡 써서(Write) 전기 스위치를 켬!                            │
+│                                                                      │
+│ [ 4. 디바이스 컨트롤러의 노가다 시작 ]                               │
+│  - 프린터가 명령을 받고 모터를 징징 돌려 'A'를 종이에 찍기 시작.     │
+│  - 이 동안 프린터는 지 스스로 [ 상태 레지스터 ]를 '1(Busy)'로 바꿈.  │
+│  - 다 찍으면 다시 '0(Ready)'으로 바꾸거나 CPU에 인터럽트를 날림!     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 3박자 통신은 전 세계 모든 디바이스 드라이버 소스코드(C언어)의 뼈대다. 마우스든, 100G 랜카드든 껍데기를 다 벗겨보면 결국 OS가 "기계 바쁘냐?(Status 검사) -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 줄게([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) -> 쏴라!(Control [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))" 이 무한 루프를 돌고 있는 것에 불과하다. 이토록 복잡한 기계들을 고작 3개의 변수([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))로 퉁쳐버린 컴퓨터 공학의 극강의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))다.
 
 - **📢 섹션 요약 비유**: 세탁기 돌리는 것과 완벽히 똑같습니다. "세탁기가 다 돌아가서 불이 꺼졌는지(Status) 확인하고 -> 더러운 옷과 세제를 통([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 쑤셔 넣은 뒤 -> 동작 버튼(Control)을 띡 누른다!" 사용자가 세탁기 안의 모터가 어떻게 도는지 1도 알 필요 없이 빨래(I/O)를 끝낼 수 있는 마법의 인터페이스입니다.
@@ -106,17 +107,14 @@ CPU가 디바이스의 동작 모드를 바꾸거나 기계에 명령을 하달�
   - 프린터가 일을 다 끝내고 전기 핀을 튕기면, CPU가 엑셀을 멈추고 휙 돌아와서 다음 명령을 준다.
   - 이것이 현대 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) OS가 숨통을 트이게 된 가장 기적적인 하드웨어-소프트웨어 융합 설계다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식</div><div class="kb-diagram-cell">CPU 행동</div><div class="kb-diagram-cell">상태(Status) 확인</div><div class="kb-diagram-cell">성능 체감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폴링(Polling)</div><div class="kb-diagram-cell">아무것도 못함 ☠️</div><div class="kb-diagram-cell">CPU가 1초에 만번 물어봄</div><div class="kb-diagram-cell">렉 걸리고 멈춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트(IRQ)</div><div class="kb-diagram-cell">딴 일 쌩쌩 함 🚀</div><div class="kb-diagram-cell">기계가 끝났다고 알려줌</div><div class="kb-diagram-cell">극강의 멀티태스킹</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────────┐
+│ 방식       │ CPU 행동    │ 상태(Status) 확인│ 성능 체감                   │
+├──────────┼────────────┼────────────┼──────────────────────────────────────┤
+│ 폴링(Polling)│ 아무것도 못함 ☠️│ CPU가 1초에 만번 물어봄│ 렉 걸리고 멈춤  │
+│ 인터럽트(IRQ)│ 딴 일 쌩쌩 함 🚀│ 기계가 끝났다고 알려줌│ 극강의 멀티태스킹│
+└──────────┴────────────┴────────────┴──────────────────────────────────────┘
+```
 **[매트릭스 해설]** 초보 드라이버 개발자들이 가장 많이 내는 사고가 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 루프를 잘못 짜서 CPU 코어 하나를 100% 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 걸리게 만들어버리는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패닉이다. 하지만 예외적으로 초당 1000만 개가 쏟아지는 최신 10Gbps 랜카드에서는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 너무 많이 터져서 오히려 CPU가 뻗어버리므로, 다시 일부러 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(NAPI) 모드로 회귀하는 역설적인 상황도 실무에서 펼쳐진다.
 
 - **📢 섹션 요약 비유**: 짜장면 시키고 언제 오나 문 앞에서 계속 배달부만 기다리느라 1시간 동안 아무 일도 못 하는 바보가 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Busy Wait](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/))입니다. 똑똑한 사람([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))은 넷플릭스 보다가 딩동! 하고 초인종 소리(IRQ)가 날 때만 1초 나가서 짜장면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 받아와 다시 넷플릭스를 봅니다.
@@ -173,19 +171,15 @@ I/O 하드웨어 인터페이스 요소 ([Data](/knowledge-base/studynote/05_dat
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 장치 (소켓 인터페이스)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 하드웨어 인터페이스 요소 (I/O Hardware Interface)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 (Port) / 버스 (Bus)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 장치 (소켓 인터페이스)]
+    │
+    ▼
+[I/O 하드웨어 인터페이스 요소 (I/O Hardware Interface)]
+    │
+    ├──▶ [포트 (Port) / 버스 (Bus)]
+    └──▶ [메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

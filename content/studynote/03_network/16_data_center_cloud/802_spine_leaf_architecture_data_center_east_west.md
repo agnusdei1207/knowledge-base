@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **East-West 트래픽의 폭주**: 빅데이터 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 마이그레이션, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))가 도입되면서, 서버가 인터넷(외부)으로 나가는 트래픽보다 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 내부의 서버들끼리 옆으로 대화하는 트래픽(East-West)이 전체 트래픽의 80%를 넘어서게 되었습니다.</strong>
 - 기존 3계층 구조는 이 거대한 옆면 트래픽을 감당하지 못하고 병목을 일으켰기 때문에, 이를 해결하기 위한 '넓고 평평한(Flat)' 아키텍처가 등장했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 3-Tier 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 Spine-Leaf 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
-</div>
-</div>
-
-
+```text
+[데이터센터 3-Tier 아키텍처]
+    │
+    ▼
+[데이터센터 Spine-Leaf 아키텍처]
+    │
+    └──▶ [오버서브스크립션 비율 설계 개념 분산망 대역]
+```
 
 - **📢 섹션 요약 비유**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) Spine-Leaf 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 이름 그대로 척추(Spine) 뼈대와 나뭇잎(Leaf)이라는 딱 2개의 층으로만 이루어집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 3-Tier 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 Spine-Leaf 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
-</div>
-</div>
-
-
+```text
+[데이터센터 3-Tier 아키텍처]
+    │
+    ▼
+[데이터센터 Spine-Leaf 아키텍처]
+    │
+    └──▶ [오버서브스크립션 비율 설계 개념 분산망 대역]
+```
 
 - **📢 섹션 요약 비유**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) Spine-Leaf 아키텍처의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 데이터센터 3-Tier 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 데이터센터 Spine-Leaf 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 데이터센터 3-Tier 아키텍처]
+    │
+    ▼
+[현재 개념: 데이터센터 Spine-Leaf 아키텍처]
+    │
+    ├──▶ [확장 A: 오버서브스크립션 비율 설계 개념 분산망 대역]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) Spine-Leaf 아키텍처는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 3-Tier 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 [오버서브스크립션 비율](/knowledge-base/studynote/03_network/16_data_center_cloud/803_oversubscription_ratio_data_center_bandwidth/) 설계 개념 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망 대역와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -37,22 +37,25 @@ dbt는 분석가가 친숙한 SQL로 변환 로직을 작성하면서 소프트�
 
 dbt의 핵심 철학은 변환(Transformation)은 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부에서 SQL로다. [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) (Extract, Load, Transform) 패턴에서 T(변환)만을 담당하며, E와 L은 Fivetran, Airbyte 등 별도 도구에 맡긴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dbt ELT 파이프라인 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 시스템 적재(Load) 변환(Transform)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM DB</div><div class="kb-diagram-cell">-&gt;</div><div class="kb-diagram-cell">Fivetran</div><div class="kb-diagram-cell">---&gt;</div><div class="kb-diagram-cell">dbt 모델 (SQL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP DB</div><div class="kb-diagram-cell">Airbyte</div><div class="kb-diagram-cell">staging/-&gt;marts/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트로그</div><div class="kb-diagram-cell">(Raw적재)</div><div class="kb-diagram-cell">Jinja 매크로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+---------------------------------------v----------+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DWH (Snowflake / BigQuery / Redshift)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">raw.* -&gt; staging.* -&gt; intermediate.* -&gt; mart.*</div></div>
-</div>
-</div>
-
-
+```text
++----------------------------------------------------------+
+|          dbt ELT 파이프라인 아키텍처                      |
++----------------------------------------------------------+
+|                                                          |
+|  소스 시스템       적재(Load)       변환(Transform)       |
+|  +----------+   +----------+     +------------------+  |
+|  | CRM DB   |-> | Fivetran |---> | dbt 모델 (SQL)   |  |
+|  | ERP DB   |   | Airbyte  |     | staging/->marts/ |  |
+|  | 이벤트로그|   | (Raw적재)|     | Jinja 매크로      |  |
+|  +----------+   +----------+     +-------+----------+  |
+|                                          |              |
+|  +---------------------------------------v----------+   |
+|  | DWH (Snowflake / BigQuery / Redshift)           |   |
+|  | raw.* -> staging.* -> intermediate.* -> mart.*  |   |
+|  +-------------------------------------------------+   |
+|                                                          |
++----------------------------------------------------------+
+```
 
 dbt 모델 계층 구조:
 - staging/: 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 표준화만 (컬럼명 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 타입 캐스팅)
@@ -95,28 +98,30 @@ dbt 테스트 유형:
 4. 소스 신선도 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링: dbt source freshness를 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 실행해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 자동 감지
 5. Great Expectations 통합: 복잡한 분포 기반 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 dbt 테스트와 병행
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataOps CI/CD 파이프라인 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 -&gt; PR 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitHub Actions / dbt Cloud CI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-- dbt run (변경 모델 + 하위 모델만)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-- dbt test (스키마, 데이터 테스트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-- Great Expectations (분포 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-- 데이터 계약 검증 (스키마 호환성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-- PASS -&gt; 코드 리뷰 -&gt; Merge -&gt; CD 트리거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-- FAIL -&gt; PR 블록, 알림 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CD: Merge 후 자동 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-- dbt run (영향받는 모델)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-- dbt test (품질 게이트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-- 배포 완료 -&gt; BI 도구, ML 파이프라인 자동 갱신</div></div>
-</div>
-</div>
-
-
+```text
++--------------------------------------------------------+
+|         DataOps CI/CD 파이프라인 흐름                  |
++--------------------------------------------------------+
+|                                                        |
+|  개발자 -> PR 생성                                      |
+|      |                                                 |
+|      v                                                 |
+|  GitHub Actions / dbt Cloud CI                        |
+|  +-- dbt run (변경 모델 + 하위 모델만)                   |
+|  +-- dbt test (스키마, 데이터 테스트)                    |
+|  +-- Great Expectations (분포 검증)                     |
+|  +-- 데이터 계약 검증 (스키마 호환성)                     |
+|      |                                                 |
+|      +-- PASS -> 코드 리뷰 -> Merge -> CD 트리거        |
+|      +-- FAIL -> PR 블록, 알림 전송                     |
+|                                                        |
+|  CD: Merge 후 자동 실행                                 |
+|  +-- dbt run (영향받는 모델)                            |
+|  +-- dbt test (품질 게이트)                             |
+|  +-- 배포 완료 -> BI 도구, ML 파이프라인 자동 갱신        |
+|                                                        |
++--------------------------------------------------------+
+```
 
 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/):
 - 테스트 없는 dbt 모델: not_null, unique 테스트조차 없으면 [오류 탐지](/knowledge-base/studynote/02_operating_system/01_overview_architecture/040_error_detection/) 불가

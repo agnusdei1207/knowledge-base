@@ -42,30 +42,29 @@ tags = ["studynote-algorithm"]
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 계수 정렬 동작 과정
 
+```
+입력: [3, 1, 4, 1, 5, 2, 3, 2]  (k=5)
 
+── 1단계: Count ──────────────────────────────────
+인덱스:  0   1   2   3   4   5
+count: [ 0,  2,  2,  2,  1,  1 ]
+              ↑   ↑   ↑   ↑   ↑
+              1이  2가  3이  4가  5가
+              2번  2번  2번  1번  1번
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력:</div><div class="kb-diagram-node">3, 1, 4, 1, 5, 2, 3, 2</div><div class="kb-diagram-note">(k=5)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">1단계: Count</div>
-<div class="kb-diagram-note">인덱스: 0 1 2 3 4 5</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">count:</div><div class="kb-diagram-node">0,  2,  2,  2,  1,  1</div></div>
-<div class="kb-diagram-note">1이 2가 3이 4가 5가</div>
-<div class="kb-diagram-note">2번 2번 2번 1번 1번</div>
-<div class="kb-diagram-tree-item" style="--depth:0">2단계: Prefix Sum</div>
-<div class="kb-diagram-note">인덱스: 0 1 2 3 4 5</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">count:</div><div class="kb-diagram-node">0,  2,  4,  6,  7,  8</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">누적합: count</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">번째 위치까지가 값 i의 끝</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">3단계: Place (역순 순회로 안정성 보장)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력 역순:</div><div class="kb-diagram-node">2, 3, 2, 5, 1, 4, 1, 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">v=2: output[count</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">-1] = output</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">= 2, count</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">=3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">v=3: output[count</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">-1] = output</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">= 3, count</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">=5</div></div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">출력:</div><div class="kb-diagram-node">1, 1, 2, 2, 3, 3, 4, 5</div><div class="kb-diagram-note">✅</div></div>
-</div>
-</div>
+── 2단계: Prefix Sum ─────────────────────────────
+인덱스:  0   1   2   3   4   5
+count: [ 0,  2,  4,  6,  7,  8 ]
+        누적합: count[i]번째 위치까지가 값 i의 끝
 
+── 3단계: Place (역순 순회로 안정성 보장) ──────────
+입력 역순: [2, 3, 2, 5, 1, 4, 1, 3]
+ v=2: output[count[2]-1] = output[3] = 2, count[2]=3
+ v=3: output[count[3]-1] = output[5] = 3, count[3]=5
+ ...
 
+출력: [1, 1, 2, 2, 3, 3, 4, 5] ✅
+```
 
 ### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
 
@@ -121,22 +120,19 @@ tags = ["studynote-algorithm"]
 
 ### 주의사항 (기술사 판단 기준)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계수 정렬 적용 가능 여부 판단 흐름도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력이 정수인가? ──No──→ 사용 불가 (비교 정렬 사용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">범위 k를 알 수 있는가? ──No──→ 기수 정렬 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">k = O(n) 수준인가? ──No──→ 메모리 폭발 위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계수 정렬 사용 ✅</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  계수 정렬 적용 가능 여부 판단 흐름도                  │
+│                                                      │
+│  입력이 정수인가? ──No──→ 사용 불가 (비교 정렬 사용)  │
+│        │ Yes                                         │
+│  범위 k를 알 수 있는가? ──No──→ 기수 정렬 검토        │
+│        │ Yes                                         │
+│  k = O(n) 수준인가? ──No──→ 메모리 폭발 위험         │
+│        │ Yes                                         │
+│  계수 정렬 사용 ✅                                    │
+└──────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 계수 정렬을 쓸 때는 범위를 먼저 확인해야 한다. 100칸짜리 집계표는 편리하지만, 100억 칸짜리 집계표는 집 자체가 무너진다.
 
@@ -169,23 +165,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비교 기반 정렬(O(n log n) 하한)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">계수 정렬(Counting Sort) — 값의 빈도 활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">누적 카운트 배열 — 위치 계산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">안정성 보장 — 같은 값의 상대 순서 유지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기수 정렬(Radix Sort) 확장</div></div>
-</div>
-</div>
-
-
+```text
+[비교 기반 정렬(O(n log n) 하한)]
+    │
+    ▼
+[계수 정렬(Counting Sort) — 값의 빈도 활용]
+    │
+    ▼
+[누적 카운트 배열 — 위치 계산]
+    │
+    ▼
+[안정성 보장 — 같은 값의 상대 순서 유지]
+    │
+    ▼
+[기수 정렬(Radix Sort) 확장]
+```
 
 계수 정렬은 비교 기반 정렬의 한계를 넘어 누적 카운트와 안정성을 이용해 [기수 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/017_radix_sort/)로 확장된다.
 

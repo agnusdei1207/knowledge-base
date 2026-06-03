@@ -26,18 +26,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 고속도로의 "최소/최고 속도 제한"과 같습니다. 너무 느리게(너무 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 달리면 뒤차와 사고가 나고(충돌 감지 실패), 너무 큰 화물차(과적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 1차선을 오래 막고 있으면 도로 전체가 마비되기 때문에 엄격한 제한을 둡니다. 만약 화물이 너무 작으면 <strong>"빈 박스(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)"</strong>를 채워서 크기를 키우고, 너무 크면 <strong>"여러 트럭(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a>)"</strong>으로 나누어 싣게 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Type 필드 / Length 필드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이로드 크기, 패딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">충돌 도메인 / 브로드캐스트 도메인</div></div>
-</div>
-</div>
-
-
+```text
+[Type 필드 / Length 필드]
+    │
+    ▼
+[페이로드 크기, 패딩]
+    │
+    └──▶ [충돌 도메인 / 브로드캐스트 도메인]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)은 택배 상자가 너무 텅 비어있을 때 상자가 찌그러지거나(에러 감지 불가) 분실되는 것을 막기 위해 억지로 욱여넣는 </strong>"에어캡(뽁뽁이)"**입니다.
 
@@ -58,21 +54,26 @@ tags = ["studynote-network"]
 - **MTU 1500의 기원**: 1980년대 컴퓨터의 메모리(RAM) 용량 한계와 네트워크 버퍼 크기를 고려한 타협점이었다.
 - **점보 프레임 (Jumbo Frame)**: 현대의 1Gbps, 10Gbps [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 환경에서는 1500바이트씩 쪼개 보내면 CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 부하가 너무 커진다. 따라서 MTU를 9000바이트까지 늘려 보내는 비표준 확장을 점보 프레임이라 부른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이더넷 프레임 길이 제약 도식도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC 헤더</div><div class="kb-diagram-cell">Payload</div><div class="kb-diagram-cell">Padding (패딩)</div><div class="kb-diagram-cell">FCS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(14 Byte)</div><div class="kb-diagram-cell">(가정: 10 B)</div><div class="kb-diagram-cell">(부족분: 36 B)</div><div class="kb-diagram-cell">(4 B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 전체 최소 64 Bytes ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC 헤더</div><div class="kb-diagram-cell">Payload (MTU 1500 Bytes)</div><div class="kb-diagram-cell">FCS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(14 Byte)</div><div class="kb-diagram-cell">IP 패킷이 꽉 차게 들어감</div><div class="kb-diagram-cell">(4 B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 전체 최대 1518 Bytes ▶</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                이더넷 프레임 길이 제약 도식도                 │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   ┌───────────┬──────────────┬──────────────────┬───────┐   │
+ │   │ MAC 헤더  │   Payload    │ Padding (패딩)   │  FCS  │   │
+ │   │ (14 Byte) │ (가정: 10 B) │ (부족분: 36 B)   │ (4 B) │   │
+ │   └───────────┴──────────────┴──────────────────┴───────┘   │
+ │   │◀──────────────── 전체 최소 64 Bytes ─────────────────▶│   │
+ │                                                             │
+ │                                                             │
+ │   ┌───────────┬─────────────────────────────────┬───────┐   │
+ │   │ MAC 헤더  │   Payload (MTU 1500 Bytes)      │  FCS  │   │
+ │   │ (14 Byte) │     IP 패킷이 꽉 차게 들어감       │ (4 B) │   │
+ │   └───────────┴─────────────────────────────────┴───────┘   │
+ │   │◀──────────────── 전체 최대 1518 Bytes ────────────────▶│   │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 화물차(프레임)는 짐칸(페이로드)에 짐을 적어도 46kg(최소) 이상 실어야 브레이크(충돌 감지)가 제대로 작동하고, 1500kg(최대)까지만 실을 수 있도록 법으로 정해진 </strong>"규격 트럭"**입니다.
 
@@ -130,19 +131,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Type 필드 / Length 필드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 페이로드 크기, 패딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 충돌 도메인 / 브로드캐스트 도메인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Type 필드 / Length 필드]
+    │
+    ▼
+[현재 개념: 페이로드 크기, 패딩]
+    │
+    ├──▶ [확장 A: 충돌 도메인 / 브로드캐스트 도메인]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 페이로드 크기, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)는 Type 필드 / Length 필드에서 출발해 현재 메커니즘을 정교화하고, 이후 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

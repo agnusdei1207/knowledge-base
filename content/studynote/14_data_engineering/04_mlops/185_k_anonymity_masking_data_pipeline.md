@@ -25,20 +25,19 @@ K-익명성은 공개 또는 내부 공유 [데이터](/knowledge-base/studynote
 
 단순 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 제거가 실패하는 이유는 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와의 결합 공격 때문이다. 공개 명부, 사회관계망 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Social Network [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), SNS), 기사, 내부 조직도처럼 따로 존재하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 준식별자를 맞대면 특정 개인을 재식별할 수 있다. 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인에서는 사람 이름을 지우는 것보다, 공개 후에도 특정 개인이 두드러지지 않게 만드는 구조가 더 중요하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Re-identification path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared dataset : age / sex / zip / diagnosis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">External data : voter roll / SNS / public registry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">join on quasi-identifiers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">one person inferred</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K-anonymity breaks this path by forcing each QI group size &gt;= k</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Re-identification path                                            │
+├────────────────────────────────────────────────────────────────────┤
+│ Shared dataset : age / sex / zip / diagnosis                      │
+│ External data  : voter roll / SNS / public registry               │
+│                 join on quasi-identifiers                         │
+│                               │                                   │
+│                               ▼                                   │
+│                    one person inferred                            │
+│ K-anonymity breaks this path by forcing each QI group size >= k   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: K-익명성은 운동장에서 모자를 같은 색으로 맞춰 쓰게 하는 것과 같다. 멀리서 보면 누가 누구인지 바로 집어내기 어렵게 만들어, 특정 아이가 눈에 띄지 않게 숨겨 준다.
 
@@ -57,29 +56,34 @@ k      : minimum crowd size to hide an individual
 
 실무 파이프라인은 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 시작한다. 이름, 이메일, 전화번호 같은 직접 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)와 나이, 위치, 직군 같은 준식별자를 구분하고, 이후 규칙 엔진이 필드별 변환 전략을 적용한다. 이때 같은 고객 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)가 여러 테이블에 걸쳐 반복된다면 결정적 마스킹 (Deterministic Masking)이나 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)를 써서 [참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)을 보존해야 하며, 외부 공개용이라면 K-익명성·L-다양성·T-근접성을 추가로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Privacy transformation pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Database / Files / Feature Store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Discovery &amp; classification</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ direct identifiers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ quasi-identifiers / sensitive attributes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ deterministic masking / tokenization</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ generalization / suppression</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ format-preserving encryption</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ k-anonymity / l-diversity checks</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Validation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ privacy risk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ referential integrity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ analytics / model utility</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Development/Test copy / Shared dataset / model training set</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Privacy transformation pipeline                                   │
+├────────────────────────────────────────────────────────────────────┤
+│ Source Database / Files / Feature Store                          │
+│            │                                                      │
+│            ▼                                                      │
+│ Discovery & classification                                        │
+│  ├─ direct identifiers                                            │
+│  └─ quasi-identifiers / sensitive attributes                      │
+│            │                                                      │
+│            ▼                                                      │
+│ Policy engine                                                     │
+│  ├─ deterministic masking / tokenization                          │
+│  ├─ generalization / suppression                                  │
+│  ├─ format-preserving encryption                                  │
+│  └─ k-anonymity / l-diversity checks                              │
+│            │                                                      │
+│            ▼                                                      │
+│ Validation                                                        │
+│  ├─ privacy risk                                                  │
+│  ├─ referential integrity                                         │
+│  └─ analytics / model utility                                     │
+│            │                                                      │
+│            ▼                                                      │
+│ Development/Test copy / Shared dataset / model training set       │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 기법 | 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는가 | 장점 | 한계 |
 | :--- | :--- | :--- | :--- |
@@ -163,25 +167,24 @@ K-익명성과 마스킹은 비슷해 보이지만 질문이 다르다. K-익명
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개인정보 탐지 · 분류</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가명화 · 토큰화 · 일반화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">K-익명성 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">L-다양성 · T-근접성 보강</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 품질 · 기계학습 유용성 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">안전한 개발·분석·공유 파이프라인 운영</div>
-</div>
-</div>
-
-
+```text
+개인정보 탐지 · 분류
+    │
+    ▼
+가명화 · 토큰화 · 일반화
+    │
+    ▼
+K-익명성 검증
+    │
+    ▼
+L-다양성 · T-근접성 보강
+    │
+    ▼
+데이터 품질 · 기계학습 유용성 검증
+    │
+    ▼
+안전한 개발·분석·공유 파이프라인 운영
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

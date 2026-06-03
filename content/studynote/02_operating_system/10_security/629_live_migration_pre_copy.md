@@ -51,34 +51,40 @@ tags = ["studynote-operating-system"]
 
 Pre-copy의 핵심은 라운드(Round)를 반복하면서 전송해야 할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 양을 점근적으로 줄여나가는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pre-copy 라이브 마이그레이션 5단계 파이프라인 (시간 순서)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Source Node (VM Running)</div><div class="kb-diagram-node">Target Node (VM Waiting)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 준비 (Preparation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타겟 노드에 VM 껍데기(자원) 할당. 스토리지 접근권 확인.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">핵심!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round 1: 전체 메모리(예: 8GB) 전송 ▶ 8GB 적재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전송하는 동안 VM은 계속 돌며 메모리 일부를 바꿈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저는 바뀐 페이지(Dirty Page)를 비트맵에 기록.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round 2: R1에서 발생한 Dirty Page(예: 1GB) 전송 ─▶ 1GB 덮어쓰기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round 3: R2에서 발생한 Dirty Page(예: 100MB) 전송 ─▶ 100MB 덮어쓰기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (더티 페이지 양이 충분히 작아지거나, 최대 라운드 도달 시까지 반복) ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 중단 및 복사 (Stop-and-Copy / Downtime 구간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 일시 정지 (CPU 멈춤). 남은 찰나의 Dirty Page(예: 10MB)와</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 레지스터(Context) 최종 전송 ▶ 마지막 동기화 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이 단계의 시간이 사용자가 체감하는 Downtime (보통 &lt; 50ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 커밋 및 재개 (Commit &amp; Resume)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Target Node의 VM이 최종 CPU 상태를 로드하고 실행 재개.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 스위치에 무상태 ARP (Gratuitous ARP) 방송 ──▶ IP 라우팅 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 정리 (Teardown)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Node의 기존 VM 인스턴스 파기. 마이그레이션 종료.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │              Pre-copy 라이브 마이그레이션 5단계 파이프라인 (시간 순서)       │
+  ├───────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │  [Source Node (VM Running)]              [Target Node (VM Waiting)]   │
+  │                                                                       │
+  │  1. 준비 (Preparation)                                                │
+  │     타겟 노드에 VM 껍데기(자원) 할당. 스토리지 접근권 확인.                  │
+  │                                                                       │
+  │  2. 반복적 사전 복사 (Iterative Pre-copy) ◀ [핵심!]                   │
+  │     Round 1: 전체 메모리(예: 8GB) 전송 ──────────────▶ 8GB 적재        │
+  │              (전송하는 동안 VM은 계속 돌며 메모리 일부를 바꿈)              │
+  │              하이퍼바이저는 바뀐 페이지(Dirty Page)를 비트맵에 기록.        │
+  │                                                                       │
+  │     Round 2: R1에서 발생한 Dirty Page(예: 1GB) 전송 ─▶ 1GB 덮어쓰기     │
+  │                                                                       │
+  │     Round 3: R2에서 발생한 Dirty Page(예: 100MB) 전송 ─▶ 100MB 덮어쓰기  │
+  │                                                                       │
+  │     ... (더티 페이지 양이 충분히 작아지거나, 최대 라운드 도달 시까지 반복) ... │
+  │                                                                       │
+  │  3. 중단 및 복사 (Stop-and-Copy / Downtime 구간)                       │
+  │     VM 일시 정지 (CPU 멈춤). 남은 찰나의 Dirty Page(예: 10MB)와         │
+  │     CPU 레지스터(Context) 최종 전송 ────────────────▶ 마지막 동기화 완료 │
+  │     * 이 단계의 시간이 사용자가 체감하는 Downtime (보통 < 50ms)           │
+  │                                                                       │
+  │  4. 커밋 및 재개 (Commit & Resume)                                     │
+  │     Target Node의 VM이 최종 CPU 상태를 로드하고 실행 재개.               │
+  │     네트워크 스위치에 무상태 ARP (Gratuitous ARP) 방송 ──▶ IP 라우팅 갱신│
+  │                                                                       │
+  │  5. 정리 (Teardown)                                                   │
+  │     Source Node의 기존 VM 인스턴스 파기. 마이그레이션 종료.                 │
+  └───────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 라이브 마이그레이션의 가장 큰 적은 '메모리를 쓰는 속도([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Dirty Rate)'가 '네트워크로 복사하는 속도(Network [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))'보다 빠른 경우다. 이런 워크로드(예: 극심한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 부하를 내는 DB)는 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 줄어들지 않아 영원히 이사를 끝내지 못한다. 따라서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 라운드를 반복하다가 전송량이 특정 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(예: 50MB) 이하로 떨어지면, 즉시 Source VM의 CPU를 멈춰버린다(Stop). 그리고 그 남은 50MB와 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)만 휙 던진 뒤 Target VM을 깨운다. 마지막으로 네트워크 장비에 "내 IP 주소의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 붙은 포트가 저쪽 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 바뀌었어!"라고 알려주는 [Gratuitous ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/316_gratuitous_arp_g_arp_ip_conflict_cache_update/) 패킷을 쏘아주면, 클라이언트와의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 끊어지지 않고 계속 이어진다.
 
@@ -134,25 +140,27 @@ Pre-copy의 핵심은 라운드(Round)를 반복하면서 전송해야 할 [데�
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라이브 마이그레이션 병목 트러블슈팅 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">vCenter/OpenStack에서 VM 마이그레이션이 90% 대에서 장기 정체됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저 관리망 네트워크 대역폭(Bandwidth) 포화 상태인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 압축(Memory Compression) 옵션 활성화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전송 전 압축하여 대역폭 한계 극복, CPU 부하 증가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM의 메모리 쓰기 빈도(Page Dirty Rate)가 비정상적으로 높은가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Auto-Converge (vCPU 쓰로틀링) 강제 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 또는</div><div class="kb-diagram-node">Post-copy 모드로 Fallback 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 스토리지(SAN) I/O 병목 여부 점검</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공유 스토리지가 아닌 Block Migration 중일 경우)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 라이브 마이그레이션 병목 트러블슈팅 의사결정 플로우          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [vCenter/OpenStack에서 VM 마이그레이션이 90% 대에서 장기 정체됨]       │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      하이퍼바이저 관리망 네트워크 대역폭(Bandwidth) 포화 상태인가?         │
+  │          ├─ 예 ─────▶ [메모리 압축(Memory Compression) 옵션 활성화]    │
+  │          │            (전송 전 압축하여 대역폭 한계 극복, CPU 부하 증가)    │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      VM의 메모리 쓰기 빈도(Page Dirty Rate)가 비정상적으로 높은가?         │
+  │          ├─ 예 ─────▶ [Auto-Converge (vCPU 쓰로틀링) 강제 적용]       │
+  │          │            또는 [Post-copy 모드로 Fallback 허용]           │
+  │          └─ 아니오 ──▶ 스토리지(SAN) I/O 병목 여부 점검                 │
+  │                         (공유 스토리지가 아닌 Block Migration 중일 경우)  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 라이브 마이그레이션은 "수학적 술래잡기"다. VMM(술래)이 네트워크 망을 통해 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쫓아가고, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)(도망자)은 계속 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 더럽힌다. 도망자가 너무 빠르면 1) 망을 넓히거나(10G$\rightarrow$25G), 2) 술래의 속도를 올리거나(메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)), 3) 도망자의 다리를 걸어야 한다(Auto-Converge vCPU Throttling). 이 세 가지 카드를 시스템 상황(CPU 여유, 네트워크 여유, VM의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 민감도)에 맞춰 꺼내는 것이 아키텍트의 역할이다.
 
@@ -196,19 +204,15 @@ Pre-copy의 핵심은 라운드(Round)를 반복하면서 전송해야 할 [데�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 런타임 (runc, containerd) OCI 규격 표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 스위치 (vSwitch) 패킷 오버헤드 VNF 구조 적용 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약</div></div>
-</div>
-</div>
-
-
+```text
+[컨테이너 런타임 (runc, containerd) OCI 규격 표준화]
+    │
+    ▼
+[라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식]
+    │
+    ├──▶ [가상 스위치 (vSwitch) 패킷 오버헤드 VNF 구조 적용 방식]
+    └──▶ [메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

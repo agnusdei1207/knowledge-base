@@ -37,17 +37,14 @@ tags = ["studynote-ai"]
 - <strong>DDP (Distributed <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Parallel)</strong>: 각 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가 전체 모델 사본을 보유 → VRAM 절감 없음
 - <strong>모델 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 (Tensor/<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/">Pipeline</a> Parallelism)</strong>: 구현 복잡도 높고 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 버블 발생
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: VRAM 부족 문제는 "10명이 같은 두꺼운 교재를 각자 다 사서 들고 다니는" DDP 방식의 낭비와 같다. [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 는 "교재를 10등분해서 한 명이 한 챕터씩만 들고 다니되, 필요할 때 빌려 쓰는" 도서관 방식이다.
 
@@ -57,43 +54,45 @@ tags = ["studynote-ai"]
 
 ### [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Stage 1 / 2 / 3 분할 범위
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZeRO (Zero Redundancy Optimizer) Stage 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">Stage 1</div><div class="kb-diagram-cell">Stage 2</div><div class="kb-diagram-cell">Stage 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옵티마이저</div><div class="kb-diagram-cell">분할(Shard)</div><div class="kb-diagram-cell">분할(Shard)</div><div class="kb-diagram-cell">분할(Shard)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래디언트</div><div class="kb-diagram-cell">각 GPU</div><div class="kb-diagram-cell">분할(Shard)</div><div class="kb-diagram-cell">분할(Shard)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 보유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터</div><div class="kb-diagram-cell">각 GPU</div><div class="kb-diagram-cell">각 GPU</div><div class="kb-diagram-cell">분할(Shard)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 보유</div><div class="kb-diagram-cell">전체 보유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 절감</div><div class="kb-diagram-cell">~4x</div><div class="kb-diagram-cell">~8x</div><div class="kb-diagram-cell">~Nx (N=GPU수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 비용</div><div class="kb-diagram-cell">적음</div><div class="kb-diagram-cell">보통</div><div class="kb-diagram-cell">높음</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│           ZeRO (Zero Redundancy Optimizer) Stage 비교           │
+├────────────┬──────────────┬──────────────┬──────────────────────┤
+│  구성 요소  │   Stage 1    │   Stage 2    │       Stage 3        │
+├────────────┼──────────────┼──────────────┼──────────────────────┤
+│ 옵티마이저  │  분할(Shard) │  분할(Shard) │    분할(Shard)       │
+│   상태     │              │              │                      │
+├────────────┼──────────────┼──────────────┼──────────────────────┤
+│ 그래디언트  │    각 GPU    │  분할(Shard) │    분할(Shard)       │
+│            │   전체 보유  │              │                      │
+├────────────┼──────────────┼──────────────┼──────────────────────┤
+│  파라미터  │    각 GPU    │   각 GPU     │    분할(Shard)       │
+│            │   전체 보유  │  전체 보유   │                      │
+├────────────┼──────────────┼──────────────┼──────────────────────┤
+│ 메모리 절감 │    ~4x       │    ~8x       │    ~Nx (N=GPU수)     │
+├────────────┼──────────────┼──────────────┼──────────────────────┤
+│ 통신 비용  │   적음        │   보통        │    높음              │
+└────────────┴──────────────┴──────────────┴──────────────────────┘
+```
 
 ### DeepSpeed [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 동작 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Forward Pass (순전파)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU-0 GPU-1 GPU-2 GPU-3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P</div><div class="kb-diagram-node">0..k</div><div class="kb-diagram-note">P</div><div class="kb-diagram-node">k..2k</div><div class="kb-diagram-note">P</div><div class="kb-diagram-node">2k..3k</div><div class="kb-diagram-note">P</div><div class="kb-diagram-node">3k..N</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Stage 3: 파라미터 분할</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">All-Gather (파라미터 수집)</div></div>
-<div class="kb-diagram-note">Backward Pass (역전파)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 GPU 에서 로컬 그래디언트 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reduce-Scatter (그래디언트 집계 + 분산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 GPU 는 자신의 파라미터 샤드만 업데이트</div></div>
-</div>
-</div>
-
-
+```
+  Forward Pass (순전파)
+  ┌──────────────────────────────────────────────┐
+  │  GPU-0      GPU-1      GPU-2      GPU-3      │
+  │  P[0..k]   P[k..2k]  P[2k..3k]  P[3k..N]  │  ← Stage 3: 파라미터 분할
+  │     │           │          │           │     │
+  │     └───────────┴──────────┴───────────┘     │
+  │          All-Gather (파라미터 수집)            │
+  └──────────────────────────────────────────────┘
+  Backward Pass (역전파)
+  ┌──────────────────────────────────────────────┐
+  │  각 GPU 에서 로컬 그래디언트 계산              │
+  │  Reduce-Scatter (그래디언트 집계 + 분산)       │
+  │  각 GPU 는 자신의 파라미터 샤드만 업데이트     │
+  └──────────────────────────────────────────────┘
+```
 
 ### [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Offload 와 [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Infinity
 

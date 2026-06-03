@@ -30,27 +30,30 @@ tags = ["studynote-network"]
   2. **서버 확장성의 한계**: 뉴스 사이트에 속보가 뜨거나 이벤트가 열려 트래픽이 폭주(Slashdot effect)하면 서버가 다운되는 일이 잦았다.
   3. **글로벌 CDN의 탄생**: 전 세계 엣지(Edge) 노드에 캐시 서버를 전진 배치하여 클라이언트와 물리적 거리를 좁힌 아카마이(Akamai), 클라우드플레어(Cloudflare) 같은 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 아키텍처가 등장하며 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)이 웹 인프라의 핵심으로 자리 잡았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐싱이 없는 환경 vs 캐싱 아키텍처가 적용된 환경</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 없음 (No Cache)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Origin Server</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Load 100%</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Network 병목</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 계층 캐싱 아키텍처 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1차 방어막) (2차 방어막) (최종 목적지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser Cache CDN / Proxy Origin Server</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">클라이언트 A ──</div><div class="kb-diagram-node">적중 O</div><div class="kb-diagram-note">(0ms, 디스크에서 로드)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">클라이언트 B ──</div><div class="kb-diagram-node">적중 X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">적중 O</div><div class="kb-diagram-note">(15ms 반환)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">클라이언트 C ──</div><div class="kb-diagram-node">적중 X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">적중 X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">요청 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 결과: Origin 서버에는 수만 명 중 캐시가 없는 1명(C)의 트래픽만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도달하므로, 원본 서버 부하는 1% 이하로 극감하고 응답 속도는 초고속화!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          캐싱이 없는 환경 vs 캐싱 아키텍처가 적용된 환경         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [캐시 없음 (No Cache)]                                       │
+│                                                             │
+│ 클라이언트 A ───(이미지 1MB 요청, 200ms)──▶ [ Origin Server ]   │
+│ 클라이언트 B ───(이미지 1MB 요청, 200ms)──▶ [ Load 100%   ]   │
+│ 클라이언트 C ───(이미지 1MB 요청, 200ms)──▶ [ Network 병목]   │
+│                                                             │
+│ [다중 계층 캐싱 아키텍처 적용]                                 │
+│                                                             │
+│         (1차 방어막)         (2차 방어막)       (최종 목적지)     │
+│       Browser Cache      CDN / Proxy      Origin Server │
+│                                                             │
+│ 클라이언트 A ──[적중 O] (0ms, 디스크에서 로드)                  │
+│ 클라이언트 B ──[적중 X]──▶ [적중 O] (15ms 반환)               │
+│ 클라이언트 C ──[적중 X]──▶ [적중 X] ─────▶ [요청 전달]       │
+│                                                             │
+│ 🌟 결과: Origin 서버에는 수만 명 중 캐시가 없는 1명(C)의 트래픽만   │
+│ 도달하므로, 원본 서버 부하는 1% 이하로 극감하고 응답 속도는 초고속화! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 상단의 논-캐시 환경에서는 모든 클라이언트의 요청이 물리적 거리가 먼 Origin 서버로 곧바로 직행한다. 레이턴시는 높고, 트래픽이 몰리면 서버는 즉각 다운된다. 하단의 계층적 캐시 환경에서는 철저한 방어막이 형성된다. 클라이언트 A는 자신이 과거에 다운받은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 브라우저 하드디스크(Private Cache)에서 0ms 만에 꺼내 본다. 클라이언트 B는 로컬엔 없지만, 통신사 근처에 위치한 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 서버(Shared Cache)에 다른 사람이 받아놓은 사본이 있어 15ms 만에 받아온다. 오직 전 세계에서 최초로 해당 리소스를 요청하는 클라이언트 C의 요청만이 최종 목적지인 Origin 서버까지 도달한다(Cache Miss). 이 구조가 구글, 넷플릭스 등 글로벌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 수억 명을 버티는 근본 원리다.
 
@@ -76,32 +79,37 @@ tags = ["studynote-network"]
 1. **만료 (Expiration - max-age)**: "이 사본은 1시간 동안은 절대 변하지 않아. 1시간 안에는 서버에 묻지도 말고 그냥 캐시에서 꺼내 써." (네트워크 요청 0)
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a> - ETag / Last-Modified)</strong>: 만료 시간이 지났을 때, 사본을 무조건 버리는 게 아니라 1바이트짜리 질문표를 던진다. "내가 가진 사본 버전이 V1인데, 서버님 쪽에 V2로 업데이트된 거 있나요?" 서버가 안 변했다고 대답(`304 Not Modified`)하면, 기존 사본 수명을 연장해 다시 쓴다. ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다운로드 통신비 0)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 신선도 판별 플로우 (HTTP 흐름)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client / Browser</div><div class="kb-diagram-node">Origin Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 첫 요청: GET /image.jpg</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 첫 응답: 200 OK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache-Control: max-age=3600 (1시간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ETag: "W/12345"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 30분 후, 재요청 시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">➔ 캐시 만료 전이므로 서버에 안 가고 바로 사용! (0ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 2시간 후, 재요청 시 (만료됨 - Stale 상태):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 조건부 요청 (Validation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET /image.jpg</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If-None-Match: "W/12345"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서버 원본 확인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 응답 (안 변했어!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">304 Not Modified</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">갱신</div><div class="kb-diagram-cell">(※ Body 데이터 없이 헤더만 아주 가볍게 옴!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">➔ 다운로드 없이, 로컬 사본 수명 연장 후 재사용!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               캐시 신선도 판별 플로우 (HTTP 흐름)                │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│ [Client / Browser]                         [Origin Server]    │
+│         │                                         │           │
+│         │ 1. 첫 요청: GET /image.jpg               │           │
+│         │────────────────────────────────────────▶│           │
+│         │                                         │           │
+│         │ 2. 첫 응답: 200 OK                       │           │
+│   ┌─────│    Cache-Control: max-age=3600 (1시간)   │           │
+│   │     │    ETag: "W/12345"                      │           │
+│   │     │◀────────────────────────────────────────│           │
+│ 저장    │                                                     │
+│   │     │ ■ 30분 후, 재요청 시:                         │           │
+│   └────▶│ ➔ 캐시 만료 전이므로 서버에 안 가고 바로 사용! (0ms)     │
+│         │                                                     │
+│         │ ■ 2시간 후, 재요청 시 (만료됨 - Stale 상태):         │           │
+│         │ 3. 조건부 요청 (Validation)               │           │
+│         │    GET /image.jpg                       │           │
+│         │    If-None-Match: "W/12345"             │           │
+│         │────────────────────────────────────────▶│           │
+│         │                                     (서버 원본 확인) │
+│         │ 4. 응답 (안 변했어!)                      │           │
+│   ┌─────│    304 Not Modified                     │           │
+│ 갱신    │    (※ Body 데이터 없이 헤더만 아주 가볍게 옴!)│           │
+│   │     │◀────────────────────────────────────────│           │
+│   └────▶│ ➔ 다운로드 없이, 로컬 사본 수명 연장 후 재사용!         │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 플로우는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 어떻게 극단적으로 아끼는지 보여준다. 서버는 처음에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줄 때 유통기한(`max-age=3600`)과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지문(`ETag`)을 도장 찍어 보낸다. 1시간 이내에는 브라우저가 알아서 사본을 꺼내 쓴다(디스크 캐시). 1시간이 지나 유통기한이 폐기처분 상태(Stale)가 되면 브라우저는 조심스레 서버에 묻는다(`If-None-Match`). 서버가 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 지문을 비교해보니 여전히 "W/12345"로 변함이 없다면, 1MB짜리 그림 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다시 보내는 대신 <strong>몇 바이트짜리 빈 껍데기 헤더(<code>304 Not Modified</code>)</strong>만 보낸다. 클라이언트는 이 작은 허락 서명만 받고 원래 갖고 있던 큰 이미지를 다시 안전하게 화면에 그린다.
 
@@ -140,30 +148,31 @@ tags = ["studynote-network"]
 2. <strong>시나리오 — 배포 직후 정적 자원(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/">CSS</a>/JS) 업데이트 미반영 문제</strong>: 프론트엔드 개발자가 홈페이지 디자인 버그를 고쳐 `style.css`를 서버에 새로 배포했다. 하지만 고객들의 항의 전화가 쏟아졌다. 고객들의 브라우저 로컬 캐시가 1주일(`max-age=604800`)로 잡혀 있어서, 옛날 깨진 화면을 계속 보고 있었던 것이다. 개발자는 고객 브라우저의 캐시를 강제로 비울 권한이 없다.
    - **판단**: 실무 프론트엔드 빌드 파이프라인(Webpack, Vite 등)에서는 정적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름에 해시값을 붙이는 **"캐시 버스팅 (Cache Busting)"** 기법을 표준으로 쓴다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 수정되면 이름이 `style.v1.css`에서 `style.v2.css`로 아예 변경되므로, 브라우저는 무조건 새로운 URL로 인식해 서버에 최신 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 받아오고, 기존 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 영원히 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(1년 만료)해 두어도 안전한 구조를 완성한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: Cache Busting과 영구 캐시 전략</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 잦은 변경, 절대로 캐시하면 안 되는 HTML</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET /index.html</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 헤더: Cache-Control: no-cache, no-store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(항상 서버에서 최신 HTML을 다운로드 받아야 함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. HTML 내부에 선언된 정적 자산 경로 (Hash 포함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;html&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;link href="/css/main.8f2a9b.css"&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;/html&gt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 절대로 내용이 안 바뀌는 정적 자산 ── HTTP 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET /css/main.8f2a9b.css</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 헤더: Cache-Control: public, max-age=31536000, immutable</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(지구 끝날 때까지 1년 내내 캐시에서 꺼내 써라!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 코드 수정 후 재배포 시 ➔ 파일명이 main.2x9p1.css 로 변경됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTML은 서버에서 새로 받았으니, 브라우저는 새로운 CSS URL을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청하게 되고, 캐시 갱신 지옥에서 완벽하게 해방된다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: Cache Busting과 영구 캐시 전략          │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [1. 잦은 변경, 절대로 캐시하면 안 되는 HTML]                   │
+  │ GET /index.html                                             │
+  │ ➔ 헤더: Cache-Control: no-cache, no-store                   │
+  │   (항상 서버에서 최신 HTML을 다운로드 받아야 함)                 │
+  │                                                             │
+  │ [2. HTML 내부에 선언된 정적 자산 경로 (Hash 포함)]              │
+  │ <html>                                                      │
+  │  <link href="/css/main.8f2a9b.css"> ───┐                    │
+  │ </html>                                │                    │
+  │                                        ▼                    │
+  │ [3. 절대로 내용이 안 바뀌는 정적 자산 ── HTTP 요청]              │
+  │ GET /css/main.8f2a9b.css                                    │
+  │ ➔ 헤더: Cache-Control: public, max-age=31536000, immutable  │
+  │   (지구 끝날 때까지 1년 내내 캐시에서 꺼내 써라!)                │
+  │                                                             │
+  │ ✅ 코드 수정 후 재배포 시 ➔ 파일명이 main.2x9p1.css 로 변경됨. │
+  │    HTML은 서버에서 새로 받았으니, 브라우저는 새로운 CSS URL을      │
+  │    요청하게 되고, 캐시 갱신 지옥에서 완벽하게 해방된다.             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 웹 [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/) 중 가장 골치 아픈 "고객님, F5 누르시거나 캐시 삭제 버튼 좀 눌러주세요"라는 CS 전화를 없애는 아키텍처 패턴이다. 껍데기 역할을 하는 `index.html`은 절대 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)되지 않도록 막아두고(또는 항상 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만 거치도록 설계), 실제 무거운 용량을 차지하는 JS/[CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/) 덩어리들은 내용물의 내용(Content)을 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(SHA-256 등)에 돌려 나온 무작위 문자를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름에 박아 넣는다(`app.abcd12.js`). 내용이 1바이트라도 바뀌면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름 자체가 변한다. 따라서 이 JS/[CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들은 수명을 1년(`max-age=31536000`)으로 엄청나게 길게 잡아 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 효율을 100%까지 끌어올리더라도, 내용이 업데이트되면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명이 바뀌어 새 자원을 즉각 다운받게 되는 완벽한 캐시 갱신 통제권을 서버가 갖게 된다.
 
@@ -211,19 +220,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTPS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WWW 캐싱 메커니즘 / 프록시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 캐시 제어 헤더</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HTTPS]
+    │
+    ▼
+[현재 개념: WWW 캐싱 메커니즘 / 프록시]
+    │
+    ├──▶ [확장 A: 캐시 제어 헤더]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 WWW [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 메커니즘 / [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)는 HTTPS에서 출발해 현재 메커니즘을 정교화하고, 이후 [캐시 제어 헤더](/knowledge-base/studynote/03_network/09_application_layer_web_email/473_cache_control_header/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

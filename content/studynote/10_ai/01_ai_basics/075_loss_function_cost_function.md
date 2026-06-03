@@ -104,25 +104,24 @@ loss, cost, metric은 목적이 다르다. loss는 학습용 미분 [신호](/kn
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">prediction</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">sample error</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">differentiable loss</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">backpropagation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">parameter update</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">next epoch</div>
-</div>
-</div>
-
-
+```text
+prediction
+  │
+  ▼
+sample error
+  │
+  ▼
+differentiable loss
+  │
+  ▼
+backpropagation
+  │
+  ▼
+parameter update
+  │
+  ▼
+next epoch
+```
 
 ### 어린이를 위한 3줄 비유 설명
 

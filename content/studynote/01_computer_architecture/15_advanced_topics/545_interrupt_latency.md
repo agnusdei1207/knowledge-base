@@ -25,18 +25,17 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 어디에서 쌓이는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">External Event</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interrupt Detect -&gt; Mask Wait -&gt; Pipeline Drain -&gt; Context Save</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Vector Fetch -&gt; ISR First Instr.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;------------------------- Interrupt Latency -----------------------------&gt;</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ External Event                                                            │
+│      │                                                                     │
+│      ▼                                                                     │
+│ Interrupt Detect -> Mask Wait -> Pipeline Drain -> Context Save            │
+│                   -> Vector Fetch -> ISR First Instr.                      │
+│                                                                            │
+│ <------------------------- Interrupt Latency -----------------------------> │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 코어 속도 하나로 정해지지 않는다는 점이다. <strong>장치, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 컨트롤러, 메모리 계층, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 정책이 합쳐진 결과</strong>이기 때문에 최소화 역시 구조적으로 접근해야 한다.
 
@@ -65,18 +64,14 @@ ARM Cortex-M 계열이 빠른 이유도 여기에 있다. NVIC (Nested Vectored 
 
 이 그림은 빠른 경로와 느린 경로의 차이를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fast Path : Interrupt -&gt; Priority Select -&gt; Auto Save -&gt; Direct Vector</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; ISR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slow Path : Interrupt -&gt; SW Dispatch -&gt; Cache Miss -&gt; Stack Switch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Common ISR</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Fast Path : Interrupt -> Priority Select -> Auto Save -> Direct Vector     │
+│             -> ISR                                                         │
+│ Slow Path : Interrupt -> SW Dispatch -> Cache Miss -> Stack Switch         │
+│             -> Common ISR                                                  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 또 하나의 핵심은 지터다. 같은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)라도 어떤 때는 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/), 어떤 때는 미스가 나고, 어떤 때는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 잠깐 금지되어 있어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 폭이 벌어진다. 실시간 설계에서는 평균을 낮추는 것보다 <strong>분산을 줄여 최악의 경우를 통제하는 것</strong>이 더 큰 가치다.
 
@@ -161,23 +156,21 @@ ARM Cortex-M 계열이 빠른 이유도 여기에 있다. NVIC (Nested Vectored 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 polling 기반 반응</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">벡터형 인터럽트 컨트롤러 + 우선순위 하드웨어화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자동 상태 저장 · tail chaining · fast interrupt</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TCM · 캐시 잠금 · RTOS 기반 지터 억제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상화 환경의 posted interrupt · 코어별 event routing</div>
-</div>
-</div>
-
-
+```text
+단순 polling 기반 반응
+        │
+        ▼
+벡터형 인터럽트 컨트롤러 + 우선순위 하드웨어화
+        │
+        ▼
+자동 상태 저장 · tail chaining · fast interrupt
+        │
+        ▼
+TCM · 캐시 잠금 · RTOS 기반 지터 억제
+        │
+        ▼
+가상화 환경의 posted interrupt · 코어별 event routing
+```
 
 이 흐름은 반응 방식이 "주기적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"하는 수준에서 출발해, 이제는 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드까지 통제하는 방향으로 발전했음을 보여 준다.
 

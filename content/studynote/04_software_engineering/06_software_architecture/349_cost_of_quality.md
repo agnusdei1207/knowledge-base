@@ -23,27 +23,28 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 품질 비용을 분석하면 과도한 품질 투자와 품질 투자 부족 모두 총 비용을 증가시킬 수 있다는 Trade-off 관계를 파악할 수 있다. 품질 비용이 적으면 예방/평가 비용은 줄지만 실패 비용이 증가하고, 품질 비용이 많으면 예방/평가 비용은 증가하지만 실패 비용이 감소한다. 따라서 적절한 품질 수준에서 품질 비용을 최적화하는 것이 중요하다.
 
-- **💡 비유**: 품질 비용은 "자동차 유지보수 비용"에 비유할 수 있다. 정기 (예방 비용)를 소홀히 하면비가 수백만 원이 되고(외부 실패 비용), 너무 잦은 (평가 비용)도 waste된다. 적절한 로 유지보수 비용을 최적화하는 것이 중요하며, 이는품질관리와/과개념이다。
+- **💡 비유**: 품질 비용은 "자동차 유지보수 비용"에 비유할 수 있다. 정기 점검(예방 비용)를 소홀히 하면고장발생시수리비가 수백만 원이 되고(외부 실패 비용), 너무 잦은 점검(평가 비용)도 waste된다. 적절한 점검빈도로 유지보수 비용을 최적화하는 것이 중요하며, 이는품질コスト관리와동じ개념에서ある. 
 
-- **등장 배경**: 품질 비용 개념은 제조업 분야에서 발전하였으며, 소프트웨어 분야에도 적용되어 프로젝트의 품질 관리에 활용되고 있다.
+- **등장 배경**: 품질 비용 개념은 제조업 분야에서 발전하였으며, 소프트웨어 분야에도 적용되어 연건개발 프로젝트의 품질 관리에 활용되고 있다.
 
-- **📢 섹션 요약 비유**: 품질 비용 관리는 "보험료분석"와 같다. 보험(예방 비용)을 너무 많이 들이면 비용이 낭비되고, 너무 적게 들이면만일의 경우 큰 손실을 입는다. 적절한(예방/평가 투자)이 총 비용을 최적화한다.
+- **📢 섹션 요약 비유**: 품질 비용 관리는 "보험료분석"와 같다. 보험(예방 비용)을 너무 많이 들이면 비용이 낭비되고, 너무 적게 들이면만일의 경우 큰 손실을 입는다. 적절한보험상품선택(예방/평가 투자)이 총 비용을 최적화한다.
 
 ---
 
 다음은 품질 비용 (COQ, Cost of 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">품질 비용 (COQ, Cost of</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  품질 비용 (COQ, Cost of                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 품질 비용 (COQ, Cost of 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -133,30 +134,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 품질 비용 (COQ, Cost of Quality)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 품질 비용 (COQ, Cost of Quality)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 품질 비용 (COQ, Cost of Quality)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 품질 비용 (COQ, Cost of Quality) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 품질 비용 (COQ, Cost of Quality)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">품질 비용 (COQ, Cost of Quality) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+품질 비용 (COQ, Cost of Quality) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

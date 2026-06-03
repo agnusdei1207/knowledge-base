@@ -36,22 +36,20 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/631_sddc/">SDDC</a> 레이어 구조</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관리 플레인 (Management Plane)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMware vCenter / NSX-T / vSAN / Aria Automation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 플레인 (Control Plane)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDN 컨트롤러 (OpenDaylight / NSX)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDS 오케스트레이터 (Ceph Mgr / vSAN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 플레인 (Data Plane)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x86 서버 (vSphere ESXi + vSAN + vNIC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HCI 노드 (Nutanix AHV / VMware VSAN ReadyNode)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│              관리 플레인 (Management Plane)                    │
+│  VMware vCenter / NSX-T / vSAN / Aria Automation             │
+├──────────────────────────────────────────────────────────────┤
+│              제어 플레인 (Control Plane)                       │
+│  SDN 컨트롤러 (OpenDaylight / NSX)                            │
+│  SDS 오케스트레이터 (Ceph Mgr / vSAN)                          │
+├──────────────────────────────────────────────────────────────┤
+│              데이터 플레인 (Data Plane)                        │
+│  x86 서버 (vSphere ESXi + vSAN + vNIC)                       │
+│  HCI 노드 (Nutanix AHV / VMware VSAN ReadyNode)              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 기술 | 역할 | 대표 솔루션 |
 |:---|:---|:---|

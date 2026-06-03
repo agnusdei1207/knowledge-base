@@ -41,22 +41,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 컴파일러가 실제로 하나의 벡터 루프를 만들 때 흔히 구성하는 실행 경로를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오토 벡터라이제이션이 만드는 실행 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime check: no alias? aligned enough? trip count large enough?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ▶ Scalar Loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ Prologue ─▶ Vector Loop ─▶ Epilogue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ load 8 lanes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SIMD op</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ store 8 lanes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ alignment 맞춤 남은 원소 처리</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 오토 벡터라이제이션이 만드는 실행 경로                                    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Runtime check: no alias? aligned enough? trip count large enough?         │
+│        │                                                                   │
+│        ├─ No  ───────────────────────────────▶ Scalar Loop                 │
+│        │                                                                   │
+│        └─ Yes ─▶ Prologue ─▶ Vector Loop ─▶ Epilogue                       │
+│                     │          │                   │                        │
+│                     │          ├─ load 8 lanes    │                        │
+│                     │          ├─ SIMD op         │                        │
+│                     │          └─ store 8 lanes   │                        │
+│                     └─ alignment 맞춤        남은 원소 처리                │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 또 하나의 축은 루프 벡터화와 SLP (Superword-Level Parallelism)다. 루프 벡터화는 반복 간 독립성을 묶고, SLP는 한 basic block 안에서 비슷한 스칼라 명령들을 한 벡터 명령으로 묶는다. 그래서 오토 벡터라이제이션은 단일 기법이 아니라, <strong>의존성 분석 + 코드 재구성 + 비용 판단</strong>이 합쳐진 종합 최적화 체계다.
 
@@ -132,25 +132,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스칼라 루프 중심 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SIMD (Single Instruction Multiple Data) ISA 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">의존성 분석 · 별칭 분석 · 비용 모델</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">루프 벡터화 · SLP (Superword-Level Parallelism)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마스킹 · reduction · gather/scatter 고도화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SVE (Scalable Vector Extension) · RVV (RISC-V Vector Extension)</div>
-</div>
-</div>
-
-
+```text
+스칼라 루프 중심 최적화
+        │
+        ▼
+SIMD (Single Instruction Multiple Data) ISA 확산
+        │
+        ▼
+의존성 분석 · 별칭 분석 · 비용 모델
+        │
+        ▼
+루프 벡터화 · SLP (Superword-Level Parallelism)
+        │
+        ▼
+마스킹 · reduction · gather/scatter 고도화
+        │
+        ▼
+SVE (Scalable Vector Extension) · RVV (RISC-V Vector Extension)
+```
 
 이 흐름은 "벡터 명령 추가"에서 출발해, 컴파일러가 더 복잡한 코드까지 자동으로 벡터화하도록 진화하는 과정을 보여 준다.
 

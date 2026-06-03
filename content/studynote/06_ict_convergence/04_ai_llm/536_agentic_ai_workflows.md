@@ -29,27 +29,30 @@ tags = ["studynote-ict-convergence"]
 
 에이전틱 워크플로우는 순환적 루프(ReAct: Reasoning + Acting) 구조를 기반으로 한다.
 
+```text
+[ Agentic AI Workflow Cycle ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Agentic AI Workflow Cycle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Goal / Objective</div></div>
-<div class="kb-diagram-note">+------------v--------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Planning (Task Deco)</div><div class="kb-diagram-cell">&lt;-------+</div></div>
-<div class="kb-diagram-note">+------------v--------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Tool Use / Execution</div><div class="kb-diagram-cell">4. Iteration &amp;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Search, Code, API, DB)</div><div class="kb-diagram-cell">Reflection</div></div>
-<div class="kb-diagram-note">+------------+--------------+ | (Self-Correction)</div>
-<div class="kb-diagram-note">+------------v--------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Observation / Analysis</div><div class="kb-diagram-cell">--------+</div></div>
-<div class="kb-diagram-note">(Goal Reached)</div>
-<div class="kb-diagram-note">+------------v--------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Final Result</div></div>
-</div>
-</div>
-
-
+      +---------------------------+
+      |  User Goal / Objective    |
+      +------------+--------------+
+                   |
+      +------------v--------------+
+      | 1. Planning (Task Deco)   | <-------+
+      +------------+--------------+         |
+                   |                        |
+      +------------v--------------+         |
+      | 2. Tool Use / Execution   |         | 4. Iteration &
+      | (Search, Code, API, DB)   |         |    Reflection
+      +------------+--------------+         | (Self-Correction)
+                   |                        |
+      +------------v--------------+         |
+      | 3. Observation / Analysis | --------+
+      +------------+--------------+
+                   | (Goal Reached)
+      +------------v--------------+
+      |     Final Result          |
+      +---------------------------+
+```
 
 1. **Reflection**: 자신이 생성한 결과물을 스스로 비판하고 개선안을 도출한다. (Self-Correction)
 2. **Tool Use**: 외부 지식 검색, 계산기, 코드 실행기 등을 직접 호출하여 부족한 능력을 보완한다.

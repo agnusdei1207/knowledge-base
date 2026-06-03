@@ -24,22 +24,22 @@ tags = ["software_engineering"]
 
 > 💡 **비유**: 마치 1층짜리 단독 주택을 짓던 동네 목수에게 갑자기 100층짜리 최첨단 마천루 건설을, 기존의 망치와 톱질 방식 그대로 요구하다가 건물이 붕괴되는 대참사를 맞이한 상황과 같다.
 
+```text
+[소프트웨어 위기 발생 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 위기 발생 메커니즘</div></div>
-<div class="kb-diagram-note">하드웨어 성능 향상 ──&gt; 사용자 요구사항의 복잡도 급증</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 비체계적 개발 방식</div><div class="kb-diagram-node">관리 통제력 상실</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">주먹구구식 코딩 - 일정 예측 불가</div>
-<div class="kb-diagram-tree-item" style="--depth:0">문서화 부재 - 비용 산정 실패</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💥</div><div class="kb-diagram-node">소프트웨어 위기 도래</div><div class="kb-diagram-note">💥</div></div>
-<div class="kb-diagram-note">(비용 초과, 일정 지연, 품질 저하)</div>
-</div>
-</div>
-
-
+하드웨어 성능 향상 ──> 사용자 요구사항의 복잡도 급증
+                           │
+       ┌───────────────────┴───────────────────┐
+       ▼                                       ▼
+[기존 비체계적 개발 방식]               [관리 통제력 상실]
+ - 주먹구구식 코딩                       - 일정 예측 불가
+ - 문서화 부재                           - 비용 산정 실패
+       │                                       │
+       └───────────────────┬───────────────────┘
+                           ▼
+            💥 [ 소프트웨어 위기 도래 ] 💥
+             (비용 초과, 일정 지연, 품질 저하)
+```
 **[도식 설명]**
 이 도식은 소프트웨어 위기가 발생하는 근본적인 인과 관계를 보여준다. 사용자 요구사항의 복잡도가 기하급수적으로 증가함에도 불구하고, 개발 방식은 선형적인 수준에 머물러 있어 시스템의 복잡도를 감당하지 못하는 '병목 현상'이 발생한다. 결과적으로 통제력을 상실한 프로젝트는 비용, 일정, 품질이라는 프로젝트 관리의 철의 삼각(Iron Triangle)이 붕괴되는 결과를 초래한다.
 
@@ -54,18 +54,16 @@ tags = ["software_engineering"]
 | <strong>일정 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (Schedule Slip)</strong> | 약속된 출시 기한([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/))을 맞추지 못함 | Brooks's Law 발생 ([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 프로젝트에 인력 투입 시 소통 비용 증가로 더 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됨) | 꽉 막힌 퇴근길 정체 |
 | **품질 저하 (Poor Quality)** | 심각한 버그, 낮은 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 잦은 시스템 다운 | [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 부재, 스파게티 코드, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 실패로 인한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 폭발 | 기초 공사 부실로 금이 간 벽 |
 
+```text
+[소프트웨어 위기의 악순환 구조 (Vicious Cycle)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 위기의 악순환 구조 (Vicious Cycle)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">요구사항 변경/불명확</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">품질 저하 (버그)</div><div class="kb-diagram-node">설계 결함 및 스파게티 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일정 지연 압박</div><div class="kb-diagram-note">&lt;──</div><div class="kb-diagram-node">재작업(Rework) 및 비용 초과</div></div>
-</div>
-</div>
-
-
+      ┌──> [요구사항 변경/불명확] ──┐
+      │                             ▼
+[품질 저하 (버그)]          [설계 결함 및 스파게티 코드]
+      ▲                             │
+      │                             ▼
+[일정 지연 압박] <── [재작업(Rework) 및 비용 초과]
+```
 **[도식 설명]**
 이 흐름도는 소프트웨어 위기의 각 증상들이 어떻게 악순환의 고리를 형성하는지 보여준다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 요구사항이 불명확하여 설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발생하고, 이는 재작업을 유발하여 일정을 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시킨다. 일정이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 테스트 시간을 단축하게 되어 품질 저하(버그)로 이어지고, 버그를 수정하기 위해 또다시 재작업이 발생하는 치명적인 병목 사이클이다. 실무에서는 이 고리를 끊기 위해 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 '정형적 요구공학'을 도입해야 한다.
 
@@ -82,21 +80,20 @@ tags = ["software_engineering"]
 | <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 상황 측정</strong> | 문서 산출물 기반 측정 | 동작하는 소프트웨어 기반 측정 | 실질적 진척도 가시성 |
 | **품질 확보 시점** | 개발 후반부(테스트 단계)에 집중 | [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD를 통한 지속적 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) vs 후기) |
 
+```text
+[규모에 따른 복잡도 증가 곡선 분석]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">규모에 따른 복잡도 증가 곡선 분석</div></div>
-<div class="kb-diagram-note">복잡도 / 비용</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">비체계적 개발의 비용 지수 함수</div></div>
-<div class="kb-diagram-note">/ (위기 발생 영역)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">소프트웨어 공학 적용 시 선형 유지</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">시스템 규모 (LOC)</div>
-</div>
-</div>
-
-
+복잡도 / 비용
+   ▲
+   │                   / [비체계적 개발의 비용 지수 함수]
+   │                  /  (위기 발생 영역)
+   │                 /
+   │                /      [소프트웨어 공학 적용 시 선형 유지]
+   │               /─────────
+   │              /
+   │             /
+   └───────────────────────────────► 시스템 규모 (LOC)
+```
 **[도식 설명]**
 이 그래프는 시스템 규모가 커짐에 따라 비체계적 개발 방식이 어떻게 '소프트웨어 위기'를 유발하는지 정량적 한계를 보여준다. 공학적 통제가 없는 경우 코드(LOC)가 증가함에 따라 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 의존성 결합이 폭발적으로 늘어나 비용과 복잡도가 지수 함수 형태로 치솟는다. 반면, 아키텍처 원칙과 공학적 방법론을 적용하면 복잡도 증가를 어느 정도 선형적으로 통제할 수 있어 대규모 시스템에서도 유지보수성을 방어할 수 있다.
 
@@ -115,22 +112,21 @@ tags = ["software_engineering"]
 | <strong>일정 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a></strong> | 개발자들이 제출하는 완료 예정일이 지속적으로 연기되는가? |
 | <strong>코드 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/">가독성</a></strong> | 원작자가 퇴사했을 때 다른 팀원이 코드를 수정할 수 없는가? |
 
+```text
+[실무 의사결정 트리: 소프트웨어 위기 징후 발견 시 대응]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실무 의사결정 트리: 소프트웨어 위기 징후 발견 시 대응</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일정 지연 및 버그 폭증 발생 (위기 징후)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원인 분석: 인력 부족인가, 구조 문제인가?</div></div>
-<div class="kb-diagram-note">(인력 부족) (구조 문제)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Brooks의 법칙 고려</div><div class="kb-diagram-node">코드 복잡도/결합도 분석</div></div>
-<div class="kb-diagram-note">인력 추가 시 소통 ──&gt; 즉각적인 리팩토링 및</div>
-<div class="kb-diagram-note">비용 증가 경계 아키텍처 재설계 결정</div>
-</div>
-</div>
-
-
+[일정 지연 및 버그 폭증 발생 (위기 징후)]
+           │
+           ▼
+[원인 분석: 인력 부족인가, 구조 문제인가?]
+           │
+    ├──────┴──────┐
+(인력 부족)    (구조 문제)
+    ▼             ▼
+[Brooks의 법칙 고려]  [코드 복잡도/결합도 분석]
+인력 추가 시 소통   ──> 즉각적인 리팩토링 및 
+비용 증가 경계          아키텍처 재설계 결정
+```
 **[도식 설명]**
 이 의사결정 플로우는 위기 징후가 나타났을 때 관리자가 흔히 범하는 오류(단순 인력 투입)를 방지하기 위한 흐름을 보여준다. 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 병목을 해결하기 위해 새로운 개발자를 투입하면 교육 및 소통 오버헤드로 인해 오히려 일정이 더 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되는 'Brooks의 법칙'을 경계해야 한다. 근본적인 원인은 대부분 아키텍처의 구조적 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 문제이므로, 과감하게 구조 개선에 투자하는 결단이 필요하다.
 
@@ -152,7 +148,7 @@ tags = ["software_engineering"]
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 위기를 해결하기 위해 탄생한 체계적 접근 및 관리 학문
+- [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 위기를 해결하기 위해 탄생한 체계적 접근 및 관리 학문
 - 브룩스의 법칙 (Brooks's Law) | 위기 상황에서 인력 투입 시 일정이 더 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된다는 프로젝트 관리 원칙
 - [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) ([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)) | 단기적 성과를 위해 품질을 희생함으로써 발생하는 위기의 현대적 형태
 - [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([Configuration Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/)) | 잦은 변경으로 인한 위기를 통제하기 위한 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 체계
@@ -160,25 +156,23 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
+```text
+[소프트웨어 공학 (Software Engineering)]
+    │
+    ▼
+[브룩스의 법칙 (Brooks's Law)]
+    │
+    ▼
+[기술 부채 (Technical Debt)]
+    │
+    ▼
+[형상 관리 (Configuration Management)]
+    │
+    ▼
+[객체 지향 및 MSA]
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 공학 (Software Engineering)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브룩스의 법칙 (Brooks's Law)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기술 부채 (Technical Debt)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">형상 관리 (Configuration Management)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">객체 지향 및 MSA</div></div>
-</div>
-</div>
-
-
-
-이 흐름도는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/))에서 출발해 객체 지향 및 MSA까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/))에서 출발해 객체 지향 및 MSA까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 아주 작은 장난감 자동차는 혼자 뚝딱 만들 수 있지만, 진짜 큰 우주선을 혼자 만들려다가는 부품이 엉켜서 펑 터져버려요.
@@ -191,7 +185,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 2 / 973
 
-← **이전**: [1. 소프트웨어 공학 (Software Engineering)의 정의 및 목표 (신뢰성, 효율성, 유지보수성)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)
+← **이전**: [1. 소프트웨어 공학 (Software 엔진ering)의 정의 및 목표 (신뢰성, 효율성, 유지보수성)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)
 **다음**: [3. 소프트웨어 생명주기 (SDLC, Software Development Life Cycle)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) →
 
 ---

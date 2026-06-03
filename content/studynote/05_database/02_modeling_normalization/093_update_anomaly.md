@@ -36,20 +36,19 @@ tags = ["database"]
 | 101 | 김철수 | **컴퓨터** | OS | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) |
 | 101 | 김철수 | **수학과** | NW | 네트워크 | *(수정 누락으로 인한 불일치!)*
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">갱신 이상 발생 메커니즘 (데이터 불일치)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DB 수정 요청: 김철수 학과 변경 (컴퓨터 ➔ 수학과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">튜플 1: 김철수, 컴퓨터 ─(UPDATE)─▶ 김철수, 수학과 (O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">튜플 2: 김철수, 컴퓨터 ─(UPDATE)─▶ 김철수, 수학과 (O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">튜플 3: 김철수, 컴퓨터 ─(누락!)──▶ 김철수, 컴퓨터 (X) 모순 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: "101번 학생의 진짜 학과는 어디인가?" ➔ DB 논리 붕괴</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  갱신 이상 발생 메커니즘 (데이터 불일치)             │
+├──────────────────────────────────────────────────────────────┤
+│ [DB 수정 요청: 김철수 학과 변경 (컴퓨터 ➔ 수학과)]                 │
+│                                                              │
+│ 튜플 1: 김철수, 컴퓨터 ─(UPDATE)─▶ 김철수, 수학과 (O)             │
+│ 튜플 2: 김철수, 컴퓨터 ─(UPDATE)─▶ 김철수, 수학과 (O)             │
+│ 튜플 3: 김철수, 컴퓨터 ─(누락!)──▶ 김철수, 컴퓨터 (X) 모순 발생!   │
+│                                                              │
+│ 결과: "101번 학생의 진짜 학과는 어디인가?" ➔ DB 논리 붕괴         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 단일 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 내에서 중복된 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 완벽하게 제어하지 못할 때 갱신 이상이 어떻게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 파괴하는지 보여준다. 애플리케이션 쿼리문만으로는 이 구조적 취약점을 근본적으로 해결하기 어렵다.
 
@@ -107,23 +106,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비정규화 테이블 (데이터 짬뽕)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 중복 (Redundancy) 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이상 현상 (Anomaly: 갱신, 삽입, 삭제)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">함수적 종속성 (Functional Dependency) 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정규화 (1NF ➔ 2NF ➔ 3NF ➔ BCNF) 도입</div>
-</div>
-</div>
-
-
+```text
+비정규화 테이블 (데이터 짬뽕)
+    │
+    ▼
+데이터 중복 (Redundancy) 발생
+    │
+    ▼
+이상 현상 (Anomaly: 갱신, 삽입, 삭제)
+    │
+    ▼
+함수적 종속성 (Functional Dependency) 분석
+    │
+    ▼
+정규화 (1NF ➔ 2NF ➔ 3NF ➔ BCNF) 도입
+```
 
 이 흐름도는 잘못된 테이블 설계가 갱신 이상을 유발하고, 이를 수학적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 분석을 통해 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 치유해 나가는 과정을 보여준다.
 

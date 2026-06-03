@@ -38,22 +38,24 @@ DDD는 이 간극을 메우기 위해:
 
 ### 1. [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) 핵심 빌딩 블록
 
+```text
+DDD 전술적 패턴 (Tactical Patterns)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DDD 전술적 패턴 (Tactical Patterns)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Aggregate Root</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entity</div><div class="kb-diagram-cell">Value Object</div><div class="kb-diagram-cell">Domain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(식별자 있음)</div><div class="kb-diagram-cell">(식별자 없음)</div><div class="kb-diagram-cell">Event</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order</div><div class="kb-diagram-cell">Money</div><div class="kb-diagram-cell">OrderPlaced</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Customer</div><div class="kb-diagram-cell">Address</div><div class="kb-diagram-cell">PaymentDone</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Repository</div><div class="kb-diagram-cell">Domain Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(영속성 추상화)</div><div class="kb-diagram-cell">(여러 객체 협력 로직)</div></div>
-</div>
-</div>
-
-
+  ┌─────────────────────────────────────────────────────────────┐
+  │                      Aggregate Root                         │
+  │  ┌──────────────┐   ┌──────────────┐   ┌───────────────┐   │
+  │  │    Entity    │   │  Value Object │   │    Domain     │   │
+  │  │ (식별자 있음) │   │ (식별자 없음) │   │    Event      │   │
+  │  │  Order       │   │  Money       │   │ OrderPlaced   │   │
+  │  │  Customer    │   │  Address     │   │ PaymentDone   │   │
+  │  └──────────────┘   └──────────────┘   └───────────────┘   │
+  └─────────────────────────────────────────────────────────────┘
+           │                                        │
+  ┌────────▼────────┐                    ┌──────────▼─────────┐
+  │   Repository    │                    │   Domain Service   │
+  │ (영속성 추상화)  │                    │ (여러 객체 협력 로직) │
+  └─────────────────┘                    └───────────────────-┘
+```
 
 | 빌딩 블록 | 설명 | 예시 |
 |:---|:---|:---|
@@ -67,25 +69,27 @@ DDD는 이 간극을 메우기 위해:
 
 ### 2. 전략적 패턴: [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) + [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Map
 
+```text
+컨텍스트 맵 (Context Map) 예시
 
+  ┌─────────────────┐          ┌─────────────────┐
+  │  주문 컨텍스트   │          │  배송 컨텍스트   │
+  │  (Order BC)     │ ──ACL──► │  (Delivery BC)  │
+  │                 │          │                 │
+  │  Customer       │          │  Shipment       │
+  │  Order          │          │  TrackingNumber  │
+  └─────────────────┘          └─────────────────┘
+          │                            │
+    Anti-Corruption Layer             │
+    (언어 변환: Customer→Recipient)    │
+          │                            │
+  ┌───────▼────────────────────────────▼──┐
+  │  결제 컨텍스트 (Payment BC)            │
+  │  Payment, Invoice, Refund            │
+  └───────────────────────────────────────┘
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">컨텍스트 맵 (Context Map) 예시</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 컨텍스트</div><div class="kb-diagram-cell">배송 컨텍스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Order BC)</div><div class="kb-diagram-cell">──ACL──►</div><div class="kb-diagram-cell">(Delivery BC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Customer</div><div class="kb-diagram-cell">Shipment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order</div><div class="kb-diagram-cell">TrackingNumber</div></div>
-<div class="kb-diagram-note">Anti-Corruption Layer</div>
-<div class="kb-diagram-note">(언어 변환: Customer→Recipient)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결제 컨텍스트 (Payment BC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Payment, Invoice, Refund</div></div>
-</div>
-</div>
-
-
-
-- **📢 섹션 요약 비유**: Bounded Context는 **'사내 각 부서의 전문 언어 영역'** 과 같습니다. 영업팀의 "고객([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))"과 배송팀의 "수령인(Recipient)"은 같은 사람이지만 다른 용어로 불립니다. 부서 간 경계([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))가 없으면 한 단어가 여러 의미를 갖게 되어 혼란이 생깁니다.
+- **📢 섹션 요약 비유**: Bounded Context는 **'사내 각 부서의 전문 언어 영역'** 과 같습니다. 영업팀의 "고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))"과 배송팀의 "수령인(Recipient)"은 같은 사람이지만 다른 용어로 불립니다. 부서 간 경계([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))가 없으면 한 단어가 여러 의미를 갖게 되어 혼란이 생깁니다.
 
 ---
 
@@ -162,25 +166,24 @@ DDD는 "코드를 비즈니스처럼 만드는 것"이 아니라, **"비즈니�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 아키텍처 → 복잡도 증가 → 유지보수 어려움</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DDD (Domain-Driven Design, 2003 Eric Evans)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">전략적 패턴: Bounded Context / Context Map</div>
-<div class="kb-diagram-tree-item" style="--depth:2">전술적 패턴: Entity / VO / Aggregate / Repository</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유비쿼터스 언어 — 코드와 도메인 언어 일치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSA 서비스 분리 기준으로 Bounded Context 활용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CQRS + 이벤트 소싱 — 도메인 이벤트 기반 아키텍처</div>
-</div>
-</div>
-
-
+```text
+모놀리식 아키텍처 → 복잡도 증가 → 유지보수 어려움
+    │
+    ▼
+DDD (Domain-Driven Design, 2003 Eric Evans)
+    │
+    ├─► 전략적 패턴: Bounded Context / Context Map
+    ├─► 전술적 패턴: Entity / VO / Aggregate / Repository
+    │
+    ▼
+유비쿼터스 언어 — 코드와 도메인 언어 일치
+    │
+    ▼
+MSA 서비스 분리 기준으로 Bounded Context 활용
+    │
+    ▼
+CQRS + 이벤트 소싱 — 도메인 이벤트 기반 아키텍처
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

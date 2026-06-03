@@ -20,26 +20,23 @@ tags = ["studynote-cloud-architecture"]
 
 전통 RDBMS는 한 행의 모든 컬럼을 디스크에 연속 저장한다(Row-oriented). INSERT/UPDATE [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)에는 효율적이지만, "전체 주문 중 매출 금액 합계"처럼 특정 컬럼만 읽는 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서는 불필요한 컬럼까지 전부 읽어야 하는 I/O 낭비가 발생한다.
 
+```
+[Row-oriented 저장]
+Row 1: [order_id=1][customer_id=C001][product="책"][amount=30000][date=2024-01-01]
+Row 2: [order_id=2][customer_id=C002][product="노트북"][amount=1500000][date=2024-01-02]
+...
 
+SELECT SUM(amount) FROM orders;  → 모든 행의 모든 컬럼을 읽어야 함
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Row-oriented 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Row 1:</div><div class="kb-diagram-node">order_id=1</div><div class="kb-diagram-node">customer_id=C001</div><div class="kb-diagram-node">product="책"</div><div class="kb-diagram-node">amount=30000</div><div class="kb-diagram-node">date=2024-01-01</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Row 2:</div><div class="kb-diagram-node">order_id=2</div><div class="kb-diagram-node">customer_id=C002</div><div class="kb-diagram-node">product="노트북"</div><div class="kb-diagram-node">amount=1500000</div><div class="kb-diagram-node">date=2024-01-02</div></div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-note">SELECT SUM(amount) FROM orders; → 모든 행의 모든 컬럼을 읽어야 함</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Column-oriented 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">order_id:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">customer_id:</div><div class="kb-diagram-node">C001</div><div class="kb-diagram-node">C002</div><div class="kb-diagram-node">C003</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">product:</div><div class="kb-diagram-node">책</div><div class="kb-diagram-node">노트북</div><div class="kb-diagram-node">마우스</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">amount:</div><div class="kb-diagram-node">30000</div><div class="kb-diagram-node">1500000</div><div class="kb-diagram-node">25000</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">이것만 읽음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">date:</div><div class="kb-diagram-node">2024-01-01</div><div class="kb-diagram-node">2024-01-02</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-note">SELECT SUM(amount) FROM orders; → amount 컬럼 파일만 읽음 (I/O 95% 절감)</div>
-</div>
-</div>
+[Column-oriented 저장]
+order_id: [1][2][3][4]...
+customer_id: [C001][C002][C003]...
+product: [책][노트북][마우스]...
+amount: [30000][1500000][25000]...  ← 이것만 읽음!
+date: [2024-01-01][2024-01-02]...
 
-
+SELECT SUM(amount) FROM orders;  → amount 컬럼 파일만 읽음 (I/O 95% 절감)
+```
 
 📢 **섹션 요약 비유**: Row-oriented는 엑셀 시트를 행 단위로 저장하는 것이고, Column-oriented는 같은 항목(열)끼리 묶어서 저장하는 것이다. "전체 직원 연봉 합계"를 구할 때, 연봉 열 하나만 꺼내면 되니 훨씬 빠르다.
 
@@ -49,26 +46,29 @@ tags = ["studynote-cloud-architecture"]
 
 ### Apache [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parquet 파일 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Magic Number (4 bytes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row Group 1 (행 그룹, 예: 128MB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Column Chunk 1 (order_id)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Data Pages (RLE+Dictionary 인코딩)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Column Statistics (min/max/null cnt)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Column Chunk 2 (amount)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Data Pages</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Column Statistics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row Group 2 ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">File Footer (스키마, Row Group 위치, 통계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Magic Number (4 bytes)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────┐
+│                 Parquet 파일 구조                        │
+│                                                        │
+│  Magic Number (4 bytes)                                │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │ Row Group 1 (행 그룹, 예: 128MB)                 │  │
+│  │  ┌─────────────────────────────────────────┐    │  │
+│  │  │ Column Chunk 1 (order_id)               │    │  │
+│  │  │  - Data Pages (RLE+Dictionary 인코딩)   │    │  │
+│  │  │  - Column Statistics (min/max/null cnt) │    │  │
+│  │  ├─────────────────────────────────────────┤    │  │
+│  │  │ Column Chunk 2 (amount)                 │    │  │
+│  │  │  - Data Pages                           │    │  │
+│  │  │  - Column Statistics                    │    │  │
+│  │  └─────────────────────────────────────────┘    │  │
+│  ├─────────────────────────────────────────────────┤  │
+│  │ Row Group 2 ...                                  │  │
+│  └─────────────────────────────────────────────────┘  │
+│  File Footer (스키마, Row Group 위치, 통계)              │
+│  Magic Number (4 bytes)                                │
+└────────────────────────────────────────────────────────┘
+```
 
 ### [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 및 인코딩 최적화
 
@@ -82,20 +82,16 @@ tags = ["studynote-cloud-architecture"]
 
 ### Predicate Pushdown (조건 푸시다운)
 
+```
+SELECT * FROM orders WHERE amount > 1000000
 
+Parquet 엔진 동작:
+1. File Footer에서 Row Group 통계 확인
+2. Row Group 2: amount max=500000 → amount > 1000000 없음 → 스킵!
+3. Row Group 5: amount max=3000000 → 조건 가능성 → 읽기
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SELECT * FROM orders WHERE amount &gt; 1000000</div>
-<div class="kb-diagram-note">Parquet 엔진 동작:</div>
-<div class="kb-diagram-note">1. File Footer에서 Row Group 통계 확인</div>
-<div class="kb-diagram-note">2. Row Group 2: amount max=500000 → amount &gt; 1000000 없음 → 스킵!</div>
-<div class="kb-diagram-note">3. Row Group 5: amount max=3000000 → 조건 가능성 → 읽기</div>
-<div class="kb-diagram-note">효과: 전체 파일의 70~90% 읽지 않고 건너뜀</div>
-</div>
-</div>
-
-
+효과: 전체 파일의 70~90% 읽지 않고 건너뜀
+```
 
 📢 **섹션 요약 비유**: Predicate Pushdown은 책 목차(Footer 통계)를 먼저 보고, 관련 없는 챕터는 넘기는 것이다. "200페이지 이후 내용만 필요하다"면 목차에서 바로 200페이지로 이동하듯, 통계로 불필요한 Row Group을 건너뛴다.
 
@@ -155,23 +151,19 @@ df = spark.read.parquet("s3://bucket/silver/orders/") \
 
 ### [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+[파티셔닝 설계 예시]
+s3://bucket/orders/
+├── year=2024/month=01/day=01/part-00000.parquet
+├── year=2024/month=01/day=02/part-00000.parquet
+...
 
+쿼리: WHERE date = '2024-01-15'
+→ year=2024/month=01/day=15/ 폴더만 읽음 (나머지 99% 스킵)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티셔닝 설계 예시</div></div>
-<div class="kb-diagram-note">s3://bucket/orders/</div>
-<div class="kb-diagram-tree-item" style="--depth:0">year=2024/month=01/day=01/part-00000.parquet</div>
-<div class="kb-diagram-tree-item" style="--depth:0">year=2024/month=01/day=02/part-00000.parquet</div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-note">쿼리: WHERE date = '2024-01-15'</div>
-<div class="kb-diagram-note">→ year=2024/month=01/day=15/ 폴더만 읽음 (나머지 99% 스킵)</div>
-<div class="kb-diagram-note">주의: 파티션 과세분화 (너무 많은 소형 파일) 방지</div>
-<div class="kb-diagram-note">적정 파일 크기: 128MB ~ 512MB</div>
-</div>
-</div>
-
-
+주의: 파티션 과세분화 (너무 많은 소형 파일) 방지
+     적정 파일 크기: 128MB ~ 512MB
+```
 
 📢 **섹션 요약 비유**: [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 서류함에 날짜별로 구분자(탭)를 꽂아두는 것이다. 1월 15일 서류만 필요하면 전체를 뒤지지 않고 "1월 탭" 안에서 "15일 탭"을 바로 꺼낼 수 있다.
 
@@ -217,21 +209,17 @@ df = spark.read.parquet("s3://bucket/silver/orders/") \
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">행 지향 (Row): OLTP 최적화 (INSERT/UPDATE 빠름)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컬럼 지향 (Columnar): OLAP 최적화 (집계 쿼리 빠름)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Parquet · ORC: 파일 포맷</div>
-<div class="kb-diagram-tree-item" style="--depth:2">압축률 ↑: 같은 타입 데이터 연속 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">벡터화 실행: SIMD · Arrow 인메모리 포맷</div>
-</div>
-</div>
-
-
+```text
+행 지향 (Row): OLTP 최적화 (INSERT/UPDATE 빠름)
+    │
+    ▼
+컬럼 지향 (Columnar): OLAP 최적화 (집계 쿼리 빠름)
+    ├─► Parquet · ORC: 파일 포맷
+    └─► 압축률 ↑: 같은 타입 데이터 연속 저장
+    │
+    ▼
+벡터화 실행: SIMD · Arrow 인메모리 포맷
+```
 2. Parquet은 잘 정리된 서랍장이다. 각 서랍에 같은 종류의 물건이 빽빽이 정리되어([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)), 필요한 서랍만 열어도(컬럼 선택) 원하는 걸 빠르게 찾을 수 있다.
 3. CSV는 모든 물건을 큰 상자에 섞어 넣은 것이다. 단순하지만, 연필을 찾으려면 상자 전체를 뒤져야 해서 시간이 오래 걸린다.
 

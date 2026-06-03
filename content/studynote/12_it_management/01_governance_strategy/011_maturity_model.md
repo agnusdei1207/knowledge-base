@@ -23,19 +23,15 @@ tags = ["it_management"]
 
 이 그림은 프로세스 성숙도가 낮은 조직이 겪는 한계와, 성숙도 모델이 도입되어 프로세스를 안정화하는 배경을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">성숙도 미흡: Ad-hoc</div></div>
-<div class="kb-diagram-note">개인 역량 의존 ──&gt; 잦은 이직 시 붕괴 ──&gt; 품질/일정 변동폭 심화 (위험 증가)</div>
-<div class="kb-diagram-note">▼ (성숙도 모델 도입: CMMI, SPICE)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">성숙도 확보: Optimized</div></div>
-<div class="kb-diagram-note">표준 프로세스 정립 ──&gt; 정량적 지표 관리 ──&gt; 예측 가능한 산출물 (위험 통제)</div>
-</div>
-</div>
-
-
+```text
+[성숙도 미흡: Ad-hoc]
+개인 역량 의존 ──> 잦은 이직 시 붕괴 ──> 품질/일정 변동폭 심화 (위험 증가)
+      │
+      ▼ (성숙도 모델 도입: CMMI, SPICE)
+      
+[성숙도 확보: Optimized]
+표준 프로세스 정립 ──> 정량적 지표 관리 ──> 예측 가능한 산출물 (위험 통제)
+```
 
 이 흐름의 핵심은 사람 중심에서 프로세스 중심으로의 패러다임 전환이다. 프로세스가 명확히 정의되지 않은 조직은 단기적인 성과는 낼 수 있으나 확장이 불가능하며, 성숙도 모델은 이러한 변동성을 통제 가능한 시스템으로 변환하는 구조를 제공한다. 따라서 실무에서는 품질 보증을 위해 프로세스 내재화 수준을 먼저 측정하고, 이를 점진적으로 고도화하는 방향으로 의사결정을 내려야 한다.
 
@@ -57,20 +53,19 @@ tags = ["it_management"]
 
 아래는 CMMI의 단계적 표현(Staged Representation)을 기반으로 한 조직 성숙도 전이 과정을 나타낸 구조도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 5: Optimizing (최적화) - 지속적 프로세스 개선</div><div class="kb-diagram-cell">▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 4: Quantitatively Managed (정량적 관리) - 통계적</div><div class="kb-diagram-cell">개선</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">│ 방향</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3: Defined (정의됨) - 조직 표준 프로세스 확립</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2: Managed (관리됨) - 프로젝트 단위 규칙 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1: Initial (초기) - 혼돈, 개인 역량 의존</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│ Level 5: Optimizing (최적화) - 지속적 프로세스 개선    │ ▲
+├────────────────────────────────────────────────────────┤ │
+│ Level 4: Quantitatively Managed (정량적 관리) - 통계적 │ │ 개선
+├────────────────────────────────────────────────────────┤ │ 방향
+│ Level 3: Defined (정의됨) - 조직 표준 프로세스 확립    │ │
+├────────────────────────────────────────────────────────┤ │
+│ Level 2: Managed (관리됨) - 프로젝트 단위 규칙 수행    │ │
+├────────────────────────────────────────────────────────┤ │
+│ Level 1: Initial (초기) - 혼돈, 개인 역량 의존         │ │
+└────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 성숙도가 계단식으로 상승해야만 기초가 흔들리지 않는다는 점이다. 레벨 2에서 프로젝트 단위의 통제가 이루어지지 않은 상태에서 레벨 4의 통계적 기법을 도입하면, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))이 없어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 신뢰성이 무너진다. 각 단계는 하위 단계의 목표가 완벽히 내재화(Institutionalization)되었다는 전제 하에 다음 단계로 나아간다.
 
@@ -93,22 +88,17 @@ CMMI와 [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_s
 
 아래는 CMMI와 SPICE가 각각 조직을 어떻게 평가하는지를 보여주는 비교 구조도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CMMI (Staged)</div><div class="kb-diagram-node">SPICE (Continuous)</div></div>
-<div class="kb-diagram-note">조직 단위 일괄 평가 프로세스별 개별 평가</div>
-<div class="kb-diagram-note">레벨 3 (요구분석) ──&gt; Level 4</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PA 1</div><div class="kb-diagram-cell">(아키텍처) ──&gt; Level 2</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">│ (코딩/테스트)──&gt; Level 3</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PA 2</div><div class="kb-diagram-cell">──&gt; 조직 Level 3 (형상관리) ──&gt; Level 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PA 3</div><div class="kb-diagram-cell">* 취약한 특정 프로세스만</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">집중적으로 개선 가능</div>
-</div>
-</div>
-
-
+```text
+[ CMMI (Staged) ]                 [ SPICE (Continuous) ]
+조직 단위 일괄 평가               프로세스별 개별 평가
+┌──────┐ 레벨 3                   (요구분석) ──> Level 4
+│ PA 1 │ ────┐                    (아키텍처) ──> Level 2
+├──────┤     │                    (코딩/테스트)──> Level 3
+│ PA 2 │ ────┼──> 조직 Level 3    (형상관리) ──> Level 1
+├──────┤     │
+│ PA 3 │ ────┘                    * 취약한 특정 프로세스만 
+└──────┘                            집중적으로 개선 가능
+```
 
 이 비교 구조의 핵심은 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)(단계적)가 조직 전체의 균형 잡힌 성숙을 강제한다면, [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)(연속적)는 조직이 현재 가장 필요로 하는 특정 프로세스의 역량을 먼저 끌어올릴 수 있는 유연성을 제공한다는 점이다. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 방식은 하나라도 미달되면 전체 레벨이 오르지 않아 오버헤드가 발생할 수 있다. 반면 [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 방식은 약점 파악과 부분적 개선이 빠르지만, 전사적 품질 관리의 불균형을 초래할 수 있다. 실무에서는 공공/국방 입찰 참여가 목적이면 CMMI를, 자동차 전장(A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)) 등 특정 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 파트너사 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 목적이면 SPICE를 선택하는 것이 유리하다.
 
@@ -128,20 +118,19 @@ CMMI와 [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_s
 
 아래는 성숙도 평가 모델 도입 시의 의사결정 트리이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">조직 프로세스 문제 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인증이 필수적인가? (입찰, B2B 계약)</div><div class="kb-diagram-note">──(Yes)──&gt;</div><div class="kb-diagram-node">도메인이 자동차/특수 산업인가?</div></div>
-<div class="kb-diagram-note">(No) (Yes) (No)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내부 약점 개선이 목적인가?</div><div class="kb-diagram-node">A-SPICE 도입</div><div class="kb-diagram-node">CMMI Staged 도입</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Yes) ──&gt;</div><div class="kb-diagram-node">CMMI Continuous 또는 SPICE로 취약 PA 타겟팅</div></div>
-</div>
-</div>
-
-
+```text
+[조직 프로세스 문제 발생]
+       │
+       ▼
+[인증이 필수적인가? (입찰, B2B 계약)] ──(Yes)──> [도메인이 자동차/특수 산업인가?]
+       │                                            │               │
+      (No)                                        (Yes)           (No)
+       │                                            │               │
+       ▼                                            ▼               ▼
+[내부 약점 개선이 목적인가?]                   [A-SPICE 도입]     [CMMI Staged 도입]
+       │
+      (Yes) ──> [CMMI Continuous 또는 SPICE로 취약 PA 타겟팅]
+```
 
 이 의사결정 트리는 도입 목적에 따라 아키텍처 선택이 달라짐을 보여준다. 입찰 자격 요건을 위한 강제적 도입은 자칫 현업과 괴리된 절차를 양산할 수 있으므로, 최소한의 노력으로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 확보하되 내부적으로는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 관행을 훼손하지 않는 테일러링([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/)) 역량이 기술사적 관점에서 매우 중요하다.
 
@@ -172,23 +161,21 @@ CMMI와 [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">임기응변 수준 (Level 1 — Initial) — 비공식 프로세스, 성공이 개인 역량에 의존</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">반복 가능 수준 (Level 2 — Managed) — 기본 프로세스 정립, 과거 성공 반복</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정의된 수준 (Level 3 — Defined) — 조직 표준 프로세스 문서화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정량적 관리 (Level 4 — Quantitatively Managed) — 통계적 측정 기반 통제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최적화 수준 (Level 5 — Optimizing) — 지속적 혁신·결함 예방 문화 정착</div></div>
-</div>
-</div>
-
-
+```text
+[임기응변 수준 (Level 1 — Initial) — 비공식 프로세스, 성공이 개인 역량에 의존]
+    │
+    ▼
+[반복 가능 수준 (Level 2 — Managed) — 기본 프로세스 정립, 과거 성공 반복]
+    │
+    ▼
+[정의된 수준 (Level 3 — Defined) — 조직 표준 프로세스 문서화]
+    │
+    ▼
+[정량적 관리 (Level 4 — Quantitatively Managed) — 통계적 측정 기반 통제]
+    │
+    ▼
+[최적화 수준 (Level 5 — Optimizing) — 지속적 혁신·결함 예방 문화 정착]
+```
 
 이 흐름은 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 5단계 성숙도 모델이 개인 역량 의존에서 조직 전체 최적화로 진화하는 경로를 나타낸다.
 

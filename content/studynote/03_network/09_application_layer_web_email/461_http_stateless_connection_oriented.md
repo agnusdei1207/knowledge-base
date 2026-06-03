@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 > ⚠️ 이 문서는 인터넷의 근간을 이루는 HTTP 프로토콜의 아키텍처 철학인 [무상태성](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/162_rest_statelessness/)([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))과 비연결성(Connectionless), 그리고 하위 계층인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결형(Connection-oriented) 구조와의 상호작용 메커니즘을 심층 분석합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 손실 복구 메커니즘 개선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 상태 비저장, 연결형/비연결형 특징</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP 메서드</div></div>
-</div>
-</div>
-
-
+```text
+[패킷 손실 복구 메커니즘 개선]
+    │
+    ▼
+[HTTP 상태 비저장, 연결형/비연결형 특징]
+    │
+    └──▶ [HTTP 메서드]
+```
 
 - **📢 섹션 요약 비유**: HTTP 상태 비저장, 연결형/비연결형 특징은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 ### 2. 해결하고자 하는 문제 (Pain Point)
 만약 10만 명의 사용자가 동시에 접속하는 쇼핑몰 서버가 Stateful(상태 유지) 및 Connection-oriented(연결 유지) 방식으로 설계되었다면, 서버는 10만 개의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))을 열어둔 채 사용자들의 모든 과거 행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에 유지해야 합니다. 이는 필연적으로 서버 자원의 고갈([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/): [Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/), [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 고갈)과 엄청난 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드를 초래하여 시스템을 마비시킵니다. HTTP는 철저하게 서버의 부담을 줄이는 방향으로 아키텍처를 설계하여 이 문제를 원천 차단했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 손실 복구 메커니즘 개선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 상태 비저장, 연결형/비연결형 특징</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP 메서드</div></div>
-</div>
-</div>
-
-
+```text
+[패킷 손실 복구 메커니즘 개선]
+    │
+    ▼
+[HTTP 상태 비저장, 연결형/비연결형 특징]
+    │
+    └──▶ [HTTP 메서드]
+```
 
 - **📢 섹션 요약 비유**: HTTP의 [Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 방식은 마치 '자판기'와 같습니다. 어제 내가 콜라를 뽑았는지 기억하지 못하지만, 오늘 당장 동전(요청)을 넣으면 즉시 사이다(응답)를 내어줍니다. 기억하지 않기 때문에 하루에 수만 명이 찾아와도 지치지 않습니다.
 
@@ -66,27 +58,28 @@ tags = ["studynote-network"]
 
 HTTP가 상태를 기억하지 않고([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)), 금방 연결을 끊어버린다(Connectionless)고 해서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 자체가 부실한 것은 아닙니다. 텍스트 문서의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하기 위해 HTTP는 전송 계층(L4) 프로토콜로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">Transmission Control Protocol</a>)</strong>를 선택했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP over TCP : 논리적 무상태와 물리적 연결의 조화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Application Layer - L7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP GET /index.html</div><div class="kb-diagram-cell">&lt;-- Stateless</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">&lt;-- Connectionless</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP 200 OK (HTML Data)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transport Layer - L4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SYN (연결 요청)</div><div class="kb-diagram-cell">&lt;-- TCP 3-Way</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Handshake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SYN + ACK</div><div class="kb-diagram-cell">(Connection-</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ oriented)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACK</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  [ HTTP over TCP : 논리적 무상태와 물리적 연결의 조화 ]     │
+│                                                             │
+│       [ Application Layer - L7 ]                            │
+│  Client                            Server                   │
+│    │     HTTP GET /index.html        │    <-- Stateless     │
+│    ├────────────────────────────────▶│    <-- Connectionless│
+│    │     HTTP 200 OK (HTML Data)     │                      │
+│    │◀────────────────────────────────┤                      │
+│                                                             │
+│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
+│       [ Transport Layer - L4 ]                              │
+│  Client                            Server                   │
+│    │      SYN (연결 요청)            │    <-- TCP 3-Way     │
+│    ├────────────────────────────────▶│        Handshake     │
+│    │      SYN + ACK                  │    (Connection-      │
+│    │◀────────────────────────────────┤      oriented)       │
+│    │      ACK                        │                      │
+│    ├────────────────────────────────▶│                      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** L7의 HTTP 요청이 발생하기 직전, 하위 L4 계층에서는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake를 통해 물리적인 가상 회선(Virtual Circuit)을 단단하게 연결합니다(Connection-oriented). HTTP 통신이 끝나면 L4는 4-Way Handshake로 연결을 해제합니다. 즉, 뼈대([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))는 연결형이지만 그 위에서 노는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(HTTP)는 비연결형인 구조입니다.
 
@@ -99,25 +92,23 @@ Stateless는 <strong>"서버가 클라이언트의 이전 상태(<a href="/knowl
 - **단점**: 
   - 매 요청마다 클라이언트가 자신을 증명할 모든 추가 정보([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID, 장바구니 내용 등)를 반복해서 전송해야 하므로 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비 발생
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stateful vs Stateless 아키텍처 동작 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Stateful Server (기존 방식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User: "안녕하세요, 저는 홍길동입니다." -&gt; Server: "네, 기억할게요."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User: "장바구니에 사과 담아주세요." -&gt; Server: "(홍길동 님이구나) 네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User: "결제할게요." -&gt; Server: "(홍길동 님의 사과) 완료!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 제약: 해당 유저는 반드시 자신을 기억하는 '이 서버'와만 통신해야 함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Stateless Server (HTTP 방식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User: "안녕하세요, 홍길동입니다." -&gt; Server: "응답 완료. (기억 삭제)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User: "홍길동인데 사과 담을게요." -&gt; Server: "응답 완료. (기억 삭제)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User: "홍길동인데 아까 담은 사과 결제요"-&gt; Server: "응답 완료. (기억 삭제)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 유저가 문맥을 매번 실어 보내므로, 아무 서버나 응답 가능!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  [ Stateful vs Stateless 아키텍처 동작 비교 ]               │
+│                                                             │
+│  [ 1. Stateful Server (기존 방식) ]                         │
+│  User: "안녕하세요, 저는 홍길동입니다." -> Server: "네, 기억할게요." │
+│  User: "장바구니에 사과 담아주세요."    -> Server: "(홍길동 님이구나) 네!"│
+│  User: "결제할게요."                    -> Server: "(홍길동 님의 사과) 완료!"│
+│  * 제약: 해당 유저는 반드시 자신을 기억하는 '이 서버'와만 통신해야 함 │
+│                                                             │
+│  [ 2. Stateless Server (HTTP 방식) ]                        │
+│  User: "안녕하세요, 홍길동입니다."      -> Server: "응답 완료. (기억 삭제)"│
+│  User: "홍길동인데 사과 담을게요."      -> Server: "응답 완료. (기억 삭제)"│
+│  User: "홍길동인데 아까 담은 사과 결제요"-> Server: "응답 완료. (기억 삭제)"│
+│  * 장점: 유저가 문맥을 매번 실어 보내므로, 아무 서버나 응답 가능! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 Connectionless는 <strong>"서버가 클라이언트의 요청에 대해 응답을 마치면 맺었던 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 연결을 즉시 끊어버리는 구조"</strong>입니다.
 - 웹사이트 열람의 본질은 짧은 시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다운로드하고, 사용자는 한참 동안 문서를 읽는(유휴 시간) 패턴을 갖습니다.
@@ -205,19 +196,15 @@ Connectionless는 <strong>"서버가 클라이언트의 요청에 대해 응답�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 패킷 손실 복구 메커니즘 개선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP 상태 비저장, 연결형/비연결형 특징</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP 메서드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 패킷 손실 복구 메커니즘 개선]
+    │
+    ▼
+[현재 개념: HTTP 상태 비저장, 연결형/비연결형 특징]
+    │
+    ├──▶ [확장 A: HTTP 메서드]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 HTTP 상태 비저장, 연결형/비연결형 특징는 패킷 손실 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘 개선에서 출발해 현재 메커니즘을 정교화하고, 이후 HTTP 메서드와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

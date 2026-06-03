@@ -33,16 +33,12 @@ tags = ["studynote-design"]
 
 [클래스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/233_class_diagram_static_structure_uml/)은 경계(Boundary) - 제어(Control) - 엔티티(Entity)처럼 책임을 나누는 데 유용하다. Boundary는 외부와의 접점, Control은 유스케이스 흐름, Entity는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙을 품는다. 여기에 연관(Association), 집합(Aggregation), 합성(Composition), 일반화(Generalization), 의존(Dependency)을 붙여 협력 구조를 드러낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요구사항 -&gt; 유스케이스 -&gt; Boundary/Control/Entity -&gt; 클래스 다이어그램</div>
-<div class="kb-diagram-note">"무엇을 해야 하는가"를 책임으로 분해</div>
-</div>
-</div>
-
-
+```text
+요구사항 -> 유스케이스 -> Boundary/Control/Entity -> 클래스 다이어그램
+    |             |                 |                     |
+    └─────────────┴─────────────────┴─────────────────────┘
+                 "무엇을 해야 하는가"를 책임으로 분해
+```
 
 | 요소 | 역할 | 체크 포인트 |
 | --- | --- | --- |
@@ -110,25 +106,19 @@ tags = ["studynote-design"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기능 요구사항</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">유스케이스</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">책임 분해</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">논리 뷰</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">클래스 다이어그램</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">컴포넌트/배포 설계</div>
-</div>
-</div>
-
-
+```text
+기능 요구사항
+   ↓
+유스케이스
+   ↓
+책임 분해
+   ↓
+논리 뷰
+   ↓
+클래스 다이어그램
+   ↓
+컴포넌트/배포 설계
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

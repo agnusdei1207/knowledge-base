@@ -30,19 +30,18 @@ tags = ["studynote-enterprise"]
 
 이 아키텍처의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 계층(Persistence Layer)은 영구적이고 안정적인 공유 스토리지를 활용하고, 연산 계층(Execution Layer)은 필요에 따라 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 소멸되는 일시적(Ephemeral)인 구조를 갖는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 계층 (Compute)</div><div class="kb-diagram-cell">연산 계층 (Compute)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cluster A - Marketing</div><div class="kb-diagram-node">Cluster B - Finance</div></div>
-<div class="kb-diagram-note">▼ 네트워크 전송 ▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 스토리지 계층 (Shared Storage)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Object Storage / Cloud Data Lake / S3 / Blob Storage</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────┐      ┌───────────────────────────┐
+│     연산 계층 (Compute)    │      │     연산 계층 (Compute)    │
+│ [Cluster A - Marketing]   │      │ [Cluster B - Finance]     │
+└─────────────┬─────────────┘      └─────────────┬─────────────┘
+              │                                  │
+              ▼          네트워크 전송           ▼
+┌──────────────────────────────────────────────────────────────┐
+│                  공유 스토리지 계층 (Shared Storage)          │
+│ [Object Storage / Cloud Data Lake / S3 / Blob Storage]       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 특징 | 역할 |
 |:---|:---|:---|
@@ -106,23 +105,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">온프레미스 공유 스토리지 (SAN/NAS) 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hadoop HDFS - 데이터 로컬리티 강제 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">S3/GCS/ADLS 오브젝트 스토리지 분리 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Snowflake/BigQuery 스토리지·컴퓨팅 독립 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Lakehouse (Delta Lake, Iceberg) - 통합 계층</div>
-</div>
-</div>
-
-
+```
+온프레미스 공유 스토리지 (SAN/NAS) 병목
+    │
+    ▼
+Hadoop HDFS - 데이터 로컬리티 강제 결합
+    │
+    ▼
+S3/GCS/ADLS 오브젝트 스토리지 분리 등장
+    │
+    ▼
+Snowflake/BigQuery 스토리지·컴퓨팅 독립 확장
+    │
+    ▼
+Data Lakehouse (Delta Lake, Iceberg) - 통합 계층
+```
 
 > **키워드**: [Storage-Compute Separation](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/391_storage_compute_separation/), [Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/), S3, [Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), Elasticity
 

@@ -26,25 +26,25 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 길거리 4명 멱살잡이(데드락). 한 명을 총살(Termination)하는 게 아니라, 경찰이 한 명의 팔을 비틀어 등에 업고 있던 가방(자원)만 쑥 빼서(선점) 다른 놈에게 던져준다. 가방 뺏겨 울던 놈은 뒤로 자빠져([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) 대기했다가 저놈 지나가면 다시 자기 가방 달라고 줄(대기) 서서 무사히 집으로 걸어간다(생존).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">종료(Termination) vs 선점(Preemption)의 복구 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 확진: P1과 P2가 서로의 DB Row 락을 잡고 대결 중</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복구 루트 A: 강제 종료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "야 빡치네 P1 죽여!" ▶ P1 <code>Fatal Error</code> (프로세스 즉사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: P1의 10시간 연산 스레기 지그시 날아감.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복구 루트 B: 자원 선점 (Preemption)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "P1아, 네가 잡고 있는 Row 락 10번만 당장 내놔(선점)!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1: "앗 락을 뺏겼네? 에러코드 1211 (Deadlock Found).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나 안 죽었으니 트랜잭션 코드 지우고 위로 올라가야지(롤백)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ P1은 조용히 시작점으로 돌아가(Retry) P2 지나갈 때까지 Wait.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 앱은 안 죽고(무한 재시도) 무사히 스레드 2개 다 완료!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│         종료(Termination) vs 선점(Preemption)의 복구 차이       │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  [교착 확진: P1과 P2가 서로의 DB Row 락을 잡고 대결 중]         │
+│                                                                 │
+│  [복구 루트 A: 강제 종료]                                       │
+│  OS: "야 빡치네 P1 죽여!" ▶ P1 `Fatal Error` (프로세스 즉사)    │
+│  결과: P1의 10시간 연산 스레기 지그시 날아감.                   │
+│                                                                 │
+│  [복구 루트 B: 자원 선점 (Preemption)]                          │
+│  OS: "P1아, 네가 잡고 있는 Row 락 10번만 당장 내놔(선점)!"      │
+│  P1: "앗 락을 뺏겼네? 에러코드 1211 (Deadlock Found).           │
+│       나 안 죽었으니 트랜잭션 코드 지우고 위로 올라가야지(롤백)"│
+│  → P1은 조용히 시작점으로 돌아가(Retry) P2 지나갈 때까지 Wait.  │
+│  결과: 앱은 안 죽고(무한 재시도) 무사히 스레드 2개 다 완료!     │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 선점(Preemption) 방식은 목숨(생명줄)은 보장해 줄 테니 손에 쥔 딱지만 내놓고 저 뒤에 가서 새로 다시 줄 서라고 밀쳐내는 매우 인도적인(?) 회생 시스템입니다.
 
@@ -112,19 +112,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">종료 대상 선택 (희생자 선택) 기준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원 선점 (Resource Preemption) 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">희생자 선택 (Victim Selection) 최소 비용 기준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">후퇴 (Rollback)</div></div>
-</div>
-</div>
-
-
+```text
+[종료 대상 선택 (희생자 선택) 기준]
+    │
+    ▼
+[자원 선점 (Resource Preemption) 방식]
+    │
+    ├──▶ [희생자 선택 (Victim Selection) 최소 비용 기준]
+    └──▶ [후퇴 (Rollback)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

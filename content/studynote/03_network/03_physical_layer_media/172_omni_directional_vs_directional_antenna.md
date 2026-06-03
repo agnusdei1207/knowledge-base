@@ -24,18 +24,15 @@ tags = ["network"]
 
 아래 그림은 같은 송신기라도 방사 패턴이 다르면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영역 모양이 완전히 달라짐을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Top view: coverage geometry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Omni-Directional : ((( ANT ))) 360° azimuth</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Directional : ANT &gt;&gt;&gt;&gt;&gt;&gt;&gt; narrow beam</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same Tx power -&gt; wider area / shorter reach vs focused link</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Top view: coverage geometry                                 │
+├──────────────────────────────────────────────────────────────┤
+│ Omni-Directional :        ((( ANT )))  360° azimuth         │
+│ Directional      :        ANT >>>>>>> narrow beam           │
+│ same Tx power -> wider area / shorter reach vs focused link │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림에서 주의할 점은 무지향성이 "모든 방향에 완벽히 동일"하다는 뜻은 아니라는 점이다. 실제 무지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 [등방성 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/173_isotropic_antenna_theory/) ([Isotropic Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/173_isotropic_antenna_theory/))처럼 구형으로 퍼지지 않고, 대개 위아래는 약하고 옆으로 강한 도넛형 패턴에 가깝다. 따라서 무지향성과 지향성은 단순히 "좋다/나쁘다"가 아니라, 원하는 공간 형태가 다른 두 설계 철학이다.
 
@@ -58,18 +55,15 @@ tags = ["network"]
 
 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/)은 전력을 새로 만드는 값이 아니라, 같은 전력을 어느 방향에 더 집중했는지를 나타낸다. 예를 들어 송신기 출력이 20 dBm이고 케이블 손실이 거의 없다고 할 때, 2 dBi 무지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 유효 등방성 복사 전력 (Effective Isotropic Radiated [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), EIRP)은 약 22 dBm이다. 같은 송신기에 18 dBi 지향성 패널을 붙이면 EIRP는 약 38 dBm이 되어 훨씬 먼 거리까지 도달할 수 있지만, 그만큼 규제와 정렬 조건을 엄격히 봐야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Beamwidth and gain trade-off</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wide beam -&gt; lower gain -&gt; easy roaming, more spillover</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">narrow beam -&gt; higher gain -&gt; long reach, tighter alignment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gain redistributes power; it does not create new power</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Beamwidth and gain trade-off                                │
+├──────────────────────────────────────────────────────────────┤
+│ wide beam   -> lower gain -> easy roaming, more spillover   │
+│ narrow beam -> higher gain -> long reach, tighter alignment │
+│ gain redistributes power; it does not create new power      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 보여주는 핵심은 빔 폭과 이득이 서로 교환 관계에 있다는 점이다. 넓게 덮으려면 집중도가 떨어지고, 멀리 보내려면 커버리지 폭을 줄여야 한다. 그래서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 설계는 송신기 출력보다 먼저 "얼마나 넓게, 얼마나 멀리, 얼마나 정밀하게"라는 공간 요구사항을 정리하는 일이다.
 
@@ -101,21 +95,20 @@ tags = ["network"]
 
 실무에서는 먼저 단말 위치와 이동 패턴을 본다. 사용자가 회의실, 복도, 좌석 구역에 고르게 흩어져 있고 이동도 잦다면 무선 액세스 포인트 (Wireless [Access Point](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/), [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))는 무지향성 또는 섹터형이 적합하다. 반대로 창고 통로, 경기장 관중석, 건물 간 무선 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)처럼 사용 위치가 예측 가능하면 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 더 적은 출력으로 더 좋은 링크 품질을 만들 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deployment decision flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">clients spread around and move?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; omni or sector</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fixed point-to-point or long corridor?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; directional</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mixed -&gt; sector / multiple small cells</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Deployment decision flow                                    │
+├──────────────────────────────────────────────────────────────┤
+│ clients spread around and move?                             │
+│   ├─ yes -> omni or sector                                  │
+│   └─ no                                                     │
+│       │                                                     │
+│       ▼                                                     │
+│ fixed point-to-point or long corridor?                      │
+│   ├─ yes -> directional                                     │
+│   └─ mixed -> sector / multiple small cells                 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -161,23 +154,20 @@ tags = ["network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">service area geometry</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">radiation pattern choice</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ beamwidth · antenna gain</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ interference control</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EIRP · alignment · link budget review</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">omni / sector / directional deployment</div>
-</div>
-</div>
-
-
+```text
+service area geometry
+    │
+    ▼
+radiation pattern choice
+    │
+    ├──────────────▶ beamwidth · antenna gain
+    ├──────────────▶ interference control
+    ▼
+EIRP · alignment · link budget review
+    │
+    ▼
+omni / sector / directional deployment
+```
 
 이 흐름도는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 선택이 단순 제품 비교가 아니라, 공간 구조를 시작으로 간섭과 링크 버짓 검토까지 이어지는 설계 절차임을 보여준다.
 

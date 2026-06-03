@@ -25,19 +25,20 @@ tags = ["studynote-database"]
 
 아래 그림은 힌트가 왜 등장했는지 보여 준다. 핵심은 힌트가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바꾸는 기능이 아니라, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 선택지를 제한해 잘못된 길을 피하게 만든다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">힌트의 등장 배경: 자율 선택이 항상 정답은 아님</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 통계 정확 ▶ CBO 자율 선택 ▶ 안정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 통계 왜곡·데이터 편향 ─▶ 잘못된 계획 선택 ▶ 지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hint = 탐색 공간 보정 / 강제</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│             힌트의 등장 배경: 자율 선택이 항상 정답은 아님           │
+├──────────────────────────────────────────────────────────────────────┤
+│ SQL 요청                                                             │
+│   │                                                                  │
+│   ├─ 통계 정확 ───────────────▶ CBO 자율 선택 ───────────────▶ 안정     │
+│   │                                                                  │
+│   └─ 통계 왜곡·데이터 편향 ─▶ 잘못된 계획 선택 ───────────────▶ 지연     │
+│                                   ▲                                  │
+│                                   │                                  │
+│                         Hint = 탐색 공간 보정 / 강제                   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 힌트는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)를 부정하는 개념이 아니라, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 잘못 판단할 가능성이 높은 지점에 제한적으로 개입하는 장치로 이해하는 것이 맞다.
 
@@ -59,22 +60,22 @@ tags = ["studynote-database"]
 
 아래 그림은 힌트가 실행 단계가 아니라 <strong>최적화 단계</strong>에 개입한다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">힌트가 개입하는 위치: 실행 전 최적화 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL Text</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT /*+ LEADING(c o) INDEX(o IDX_ORDER_DT) */ ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parser ──▶ Hint Resolver ──▶ Optimizer Search Space ──▶ Final Plan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ join order 제한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ access path 제한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ join method 우선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ alias·scope 불일치 시 무시</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 힌트가 개입하는 위치: 실행 전 최적화 단계             │
+├──────────────────────────────────────────────────────────────────────┤
+│ SQL Text                                                             │
+│   SELECT /*+ LEADING(c o) INDEX(o IDX_ORDER_DT) */ ...               │
+│      │                                                               │
+│      ▼                                                               │
+│ Parser ──▶ Hint Resolver ──▶ Optimizer Search Space ──▶ Final Plan    │
+│               │                    │                     │             │
+│               │                    ├─ join order 제한    │             │
+│               │                    ├─ access path 제한   │             │
+│               │                    └─ join method 우선   │             │
+│               └─ alias·scope 불일치 시 무시                              │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 실무적으로 중요한 포인트는 힌트가 "정답을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"하는 것이 아니라, <strong>후보군을 줄여서 특정 계획으로 수렴시키는 것</strong>이라는 점이다. 예를 들어 `LEADING(c o)`는 고객 테이블을 구동 테이블로 먼저 읽게 만들고, `INDEX(o IDX_ORDER_DT)`는 주문 테이블에 대해 특정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 활용하도록 유도한다. 이 조합은 소량 탐색형 온라인 거래 처리 ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/), Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서는 매우 유효할 수 있지만, 대량 집계 환경에서는 오히려 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)과 전체 스캔이 더 나을 수 있다.
 
@@ -158,22 +159,19 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">규칙 기반 옵티마이저 (RBO, Rule Based Optimizer)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비용 기반 옵티마이저 (CBO, Cost Based Optimizer)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">통계 정보 · 히스토그램</div>
-<div class="kb-diagram-tree-item" style="--depth:2">실행 계획 (Execution Plan)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">힌트 (Hint)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SQL 계획 안정화 · 적응형 최적화 · 자동 통계 관리</div>
-</div>
-</div>
-
-
+```text
+규칙 기반 옵티마이저 (RBO, Rule Based Optimizer)
+    │
+    ▼
+비용 기반 옵티마이저 (CBO, Cost Based Optimizer)
+    │
+    ├─ 통계 정보 · 히스토그램
+    ├─ 실행 계획 (Execution Plan)
+    └─ 힌트 (Hint)
+    │
+    ▼
+SQL 계획 안정화 · 적응형 최적화 · 자동 통계 관리
+```
 
 이 흐름은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 튜닝이 단순 규칙 암기에서, 통계 기반 판단과 제한적 인간 개입을 함께 쓰는 방향으로 발전해 왔음을 보여 준다.
 

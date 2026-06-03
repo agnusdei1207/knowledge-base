@@ -20,23 +20,22 @@ tags = ["studynote-devops-sre"]
 
 백엔드는 MSA로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 배포가 가능하지만, 프론트엔드는 여전히 하나의 거대 SPA(Single [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) App)로 묶여있는 경우가 많다. 10개 팀이 1개 프론트엔드 repo에서 코드를 수정하면 <strong>머지 충돌·빌드 시간 폭발·배포 큐 대기</strong>가 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 FE vs 마이크로 프론트엔드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 FE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10팀 → 1개 Repo → 1개 빌드 → 1개 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 머지 충돌, 빌드 30분, 배포 큐 대기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 FE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팀 A: 검색 FE → 독립 Repo → 독립 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팀 B: 결제 FE → 독립 Repo → 독립 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팀 C: 상품 FE → 독립 Repo → 독립 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shell App (호스트)가 런타임에 합체</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    모놀리식 FE vs 마이크로 프론트엔드                   │
+├───────────────────────────────────────────────────────┤
+│  [모놀리식 FE]                                        │
+│   10팀 → 1개 Repo → 1개 빌드 → 1개 배포              │
+│   → 머지 충돌, 빌드 30분, 배포 큐 대기                │
+│                                                       │
+│  [마이크로 FE]                                        │
+│   팀 A: 검색 FE → 독립 Repo → 독립 배포              │
+│   팀 B: 결제 FE → 독립 Repo → 독립 배포              │
+│   팀 C: 상품 FE → 독립 Repo → 독립 배포              │
+│         ↓          ↓          ↓                       │
+│   Shell App (호스트)가 런타임에 합체                   │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 모놀리식 FE는 10명이 1개 도화지에 동시에 그림을 그리는 것이고, 마이크로 FE는 각자 캔버스에 그린 후 전시회([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) App)에서 합치는 것이다.
 
@@ -108,23 +107,21 @@ Host([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architect
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 SPA (2010s) — React/Angular 단일 앱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">iframe 기반 분리 (초기) — 완벽 격리, 나쁜 UX</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Single-SPA (2018~) — 라우팅 기반 FE 오케스트레이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Webpack Module Federation (2020) — 런타임 코드 공유</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Vite Federation + SSR — 차세대 마이크로 FE 표준</div></div>
-</div>
-</div>
-
-
+```text
+[모놀리식 SPA (2010s) — React/Angular 단일 앱]
+    │
+    ▼
+[iframe 기반 분리 (초기) — 완벽 격리, 나쁜 UX]
+    │
+    ▼
+[Single-SPA (2018~) — 라우팅 기반 FE 오케스트레이션]
+    │
+    ▼
+[Webpack Module Federation (2020) — 런타임 코드 공유]
+    │
+    ▼
+[현재: Vite Federation + SSR — 차세대 마이크로 FE 표준]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날에는 10명이 <strong>1개 도화지</strong>에 동시에 그림을 그려서 서로 부딪혔어요.

@@ -33,21 +33,22 @@ tags = ["studynote-ai"]
 
 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 클리핑은 크게 두 가지 방식으로 나뉜다. 값 클리핑 (Value [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))은 각 파라미터의 기울기 값을 개별적으로 자르는 방식이고, 노름 클리핑 (Norm [Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))은 기울기 벡터 전체의 방향은 유지한 채 길이(L2 Norm)만 임곗값으로 축소하는 방식이다. 딥러닝에서는 방향성 왜곡을 막기 위해 주로 노름 클리핑을 사용한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가중치 클리핑 (Norm Clipping) 동작 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 역전파 수행 ─▶ 2. 기울기 벡터(g) 계산 ─▶ 3. Norm(</div><div class="kb-diagram-cell">g</div><div class="kb-diagram-cell">) 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">g</div><div class="kb-diagram-cell">&gt; Threshold 인가? ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Yes</div><div class="kb-diagram-node">No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방향 유지, 길이 축소 기울기 그대로 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">g = g * (Threshold /</div><div class="kb-diagram-cell">g</div><div class="kb-diagram-cell">)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 4. 가중치 갱신 ◀</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           가중치 클리핑 (Norm Clipping) 동작 원리            │
+├──────────────────────────────────────────────────────────────┤
+│ 1. 역전파 수행 ─▶ 2. 기울기 벡터(g) 계산 ─▶ 3. Norm(||g||) 확인 │
+│                                                              │
+│       ┌── ||g|| > Threshold 인가? ──┐                        │
+│       │                             │                        │
+│     [Yes]                         [No]                       │
+│       ▼                             ▼                        │
+│  방향 유지, 길이 축소          기울기 그대로 유지            │
+│  g = g * (Threshold / ||g||)                                 │
+│       │                             │                        │
+│       └───────────▶ 4. 가중치 갱신 ◀───────────┘            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [가중치 초기화](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/) ([Weight Initialization](/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/)) 역시 중요하다. Xavier [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화나 He [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화를 사용하여 처음부터 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 1 근처로 안정적으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면, 반복 곱셈이 발생해도 값이 폭주하거나 소멸하는 현상을 원천적으로 완화할 수 있다.
 
@@ -112,23 +113,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">역전파 미분값 반복 누적</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기울기 폭발 (Exploding Gradient) · NaN 오류</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가중치 클리핑 (Gradient Clipping) · He/Xavier 초기화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">배치 정규화 (Batch Normalization)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LSTM · GRU · ResNet (구조적 우회로 설계)</div>
-</div>
-</div>
-
-
+```text
+역전파 미분값 반복 누적
+    │
+    ▼
+기울기 폭발 (Exploding Gradient) · NaN 오류
+    │
+    ▼
+가중치 클리핑 (Gradient Clipping) · He/Xavier 초기화
+    │
+    ▼
+배치 정규화 (Batch Normalization)
+    │
+    ▼
+LSTM · GRU · ResNet (구조적 우회로 설계)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -45,23 +45,17 @@ K-NN은 학습 시간은 거의 없지만, 예측할 때 모든 [데이터](/kno
 
 이 문제가 바로 차원의 저주([curse of dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/))다. 변수가 늘어나면 가까움과 멂의 차이가 희미해져, 이웃을 찾는 이점이 줄어든다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">학습 데이터 저장</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">새 샘플 입력</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">모든 점과 거리 계산</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">가장 가까운 K개 선택</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">다수결 또는 평균</div>
-</div>
-</div>
-
-
+```text
+학습 데이터 저장
+      ↓
+새 샘플 입력
+      ↓
+모든 점과 거리 계산
+      ↓
+가장 가까운 K개 선택
+      ↓
+다수결 또는 평균
+```
 
 - **📢 섹션 요약 비유**: 책을 외우는 시간은 없지만, 시험 볼 때마다 도서관 전체를 뒤져야 해서 느려질 수 있다.
 
@@ -99,23 +93,17 @@ K-NN은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classifica
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 데이터 저장</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">거리 계산</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">K 이웃 선택</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">다수결 / 평균</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">분류 / 회귀 출력</div>
-</div>
-</div>
-
-
+```text
+원본 데이터 저장
+      ↓
+거리 계산
+      ↓
+K 이웃 선택
+      ↓
+다수결 / 평균
+      ↓
+분류 / 회귀 출력
+```
 
 ---
 

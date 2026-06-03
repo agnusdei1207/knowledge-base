@@ -32,30 +32,30 @@ tags = ["studynote-cloud-architecture"]
 
 ### 4 Golden [Signals](/knowledge-base/studynote/09_security/12_identity_threat_advanced/611_conditional_access_signals/) 상세
 
+```
+4 Golden Signals
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">4 Golden Signals</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Latency (지연 시간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 처리에 걸린 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠️ 성공 요청 지연 ≠ 오류 요청 지연 구분</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정: p50, p95, p99 레이턴시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Traffic (트래픽)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스가 받는 요청/처리 수요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정: RPS(초당 요청 수), TPS, DAU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Errors (에러)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실패한 요청의 비율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠️ 명시적(5xx) + 암묵적(잘못된 응답) 포함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정: 에러율(%), 에러 건수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Saturation (포화도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스가 얼마나 "가득 찼는가"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠️ 100% 전에 성능 저하 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정: CPU %, 메모리 %, 큐 길이, 연결 수</div></div>
-</div>
-</div>
-
-
+┌─────────────────────────────────────────────┐
+│  1. Latency (지연 시간)                      │
+│     요청 처리에 걸린 시간                    │
+│     ⚠️ 성공 요청 지연 ≠ 오류 요청 지연 구분  │
+│     측정: p50, p95, p99 레이턴시             │
+├─────────────────────────────────────────────┤
+│  2. Traffic (트래픽)                         │
+│     서비스가 받는 요청/처리 수요             │
+│     측정: RPS(초당 요청 수), TPS, DAU        │
+├─────────────────────────────────────────────┤
+│  3. Errors (에러)                            │
+│     실패한 요청의 비율                       │
+│     ⚠️ 명시적(5xx) + 암묵적(잘못된 응답) 포함│
+│     측정: 에러율(%), 에러 건수               │
+├─────────────────────────────────────────────┤
+│  4. Saturation (포화도)                      │
+│     서비스가 얼마나 "가득 찼는가"            │
+│     ⚠️ 100% 전에 성능 저하 시작              │
+│     측정: CPU %, 메모리 %, 큐 길이, 연결 수  │
+└─────────────────────────────────────────────┘
+```
 
 | 시그널 | 핵심 질문 | PromQL 예시 | 알람 기준 |
 |:---|:---|:---|:---|
@@ -144,22 +144,17 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">4 Golden Signals (Google SRE)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Latency: 응답 시간 (p50, p99)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Traffic: 요청량 (QPS, TPS)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Errors: 오류율 (5xx, 비즈니스 에러)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Saturation: 리소스 포화도 (CPU, Mem, Disk)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">USE Method (Utilization · Saturation · Errors)</div>
-<div class="kb-diagram-note">RED Method (Rate · Errors · Duration)</div>
-</div>
-</div>
-
-
+```text
+4 Golden Signals (Google SRE)
+    ├─► Latency: 응답 시간 (p50, p99)
+    ├─► Traffic: 요청량 (QPS, TPS)
+    ├─► Errors: 오류율 (5xx, 비즈니스 에러)
+    └─► Saturation: 리소스 포화도 (CPU, Mem, Disk)
+    │
+    ▼
+USE Method (Utilization · Saturation · Errors)
+RED Method (Rate · Errors · Duration)
+```
 2. 이 4가지만 정상이면 대부분 건강하고, 하나라도 이상하면 더 자세히 검사해요.
 3. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)도 이 4가지([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 트래픽, 에러, 포화도)만 잘 보면 대부분의 문제를 잡을 수 있어요!
 

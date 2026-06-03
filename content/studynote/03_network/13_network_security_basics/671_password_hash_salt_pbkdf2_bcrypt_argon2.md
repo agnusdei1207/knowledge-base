@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong>레인보우 테이블(<a href="/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/">Rainbow Table</a>) 공격 🌟</strong>: 해커가 바보는 아닙니다. 미리 "0000"부터 "99999999"까지, 그리고 세상의 모든 영단어 사전을 해시 믹서기에 돌려본 뒤, 그 <strong>'평문-해시값 짝꿍표(레인보우 테이블)'</strong>를 수십 테라바이트짜리 하드디스크에 저장해 둡니다.
 - **해킹 성공**: 네이버 DB가 털렸을 때, 해커는 복호화를 할 필요도 없이 털어온 해시값을 자신의 레인보우 테이블에서 `Ctrl+F`로 검색만 하면 "아, 이 해시값은 평문 1234네!" 하고 1초 만에 비밀번호를 모두 탈취해 버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SHA-3 패밀리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">솔트 첨가 패스워드 해시 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
-</div>
-</div>
-
-
+```text
+[SHA-3 패밀리]
+    │
+    ▼
+[솔트 첨가 패스워드 해시 체계]
+    │
+    └──▶ [무결성 및 출처 인증용 서명 데이터 코드 제…]
+```
 
 - **📢 섹션 요약 비유**: 솔트 첨가 패스워드 해시 체계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - **예시**: 내 비밀번호가 `1234`이고 서버가 만들어준 내 소금이 `z9K!`라면, 서버는 `1234z9K!`를 해시에 넣고 돌립니다.
 - **효과 (레인보우 테이블 무력화)**: 해커가 가진 레인보우 테이블에는 `1234z9K!` 같은 괴상한 단어의 해시값은 없습니다. 해커는 내 소금을 알아내어 다시 레인보우 테이블을 처음부터 새로 만들어야 하므로 공격 시간이 수십 년으로 늘어납니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SHA-3 패밀리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">솔트 첨가 패스워드 해시 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
-</div>
-</div>
-
-
+```text
+[SHA-3 패밀리]
+    │
+    ▼
+[솔트 첨가 패스워드 해시 체계]
+    │
+    └──▶ [무결성 및 출처 인증용 서명 데이터 코드 제…]
+```
 
 - **📢 섹션 요약 비유**: 솔트 첨가 패스워드 해시 체계의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,19 +109,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SHA-3 패밀리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 솔트 첨가 패스워드 해시 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SHA-3 패밀리]
+    │
+    ▼
+[현재 개념: 솔트 첨가 패스워드 해시 체계]
+    │
+    ├──▶ [확장 A: 무결성 및 출처 인증용 서명 데이터 코드 제…]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 솔트 첨가 패스워드 해시 체계는 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리에서 출발해 현재 메커니즘을 정교화하고, 이후 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

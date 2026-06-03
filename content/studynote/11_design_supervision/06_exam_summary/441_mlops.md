@@ -23,17 +23,16 @@ tags = ["studynote-design-supervision"]
 
 기술사 답안에서는 단순히 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)와 개념 드리프트를 정의하는 데서 멈추지 말고, **[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 수립 -> 탐지 -> 경보 -> 재학습 또는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)**의 운영 루프로 정리해야 한다. 결국 드리프트 관리는 통계 기법의 문제가 아니라 모델 운영 거버넌스의 문제이기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Train Data</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Deploy Model</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Live Traffic</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Drift Signal</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Action Loop</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────┐      ┌──────────────┐      ┌─────────────┐      ┌─────────────┐
+│ Train Data  │ ───▶ │ Deploy Model │ ───▶ │ Live Traffic│ ───▶ │ Drift Signal│
+└─────────────┘      └──────────────┘      └─────────────┘      └─────────────┘
+                                                                     │
+                                                                     ▼
+                                                             ┌─────────────┐
+                                                             │ Action Loop │
+                                                             └─────────────┘
+```
 
 이 그림은 모델 운영이 일회성 배포가 아니라, 실제 입력 변화에 따라 계속 되돌아오는 순환 구조임을 보여 준다.
 
@@ -51,20 +50,23 @@ tags = ["studynote-design-supervision"]
 | 탐지 엔진 | 분포 변화와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 계산·경보 | PSI, K-S, AUC (Area Under the Curve), [F1 score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/) 등 지표별 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 필요 |
 | 대응 파이프라인 | 재학습, 승인, 재배포, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 실행 | 자동화 범위와 사람 승인 경계를 분리해야 함 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Baseline Store</div><div class="kb-diagram-cell">Live Feature Log</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drift Detector</div></div>
-<div class="kb-diagram-note">alert / score</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Retrain / Review</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Deploy / Rollback</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐      ┌──────────────────┐
+│ Baseline Store   │      │ Live Feature Log │
+└──────────────────┘      └──────────────────┘
+          │                         │
+          └────────────┬────────────┘
+                       ▼
+              ┌──────────────────┐
+              │ Drift Detector   │
+              └──────────────────┘
+                       │
+                  alert / score
+                       ▼
+┌──────────────────┐      ┌──────────────────┐
+│ Retrain / Review │ ───▶ │ Deploy / Rollback│
+└──────────────────┘      └──────────────────┘
+```
 
 이 구조가 갖춰지면 드리프트는 단순 경고가 아니라 운영 의사결정을 촉발하는 증거가 된다.
 
@@ -128,23 +130,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모델 배포</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">운영 데이터 수집</div>
-<div class="kb-diagram-note">+--&gt; 분포 비교(PSI / K-S)</div>
-<div class="kb-diagram-note">+--&gt; 품질 비교(AUC / F1)</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">경보 / 원인분석 / 재학습</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">재배포 및 롤백 거버넌스</div>
-</div>
-</div>
-
-
+```text
+모델 배포
+    |
+    v
+운영 데이터 수집
+    |
+    +--> 분포 비교(PSI / K-S)
+    +--> 품질 비교(AUC / F1)
+    |
+    v
+경보 / 원인분석 / 재학습
+    |
+    v
+재배포 및 롤백 거버넌스
+```
 
 이 흐름은 MLOps가 단순 자동 배포가 아니라, 변화 감지와 후속 조치를 포함한 운영 체계임을 압축한다.
 

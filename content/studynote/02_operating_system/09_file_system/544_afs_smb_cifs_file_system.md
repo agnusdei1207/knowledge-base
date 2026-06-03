@@ -31,29 +31,35 @@ tags = ["studynote-operating-system"]
 - <strong>AFS 통파일 로컬 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a> 이단아의 콜백(Callback) 전파 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭주 메커니즘 뷰</strong>:
 AFS가 1,000명의 유저한테 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 줘버리고 수정 시 어떻게 알림을 치는지(Cache [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지 방패) 그 통보 렌더를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"서버야 귀찮게 안 할게! 나 혼자 집에서 다 수정하고 나중에 줄게!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">진짜 파일 원본 보관소 (AFS Server) 관리자 봇</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (일기장 적혀있음): "A파일은 클라이언트 1번, 2번 너구리가 빌려갔다 록백!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">클라이언트 1번 너구리 노트북 (방 안에서 10시간째 통캐싱 작업 중) 빔!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 명령: A파일 열기 Open! )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (서버에서 A파일 100MB 냅다 로컬디스크로 다운로드 긁어오기 스루풋 타격!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (랜선 끊고 오프라인) ─&gt; 방구석에서 폭풍 속도로 수정 얍접! O(1) 속도 부스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 다 썼음명령: 파일 닫기 Close! 록백)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 수정 완료된 A파일(새 버전)을 서버로 강제 발송 투척 Upload 동기화 컷!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">서버 관리자 봇의 멱살 호출: 콜백(Callback) 파단 방어 스왑 렌더!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버: "앗! 1번 너구리가 새 버전을 반납했다!! 원본 덮어씀 결착!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버: (일기장 확인) "어? 2번 너구리 이놈도 아까 빌려갔었지? 야 2번 너구리!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라이언트 2번</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버: "야 2번! 너가 어제 집으로 빌려간 파일(구버전 캐시) 쓰레기 무효파단 컷!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그거 지우고 다시 와서 내 최신 버전 또 받아가 생지옥 늪 발현 멸망!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "서버야 귀찮게 안 할게! 나 혼자 집에서 다 수정하고 나중에 줄게!"    │
+  ├─────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                     │
+  │  🚨 [ 진짜 파일 원본 보관소 (AFS Server) 관리자 봇 ]                                │
+  │      - (일기장 적혀있음): "A파일은 클라이언트 1번, 2번 너구리가 빌려갔다 록백!"     │
+  │                                                                                     │
+  │  =========================▼===================================                      │
+  │                                                                                     │
+  │  ✅ [ 클라이언트 1번 너구리 노트북 (방 안에서 10시간째 통캐싱 작업 중) 빔! ]        │
+  │     (유저 명령: A파일 열기 Open! )                                                  │
+  │        => (서버에서 A파일 100MB 냅다 로컬디스크로 다운로드 긁어오기 스루풋 타격!)   │
+  │        => (랜선 끊고 오프라인) ─> 방구석에서 폭풍 속도로 수정 얍접! O(1) 속도 부스트│
+  │                                                                                     │
+  │     (유저 다 썼음명령: 파일 닫기 Close! 록백)                                       │
+  │        => 수정 완료된 A파일(새 버전)을 서버로 강제 발송 투척 Upload 동기화 컷!      │
+  │                                                                                     │
+  │  =========================▼===================================                      │
+  │                                                                                     │
+  │  🔥 [ 서버 관리자 봇의 멱살 호출: 콜백(Callback) 파단 방어 스왑 렌더!! ]            │
+  │     서버: "앗! 1번 너구리가 새 버전을 반납했다!! 원본 덮어씀 결착!"                 │
+  │     서버: (일기장 확인) "어? 2번 너구리 이놈도 아까 빌려갔었지? 야 2번 너구리!!"    │
+  │                                                                                     │
+  │     서버 ──────( Callback 약속 취소 빔! 징수 랙 발사!! )─────▶ [클라이언트 2번]     │
+  │     서버: "야 2번! 너가 어제 집으로 빌려간 파일(구버전 캐시) 쓰레기 무효파단 컷!    │
+  │           그거 지우고 다시 와서 내 최신 버전 또 받아가 생지옥 늪 발현 멸망!"        │
+  └─────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 상단의 <strong>AFS <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a></strong> 구조는 철저한 'Whole-[file](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(전체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로컬 복사 방패)' 로, NFS의 미친 네트워크 트래픽 오염([RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 핑퐁 데들락)을 박살 낸 천재 아크다. 하지만 클라이언트 100명이 각자 자기 하드디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 가져갔는데(캐시), A가 혼자 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 고쳐서 서버에 넣으면? 나머지 99명이 들고 있는 캐시는 '가짜 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'로 파괴 붕괴(Inconsistency 오버헤드 늪)된다. 이 재앙을 막기 위해 AFS 서버는 기가 막히게 <strong>"누가 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 빌려 갔는지 기억(Stateful 유지 장부 뼈대)"</strong> 하고 있다가, 원본이 바뀌면 빌려간 99명에게 일제히 <strong><code>콜백 파기 통신(Callback Promise Break 스왑!)</code></strong> 빔을 싸서 "너희들 캐시 다 비워 멸망!" 이라고 경감시키는 위대한 [Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 전선 방어) 통치 모델을 확립했다 도출.
 
@@ -132,19 +138,15 @@ AFS (Andrew [File](/knowledge-base/studynote/02_operating_system/09_file_system/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFS (Network File System)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 NTFS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 중복 제거 (Data Deduplication) 파일 시스템 기능</div></div>
-</div>
-</div>
-
-
+```text
+[NFS (Network File System)]
+    │
+    ▼
+[AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)]
+    │
+    ├──▶ [윈도우 NTFS]
+    └──▶ [데이터 중복 제거 (Data Deduplication) 파일 시스템 기능]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

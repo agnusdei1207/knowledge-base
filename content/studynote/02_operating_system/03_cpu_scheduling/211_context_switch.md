@@ -24,25 +24,23 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 과거 일괄 처리(Batch) 시스템에서는 하나의 작업이 끝날 때까지 CPU를 독점했으므로 문맥 교환이 거의 없었다. 하지만 인간의 키보드/마우스 입력에 반응하기 위해 1초에 100번씩 강제로 프로세스를 교대시키는 시분할(Time-Sharing) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Multics, Unix)가 등장하면서, 이 막대한 교환 비용을 어떻게 최적화할지가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들의 최대 난제로 떠올랐다.
 
+```text
+  [프로세스 교체 시 문맥 교환의 타임라인 및 오버헤드 발생 구간]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 교체 시 문맥 교환의 타임라인 및 오버헤드 발생 구간</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">프로세스 P0</div><div class="kb-diagram-node">운영체제 커널 (OS)</div><div class="kb-diagram-note">프로세스 P1</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">실행 중 ──</div>
-<div class="kb-diagram-note">(인터럽트 또는 시스템 콜 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. P0의 상태(PC, 레지스터)를 PCB0에 덤프(Save)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순수 오버헤드</div><div class="kb-diagram-cell">2. 스케줄러 알고리즘 구동 (다음 타자 P1 선정)</div><div class="kb-diagram-cell">(이 구간 동안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1~수십 μs)</div><div class="kb-diagram-cell">3. 가상 메모리 매핑 교체 (MMU/TLB Flush)</div><div class="kb-diagram-cell">사용자 코드는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. P1의 상태를 PCB1에서 CPU로 복원(Restore)</div><div class="kb-diagram-cell">단 1줄도 안 돎)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-tree-item" style="--depth:8">실행 재개 ──</div>
-</div>
-</div>
-
-
+  프로세스 P0       [ 운영체제 커널 (OS) ]            프로세스 P1
+  ── 실행 중 ──┐
+             │ (인터럽트 또는 시스템 콜 발생)
+             ▼
+            ┌────────────────────────────────────────────────┐
+            │ 1. P0의 상태(PC, 레지스터)를 PCB0에 덤프(Save) │
+ 순수 오버헤드 │ 2. 스케줄러 알고리즘 구동 (다음 타자 P1 선정)   │ (이 구간 동안
+ (1~수십 μs) │ 3. 가상 메모리 매핑 교체 (MMU/TLB Flush)     │  사용자 코드는
+            │ 4. P1의 상태를 PCB1에서 CPU로 복원(Restore)   │  단 1줄도 안 돎)
+            └────────────────────────────────────────────────┘
+                                                             │
+                                                           ▼
+                                                       ── 실행 재개 ──
+```
 **[다이어그램 해설]** 이 그림은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 교과서에서 가장 유명한 "X자 교차 다이어그램"이다. 사용자가 느끼는 컴퓨터의 "렉"은 대부분 저 네모 박스([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 시간)가 비정상적으로 길어지거나 빈번하게 발생할 때 나타난다. 문맥 교환은 필요악(Necessary Evil)이며, 시스템 튜닝의 목적은 이 박스의 면적(시간)을 최소화하거나 발생 횟수를 줄이는 데 있다.
 
 - **📢 섹션 요약 비유**: 이삿짐센터 직원이 이사(문맥 교환)를 할 때마다 짐을 싸고 푸는 시간은 필연적으로 소모됩니다. 이사가 너무 자주 일어나면([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 직원은 짐 싸고 푸느라 진이 빠져 정작 새집에서 살 시간(유효 연산)이 하나도 없게 됩니다.
@@ -91,20 +89,15 @@ tags = ["studynote-operating-system"]
 
 프로세스가 바뀐다는 것은 "이전 놈이 쓰던 가상 주소 0x1000과 다음 놈이 쓰는 가상 주소 0x1000이 가리키는 실제 물리 주소가 완전히 다르다"는 뜻이다. 따라서 CPU 내부에 주소를 매핑해 두었던 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 캐시인 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/">Translation Lookaside Buffer</a>)를 싹 다 지워버려야(Flush) 한다.</strong> 이 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Flush가 유발하는 후폭풍(캐시 미스 연쇄 폭발)이 문맥 교환의 진짜 숨겨진 뼈아픈 세금이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 문맥 교환 이후 발생하는 '보이지 않는 지연(Invisible Latency)'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P1 완료</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P2 시작</div></div>
-<div class="kb-diagram-note">(여기서부터 진짜 지옥 시작)</div>
-<div class="kb-diagram-note">1. P2가 명령어 호출 ─▶ TLB Miss 발생 (수십 ns 지연)</div>
-<div class="kb-diagram-note">2. 메모리에서 데이터 로드 ─▶ L1/L2 Cache Miss 발생 (수백 ns 지연)</div>
-<div class="kb-diagram-note">3. P2가 정상 속도 궤도에 오를 때까지(Warm-up) 수천 ns 추가 증발</div>
-</div>
-</div>
-
-
+```text
+  [ 프로세스 문맥 교환 이후 발생하는 '보이지 않는 지연(Invisible Latency)' ]
+  
+  [ P1 완료 ] ─(문맥 교환 1μs)─▶ [ P2 시작 ]
+                                  │ (여기서부터 진짜 지옥 시작)
+                                  │ 1. P2가 명령어 호출 ─▶ TLB Miss 발생 (수십 ns 지연)
+                                  │ 2. 메모리에서 데이터 로드 ─▶ L1/L2 Cache Miss 발생 (수백 ns 지연)
+                                  │ 3. P2가 정상 속도 궤도에 오를 때까지(Warm-up) 수천 ns 추가 증발
+```
 
 - **📢 섹션 요약 비유**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 교환이 같은 집 안에서 '형과 동생이 의자만 바꿔 앉는 것(주소 공간 공유)'이라면, 프로세스 교환은 '아예 짐을 빼서 다른 동네의 새집으로 이사를 가는 것([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시)'입니다. 새집에서 물건(캐시) 어딨는지 찾느라 며칠을 허비하는 시간이 진짜 무서운 이사 비용입니다.
 
@@ -118,25 +111,25 @@ tags = ["studynote-operating-system"]
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/">ASID</a> (Address Space ID) 하드웨어 지원 튜닝</strong>: 최신 ARM 코어나 Intel CPU는 프로세스가 바뀔 때마다 무식하게 TLB를 다 날려버리지 않는다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 엔트리에 PID와 같은 개념인 `ASID (주소 공간 ID)` 태그를 붙여둔다.
    - **실무 효과**: 문맥 교환 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "이제부터 [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) 2번 쓴다!"라고 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 숫자 하나만 띡 바꾼다. 예전 P1([ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) 1)이 쓰던 캐시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 삭제되지 않고 TLB에 안전하게 보존된다. 나중에 P1이 다시 돌아왔을 때 플러시 없이 기존 TLB를 그대로 쓸 수 있어 프로세스 문맥 교환 속도가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 급으로 비약적으로 빨라지는 하드웨어의 기적이 일어났다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하(Load) 급증 시 아키텍트의 문맥 교환 병목 진단 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 쉘(Shell)에 <code>vmstat 1</code> 또는 <code>top</code> 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 'cs (Context Switch)' 수치와 'sy (System)' 수치 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">cs가 초당 10만 이상 찍히고, sy(커널)가 us(유저)보다 높다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 진단: 전형적인 문맥 교환 스래싱(Thrashing) 상태.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스레드가 너무 많거나 락(Lock) 경합이 극심함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 처방: 스레드 풀(Thread Pool) 크기를 CPU 코어 수의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2~3배 이내로 대폭 축소하여 쟁탈전을 소멸시킴.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">cs는 낮은데, us(유저타임)가 99%를 치고 있다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 진단: 건강한 100% 부하 (순수 애플리케이션 연산 한계).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 처방: 로직 최적화, 캐시 레이어(Redis) 도입, 스케일 아웃</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │     부하(Load) 급증 시 아키텍트의 문맥 교환 병목 진단 트리           │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │                                                                      │
+  │   [ 리눅스 쉘(Shell)에 `vmstat 1` 또는 `top` 입력 ]                  │
+  │                │                                                     │
+  │                ▼ 'cs (Context Switch)' 수치와 'sy (System)' 수치 확인│
+  │      [ cs가 초당 10만 이상 찍히고, sy(커널)가 us(유저)보다 높다 ]    │
+  │       ├─▶ 진단: 전형적인 문맥 교환 스래싱(Thrashing) 상태.           │
+  │       │         (스레드가 너무 많거나 락(Lock) 경합이 극심함)        │
+  │       ├─▶ 처방: 스레드 풀(Thread Pool) 크기를 CPU 코어 수의          │
+  │                 2~3배 이내로 대폭 축소하여 쟁탈전을 소멸시킴.        │
+  │       │                                                              │
+  │      [ cs는 낮은데, us(유저타임)가 99%를 치고 있다 ]                 │
+  │       ├─▶ 진단: 건강한 100% 부하 (순수 애플리케이션 연산 한계).      │
+  │       └─▶ 처방: 로직 최적화, 캐시 레이어(Redis) 도입, 스케일 아웃    │
+  └──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 초보 개발자는 서버가 느려지면 무조건 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 더 찍어낸다(MaxThread 상향). 하지만 이것은 불난 집에 기름을 붓는 격이다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 많아지면 문맥 교환 오버헤드(`cs`)가 기하급수적으로 폭증하여 CPU가 사용자 코드를 단 한 줄도 처리하지 못하고 자리 바꾸는 일만 반복하다 죽는다. 베테랑 아키텍트는 오히려 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 줄여서 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭을 억제함으로써 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS)을 방어한다.
 
 - **📢 섹션 요약 비유**: 좁은 주방에 주문이 밀린다고 요리사를 100명 집어넣으면([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 폭증), 요리사끼리 자리 비켜주고 도마 비켜주느라(문맥 교환) 음식은 하나도 안 나옵니다. 차라리 정예 요리사 4명만 남기고 문을 걸어 잠근 뒤, 각자 하나씩 처음부터 끝까지 집중해서 요리하게 놔두는 것이 식당을 살리는 길입니다.
@@ -167,19 +160,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 O(1) 스케줄러</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문맥 교환 (Context Switch)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 스케줄링</div></div>
-</div>
-</div>
-
-
+```text
+[리눅스 O(1) 스케줄러]
+    │
+    ▼
+[문맥 교환 (Context Switch)]
+    │
+    ├──▶ [대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)]
+    └──▶ [윈도우 스케줄링]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

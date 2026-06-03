@@ -47,42 +47,34 @@ tags = ["studynote-data-engineering"]
 
 ### [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">활성화 함수 특성 비교</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수</div><div class="kb-diagram-cell">수식</div><div class="kb-diagram-cell">출력 범위</div><div class="kb-diagram-cell">특징</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sigmoid</div><div class="kb-diagram-cell">1/(1+e^-x)</div><div class="kb-diagram-cell">(0, 1)</div><div class="kb-diagram-cell">기울기 소실 심각</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tanh</div><div class="kb-diagram-cell">(e^x-e^-x)</div><div class="kb-diagram-cell">(-1, 1)</div><div class="kb-diagram-cell">기울기 소실 존재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/(e^x+e^-x)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ReLU</div><div class="kb-diagram-cell">max(0, x)</div><div class="kb-diagram-cell">[0, ∞)</div><div class="kb-diagram-cell">빠름, Dead ReLU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Leaky ReLU</div><div class="kb-diagram-cell">max(0.01x,x</div><div class="kb-diagram-cell">(-∞, ∞)</div><div class="kb-diagram-cell">Dead ReLU 개선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ELU</div><div class="kb-diagram-cell">x if x&gt;0</div><div class="kb-diagram-cell">(-1, ∞)</div><div class="kb-diagram-cell">음수 포화 개선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α(e^x-1) else</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GELU</div><div class="kb-diagram-cell">x·Φ(x)</div><div class="kb-diagram-cell">(-∞, ∞)</div><div class="kb-diagram-cell">Transformer 표준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Softmax</div><div class="kb-diagram-cell">e^xi/Σe^xj</div><div class="kb-diagram-cell">(0, 1), Σ=1</div><div class="kb-diagram-cell">다중 클래스 출력</div></div>
-</div>
-</div>
-
-
+```
+활성화 함수 특성 비교
+┌──────────────┬────────────┬──────────────┬───────────────────┐
+│  함수         │  수식       │  출력 범위   │  특징             │
+├──────────────┼────────────┼──────────────┼───────────────────┤
+│ Sigmoid      │ 1/(1+e^-x) │  (0, 1)      │ 기울기 소실 심각  │
+│ Tanh         │ (e^x-e^-x) │  (-1, 1)     │ 기울기 소실 존재  │
+│              │ /(e^x+e^-x)│              │                   │
+│ ReLU         │ max(0, x)  │  [0, ∞)      │ 빠름, Dead ReLU   │
+│ Leaky ReLU   │ max(0.01x,x│  (-∞, ∞)    │ Dead ReLU 개선    │
+│ ELU          │ x if x>0   │  (-1, ∞)    │ 음수 포화 개선    │
+│              │ α(e^x-1) else│            │                   │
+│ GELU         │ x·Φ(x)     │  (-∞, ∞)    │ Transformer 표준  │
+│ Softmax      │ e^xi/Σe^xj │  (0, 1), Σ=1│ 다중 클래스 출력  │
+└──────────────┴────────────┴──────────────┴───────────────────┘
+```
 
 ### [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))와 연쇄 법칙(Chain Rule)
 
+```
+순전파 (Forward Pass):
+Input → [Layer1] → [Layer2] → [Layer3] → Output
+  x      a1=f(W1·x)  a2=f(W2·a1)  ŷ=f(W3·a2)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순전파 (Forward Pass):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Layer1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Layer2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Layer3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Output</div></div>
-<div class="kb-diagram-note">x a1=f(W1·x) a2=f(W2·a1) ŷ=f(W3·a2)</div>
-<div class="kb-diagram-note">역전파 (Backward Pass):</div>
-<div class="kb-diagram-note">Loss L 계산 → ∂L/∂W3 → ∂L/∂W2 → ∂L/∂W1</div>
-<div class="kb-diagram-note">연쇄 법칙: ∂L/∂W1 = ∂L/∂ŷ · ∂ŷ/∂a2 · ∂a2/∂a1 · ∂a1/∂W1</div>
-</div>
-</div>
-
-
+역전파 (Backward Pass):
+Loss L 계산 → ∂L/∂W3 → ∂L/∂W2 → ∂L/∂W1
+연쇄 법칙: ∂L/∂W1 = ∂L/∂ŷ · ∂ŷ/∂a2 · ∂a2/∂a1 · ∂a1/∂W1
+```
 
 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">Batch Normalization</a>)의 역할:</strong>
 - 각 층의 입력 분포를 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) → [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 완화
@@ -188,22 +180,19 @@ ReLU와 그 변형들은 딥러닝의 <strong>깊이 문제를 해결</strong>�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Sigmoid/Tanh → 기울기 소실 (깊은 네트워크 학습 불가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ReLU: max(0,x) → 기울기 소실 해결 · Dying ReLU 문제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Leaky ReLU · PReLU · ELU · Swish · GELU</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Softmax (출력층): 다중 클래스 확률 분포</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">역전파 + Chain Rule → Autograd (자동 미분)</div>
-</div>
-</div>
-
-
+```text
+Sigmoid/Tanh → 기울기 소실 (깊은 네트워크 학습 불가)
+    │
+    ▼
+ReLU: max(0,x) → 기울기 소실 해결 · Dying ReLU 문제
+    ├─► Leaky ReLU · PReLU · ELU · Swish · GELU
+    │
+    ▼
+Softmax (출력층): 다중 클래스 확률 분포
+    │
+    ▼
+역전파 + Chain Rule → Autograd (자동 미분)
+```
 2. ReLU는 <strong>양수면 그대로 전달하고, 음수면 0으로 만드는 간단한 규칙</strong>이야. 이 덕분에 신호가 소리치듯 전달돼.
 3. [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)는 <strong>시험 점수를 퍼센트로 바꾸는 것</strong>이야. 모든 답의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 더하면 100%가 되니까 "이게 고양이일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 70%야"라고 말할 수 있어.
 

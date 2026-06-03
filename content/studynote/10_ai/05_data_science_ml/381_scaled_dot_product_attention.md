@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 기존 [어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)(Bahdanau, Luong)은 고정된 내적 또는 학습 가능한 정렬 함수를 사용했지만, Scaled [Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/)-Product는 행렬 연산 하나로 전체 시퀀스 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 O(n²dₖ)에 처리한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 어텐션은 "도서관에서 책(Value)을 찾을 때 내 질문(Query)과 각 책의 색인 카드([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 비교해 가장 관련 있는 책을 많이 빌려오는" 과정이다.
 
@@ -69,22 +66,20 @@ softmax([1, -1])       ≈ [0.88, 0.12] ← 기울기 정상
 
 ### 멀티헤드 어텐션 ([Multi-Head Attention](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/))
 
+```
+┌─────────────────────────────────────────────────────┐
+│  입력 X  →  선형 변환 × h번                          │
+│                                                     │
+│  헤드₁: Attention(QW₁ᴾ, KW₁ᴾ, VW₁ᵛ)              │
+│  헤드₂: Attention(QW₂ᴾ, KW₂ᴾ, VW₂ᵛ)              │
+│  ...                                                │
+│  헤드ₕ: Attention(QWₕᴾ, KWₕᴾ, VWₕᵛ)              │
+│                ↓ Concat                             │
+│  MultiHead = Concat(head₁,...,headₕ) · Wᴼ          │
+└─────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 X → 선형 변환 × h번</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤드₁: Attention(QW₁ᴾ, KW₁ᴾ, VW₁ᵛ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤드₂: Attention(QW₂ᴾ, KW₂ᴾ, VW₂ᵛ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤드ₕ: Attention(QWₕᴾ, KWₕᴾ, VWₕᵛ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ Concat</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MultiHead = Concat(head₁,...,headₕ) · Wᴼ</div></div>
-<div class="kb-diagram-note">dₖ = dₘₒₐₑₗ / h (각 헤드는 더 낮은 차원에서 작동)</div>
-</div>
-</div>
-
-
+dₖ = dₘₒₐₑₗ / h  (각 헤드는 더 낮은 차원에서 작동)
+```
 
 | 구분 | 내용 |
 |:---|:---|

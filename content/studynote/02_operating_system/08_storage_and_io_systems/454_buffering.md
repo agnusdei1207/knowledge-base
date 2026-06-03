@@ -27,26 +27,27 @@ tags = ["studynote-operating-system"]
   2. **Size Mismatch (크기 불일치)**: 네트워크는 1500바이트로 들어오는데, 하드디스크는 4000바이트 덩어리로 써야 하는 규격 불일치.
   3. **메모리(RAM)의 중간 관리자 등극**: 속도도 중간, 크기도 자유자재인 램(RAM)을 중간 기착지로 삼아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조립하고 해체하는 패킹(Packing/Unpacking) 허브로 삼음.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼링(Buffering)이 속도 차이와 렉을 흡수하는 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 초고속 모뎀(수신) ──▶ 엄청 느린 구형 프린터(출력)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 버퍼링이 없을 때 (동기화 지옥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모뎀: "'A' 받음. 프린터야 찍어라!" ──▶ 프린터 윙~ (0.5초 소요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모뎀: "앗, 나 0.5초 동안 뒤에 오는 문자 못 받아서 다 날아갔네!" 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 프린터가 1글자 찍을 때마다 모뎀이 멈춰서 인터넷이 끊김.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 메모리 버퍼(Buffer) 투입 시 (완벽한 비동기 평화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">모뎀: "'A,B,C,D,E' 1초 만에 다 받아서</div><div class="kb-diagram-node">램 버퍼</div><div class="kb-diagram-note">에 때려 박음!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모뎀: "나 퇴근! 다음 인터넷 패킷 받으러 감!" (속도 저하 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프린터: "오, 버퍼에 5글자 있네. 모뎀 눈치 안 보고 내 속도대로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.5초에 1개씩 천천히 인쇄해야지~ 윙~ 윙~"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 양쪽 기계가 각자의 최고 스피드로 일하면서 렉이 완벽히 사라짐.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│        버퍼링(Buffering)이 속도 차이와 렉을 흡수하는 시각화              │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 상황: 초고속 모뎀(수신) ──▶ 엄청 느린 구형 프린터(출력) ]              │
+│                                                                          │
+│ ▶ 1. 버퍼링이 없을 때 (동기화 지옥)                                      │
+│   모뎀: "'A' 받음. 프린터야 찍어라!" ──▶ 프린터 윙~ (0.5초 소요)         │
+│   모뎀: "앗, 나 0.5초 동안 뒤에 오는 문자 못 받아서 다 날아갔네!" 💥     │
+│   결과: 프린터가 1글자 찍을 때마다 모뎀이 멈춰서 인터넷이 끊김.          │
+│                                                                          │
+│ ▶ 2. 메모리 버퍼(Buffer) 투입 시 (완벽한 비동기 평화)                    │
+│   모뎀: "'A,B,C,D,E' 1초 만에 다 받아서 [ 램 버퍼 ]에 때려 박음!"        │
+│   모뎀: "나 퇴근! 다음 인터넷 패킷 받으러 감!" (속도 저하 0)             │
+│                                                                          │
+│   프린터: "오, 버퍼에 5글자 있네. 모뎀 눈치 안 보고 내 속도대로          │
+│           0.5초에 1개씩 천천히 인쇄해야지~ 윙~ 윙~"                      │
+│   ✅ 결과: 양쪽 기계가 각자의 최고 스피드로 일하면서 렉이 완벽히 사라짐. │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 버퍼의 핵심은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 모아서 한 방에 처리한다(<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">Batching</a>)"</strong>는 데 있다. 네트워크 카드가 패킷 1바이트를 받을 때마다 CPU를 찌르면([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 서버가 터진다. 그래서 랜카드 칩셋 내부에 작은 1500바이트 '하드웨어 버퍼'를 파놓고 거기가 다 찰 때까지 꾹 참았다가, 다 차면 CPU에 딱 1번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 날려 1500바이트를 덩어리째 램으로 넘긴다. (수천 번의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 렉을 1번으로 퉁치는 마술이다).
 
 - **📢 섹션 요약 비유**: 비 오는 날 양동이를 받쳐두는 것과 같습니다. 하늘에서 비([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 한 방울씩 무작위로 떨어지는데, 내가 빗방울 떨어질 때마다 컵으로 1개씩 받아 마시려면(버퍼 없음) 하루 종일 비만 맞아야 합니다. 마당에 큰 양동이(버퍼)를 놔두고 하늘이 쏟아붓든 말든 나는 방에 들어가 자다가, 양동이가 다 차면 그때 나와서 시원하게 벌컥 마시는([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 게 최고입니다.
@@ -97,18 +98,15 @@ IT 면접에서 100만 번쯤 등장하는 가장 중요하고 헷갈리는 두 
 - 영상을 1초 받고 1초 틀고를 반복하면 시청자는 렉 때문에 폰을 부술 것이다.
 - **스트리밍 버퍼**: 폰의 램에 30초 분량의 영상(물통)을 미리 받아두는 버퍼를 뚫어놓는다. 인터넷이 10초 동안 끊겨서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 들어와도, 물통에 이미 30초 치 물이 찰랑찰랑 차 있으니까 시청자는 10초의 인터넷 끊김을 1도 체감하지 못하고 영상을 부드럽게 본다. 속도 차이뿐 아니라 <strong>'네트워크의 불안정성(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 기복)'을 평탄화(Smoothing)해 주는 것이 버퍼링의 진짜 힘이다.</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT 인프라</div><div class="kb-diagram-cell">속도 차이 갭</div><div class="kb-diagram-cell">크기 규격 갭</div><div class="kb-diagram-cell">불안정성 방어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜카드 수신</div><div class="kb-diagram-cell">🟢 방어 (패킷 모음)</div><div class="kb-diagram-cell">🟢 방어 (MTU 조립)</div><div class="kb-diagram-cell">❌ (그냥 받기만 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 I/O</div><div class="kb-diagram-cell">🟢 방어 (배치 쓰기)</div><div class="kb-diagram-cell">🟢 방어 (4KB 맞춤)</div><div class="kb-diagram-cell">🟢 (디스크 암 렉 방어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영상 스트리밍</div><div class="kb-diagram-cell">🟢 방어 (다운로드)</div><div class="kb-diagram-cell">❌ (스트림임)</div><div class="kb-diagram-cell">🟢 (네트워크 끊김 커버)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────────────┐
+│ IT 인프라  │ 속도 차이 갭 │ 크기 규격 갭 │ 불안정성 방어                   │
+├──────────┼────────────┼────────────┼───────────────────────────────────────┤
+│ 랜카드 수신 │ 🟢 방어 (패킷 모음)│ 🟢 방어 (MTU 조립)│ ❌ (그냥 받기만 함) │
+│ 디스크 I/O│ 🟢 방어 (배치 쓰기)│ 🟢 방어 (4KB 맞춤)│ 🟢 (디스크 암 렉 방어)│
+│ 영상 스트리밍│ 🟢 방어 (다운로드)│ ❌ (스트림임) │ 🟢 (네트워크 끊김 커버) │
+└──────────┴────────────┴────────────┴───────────────────────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 안팎으로 버퍼가 없는 곳은 없다. CPU 내부의 Store Buffer, 하드디스크 칩셋에 붙은 256MB 캐시 버퍼, OS 램의 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache, 유저 앱의 스트림 버퍼까지. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 지나가는 모든 관절마다 이 스펀지(Buffer)를 끼워 넣지 않으면 기계는 물리적 충격을 버티지 못하고 바스라진다.
 
 - **📢 섹션 요약 비유**: 수도관에서 물이 콸콸 나오다 끊기다(네트워크 렉)를 반복합니다. 만약 샤워기에 수도관을 직결하면 샤워하다 화상을 입거나 얼어 죽습니다. 옥상에 거대한 물탱크(버퍼)를 설치하고 물을 항상 80% 채워두면, 수도관 물이 끊겨도 샤워기에서는 아주 일정한 수압과 온도로 물이 쏟아져 나와 평화롭게 샤워(영상 시청)를 할 수 있는 위대한 쿠션 장치입니다.
@@ -166,19 +164,15 @@ C언어 프로그래머들이 가장 환장하는 버그다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 서브시스템의 커널 서비스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼링 (Buffering)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이중 버퍼링 (Double Buffering)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐싱 (Caching)</div></div>
-</div>
-</div>
-
-
+```text
+[I/O 서브시스템의 커널 서비스]
+    │
+    ▼
+[버퍼링 (Buffering)]
+    │
+    ├──▶ [이중 버퍼링 (Double Buffering)]
+    └──▶ [캐싱 (Caching)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

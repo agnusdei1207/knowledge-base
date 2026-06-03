@@ -23,20 +23,23 @@ tags = ["computer_architecture"]
 
 이 그림은 하드웨어로부터 시작되는 신뢰의 계층 구조 (Chain of Trust)를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chain of Trust Hierarchy</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Application Layer</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(Runtime Security)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Operating System</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(Secure Boot / Kernel)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Firmware / UEFI</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(Measured Boot)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hardware / TPM</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(Root of Trust / RoT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* RoT: 변하지 않는 하드웨어(ROM/PUF)에 기반한 보안의 뿌리</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Chain of Trust Hierarchy                    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Application Layer ] ◀─────── (Runtime Security)         │
+│          ▲                                                  │
+│   [ Operating System ] ◀──────── (Secure Boot / Kernel)     │
+│          ▲                                                  │
+│   [ Firmware / UEFI ] ◀───────── (Measured Boot)            │
+│          ▲                                                  │
+│   [ Hardware / TPM ] ◀────────── (Root of Trust / RoT)      │
+│                                                             │
+│   * RoT: 변하지 않는 하드웨어(ROM/PUF)에 기반한 보안의 뿌리 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '하위 계층이 상위 계층을 검증'한다는 점이다. 하드웨어가 펌웨어를 믿고, 펌웨어가 OS를 믿는 연쇄적인 인증 과정이 있어야만 전체 시스템이 안전하다고 말할 수 있다. 실무에서는 이러한 신뢰 체계 구축을 위해 **TPM (Trusted Platform Module)** 칩이 널리 활용된다.
 
@@ -44,7 +47,7 @@ tags = ["computer_architecture"]
 
 1. **Secure Boot**: 디지털 서명된 펌웨어와 OS만 실행되도록 강제하는 기술.
 2. **TEE (Trusted Execution Environment)**: 메인 프로세서 내부에 격리된 안전 실행 영역 (ARM TrustZone 등).
-3. **Hardware Crypto Engine**: AES, SHA 등 암호 연산을 전담 처리하는 가속기.
+3. **Hardware Crypto 엔진**: AES, SHA 등 암호 연산을 전담 처리하는 가속기.
 4. **PUF (Physical Unclonable Function)**: 반도체의 미세한 물리적 특성을 이용한 '디지털 지문' 기술.
 
 📢 **섹션 요약 비유**: 하드웨어 보안은 '건물의 기초 공사'와 같습니다. 문(소프트웨어)을 아무리 튼튼히 잠가도 바닥(하드웨어)이 뚫려있으면 소용없듯이, 건물을 지을 때부터 콘크리트 바닥 속에 비밀 금고(TEE)를 파두는 것과 같습니다.
@@ -62,21 +65,25 @@ tags = ["computer_architecture"]
 
 이 구조도는 <strong>ARM TrustZone</strong>의 동작 원리를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM TrustZone: Dual World Structure</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Normal World</div><div class="kb-diagram-node">Secure World</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / Android</div><div class="kb-diagram-cell">Trusted OS / Apps</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SMC Instruction</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Monitor</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Monitor Mode: 두 세계 사이의 전환을 안전하게 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 일반 영역이 해킹당해도 보안 영역의 키는 안전함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 ARM TrustZone: Dual World Structure         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Normal World ]                [ Secure World ]          │
+│   ┌──────────────┐                ┌──────────────────────┐  │
+│   │ App / Android│                │ Trusted OS / Apps    │  │
+│   └──────┬───────┘                └──────────┬───────────┘  │
+│          │                                   │              │
+│   =======│===================================│============  │
+│          │        [ SMC Instruction ]        │              │
+│          └──────────────▶ [ Monitor ] ◀──────┘              │
+│                                                             │
+│   * Monitor Mode: 두 세계 사이의 전환을 안전하게 관리       │
+│   * 효과: 일반 영역이 해킹당해도 보안 영역의 키는 안전함    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '물리적 자원의 분리'이다. 하드웨어적으로 버스 (Bus)와 메모리 컨트롤러가 현재 어느 World의 요청인지를 구별하여 접근을 차단한다. 실무에서는 스마트폰의 지문 인식 정보가 이 Secure World 내에서만 처리되도록 설계되어 보안성을 극대화한다.
 
@@ -121,19 +128,19 @@ tags = ["computer_architecture"]
 
 이 도식은 기밀 컴퓨팅 (Confidential Computing)의 전체 보호 범위를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Confidential Computing Protection States</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Storage Encryption</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS / SSL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hardware Enclaves (TEE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기밀 컴퓨팅의 핵심: 메모리 상에서 연산 중인 데이터 보호</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Confidential Computing Protection States      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   1. Data-at-Rest (저장 중) ──▶ [ Storage Encryption ]      │
+│   2. Data-in-Transit (전송 중) ──▶ [ TLS / SSL ]            │
+│   3. Data-in-Use (연산 중) ──▶ [ Hardware Enclaves (TEE) ]  │
+│                                                             │
+│   * 기밀 컴퓨팅의 핵심: 메모리 상에서 연산 중인 데이터 보호 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 보안 판단은 '방첩 전략'과 같습니다. 적이 성문을 부수고 들어오는 것뿐만 아니라, 벽 너머의 소리를 엿듣거나(사이드 채널) 내부 첩자가 변심하는(OS 오염) 모든 시나리오를 하드웨어라는 단단한 자물쇠로 잠가야 합니다.
 

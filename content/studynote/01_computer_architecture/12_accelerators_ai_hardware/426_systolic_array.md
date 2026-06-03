@@ -42,22 +42,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 "입력은 가로로, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 세로로, 부분합은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안에서 축적된다"는 원리를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4×4 시스톨릭 어레이의 파동형 데이터 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좌측 입력 A(i,k) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상단 입력 B(k,j) ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE00</div><div class="kb-diagram-cell">PE01</div><div class="kb-diagram-cell">PE02</div><div class="kb-diagram-cell">PE03</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE10</div><div class="kb-diagram-cell">PE11</div><div class="kb-diagram-cell">PE12</div><div class="kb-diagram-cell">PE13</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE20</div><div class="kb-diagram-cell">PE21</div><div class="kb-diagram-cell">PE22</div><div class="kb-diagram-cell">PE23</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE30</div><div class="kb-diagram-cell">PE31</div><div class="kb-diagram-cell">PE32</div><div class="kb-diagram-cell">PE33</div><div class="kb-diagram-cell">▶ 출력 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 PE: A는 오른쪽, B는 아래쪽, 부분합은 로컬에 누적</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        4×4 시스톨릭 어레이의 파동형 데이터 흐름                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 좌측 입력 A(i,k)  ───────────────────────────────▶                         │
+│ 상단 입력 B(k,j)  ───────▼                                                │
+│                ┌──────┬──────┬──────┬──────┐                              │
+│                │ PE00 │ PE01 │ PE02 │ PE03 │                              │
+│                ├──────┼──────┼──────┼──────┤                              │
+│                │ PE10 │ PE11 │ PE12 │ PE13 │                              │
+│                ├──────┼──────┼──────┼──────┤                              │
+│                │ PE20 │ PE21 │ PE22 │ PE23 │                              │
+│                ├──────┼──────┼──────┼──────┤                              │
+│                │ PE30 │ PE31 │ PE32 │ PE33 │ ───────▶ 출력 C              │
+│                └──────┴──────┴──────┴──────┘                              │
+│                각 PE: A는 오른쪽, B는 아래쪽, 부분합은 로컬에 누적        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 실제 행렬 곱셈에서는 A 행렬 원소가 오른쪽으로 이동하고, B 행렬 원소가 아래로 이동하면서, 각 교차점의 PE가 해당 곱을 부분합에 더한다. 클럭이 진행될수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파면이 대각선으로 퍼지고, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 가득 차면 거의 모든 PE가 매 사이클 유효한 MAC을 수행한다. 이 상태가 되면 처리량은 매우 높아지고, 메모리에서 같은 값을 다시 읽는 낭비가 줄어든다.
 
@@ -107,7 +109,7 @@ tags = ["studynote-computer-architecture"]
 - 작은 배치를 계속 넣어 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 활용률이 낮아지는 경우
 - 후처리 분기 로직까지 같은 가속기에서 해결하려다 CPU 폴백이 빈번해지는 경우
 
-- **📢 섹션 요약 비유**: 시스톨릭 어레이는 큰 화물을 규칙적으로 싣는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 선박과 같다. 상자가 규격에 맞고 물량이 많으면 최고의 효율을 내지만, 짐 크기가 제각각이거나 중간에 자꾸 내려야 하면 오히려 작은 트럭이 더 낫다.
+- **📢 섹션 요약 비유**: 시스톨릭 어레이는 큰 화물을 규칙적으로 싣는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 선박과 같다. 상자가 규격에 맞고 수량이 많으면 최고의 효율을 내지만, 짐 크기가 제각각이거나 중간에 자꾸 내려야 하면 오히려 작은 트럭이 더 낫다.
 
 ---
 
@@ -136,24 +138,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">벡터 프로세서 · 배열 프로세서</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 월 (Memory Wall) · 데이터 재사용 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시스톨릭 어레이 (Systolic Array)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ Weight Stationary / Output Stationary / Input Stationary</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TPU (Tensor Processing Unit) · NPU (Neural Processing Unit) · Tensor Core</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">저정밀도 양자화 · 3D 적층 메모리 · PIM (Processing-In-Memory)</div>
-</div>
-</div>
-
-
+```text
+벡터 프로세서 · 배열 프로세서
+            │
+            ▼
+메모리 월 (Memory Wall) · 데이터 재사용 요구
+            │
+            ▼
+시스톨릭 어레이 (Systolic Array)
+            │
+            ├──▶ Weight Stationary / Output Stationary / Input Stationary
+            │
+            ▼
+TPU (Tensor Processing Unit) · NPU (Neural Processing Unit) · Tensor Core
+            │
+            ▼
+저정밀도 양자화 · 3D 적층 메모리 · PIM (Processing-In-Memory)
+```
 
 이 흐름도는 "[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)형 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 계보"가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 최적화 문제와 만나, 전용 가속기와 메모리 결합 구조로 확장되는 과정을 보여준다.
 

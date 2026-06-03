@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 2. **물리적 거리의 제약 (L2 한계)**: VLAN은 라우터(L3)를 넘어가면 태그가 벗겨져 죽습니다. 서울 IDC에 있는 서버 A와 부산 IDC에 있는 서버 B를 같은 랜선 방(L2)으로 묶을 수가 없었습니다.
 3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a>(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/">스패닝 트리</a>)의 낭비</strong>: L2 루핑을 막기 위해 길 하나를 일부러 끊어두는 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 때문에 비싼 광케이블의 50%를 놀려야 했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA / RoCE 스토리지 서버 네트워킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
-</div>
-</div>
-
-
+```text
+[RDMA / RoCE 스토리지 서버 네트워킹]
+    │
+    ▼
+[VXLAN 오버레이 VTEP 터널링 연결기법]
+    │
+    └──▶ [EVPN-VXLAN BGP 컨트롤 플레인 전…]
+```
 
 - **📢 섹션 요약 비유**: [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 - [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 포장 패킷: `[외부 MAC]` + `[외부 IP]` + `[외부 UDP(포트 4789)]` + <strong><code>[VXLAN VNI 태그]</code></strong> + `[내부 MAC]` + `[페이로드]`
 - 이 거대한 포장지(외부 IP/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)) 덕분에 패킷은 라우터(L3)의 눈을 속이고 미국 뉴욕 IDC까지 고속도로를 타고 날아갈 수 있습니다. 뉴욕의 VTEP이 이 포장지를 쫙 뜯어내면? 오리지널 L2 패킷이 툭 떨어지며, 서울 서버와 뉴욕 서버가 물리적으로 바로 옆(L2)에 붙어있는 것처럼 통신이 되는 완벽한 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)(오버레이)가 달성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA / RoCE 스토리지 서버 네트워킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
-</div>
-</div>
-
-
+```text
+[RDMA / RoCE 스토리지 서버 네트워킹]
+    │
+    ▼
+[VXLAN 오버레이 VTEP 터널링 연결기법]
+    │
+    └──▶ [EVPN-VXLAN BGP 컨트롤 플레인 전…]
+```
 
 - **📢 섹션 요약 비유**: [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RDMA / RoCE 스토리지 서버 네트워킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RDMA / RoCE 스토리지 서버 네트워킹]
+    │
+    ▼
+[현재 개념: VXLAN 오버레이 VTEP 터널링 연결기법]
+    │
+    ├──▶ [확장 A: EVPN-VXLAN BGP 컨트롤 플레인 전…]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법는 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) / [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 스토리지 서버 네트워킹에서 출발해 현재 메커니즘을 정교화하고, 이후 EVPN-[VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

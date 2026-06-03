@@ -28,19 +28,13 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Relation</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Tuples are unordered</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Attributes are unordered</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Tuples are unique</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Attributes are atomic</div>
-</div>
-</div>
-
-
+```text
+Relation
+  ├─ Tuples are unordered
+  ├─ Attributes are unordered
+  ├─ Tuples are unique
+  └─ Attributes are atomic
+```
 
 | 특징 | 의미 |
 | :-- | :-- |
@@ -105,41 +99,29 @@ tags = ["database"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Relation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Tuple / Attribute</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Atomicity / Uniqueness</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Normalization</div>
-</div>
-</div>
-
-
+```text
+Relation
+  ↓
+Tuple / Attribute
+  ↓
+Atomicity / Uniqueness
+  ↓
+Normalization
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">관계형 모델</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">릴레이션 특징</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">제1정규형</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">무결성</div>
-</div>
-</div>
-
-
+```text
+관계형 모델
+  ↓
+릴레이션 특징
+  ↓
+제1정규형
+  ↓
+무결성
+```
 
 ---
 

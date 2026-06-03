@@ -35,22 +35,20 @@ TPM의 핵심 기능은 안전한 키 저장, 플랫폼 측정, 조건부 키 �
 
 아래 그림은 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 기반 측정 부팅과 키 해제 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPM measured boot and key release</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power on</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Firmware hash -&gt; PCR extend</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Bootloader hash -&gt; PCR extend</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Kernel hash -&gt; PCR extend</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sealed key release rule: PCR value must match trusted state</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Match -&gt; release disk key / device secret</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mismatch -&gt; deny release, recovery or alert</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ TPM measured boot and key release                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ Power on                                                          │
+│   -> Firmware hash   -> PCR extend                               │
+│   -> Bootloader hash -> PCR extend                               │
+│   -> Kernel hash     -> PCR extend                               │
+│                                                                    │
+│ Sealed key release rule: PCR value must match trusted state       │
+│   Match    -> release disk key / device secret                    │
+│   Mismatch -> deny release, recovery or alert                     │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 TPM이 단순 저장소가 아니라 <strong>상태를 조건으로 키 사용을 통제하는 장치</strong>라는 점이다. 키 자체를 빼내 쓰게 하는 것이 아니라, "이 장치가 정상 상태일 때만 이 키를 사용하라"는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 강제한다. 따라서 공격자가 디스크만 떼어 가거나 부팅 경로를 바꿔도, 필요한 키를 쉽게 얻지 못한다.
 
@@ -133,24 +131,22 @@ TPM의 기대효과는 명확하다. 키 [보호](/knowledge-base/studynote/02_o
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Local key storage problem</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Secure Boot / Measured Boot</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TPM 2.0</div>
-<div class="kb-diagram-note">(key sealing + platform measurement)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Remote Attestation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Zero Trust endpoint verification</div>
-</div>
-</div>
-
-
+```text
+Local key storage problem
+    │
+    ▼
+Secure Boot / Measured Boot
+    │
+    ▼
+TPM 2.0
+  (key sealing + platform measurement)
+    │
+    ▼
+Remote Attestation
+    │
+    ▼
+Zero Trust endpoint verification
+```
 
 이 흐름도는 TPM이 단순 키 저장소를 넘어, 장치 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 접속 판단으로 확장되는 경로를 보여준다.
 

@@ -18,18 +18,12 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">지도 학습: 데이터+라벨 필요 (비쌈)</div>
-<div class="kb-diagram-note">SSL: 데이터만 (무료), 라벨은 데이터 자체에서 생성</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">NLP: "나는</div><div class="kb-diagram-node">MASK</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">학생 예측 (BERT)</div></div>
-<div class="kb-diagram-note">Vision: 이미지 일부 가림 → 복원 (MAE)</div>
-</div>
-</div>
-
-
+```text
+지도 학습: 데이터+라벨 필요 (비쌈)
+SSL: 데이터만 (무료), 라벨은 데이터 자체에서 생성
+  NLP: "나는 [MASK] 이다" → 학생 예측 (BERT)
+  Vision: 이미지 일부 가림 → 복원 (MAE)
+```
 
 - **📢 섹션 요약 비유**: SSL은 <strong>빈칸 채우기 시험</strong>이다. 선생님(라벨)이 정답을 알려주지 않아도 문장([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 자체에서 정답을 유추한다.
 
@@ -63,18 +57,12 @@ SSL은 <strong>Foundation Model의 핵심 학습 패러다임</strong>이며, �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지도 학습 (라벨 필수)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Word2Vec SSL (2013)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BERT MLM / GPT CLM (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SimCLR (2020, Vision SSL)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CLIP (2021, 멀티모달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: DINO v2 / MAE — Vision SSL 표준</div></div>
-</div>
-</div>
-
-
+```text
+[지도 학습 (라벨 필수)] → [Word2Vec SSL (2013)]
+    → [BERT MLM / GPT CLM (2018)] → [SimCLR (2020, Vision SSL)]
+    → [CLIP (2021, 멀티모달)]
+    → [현재: DINO v2 / MAE — Vision SSL 표준]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SSL은 <strong>빈칸 채우기 시험</strong>이에요. 선생님이 정답을 안 알려줘도 <strong>문장에서 유추</strong>해요.

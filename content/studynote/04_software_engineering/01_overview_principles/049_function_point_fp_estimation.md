@@ -18,38 +18,39 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 기초
 
+```
+Function Point (기능 점수):
+  1979년 Allan Albrecht (IBM) 제안
+  사용자 관점 소프트웨어 규모 측정
 
+측정 대상 (5가지 기능 컴포넌트):
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Function Point (기능 점수):</div>
-<div class="kb-diagram-note">1979년 Allan Albrecht (IBM) 제안</div>
-<div class="kb-diagram-note">사용자 관점 소프트웨어 규모 측정</div>
-<div class="kb-diagram-note">측정 대상 (5가지 기능 컴포넌트):</div>
-<div class="kb-diagram-note">트랜잭션 기능:</div>
-<div class="kb-diagram-note">EI (External Input): 외부 입력</div>
-<div class="kb-diagram-note">사용자 → 시스템 데이터 입력</div>
-<div class="kb-diagram-note">예: 회원가입 폼 제출, 주문 입력</div>
-<div class="kb-diagram-note">EO (External Output): 외부 출력</div>
-<div class="kb-diagram-note">시스템 → 사용자 데이터 출력 (계산 포함)</div>
-<div class="kb-diagram-note">예: 매출 보고서, 세금 계산서 출력</div>
-<div class="kb-diagram-note">EQ (External Query): 외부 조회</div>
-<div class="kb-diagram-note">시스템 → 사용자 데이터 조회 (단순 검색)</div>
-<div class="kb-diagram-note">예: 회원 목록 조회, 주문 현황 조회</div>
-<div class="kb-diagram-note">데이터 기능:</div>
-<div class="kb-diagram-note">ILF (Internal Logical File): 내부 논리 파일</div>
-<div class="kb-diagram-note">시스템 내부 유지 데이터 그룹</div>
-<div class="kb-diagram-note">예: 회원 테이블, 주문 테이블</div>
-<div class="kb-diagram-note">EIF (External Interface File): 외부 인터페이스 파일</div>
-<div class="kb-diagram-note">외부 시스템에서 참조하는 파일</div>
-<div class="kb-diagram-note">예: 외부 API로 받아오는 환율 데이터</div>
-<div class="kb-diagram-note">EO vs EQ 구분:</div>
-<div class="kb-diagram-note">EO: 계산 로직 포함 (보고서, 통계)</div>
-<div class="kb-diagram-note">EQ: 단순 조회 (검색 결과)</div>
-</div>
-</div>
+트랜잭션 기능:
+  EI (External Input): 외부 입력
+     사용자 → 시스템 데이터 입력
+     예: 회원가입 폼 제출, 주문 입력
+  
+  EO (External Output): 외부 출력
+     시스템 → 사용자 데이터 출력 (계산 포함)
+     예: 매출 보고서, 세금 계산서 출력
+  
+  EQ (External Query): 외부 조회
+     시스템 → 사용자 데이터 조회 (단순 검색)
+     예: 회원 목록 조회, 주문 현황 조회
 
+데이터 기능:
+  ILF (Internal Logical File): 내부 논리 파일
+     시스템 내부 유지 데이터 그룹
+     예: 회원 테이블, 주문 테이블
+  
+  EIF (External Interface File): 외부 인터페이스 파일
+     외부 시스템에서 참조하는 파일
+     예: 외부 API로 받아오는 환율 데이터
 
+EO vs EQ 구분:
+  EO: 계산 로직 포함 (보고서, 통계)
+  EQ: 단순 조회 (검색 결과)
+```
 
 > 📢 **섹션 요약 비유**: [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 5가지 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) = 사무실 업무 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — EI(접수), EO(보고서 발행), EQ(문서 검색), ILF(내부 서류함), EIF(외부 참고 자료). 업무량 = 각 유형 × 복잡도!
 

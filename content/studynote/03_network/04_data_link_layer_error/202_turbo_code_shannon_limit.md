@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 학자들은 50년 동안 이 샤논 한계 근처에 가기 위해 무수히 노력했지만([해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/), RS 코드, [길쌈 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/201_convolutional_code_viterbi/) 등) 항상 한계치에서 멈췄습니다. 
 그러다 프랑스의 두 교수가 고안한 <strong>터보 코드</strong>가 등장하면서 단숨에 샤논 한계의 코앞(소수점 아래 차이)까지 도달하는 기적을 씁니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">길쌈 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">터보 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LDPC</div></div>
-</div>
-</div>
-
-
+```text
+[길쌈 코드]
+    │
+    ▼
+[터보 코드]
+    │
+    └──▶ [LDPC]
+```
 
 - **📢 섹션 요약 비유**: 터보 코드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ tags = ["studynote-network"]
 - <strong>이 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>를 다시 1번 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a>에게 던져줍니다(피드백).</strong>
 - 이렇게 두 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 핑퐁 게임을 하며 <strong>수차례 반복(Iteration) 토론을 거치면, 불확실했던 에러들이 마법처럼 100% 확실한 정답으로 수렴(Convergence)</strong>하게 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">길쌈 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">터보 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LDPC</div></div>
-</div>
-</div>
-
-
+```text
+[길쌈 코드]
+    │
+    ▼
+[터보 코드]
+    │
+    └──▶ [LDPC]
+```
 
 - **📢 섹션 요약 비유**: 터보 코드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 길쌈 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 터보 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LDPC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 길쌈 코드]
+    │
+    ▼
+[현재 개념: 터보 코드]
+    │
+    ├──▶ [확장 A: LDPC]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 터보 코드는 [길쌈 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/201_convolutional_code_viterbi/)에서 출발해 현재 메커니즘을 정교화하고, 이후 LDPC와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

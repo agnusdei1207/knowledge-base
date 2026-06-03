@@ -25,19 +25,17 @@ SCM ([Software Configuration Management](/knowledge-base/studynote/04_software_e
 
 아래 그림은 SCM이 없는 경우와 있는 경우의 차이를 단순화해 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM의 필요성: 변경을 기록하지 않으면 혼란이 된다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM 없음</div><div class="kb-diagram-cell">SCM 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누가 바꿨는지 모름</div><div class="kb-diagram-cell">변경 요청과 승인 이력 존재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어떤 버전이 운영 중인지 불명확</div><div class="kb-diagram-cell">배포 버전과 기준선 추적 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 시 원복 경로 불명확</div><div class="kb-diagram-cell">이전 기준선으로 신속 복구</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             SCM의 필요성: 변경을 기록하지 않으면 혼란이 된다    │
+├───────────────────────────────┬──────────────────────────────┤
+│ SCM 없음                      │ SCM 있음                     │
+├───────────────────────────────┼──────────────────────────────┤
+│ 누가 바꿨는지 모름            │ 변경 요청과 승인 이력 존재    │
+│ 어떤 버전이 운영 중인지 불명확 │ 배포 버전과 기준선 추적 가능  │
+│ 장애 시 원복 경로 불명확      │ 이전 기준선으로 신속 복구     │
+└───────────────────────────────┴──────────────────────────────┘
+```
 
 따라서 SCM은 개발 속도를 늦추는 문서 작업이 아니라, 변경이 빨라질수록 더 중요해지는 안전장치다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 환경에서도 [형상 통제](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) 원칙은 사라지지 않고, 더 자동화된 방식으로 재구성될 뿐이다.
 
@@ -51,23 +49,28 @@ SCM의 핵심 원리는 "무엇을 관리할지 정의하고, 어떻게 바뀌�
 
 아래 흐름은 [소프트웨어 형상 관리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/648_ccb_configuration_control_board/)의 전체 제어 루프를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM 제어 루프 (Control Loop)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형상 식별</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 형상 항목 (Configuration Item, CI) 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준선 설정 (Baseline)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경 요청 (CR) ─▶ 영향 분석 ─▶ 형상 통제 위원회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Configuration Control Board,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CCB) 승인/반려</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현 · 테스트 · 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 기록 · 감사 · 차기 기준선 갱신</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                SCM 제어 루프 (Control Loop)                  │
+├──────────────────────────────────────────────────────────────┤
+│ 형상 식별                                                     │
+│   └─ 형상 항목 (Configuration Item, CI) 정의                  │
+│        │                                                     │
+│        ▼                                                     │
+│ 기준선 설정 (Baseline)                                        │
+│        │                                                     │
+│        ▼                                                     │
+│ 변경 요청 (CR) ─▶ 영향 분석 ─▶ 형상 통제 위원회               │
+│                              (Configuration Control Board,    │
+│                               CCB) 승인/반려                  │
+│        │                                                     │
+│        ▼                                                     │
+│ 구현 · 테스트 · 배포                                          │
+│        │                                                     │
+│        ▼                                                     │
+│ 상태 기록 · 감사 · 차기 기준선 갱신                           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 기능 | 핵심 질문 | 실무 산출물 |
 | :--- | :--- | :--- |
@@ -152,23 +155,21 @@ SCM을 제대로 운영하면 변경 추적성, 릴리스 재현성, [감사](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">형상 항목 (Configuration Item) 식별</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">베이스라인 (Baseline) 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">변경 요청 · CCB (Configuration Control Board) 통제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상태 기록 (Status Accounting) · 형상 감사 (Audit)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GitOps · IaC (Infrastructure as Code) 기반 자동화 SCM</div>
-</div>
-</div>
-
-
+```text
+형상 항목 (Configuration Item) 식별
+    │
+    ▼
+베이스라인 (Baseline) 설정
+    │
+    ▼
+변경 요청 · CCB (Configuration Control Board) 통제
+    │
+    ▼
+상태 기록 (Status Accounting) · 형상 감사 (Audit)
+    │
+    ▼
+GitOps · IaC (Infrastructure as Code) 기반 자동화 SCM
+```
 
 이 흐름도는 SCM이 단순 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이력 관리에서 출발해, 승인·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·자동화까지 포함하는 운영 체계로 확장되는 방향을 보여준다.
 

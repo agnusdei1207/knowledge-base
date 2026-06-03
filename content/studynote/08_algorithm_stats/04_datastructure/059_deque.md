@@ -20,22 +20,18 @@ tags = ["datastructure", "studynote-algorithm"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 덱은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 또는 이중 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)(Doubly [Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))를 기반으로 구현되며, 양 끝단에 대한 포인터를 유지한다.
 
+```text
+[ Deque Architecture: Bi-directional Entry ]
 
+     Front Entry                                  Rear Entry
+    <-----------> [ [A] | [B] | [C] | [D] ] <----------->
+                    Front             Rear
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Deque Architecture: Bi-directional Entry</div></div>
-<div class="kb-diagram-note">Front Entry Rear Entry</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">---------&gt;</div></div>
-<div class="kb-diagram-note">Front Rear</div>
-<div class="kb-diagram-note">1. Push_Front: 덱의 앞쪽에 데이터 추가</div>
-<div class="kb-diagram-note">2. Pop_Front: 덱의 앞쪽 데이터 삭제 및 반환</div>
-<div class="kb-diagram-note">3. Push_Rear: 덱의 뒤쪽에 데이터 추가 (일반 Queue의 Enqueue)</div>
-<div class="kb-diagram-note">4. Pop_Rear: 덱의 뒤쪽 데이터 삭제 및 반환 (일반 Stack의 Pop)</div>
-</div>
-</div>
-
-
+1. Push_Front: 덱의 앞쪽에 데이터 추가
+2. Pop_Front: 덱의 앞쪽 데이터 삭제 및 반환
+3. Push_Rear: 덱의 뒤쪽에 데이터 추가 (일반 Queue의 Enqueue)
+4. Pop_Rear: 덱의 뒤쪽 데이터 삭제 및 반환 (일반 Stack의 Pop)
+```
 
 **[특수한 형태의 덱]**
 *   **입력 제한 덱 (Scroll)**: 삽입은 한쪽 끝에서만 가능하고, 삭제는 양쪽 끝에서 가능함.
@@ -66,23 +62,21 @@ tags = ["datastructure", "studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선형 자료구조 (Linear Data Structure)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 제한 덱 (Scroll)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">출력 제한 덱 (Shelf)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이중 연결 리스트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이딩 윈도우</div></div>
-</div>
-</div>
-
-
+```text
+[선형 자료구조 (Linear Data Structure)]
+    │
+    ▼
+[입력 제한 덱 (Scroll)]
+    │
+    ▼
+[출력 제한 덱 (Shelf)]
+    │
+    ▼
+[이중 연결 리스트]
+    │
+    ▼
+[슬라이딩 윈도우]
+```
 
 이 흐름도는 선형 자료구조 (Linear [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Structure)에서 출발해 슬라이딩 윈도우까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

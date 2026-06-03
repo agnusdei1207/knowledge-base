@@ -18,23 +18,22 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prometheus 수집 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Targets → /metrics 노출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prometheus Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Service Discovery (K8s, Consul, DNS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Scrape (15s 주기 Pull)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── TSDB (시계열 DB) 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── PromQL 쿼리 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AlertManager → 경보 라우팅 → Slack/PagerDuty</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana → 대시보드 시각화</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────┐
+│               Prometheus 수집 흐름                │
+│                                                    │
+│  Targets → /metrics 노출                          │
+│                │                                  │
+│  Prometheus Server                                │
+│  ├── Service Discovery (K8s, Consul, DNS)         │
+│  ├── Scrape (15s 주기 Pull)                       │
+│  ├── TSDB (시계열 DB) 저장                        │
+│  └── PromQL 쿼리 엔진                             │
+│                │                                  │
+│  AlertManager → 경보 라우팅 → Slack/PagerDuty     │
+│  Grafana      → 대시보드 시각화                   │
+└────────────────────────────────────────────────────┘
+```
 
 Pull 방식 장점: 수집 대상이 Push하지 않아도 되므로 보안·관리가 단순하다.
 
@@ -86,18 +85,13 @@ Grafana는 플러그인 기반으로 다양한 [데이터](/knowledge-base/study
 
 **Exemplar**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트에 연결된 [Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) — Grafana에서 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) → 트레이스 직접 드릴다운이 가능하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Grafana</div>
-<div class="kb-diagram-tree-item" style="--depth:1">CPU 급등 감지 (Prometheus)</div>
-<div class="kb-diagram-note">── Exemplar 클릭 → Trace ID → Tempo 드릴다운</div>
-<div class="kb-diagram-tree-item" style="--depth:1">관련 에러 로그 (Loki)</div>
-</div>
-</div>
-
-
+```
+Grafana
+  │
+  ├── CPU 급등 감지 (Prometheus)
+  │       └── Exemplar 클릭 → Trace ID → Tempo 드릴다운
+  └── 관련 에러 로그 (Loki)
+```
 
 > 📢 **Ⅳ 섹션 요약 비유**
 > Grafana는 항공 관제탑 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) — 레이더([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)), 통신 기록(Loki), 항적 추적(Tempo)을 한 화면에서 본다.
@@ -119,20 +113,14 @@ Grafana는 플러그인 기반으로 다양한 [데이터](/knowledge-base/study
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Prometheus + Grafana</div>
-<div class="kb-diagram-tree-item" style="--depth:2">PromQL → 강력한 시계열 쿼리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">AlertManager → 경보 라우팅·억제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Grafana Loki → 로그 통합 시각화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Grafana Tempo → 트레이스 통합</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Exemplar → Metrics-to-Trace 드릴다운</div>
-</div>
-</div>
-
-
+```
+Prometheus + Grafana
+    ├── PromQL → 강력한 시계열 쿼리
+    ├── AlertManager → 경보 라우팅·억제
+    ├── Grafana Loki → 로그 통합 시각화
+    ├── Grafana Tempo → 트레이스 통합
+    └── Exemplar → Metrics-to-Trace 드릴다운
+```
 
 > 🧒 **어린이 비유**
 > Prometheus는 학교 성적 기록부, Grafana는 그 성적을 예쁜 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 그려주는 프로그램이에요. AlertManager는 성적이 떨어지면 부모님께 문자를 보내는 시스템이에요.
@@ -144,6 +132,6 @@ Grafana는 플러그인 기반으로 다양한 [데이터](/knowledge-base/study
 **진행 상황**: 323 / 373
 
 ← **이전**: [OpenTelemetry CNCF](/knowledge-base/studynote/15_devops_sre/05_devsecops/322_cncf/)
-**다음**: [Chaos Engineering](/knowledge-base/studynote/11_design_supervision/06_exam_summary/324_audit/) →
+**다음**: [Chaos 엔진ering](/knowledge-base/studynote/11_design_supervision/06_exam_summary/324_audit/) →
 
 ---

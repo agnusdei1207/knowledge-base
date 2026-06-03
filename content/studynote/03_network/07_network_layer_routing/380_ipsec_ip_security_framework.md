@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 가방 손잡이에 뜯으면 색깔이 변하는 특수 봉인 씰을 붙여, 중간에 스파이가 열어봤는지 흔적을 봅니다 <strong>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> - Hash)</strong>.
   - 가방 겉면에 사전에 약속한 암구호 코드를 적어 가짜 스파이가 보낸 가방을 컷트합니다 <strong>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> - <a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">L2TP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPSec 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AH</div></div>
-</div>
-</div>
-
-
+```text
+[L2TP]
+    │
+    ▼
+[IPSec 메커니즘]
+    │
+    └──▶ [AH]
+```
 
 - **📢 섹션 요약 비유**: ** IPsec은 단일 무기가 아니라 **"종합 방어 전술 조끼"**입니다. 방탄판([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)), 통신기 암호기([IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/)), 신원 인식표(해시) 등 여러 가지 모듈을 임무(터널 모드 vs 전송 모드)에 맞게 뗐다 붙였다 하며 적진(인터넷)을 돌파하는 궁극의 생존 장비입니다.
 
@@ -69,25 +65,25 @@ IPsec은 이 세 가지 톱니바퀴가 물려 돌아간다.
 - **문제와 해결**: 원본 IP 헤더가 암호화되어 사라졌으니 라우터가 길을 못 찾는다! 그래서 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 금고 바깥에 <strong>새로운 "가짜 IP 헤더(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> IP Header)"</strong>를 딱지처럼 하나 더 붙여서 인터넷으로 던진다.
 - **용도**: Site-to-Site (서울 본사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) ~ 부산 지사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) VPN을 뚫을 때 무조건 쓴다. 해커는 중간에서 가로채도 "아, 서울 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이랑 부산 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 통신하네?"만 알 뿐, 그 속에 숨겨진 사내 PC의 진짜 IP 대역(`192.168...`)은 절대 유추조차 할 수 없다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPsec 터널 모드 (Tunnel Mode)의 무적 포장 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 패킷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 IP 헤더 (10.x.x.x)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP/Data (비밀문서)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPsec 터널 모드가 적용된 패킷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">New IP 헤더 (방화벽 공인 IP)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 인터넷 통과용 껍데기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ESP 헤더</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 여기서부터 암호화 시작! (열쇠 없음 못 염)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 IP 헤더 (10.x.x.x)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (안 보임)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP/Data (비밀문서)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (안 보임)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ESP 트레일러 / ESP 인증(MAC)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 암호화 끝! (봉인 씰)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "인터넷 세상의 모든 해커에게서 내 사내망 아키텍처와 데이터를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 완벽하게 숨겨버리는 진정한 가상 사설망(VPN)의 완성이다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                IPsec 터널 모드 (Tunnel Mode)의 무적 포장 구조      │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 일반 패킷 ]                                               │
+ │   [ 원본 IP 헤더 (10.x.x.x) ] ──▶ [ TCP/Data (비밀문서) ]         │
+ │                                                             │
+ │   [ IPsec 터널 모드가 적용된 패킷 ]                             │
+ │   [ New IP 헤더 (방화벽 공인 IP) ] ◀─ 인터넷 통과용 껍데기            │
+ │     [ ESP 헤더 ] ◀─ 여기서부터 암호화 시작! (열쇠 없음 못 염)          │
+ │         [ 원본 IP 헤더 (10.x.x.x) ]  ◀─ (안 보임)            │
+ │         [ TCP/Data (비밀문서) ]       ◀─ (안 보임)            │
+ │     [ ESP 트레일러 / ESP 인증(MAC) ] ◀─ 암호화 끝! (봉인 씰)      │
+ │                                                             │
+ │   ▶ "인터넷 세상의 모든 해커에게서 내 사내망 아키텍처와 데이터를       │
+ │      100% 완벽하게 숨겨버리는 진정한 가상 사설망(VPN)의 완성이다!"  │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** 전송 모드가 자동차의 창문에 **"시트지([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))"<strong>를 발라 안의 사람(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)만 안 보이게 하는 것이라면, 터널 모드는 아예 그 자동차(원본 패킷) 전체를 </strong>"거대한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 트럭([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) IP + [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/))"** 안에 통째로 실어버려서 트럭 밖에서는 안에 차가 들었는지 코끼리가 들었는지조차 모르게 완벽히 숨겨서 이동하는 것입니다.
 
@@ -145,19 +141,15 @@ IPsec은 이 세 가지 톱니바퀴가 물려 돌아간다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: L2TP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPSec 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: L2TP]
+    │
+    ▼
+[현재 개념: IPSec 메커니즘]
+    │
+    ├──▶ [확장 A: AH]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 메커니즘는 L2TP에서 출발해 현재 메커니즘을 정교화하고, 이후 AH와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

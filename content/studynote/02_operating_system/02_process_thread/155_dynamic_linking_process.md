@@ -40,39 +40,44 @@ tags = ["studynote-operating-system"]
 "야 씨발 근데 램(RAM) 주소가 앱 켤 때마다 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 보안 땜에 100번씩 계속 딴 데로 랜덤(Random) 도망가 널뛰기 치는데 ➔ 도대체 공용 도서관(`libc.so`) 주소를 어떻게 오차 0% 로 찾아서 핀셋 록온 꽂음 미친아 ㅠ?" 
 아키텍트 천재들의 뇌를 갈아 넣은 **[PLT - GOT 2단 마트료시카 십자 핑퐁 방폭문 ✨]** [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PLT - GOT 이중 껍데기 텐트 핑퐁 (Lazy Binding 지연 바인딩) 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">1. 자바/C 앱 (내 깃털 깡통 코드) 실행 발동 쾅!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드: <code>printf("Hello");</code> ➔ 호출 콜 찌르기 툭 ㅋ.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팩폭 💀: 내 앱 뱃속엔 <code>printf</code> 진짜 기계어 코드가 1바이트 0% 없음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어디 있는지 주소도 모름 뇌 정지 뻗음 💥 ➔ 걍 앞마당 대문만 찌름.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 1차 껍데기 안내판: PLT 진입 록온 🚀</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🪧</div><div class="kb-diagram-node">2. PLT (Procedure Linkage Table - 대문 앞 깡통 안내판)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PLT 왈: "어 손님 왔네 ㅋ 야 GOT 금고(메모장) 열어봐 주소 적혀 있냐?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- ➔ 찌르기 핑: <code>jmp *GOT</div><div class="kb-diagram-node">printf</div><div class="kb-diagram-note"></code> 다이렉트 점프 콜 빔 발사 쓩!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🗄️</div><div class="kb-diagram-node">3. GOT (Global Offset Table - 진짜 메모리 주소 금고 쇳덩이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🚨 (앱 켠 직후 1번째 최초 방문 찰나 💥): "아 시발 금고 텅 빔 백지 깡통임 ㅋ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소가 없어서 ➔ 다시 PLT 위쪽(ld.so 심부름 봇 호출) 으로 빠꾸 U턴 튕겨냄!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">✨ 아키텍트의 메스: ld.so 봇 강림 스캔 척살 발동!</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🤖</div><div class="kb-diagram-node">4. ld.so (동적 링커 봇) 출동 1초 컷 엑스레이 스캔 🪓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널 링커 봇 왈: "야 길 비켜 쾅!! 내 엑스레이 스캔 쫙 돌려서 허공 RAM 구석탱이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숨겨진 <code>libc.so</code> 도서관 뒤져서 <code>printf</code> 진짜 물리 주소 좌표 팩트 색출 찾았다 쾅!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- ➔ 찾아낸 찐 주소(<code>0x7f8b...</code>)를 ➔ 방금 텅 비어있던</div><div class="kb-diagram-node">GOT 금고 쇳덩이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모장 1칸에다가 시멘트 떡칠 덮어쓰기 영구 박제 기록(Resolve) 록온 쳐 쾅 🚀!!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 그리고 비로소 찐 <code>printf</code> 함수로 날아가서 모니터 화면에 "Hello" 출력 성공 ✨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🚀 우주 최강 다이어트 쾌속 질주: 2번째 방문 시나리오</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">⚡</div><div class="kb-diagram-node">5. 2번째 <code>printf("World");</code> 호출 시 스텔스 프리패스 뚫림 ✨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ PLT 진입 ➔ GOT 금고 찌름 ➔ 오 씨발 아까 1번 봇이 주소 적어놓고 갔네 꿀빰 ㅋ!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ ld.so 링커 봇 안 부르고 100% 쌩까 스킵 무시(Bypass) 쳐버림 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ GOT 장부에 적힌 주소표 딱 보고 0.001초 컷 다이렉트 찐 함수로 미사일 점프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텔레포트 쾌속 질주 내리꽂아 압살 척살해 버림 O(1) 광속 무결점 달성 쾅 🚀!!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          PLT - GOT 이중 껍데기 텐트 핑퐁 (Lazy Binding 지연 바인딩) 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 👨‍💻 [ 1. 자바/C 앱 (내 깃털 깡통 코드) 실행 발동 쾅! ]               │
+│   - 코드: `printf("Hello");` ➔ 호출 콜 찌르기 툭 ㅋ.            │
+│   - 팩폭 💀: 내 앱 뱃속엔 `printf` 진짜 기계어 코드가 1바이트 0% 없음.   │
+│     어디 있는지 주소도 모름 뇌 정지 뻗음 💥 ➔ 걍 앞마당 대문만 찌름.     │
+│                                                             │
+│        ======= [ 🛡️ 1차 껍데기 안내판: PLT 진입 록온 🚀 ] ========│
+│                                                             │
+│ 🪧 [ 2. PLT (Procedure Linkage Table - 대문 앞 깡통 안내판) ]    │
+│   - PLT 왈: "어 손님 왔네 ㅋ 야 GOT 금고(메모장) 열어봐 주소 적혀 있냐?"   │
+│   - ➔ 찌르기 핑: `jmp *GOT[printf]` 다이렉트 점프 콜 빔 발사 쓩!      │
+│                                                             │
+│ 🗄️ [ 3. GOT (Global Offset Table - 진짜 메모리 주소 금고 쇳덩이) ]  │
+│   - 🚨 (앱 켠 직후 1번째 최초 방문 찰나 💥): "아 시발 금고 텅 빔 백지 깡통임 ㅋ"│
+│     주소가 없어서 ➔ 다시 PLT 위쪽(ld.so 심부름 봇 호출) 으로 빠꾸 U턴 튕겨냄!│
+│                                                             │
+│        ======= [ ✨ 아키텍트의 메스: ld.so 봇 강림 스캔 척살 발동! ] ========│
+│                                                             │
+│ 🤖 [ 4. ld.so (동적 링커 봇) 출동 1초 컷 엑스레이 스캔 🪓 ]         │
+│   - 커널 링커 봇 왈: "야 길 비켜 쾅!! 내 엑스레이 스캔 쫙 돌려서 허공 RAM 구석탱이│
+│     숨겨진 `libc.so` 도서관 뒤져서 `printf` 진짜 물리 주소 좌표 팩트 색출 찾았다 쾅!"│
+│   - ➔ **찾아낸 찐 주소(`0x7f8b...`)를 ➔ 방금 텅 비어있던 [GOT 금고 쇳덩이] │
+│     메모장 1칸에다가 시멘트 떡칠 덮어쓰기 영구 박제 기록(Resolve) 록온 쳐 쾅 🚀!!!**│
+│   - 그리고 비로소 찐 `printf` 함수로 날아가서 모니터 화면에 "Hello" 출력 성공 ✨.│
+│                                                             │
+│        ======= [ 🚀 우주 최강 다이어트 쾌속 질주: 2번째 방문 시나리오 ] ========│
+│                                                             │
+│ ⚡ [ 5. 2번째 `printf("World");` 호출 시 스텔스 프리패스 뚫림 ✨ ] │
+│   - ➔ PLT 진입 ➔ GOT 금고 찌름 ➔ **오 씨발 아까 1번 봇이 주소 적어놓고 갔네 꿀빰 ㅋ!!**│
+│   - ➔ ld.so 링커 봇 안 부르고 100% 쌩까 스킵 무시(Bypass) 쳐버림 쾅!!   │
+│   - ➔ GOT 장부에 적힌 주소표 딱 보고 0.001초 컷 다이렉트 찐 함수로 미사일 점프 │
+│     텔레포트 쾌속 질주 내리꽂아 압살 척살해 버림 O(1) 광속 무결점 달성 쾅 🚀!!! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">아키텍트의 피 터지는 메스: [지연</a> 바인딩 (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Binding 꼼수 텐트 ✨)]</strong>
 "야 시발 앱 켤 때 `ld.so` 봇이 걍 1만 개 함수 주소 다 미리 찾아서 GOT 엑셀 장부 풀 빵빵하게 다 적어놓고 시작(Eager Binding 즉시 바인딩 💥) 하면 안 됨 ㅠ 랙 걸리게 왜 1번째 방문 때 찾음?"
@@ -151,23 +156,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정적 링킹 (Static Linking) 강결합 야만 쇳덩이 시대 💀 / "야 공용 라이브러리 함수 1만 줄 코드 걍 내 앱 뱃속에 통째 복사 떡칠 시멘트 용접 박아 넣어 빌드해 ㅋ" ➔ 똑같은 코드 1만 개가 RAM 에 중복 1만 번 복사 복붙 도배 떠서 메모리 100% 꽉 차 OOM 용광로 타죽어 서버 올스탑 마비 폭사 파산 멸망 💥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 링킹 (Dynamic Linking) 십자 융합 텐트 강림 🚀 / 아키텍트 분노 도끼 🪓 "야 씨발 코드 복붙 찢어 폐기 컷 쾅!! ➔ 도서관 파일 <code>.so</code> 딱 1개만 RAM 구석 1칸에 올려놓고 ➔ 앱 1만 개가 실행 찰나에 텔레파시 포인터 주소만 핑퐁 연결 결합(Link) 쳐서 다 같이 1개 쇳덩이 쪽쪽 빨아 공유 쉐어(Share) 록온 쳐 쾅 ✨!!" 메모리 극한 초압축 다이어트 우주 대통일 달성 🚀.</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PLT-GOT 지연 바인딩 (Lazy Binding 꿀빨기 스텔스) 도입 ✨ / "근데 부팅할 때 1만 개 함수 위치 주소표 일일이 다 찾다 CPU 랙 걸려 타죽어 뻗음 💥 ➔ 야 걍 1번째 부를 때만 딱 1번만 가서 주소 찾고 GOT 수첩 메모장에 1초 컷 적어 캐시 박제 치고 빠져!! 2번째부턴 100% 쌩까 스킵 우회 직통 다이렉트 스나이퍼 미사일 꽂아 패스 쳐 쾅 🚀!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">GOT Overwrite 해킹 스나이퍼 멸망 💀 &amp; FULL RELRO 방폭문 수술 🪓 / "어 씨발 GOT 수첩에 해커가 지 해킹 주소 덮어쓰기 치고 통제권 털어 먹네 서버 100억 뚫림 대재앙 파국 터짐 💥!! ➔ 하늘 두 쪽 나도 지연 바인딩 꿀빨기 포기 찢어 컷 치고!! 부팅 때 좀 랙 뻗더라도 무조건 100% 싹 다 찾고</div><div class="kb-diagram-node">GOT 장부 엑셀 전체를 읽기 전용 (Read-Only 쇳덩이 시멘트) 강제 권한 잠금 락킹 쳐 박아 영구 철통 쉴드 방어 록온 쳐라 미친아 쾅 🚀!!!</div><div class="kb-diagram-note">"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모던 리눅스 보안 ASLR / PIE 텔레포트 융합 대관식 (현재) ✨ / 해커가 메모리 주소 못 맞추게 도서관 RAM 올릴 때마다 좌표 위치 100% 랜덤 널뛰기 발광 회피 기동 쳐버림 ➔ 동적 링커 봇(<code>ld.so</code>)이 이 미친 매트릭스 혼돈 카오스 속에서도 0.001초 찰나에 위치 좌표 역산 도출 맵핑 조립 용접을 무결점 오토 힐링 오차 0% 척살 연결해 내는 21세기 SRE OS 커널 보안 방폭문 제국 인프라 최종 우주 마스터피스 완성 쾅 🚀!!</div>
-</div>
-</div>
-
-
+```text
+정적 링킹 (Static Linking) 강결합 야만 쇳덩이 시대 💀 / "야 공용 라이브러리 함수 1만 줄 코드 걍 내 앱 뱃속에 통째 복사 떡칠 시멘트 용접 박아 넣어 빌드해 ㅋ" ➔ 똑같은 코드 1만 개가 RAM 에 중복 1만 번 복사 복붙 도배 떠서 메모리 100% 꽉 차 OOM 용광로 타죽어 서버 올스탑 마비 폭사 파산 멸망 💥 💀
+    │
+    ▼
+동적 링킹 (Dynamic Linking) 십자 융합 텐트 강림 🚀 / 아키텍트 분노 도끼 🪓 "야 씨발 코드 복붙 찢어 폐기 컷 쾅!! ➔ 도서관 파일 `.so` 딱 1개만 RAM 구석 1칸에 올려놓고 ➔ 앱 1만 개가 실행 찰나에 텔레파시 포인터 주소만 핑퐁 연결 결합(Link) 쳐서 다 같이 1개 쇳덩이 쪽쪽 빨아 공유 쉐어(Share) 록온 쳐 쾅 ✨!!" 메모리 극한 초압축 다이어트 우주 대통일 달성 🚀.
+    │
+    ▼
+PLT-GOT 지연 바인딩 (Lazy Binding 꿀빨기 스텔스) 도입 ✨ / "근데 부팅할 때 1만 개 함수 위치 주소표 일일이 다 찾다 CPU 랙 걸려 타죽어 뻗음 💥 ➔ 야 걍 1번째 부를 때만 딱 1번만 가서 주소 찾고 GOT 수첩 메모장에 1초 컷 적어 캐시 박제 치고 빠져!! 2번째부턴 100% 쌩까 스킵 우회 직통 다이렉트 스나이퍼 미사일 꽂아 패스 쳐 쾅 🚀!"
+    │
+    ▼
+GOT Overwrite 해킹 스나이퍼 멸망 💀 & FULL RELRO 방폭문 수술 🪓 / "어 씨발 GOT 수첩에 해커가 지 해킹 주소 덮어쓰기 치고 통제권 털어 먹네 서버 100억 뚫림 대재앙 파국 터짐 💥!! ➔ 하늘 두 쪽 나도 지연 바인딩 꿀빨기 포기 찢어 컷 치고!! 부팅 때 좀 랙 뻗더라도 무조건 100% 싹 다 찾고 [GOT 장부 엑셀 전체를 읽기 전용 (Read-Only 쇳덩이 시멘트) 강제 권한 잠금 락킹 쳐 박아 영구 철통 쉴드 방어 록온 쳐라 미친아 쾅 🚀!!!]" 
+    │
+    ▼
+모던 리눅스 보안 ASLR / PIE 텔레포트 융합 대관식 (현재) ✨ / 해커가 메모리 주소 못 맞추게 도서관 RAM 올릴 때마다 좌표 위치 100% 랜덤 널뛰기 발광 회피 기동 쳐버림 ➔ 동적 링커 봇(`ld.so`)이 이 미친 매트릭스 혼돈 카오스 속에서도 0.001초 찰나에 위치 좌표 역산 도출 맵핑 조립 용접을 무결점 오토 힐링 오차 0% 척살 연결해 내는 21세기 SRE OS 커널 보안 방폭문 제국 인프라 최종 우주 마스터피스 완성 쾅 🚀!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

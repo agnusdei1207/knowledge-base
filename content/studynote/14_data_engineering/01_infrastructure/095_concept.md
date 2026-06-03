@@ -19,7 +19,7 @@ tags = ["14_data_engineering", "education", "study"]
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Engineering) 인프라는 다양한 소스(RDBMS, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 등)에서 생성되는 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추출(Extract), 변환(Transform), 적재(Load)하여 쓸모 있는 정보로 가공하는 시스템의 집합이다. 빅데이터 시대에 접어들며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 볼륨([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))과 속도(Velocity)가 폭증함에 따라, 단일 서버의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로는 감당할 수 없는 한계에 직면했다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔진ering) 인프라는 다양한 소스(RDBMS, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 등)에서 생성되는 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추출(Extract), 변환(Transform), 적재(Load)하여 쓸모 있는 정보로 가공하는 시스템의 집합이다. 빅데이터 시대에 접어들며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 볼륨([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))과 속도(Velocity)가 폭증함에 따라, 단일 서버의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로는 감당할 수 없는 한계에 직면했다.
 
 만약 이 인프라가 제대로 구축되지 않으면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자는 분석 모델을 훈련하기 전에 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하는 데 80% 이상의 시간을 낭비하게 된다. 따라서 안정적이고 확장 가능한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장소와 자동화된 파이프라인 없이는 아무리 훌륭한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 알고리즘도 무용지물이 된다.
 
@@ -38,18 +38,16 @@ tags = ["14_data_engineering", "education", "study"]
 | **처리 (Processing)** | [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/), 집계, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변환 연산 | [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/), Flink, dbt |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (Serving)</strong> | 최종 분석 및 BI 도구를 위한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진 | [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 흐름: 추출부터 서비스까지의 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Source DB</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kafka</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Spark 연산</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cloud DW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Raw Data) (실시간 수집) (ETL 정제) (BI/AI 연동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 병목: 정제 단계의 분산 컴퓨팅(Scale-out) 성능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           데이터 흐름: 추출부터 서비스까지의 파이프라인      │
+├──────────────────────────────────────────────────────────────┤
+│ [Source DB] ─CDC─▶ [Kafka] ─▶ [Spark 연산] ─▶ [Cloud DW]   │
+│ (Raw Data)       (실시간 수집)  (ETL 정제)      (BI/AI 연동)│
+│                                                             │
+│ * 핵심 병목: 정제 단계의 분산 컴퓨팅(Scale-out) 성능        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 최근에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 목적지까지 옮겨서 변환([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))하는 대신, 값싼 클라우드 스토리지에 무조건 적재(Load)한 뒤 강력한 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 내부의 연산력을 빌려 변환(Transform)하는 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 아키텍처가 대세로 자리 잡았다.
 
@@ -111,23 +109,21 @@ DW는 엄격한 구조로 인해 속도가 빠르지만 비싸고 유연성이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">온프레미스 RDBMS (단일 서버 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하둡 (Hadoop) 기반 데이터 레이크 (저비용 분산 저장)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 데이터 웨어하우스 (Snowflake, BigQuery) + ELT</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 레이크하우스 (Data Lakehouse) (오픈 테이블 포맷 융합)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 메시 (Data Mesh) (중앙 집중형에서 분산/도메인 오너십으로 진화)</div>
-</div>
-</div>
-
-
+```text
+온프레미스 RDBMS (단일 서버 한계)
+    │
+    ▼
+하둡 (Hadoop) 기반 데이터 레이크 (저비용 분산 저장)
+    │
+    ▼
+클라우드 데이터 웨어하우스 (Snowflake, BigQuery) + ELT
+    │
+    ▼
+데이터 레이크하우스 (Data Lakehouse) (오픈 테이블 포맷 융합)
+    │
+    ▼
+데이터 메시 (Data Mesh) (중앙 집중형에서 분산/도메인 오너십으로 진화)
+```
 
 이 흐름도는 "단일 저장 → 대용량 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 → 연산 분리 및 클라우드화 → 구조 융합 → 조직 및 아키텍처 혁신"으로 개념이 발전하는 과정을 보여준다.
 

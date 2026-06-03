@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 3. **부호화 (Encoding)**: 반올림한 숫자를 0101 이진수로 바꿈.
 - [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)은 가장 첫 번째 관문인 <strong>'<a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">표본화</a>(<a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a>)'</strong>를 게으르게 했을 때 터지는 대형 사고입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">샤논-하틀리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">에일리어싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">펄스부호변조</div></div>
-</div>
-</div>
-
-
+```text
+[샤논-하틀리]
+    │
+    ▼
+[에일리어싱]
+    │
+    └──▶ [펄스부호변조]
+```
 
 - **📢 섹션 요약 비유**: [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 - **개념**: 원래 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 가진 최고 주파수보다 <strong>너무 느린 속도(<a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">표본화</a> 율)로 데이터를 점찍어 채집(<a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a>)했을 때, 나중에 그 점들을 이어 붙여 원본 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 복원하려고 하면 원래 없던 엉뚱한 저주파 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>(가짜 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>)가 그려지며 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>가 겹치고 왜곡되는 현상</strong>입니다. (다른 말로 '폴딩 현상(Folding)'이라고도 합니다.)
 - 즉, 고음(빠른 파동)이 짤려서 엉뚱하게 베이스 저음처럼 들려 음악이 쓰레기가 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">샤논-하틀리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">에일리어싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">펄스부호변조</div></div>
-</div>
-</div>
-
-
+```text
+[샤논-하틀리]
+    │
+    ▼
+[에일리어싱]
+    │
+    └──▶ [펄스부호변조]
+```
 
 - **📢 섹션 요약 비유**: [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 샤논-하틀리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 에일리어싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 펄스부호변조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 샤논-하틀리]
+    │
+    ▼
+[현재 개념: 에일리어싱]
+    │
+    ├──▶ [확장 A: 펄스부호변조]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)는 [샤논-하틀리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/941_shannon_hartley_theorem_channel_capacity_snr/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [펄스부호변조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

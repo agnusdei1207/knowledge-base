@@ -18,18 +18,12 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ESG = E(환경) + S(사회) + G(지배구조)</div>
-<div class="kb-diagram-note">IT 역할:</div>
-<div class="kb-diagram-note">탄소 데이터 수집 (IoT·ERP) → 분석 → 보고서 자동 생성</div>
-<div class="kb-diagram-note">공급망 ESG 모니터링 → 리스크 조기 감지</div>
-</div>
-</div>
-
-
+```text
+ESG = E(환경) + S(사회) + G(지배구조)
+IT 역할:
+  탄소 데이터 수집 (IoT·ERP) → 분석 → 보고서 자동 생성
+  공급망 ESG 모니터링 → 리스크 조기 감지
+```
 
 - **📢 섹션 요약 비유**: ESG IT 시스템은 기업의 <strong>건강검진 시스템</strong>이다. 환경·사회·지배구조의 건강 상태를 수치로 측정한다.
 
@@ -53,18 +47,12 @@ ESG IT 시스템은 <strong>규제 대응과 기업 가치 향상의 핵심 인�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSR 보고서 (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ESG 투자 확대 (2015~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EU CSRD·SEC 기후 공시 (2023~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ESG IT 시스템 (SAP·Persefoni)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI ESG — 탄소 예측·리스크 자동 분석</div></div>
-</div>
-</div>
-
-
+```text
+[CSR 보고서 (2000s)] → [ESG 투자 확대 (2015~)]
+    → [EU CSRD·SEC 기후 공시 (2023~)]
+    → [ESG IT 시스템 (SAP·Persefoni)]
+    → [현재: AI ESG — 탄소 예측·리스크 자동 분석]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ESG는 기업의 <strong>건강검진</strong>이에요. 환경·사회·경영 건강을 <strong>수치로 측정</strong>해요.

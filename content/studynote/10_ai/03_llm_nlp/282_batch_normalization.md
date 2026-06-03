@@ -30,17 +30,14 @@ tags = ["studynote-ai"]
 
 배치 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(BN)는 각 레이어의 입력을 <strong>미니배치 단위로 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong>하여 이 문제를 해결한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: BN 없이 딥 네트워크를 학습하는 것은 매 수업마다 교과서가 바뀌는 학교에서 공부하는 것과 같다. BN은 "오늘부터 교과서 형식을 통일"해 모든 학생(레이어)이 같은 기준으로 공부할 수 있게 한다.
 
@@ -69,24 +66,24 @@ tags = ["studynote-ai"]
 
 ### 배치 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 레이어 위치
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 데이터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이어 N (Conv 또는 FC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선형 변환: z = Wx + b</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 정규화 (BN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z → 정규화(μ,σ²) → γz̃ + β = y</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">활성화 함수 (ReLU 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a = ReLU(y)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다음 레이어로...</div>
-</div>
-</div>
-
-
+```
+입력 데이터
+    │
+    ▼
+┌───────────────────────────────────────────────────┐
+│  레이어 N (Conv 또는 FC)                          │
+│  선형 변환: z = Wx + b                            │
+├───────────────────────────────────────────────────┤
+│  배치 정규화 (BN)                                 │
+│  z → 정규화(μ,σ²) → γz̃ + β = y                  │
+├───────────────────────────────────────────────────┤
+│  활성화 함수 (ReLU 등)                            │
+│  a = ReLU(y)                                      │
+└───────────────────────────────────────────────────┘
+    │
+    ▼
+다음 레이어로...
+```
 
 ### 학습 시 vs 추론 시 동작
 
@@ -105,23 +102,26 @@ tags = ["studynote-ai"]
 
 ### [정규화 기법](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/) 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화 기법(Normalization) 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Batch Norm: 배치(N) 방향으로 정규화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N개 샘플 × C채널 × H × W</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 방향 통계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer Norm: 채널(C) 방향으로 정규화 (NLP 표준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 샘플 내부 채널/특성 방향</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샘플별 통계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Group Norm: 채널을 G 그룹으로 나눠 정규화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Instance Norm: 각 샘플 각 채널 독립 정규화 (스타일 전송)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│           정규화 기법(Normalization) 비교                    │
+│                                                             │
+│  Batch Norm:    배치(N) 방향으로 정규화                     │
+│  ┌──────────────────────────────────┐                       │
+│  │  N개 샘플 × C채널 × H × W       │                       │
+│  │  ────── 배치 방향 통계 ──────   │                       │
+│  └──────────────────────────────────┘                       │
+│                                                             │
+│  Layer Norm:    채널(C) 방향으로 정규화 (NLP 표준)          │
+│  ┌──────────────────────────────────┐                       │
+│  │  각 샘플 내부 채널/특성 방향     │                       │
+│  │  ────── 샘플별 통계 ──────────  │                       │
+│  └──────────────────────────────────┘                       │
+│                                                             │
+│  Group Norm:   채널을 G 그룹으로 나눠 정규화               │
+│  Instance Norm: 각 샘플 각 채널 독립 정규화 (스타일 전송)  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 | [정규화 기법](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/) | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 방향 | 주요 사용처 | 배치 크기 의존성 |
 |:---|:---|:---|:---:|
@@ -176,17 +176,11 @@ BN은 각 미니배치에서 계산된 통계(평균/[분산](/knowledge-base/st
 
 ### 배치 크기와 BN의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배치 크기 32 이상: BN 효과 안정적</div>
-<div class="kb-diagram-note">배치 크기 8 이하: 통계가 불안정 → Group Norm/Layer Norm 권장</div>
-<div class="kb-diagram-note">배치 크기 1: BN 사용 불가 → Instance Norm/Layer Norm 사용</div>
-</div>
-</div>
-
-
+```
+배치 크기 32 이상: BN 효과 안정적
+배치 크기 8 이하:  통계가 불안정 → Group Norm/Layer Norm 권장
+배치 크기 1:       BN 사용 불가 → Instance Norm/Layer Norm 사용
+```
 
 ### 실무 시나리오
 

@@ -29,27 +29,27 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 교장이 일진(데드락)을 잡겠다며 10분마다 쉬는 시간에 전 교실을 돌면, 애들 수업(정상 프로세스)이 엉망진창 늦어진다(오버헤드). 그렇다고 1년에 한 번 돌면 학교 폭력 피해자들(데드락)이 졸업할 때까지 구제받지 못한다. "최적의 타이밍"이 목숨줄이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지 알고리즘 발동 트리거의 3가지 스펙트럼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전략 1: 즉각 스캔 (Immediate) - 최악의 오버헤드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"프로세스가 자원을 달라고 할 때 시스템이 안 주면, 즉각</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WFG 스캔 발동!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 실전 불가. 1만 개 요청 거절될 때마다 1만 번 루프 붕괴.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전략 2: 정기 타이머 (Fixed Interval) - 도박</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"묻지도 따지지도 않고 매 3분마다 스캔 로직 가동!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 쓸де없이 자원 한가할 때도 CPU 1초씩 까먹는 낭비 유발.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전략 3: 스마트 임계치 (Threshold Trigger) - 실무의 왕</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 A: "전체 CPU 사용률이 갑자기 20% 밑으로 뚝 떨어짐!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 B: "근데 자원 큐(Queue)에는 대기 스레드가 100개임!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "일거리(큐)는 꽉 찼는데 CPU가 논다? 명백한 데드락 징후다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지금 당장 비상 탐지 모듈을 깨워 스캔을 시작해라!"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         탐지 알고리즘 발동 트리거의 3가지 스펙트럼           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [전략 1: 즉각 스캔 (Immediate) - 최악의 오버헤드]           │
+│  "프로세스가 자원을 달라고 할 때 시스템이 안 주면, 즉각      │
+│   WFG 스캔 발동!"                                            │
+│   ▶ 실전 불가. 1만 개 요청 거절될 때마다 1만 번 루프 붕괴.   │
+│                                                              │
+│  [전략 2: 정기 타이머 (Fixed Interval) - 도박]               │
+│  "묻지도 따지지도 않고 매 3분마다 스캔 로직 가동!"           │
+│   ▶ 쓸де없이 자원 한가할 때도 CPU 1초씩 까먹는 낭비 유발.    │
+│                                                              │
+│  [전략 3: 스마트 임계치 (Threshold Trigger) - 실무의 왕]     │
+│   조건 A: "전체 CPU 사용률이 갑자기 20% 밑으로 뚝 떨어짐!"   │
+│   조건 B: "근데 자원 큐(Queue)에는 대기 스레드가 100개임!"   │
+│   ▶ "일거리(큐)는 꽉 찼는데 CPU가 논다? 명백한 데드락 징후다!│
+│      지금 당장 비상 탐지 모듈을 깨워 스캔을 시작해라!"       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 최고의 선생님은 안 오다가도, 반에서 갑자기 "책 넘어가는 소리도 멈추고 이상할 정도로 쥐죽은 듯 고요할 때(CPU 이용률 바닥+큐 터짐)"만 딱 나타나서 잡는 베테랑 선생님입니다(스마트 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 탐지).
 
@@ -122,19 +122,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">대기 그래프 (Wait-for Graph)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">탐지 알고리즘의 오버헤드 (Detection Overhead)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 복구 (Recovery from Deadlock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로세스 종료 방식</div></div>
-</div>
-</div>
-
-
+```text
+[대기 그래프 (Wait-for Graph)]
+    │
+    ▼
+[탐지 알고리즘의 오버헤드 (Detection Overhead)]
+    │
+    ├──▶ [교착 상태 복구 (Recovery from Deadlock)]
+    └──▶ [프로세스 종료 방식]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -23,7 +23,7 @@ tags = ["studynote-devops-sre"]
 
 DevOps가 개발 속도를 극적으로 높이면서 "어떻게 그 속도에 보안을 맞출 것인가"가 핵심 과제가 되었다. 2020년 상태 보고서([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) of [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Report)에 따르면 DevSecOps를 실천하는 조직은 보안 취약점 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 50% 짧다.
 
-Shift-Left의 반대 개념 Shift-Right는 프로덕션 환경에서 보안 관찰([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/), [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석)을 통해 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 확장하는 개념이다. 두 방향 모두 중요하다.
+Shift-Left의 반대 개념 Shift-Right는 프로덕션 환경에서 보안 관찰([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/), [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 분석)을 통해 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 확장하는 개념이다. 두 방향 모두 중요하다.
 
 > 📢 **섹션 요약 비유**: Shift-Left는 자동차 공장에서 완성 후 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾는 게 아니라, 설계도 단계에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 찾는 것이다. 완성 후 리콜보다 설계 변경이 훨씬 저렴하다.
 
@@ -31,21 +31,21 @@ Shift-Left의 반대 개념 Shift-Right는 프로덕션 환경에서 보안 관�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevSecOps 파이프라인 보안 게이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계획 → 코드 → 빌드 → 테스트 → 배포 → 운영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위협 SAST SCA DAST IaC CSPM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델링 (정적 분석) (의존성) (동적 분석) 스캔 CWPP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STRIDE 시크릿 탐지 CVE 스캔 API 퓨징 정책 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← ← ← ← ← Shift-Left (보안 조기 발견) ← ← ← ← ← ← ←</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ → → → → Shift-Right (프로덕션 보안 관찰) → → → → →</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│               DevSecOps 파이프라인 보안 게이트               │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  계획    →  코드    →  빌드    →  테스트  →  배포  →  운영  │
+│   │          │          │          │         │        │    │
+│  위협       SAST       SCA       DAST      IaC      CSPM  │
+│  모델링   (정적 분석)  (의존성)  (동적 분석) 스캔   CWPP   │
+│  STRIDE   시크릿 탐지  CVE 스캔  API 퓨징  정책    모니터링 │
+│                                                            │
+│  ← ← ← ← ← Shift-Left (보안 조기 발견) ← ← ← ← ← ← ←   │
+│  → → → → → Shift-Right (프로덕션 보안 관찰) → → → → →    │
+└────────────────────────────────────────────────────────────┘
+```
 
 [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/611_threat_modeling/)은 6가지 위협 범주의 두문자어다:
 - **S** - [Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) ([스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)): 신원 위조
@@ -117,19 +117,14 @@ DevSecOps의 본질은 **"보안은 팀 전체의 책임"** 이라는 문화 전
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 보안 시대 DevSecOps 등장 자동화 성숙 시대</div>
-<div class="kb-diagram-note">출시 전 1회 검수 → SAST/DAST CI 통합 → 전 파이프라인 보안 자동화</div>
-<div class="kb-diagram-note">보안팀 단독 책임 Security Champion 도입 AI 기반 취약점 예측</div>
-<div class="kb-diagram-note">수동 침투 테스트 위협 모델링 도구화 Policy as Code</div>
-<div class="kb-diagram-note">STRIDE/PASTA 표준화 CNAPP 통합 보안</div>
-</div>
-</div>
-
-
+```text
+전통 보안 시대            DevSecOps 등장               자동화 성숙 시대
+─────────────────   ──────────────────────────   ────────────────────────
+출시 전 1회 검수   →  SAST/DAST CI 통합        →  전 파이프라인 보안 자동화
+보안팀 단독 책임       Security Champion 도입       AI 기반 취약점 예측
+수동 침투 테스트       위협 모델링 도구화              Policy as Code
+                        STRIDE/PASTA 표준화             CNAPP 통합 보안
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +138,7 @@ DevSecOps의 본질은 **"보안은 팀 전체의 책임"** 이라는 문화 전
 
 **진행 상황**: 325 / 373
 
-← **이전**: [Chaos Engineering](/knowledge-base/studynote/11_design_supervision/06_exam_summary/324_audit/)
+← **이전**: [Chaos 엔진ering](/knowledge-base/studynote/11_design_supervision/06_exam_summary/324_audit/)
 **다음**: [326. SAST DAST IAST 보안 테스트 비교 CI 파이프라인 배치 (SAST DAST IAST Security Testing](/knowledge-base/studynote/15_devops_sre/05_devsecops/326_sast_dast_iast/) →
 
 ---

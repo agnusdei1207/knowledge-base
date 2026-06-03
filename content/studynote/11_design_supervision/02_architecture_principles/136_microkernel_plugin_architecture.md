@@ -23,22 +23,23 @@ tags = ["studynote-design-supervision"]
 
 소프트웨어 아키텍처에서는 이 개념을 확장하여, 핵심 기능(Core System)과 가변 확장 기능(Plugin)을 명확히 분리한다. 대표 사례: ① Eclipse IDE (플러그인 기반 개발 환경), ② IntelliJ IDEA (플러그인 마켓플레이스), ③ VS [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) (Extension [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), ④ [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) (플러그인 기반 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD), ⑤ WordPress (플러그인 기반 CMS).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로커널 아키텍처 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core System (최소 커널)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 핵심 비즈니스 규칙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 플러그인 등록·로드·언로드 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 플러그인 간 통신 인터페이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Plugin Interface / Extension Point)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plugin A</div><div class="kb-diagram-cell">Plugin B</div><div class="kb-diagram-cell">Plugin C</div><div class="kb-diagram-cell">Plugin D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기능 확장)</div><div class="kb-diagram-cell">(기능 확장)</div><div class="kb-diagram-cell">(기능 확장)</div><div class="kb-diagram-cell">(기능 확장)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          마이크로커널 아키텍처 구조                           │
+├─────────────────────────────────────────────────────────────┤
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │  Core System (최소 커널)                               │  │
+│  │  - 핵심 비즈니스 규칙                                  │  │
+│  │  - 플러그인 등록·로드·언로드 관리                      │  │
+│  │  - 플러그인 간 통신 인터페이스                         │  │
+│  └─────────────────────────┬─────────────────────────────┘  │
+│                            │ (Plugin Interface / Extension Point)│
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐       │
+│  │Plugin A  │ │Plugin B  │ │Plugin C  │ │Plugin D  │       │
+│  │(기능 확장)│ │(기능 확장)│ │(기능 확장)│ │(기능 확장)│       │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘       │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 스마트폰(코어 시스템)에 앱(플러그인)을 설치·삭제해도 스마트폰 자체가 변경되지 않는 것과 같다. 앱 하나가 고장나도 스마트폰은 정상 동작한다.
 
@@ -55,20 +56,18 @@ tags = ["studynote-design-supervision"]
 | Plugin | 독립 기능 확장 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | Git 플러그인, Java 플러그인 |
 | Plugin [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) | 플러그인 등록·발견·로드 | OSGi 번들 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플러그인 등록·로드 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플러그인 개발자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">implements PluginInterface → 플러그인 JAR/패키지 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core System</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plugin Registry에 플러그인 등록 (plugin.xml, manifest 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 시 PluginInterface.execute() 호출</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       플러그인 등록·로드 흐름                                │
+├─────────────────────────────────────────────────────────────┤
+│  플러그인 개발자                                             │
+│  implements PluginInterface → 플러그인 JAR/패키지 배포       │
+│                                                             │
+│  Core System                                                │
+│  Plugin Registry에 플러그인 등록 (plugin.xml, manifest 등)  │
+│  요청 시 PluginInterface.execute() 호출                     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 레고 블록(플러그인)은 표준 연결 인터페이스(플러그인 인터페이스)가 있어 어떤 레고와도 조립된다. 기존 블록을 제거해도 다른 블록들은 그대로 연결된다.
 

@@ -28,17 +28,14 @@ tags = ["studynote-ai"]
 "이봐, 점을 억지로 블록에 구겨 넣지 말고, <strong>있는 그대로의 점 좌표 (x, y, z) 숫자 3개를 그냥 신경망에 때려 박아서 학습</strong>할 순 없을까?" 
 이 미친 발상을 스탠퍼드 대학교 연구진이 2017년에 수학적으로 완벽하게 증명해 낸 모델이 바로 <strong>PointNet(포인트넷)</strong>이다. 3D 딥러닝 역사는 PointNet 이전과 이후로 나뉜다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 복셀(Voxel) 방식은 모래사장에서 '동전(점)'을 찾을 때, 모래사장을 1만 개의 큐브 박스로 쪼갠 뒤 박스를 하나하나 다 열어보는 멍청한 방식이다(빈 박스가 99%라 지쳐 쓰러짐). PointNet은 금속 탐지기다. 텅 빈 모래(허공)는 신경도 쓰지 않고, 오직 동전이 있는 (x, y, z) 정확한 좌표 위치에만 침을 꽂아 모양을 파악하는 극한의 효율성을 가진 탐지기다.
 
@@ -48,29 +45,30 @@ tags = ["studynote-ai"]
 
 PointNet은 순서가 없는 점(Point) 덩어리를 딥러닝에 우겨넣기 위해, MLP([다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/))와 대칭 함수([Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/))를 우아하게 결합한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PointNet 아키텍처의 3D 좌표 날것(Raw) 학습 파이프라인 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-note">: 무작위로 섞인 점 1,000개 (각 점은 x, y, z 3차원 좌표)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 점A(1,2,3), 점B(4,5,6), 점C(7,8,9) ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. T-Net (공간 변환기 - 삐뚤어진 각도 펴주기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 자전거가 누워있든 서 있든 똑같은 자전거로 인식하도록 회전 행렬을 곱해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 점들의 자세를 정면으로 예쁘게 정렬시킴 (Affine Transformation).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Shared MLP (개별 점 특징 뻥튀기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 점 1,000개가 서로 대화하지 않고 '각자 독립적으로' 퍼셉트론 방을 통과함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 점 하나당 (x,y,z) 3개 숫자가 ─▶ 64개 ─▶ 1024개의 특징 숫자로 뻥튀기됨!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. ★ Max Pooling (대칭 함수 - 순서 불변성 극복의 핵심!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 점 1,000개가 제각각 1024차원으로 부풀려졌음. (1000 x 1024 행렬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 여기서 세로로 가장 큰 값(Max) 하나씩만 쾅 눌러서 뽑아냄!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 점이 어떤 순서로 들어왔든 상관없이 "이 전체 점 덩어리는 '의자' 모양이다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">라는 거대한</div><div class="kb-diagram-node">1 x 1024</div><div class="kb-diagram-note">글로벌 특징(Global Feature) 벡터가 완성됨!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">출력</div><div class="kb-diagram-note">: 이 글로벌 벡터를 바탕으로 "이건 자동차(99%)" 라고 판별 완료.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           PointNet 아키텍처의 3D 좌표 날것(Raw) 학습 파이프라인 도해      │
+├──────────────────────────────────────────────────────────────┤
+│  [입력]: 무작위로 섞인 점 1,000개 (각 점은 x, y, z 3차원 좌표)            │
+│   예: 점A(1,2,3), 점B(4,5,6), 점C(7,8,9) ...                        │
+│                                                              │
+│  [1. T-Net (공간 변환기 - 삐뚤어진 각도 펴주기)]                     │
+│   * 자전거가 누워있든 서 있든 똑같은 자전거로 인식하도록 회전 행렬을 곱해     │
+│     모든 점들의 자세를 정면으로 예쁘게 정렬시킴 (Affine Transformation).│
+│                                                              │
+│  [2. Shared MLP (개별 점 특징 뻥튀기)]                           │
+│   * 점 1,000개가 서로 대화하지 않고 '각자 독립적으로' 퍼셉트론 방을 통과함.   │
+│   * 점 하나당 (x,y,z) 3개 숫자가 ─▶ 64개 ─▶ 1024개의 특징 숫자로 뻥튀기됨! │
+│                                                              │
+│  [3. ★ Max Pooling (대칭 함수 - 순서 불변성 극복의 핵심!)]            │
+│   * 점 1,000개가 제각각 1024차원으로 부풀려졌음. (1000 x 1024 행렬)       │
+│   * 여기서 세로로 가장 큰 값(Max) 하나씩만 쾅 눌러서 뽑아냄!                │
+│   ─▶ 점이 어떤 순서로 들어왔든 상관없이 "이 전체 점 덩어리는 '의자' 모양이다!" │
+│      라는 거대한 [1 x 1024] 글로벌 특징(Global Feature) 벡터가 완성됨!   │
+│                                                              │
+│  [출력]: 이 글로벌 벡터를 바탕으로 "이건 자동차(99%)" 라고 판별 완료.         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (순서 불변성 극복, Permutation Invariance)**:
 이미지 픽셀은 1번 픽셀과 2번 픽셀의 자리가 바뀌면 사진이 망가진다. 하지만 포인트 클라우드는 점 A, B, C를 입력하든 C, A, B를 입력하든 똑같은 컵 모양이다. 신경망이 이 '순서 없음'을 이해하게 만드는 것이 최대 난제였다. 

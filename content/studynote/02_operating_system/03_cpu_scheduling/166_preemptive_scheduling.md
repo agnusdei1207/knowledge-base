@@ -25,23 +25,22 @@ tags = ["studynote-operating-system"]
 
 이 그림은 선점형과 비선점형의 체감 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 제어권의 차이: 자발적 양보 vs 강제 회수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비선점형</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Task A :</div><div class="kb-diagram-node">████████████████████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task B : ....................(계속 대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선점형</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Task A :</div><div class="kb-diagram-node">████</div><div class="kb-diagram-node">████</div><div class="kb-diagram-node">██</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 타이머 또는 고우선순위 이벤트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널이 CPU 회수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Task B : .....</div><div class="kb-diagram-node">██</div><div class="kb-diagram-node">████</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       CPU 제어권의 차이: 자발적 양보 vs 강제 회수            │
+├──────────────────────────────────────────────────────────────┤
+│ 비선점형                                                     │
+│   Task A : [████████████████████]                            │
+│   Task B : ....................(계속 대기)                   │
+│                                                              │
+│ 선점형                                                       │
+│   Task A : [████][████][██]                                  │
+│              ▲    ▲                                          │
+│              │    └─ 타이머 또는 고우선순위 이벤트           │
+│              └────── 커널이 CPU 회수                         │
+│   Task B : .....[██][████]                                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉 선점형 스케줄링은 단순한 교체 기술이 아니라, 시스템 응답성·공정성·실시간성의 기반이다. 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 이것이 기본값이 된 이유도 여기에 있다.
 
@@ -62,23 +61,24 @@ tags = ["studynote-operating-system"]
 
 이 그림은 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반 선점의 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타이머 인터럽트 기반 선점: 정책이 메커니즘으로 실행됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Running Task</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 타이머 인터럽트 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kernel 진입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 실행 시간 차감 / 우선순위 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ need_resched 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 디스패처 호출 여부 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No → 현재 작업 계속 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes → 문맥 교환 후 다른 작업 실행</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       타이머 인터럽트 기반 선점: 정책이 메커니즘으로 실행됨    │
+├──────────────────────────────────────────────────────────────┤
+│ Running Task                                                  │
+│    │                                                          │
+│    ├─ 타이머 인터럽트 발생                                    │
+│    ▼                                                          │
+│ Kernel 진입                                                   │
+│    │                                                          │
+│    ├─ 실행 시간 차감 / 우선순위 확인                          │
+│    ├─ need_resched 판단                                       │
+│    └─ 디스패처 호출 여부 결정                                 │
+│            │                                                  │
+│            ├─ No  → 현재 작업 계속 실행                       │
+│            └─ Yes → 문맥 교환 후 다른 작업 실행               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 트레이드오프가 타임 퀀텀 크기다. 퀀텀이 너무 짧으면 반응성은 좋아지지만 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)과 캐시 미스가 늘고, 너무 길면 오버헤드는 줄지만 사용자 체감 지연이 커진다. 그래서 선점형 스케줄링은 "무조건 자주 바꾸는 것"이 아니라, 어떤 작업군에서 어느 정도 주기로 회수해야 가장 좋은지 조정하는 설계 문제다.
 
@@ -153,22 +153,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">타이머 인터럽트 / 우선순위 이벤트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">선점 필요 판단 (need_resched)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">문맥 교환 / 디스패처 실행</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 라운드 로빈 (RR)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 우선순위 기반 스케줄링</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ CFS / 실시간 선점 커널</div>
-</div>
-</div>
-
-
+```text
+타이머 인터럽트 / 우선순위 이벤트
+    │
+    ▼
+선점 필요 판단 (need_resched)
+    │
+    ▼
+문맥 교환 / 디스패처 실행
+    │
+    ├─▶ 라운드 로빈 (RR)
+    ├─▶ 우선순위 기반 스케줄링
+    └─▶ CFS / 실시간 선점 커널
+```
 
 이 흐름도는 선점이 단독 개념이 아니라, 하드웨어 이벤트에서 시작해 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 정책과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 설계로 확장되는 구조임을 보여준다.
 

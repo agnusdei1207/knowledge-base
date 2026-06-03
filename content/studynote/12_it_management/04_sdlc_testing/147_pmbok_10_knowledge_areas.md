@@ -33,26 +33,22 @@ PMBOK 없이는 다음과 같은 문제가 반복된다:
 
 ### 1. PMBOK 6판 기준: 10대 지식 영역 × 5개 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)
 
+```text
+PMBOK 6판 프레임워크 (10 Knowledge Areas × 5 Process Groups)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PMBOK 6판 프레임워크 (10 Knowledge Areas × 5 Process Groups)</div>
-<div class="kb-diagram-note">착수 계획 실행 감시·통제 종료</div>
-<div class="kb-diagram-note">1. 통합관리 ● ● ● ● ●</div>
-<div class="kb-diagram-note">2. 범위관리 ● ●</div>
-<div class="kb-diagram-note">3. 일정관리 ● ●</div>
-<div class="kb-diagram-note">4. 원가관리 ● ●</div>
-<div class="kb-diagram-note">5. 품질관리 ● ● ●</div>
-<div class="kb-diagram-note">6. 자원관리 ● ● ●</div>
-<div class="kb-diagram-note">7. 의사소통관리 ● ● ●</div>
-<div class="kb-diagram-note">8. 위험관리 ● ●</div>
-<div class="kb-diagram-note">9. 조달관리 ● ● ● ●</div>
-<div class="kb-diagram-note">10. 이해관계자관리 ● ● ● ●</div>
-</div>
-</div>
-
-
+                  착수  계획  실행  감시·통제  종료
+                  ────  ────  ────  ──────────  ────
+1. 통합관리       ●     ●     ●        ●         ●
+2. 범위관리             ●              ●
+3. 일정관리             ●              ●
+4. 원가관리             ●              ●
+5. 품질관리             ●     ●        ●
+6. 자원관리             ●     ●        ●
+7. 의사소통관리         ●     ●        ●
+8. 위험관리             ●              ●
+9. 조달관리             ●     ●        ●         ●
+10. 이해관계자관리 ●    ●     ●        ●
+```
 
 ### 2. 10대 지식 영역 요약
 
@@ -71,22 +67,19 @@ PMBOK 없이는 다음과 같은 문제가 반복된다:
 
 ### 3. [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/), 획득가치관리) 핵심 지표
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">EVM 핵심 지표</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PV (Planned Value) : 계획된 작업의 계획 비용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EV (Earned Value) : 완료된 작업의 계획 비용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AC (Actual Cost) : 완료된 작업의 실제 비용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SV (Schedule Variance) = EV - PV (일정 편차)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CV (Cost Variance) = EV - AC (원가 편차)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SPI (일정 성과지수) = EV / PV (1.0 이상: 일정 앞섬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPI (원가 성과지수) = EV / AC (1.0 이상: 예산 절약)</div></div>
-</div>
-</div>
-
-
+```text
+EVM 핵심 지표
+  ┌──────────────────────────────────────────────────────────┐
+  │  PV (Planned Value)   : 계획된 작업의 계획 비용           │
+  │  EV (Earned Value)    : 완료된 작업의 계획 비용           │
+  │  AC (Actual Cost)     : 완료된 작업의 실제 비용           │
+  │                                                          │
+  │  SV (Schedule Variance) = EV - PV  (일정 편차)           │
+  │  CV (Cost Variance)     = EV - AC  (원가 편차)           │
+  │  SPI (일정 성과지수)    = EV / PV  (1.0 이상: 일정 앞섬) │
+  │  CPI (원가 성과지수)    = EV / AC  (1.0 이상: 예산 절약)  │
+  └──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: EVM은 **'택배 배송 진행률 트래커'** 와 같습니다. "오늘까지 전체 택배의 60%([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/))를 보내야 했는데, 실제로 50%([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/))만 보냈고, 그 50% 보내는 데 예상보다 돈이 20% 더 들었다([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))"면, 일정도 늦고 비용도 초과된 상황입니다.
 
@@ -167,27 +160,27 @@ PMBOK은 "프로젝트를 통제하는 도구"가 아니라, **"프로젝트를 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로젝트 관리 방법론 필요성 (방산·우주 프로젝트)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PMI PMBOK 초판 (1996)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PMBOK 6판 — 49개 프로세스, 10대 지식 영역</div>
-<div class="kb-diagram-tree-item" style="--depth:2">WBS / CPM / EVM — 일정·비용 통제 도구</div>
-<div class="kb-diagram-tree-item" style="--depth:2">위험 관리 (정성·정량 분석)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PMBOK 7판 (2021) — 12원칙 + 8성과 영역 (가치 중심)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 PM (예측 + 애자일 통합)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 기반 프로젝트 예측·자동화</div>
-</div>
-</div>
-
-
+```text
+프로젝트 관리 방법론 필요성 (방산·우주 프로젝트)
+    │
+    ▼
+PMI PMBOK 초판 (1996)
+    │
+    ▼
+PMBOK 6판 — 49개 프로세스, 10대 지식 영역
+    │
+    ├─► WBS / CPM / EVM — 일정·비용 통제 도구
+    ├─► 위험 관리 (정성·정량 분석)
+    │
+    ▼
+PMBOK 7판 (2021) — 12원칙 + 8성과 영역 (가치 중심)
+    │
+    ▼
+하이브리드 PM (예측 + 애자일 통합)
+    │
+    ▼
+AI 기반 프로젝트 예측·자동화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

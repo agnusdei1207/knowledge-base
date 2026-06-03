@@ -50,18 +50,12 @@ GRU 2 Gate: Reset + Update (LSTM 단순화)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Vanilla RNN (1986)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LSTM (Hochreiter, 1997)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GRU (Cho, 2014)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Seq2Seq+Attention (2014)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Transformer (2017) — LSTM 대체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: xLSTM/Mamba — LSTM 르네상스</div></div>
-</div>
-</div>
-
-
+```text
+[Vanilla RNN (1986)] → [LSTM (Hochreiter, 1997)]
+    → [GRU (Cho, 2014)] → [Seq2Seq+Attention (2014)]
+    → [Transformer (2017) — LSTM 대체]
+    → [현재: xLSTM/Mamba — LSTM 르네상스]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LSTM은 <strong>포스트잇 붙은 일기장</strong>이에요. 중요한 페이지를 **잊지 않아요**.

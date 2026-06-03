@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> / <a href="/knowledge-base/studynote/09_security/03_network_security/284_openvpn/">OpenVPN</a></strong>: 수만 개의 부품과 센서로 이루어진 <strong>"초거대 우주왕복선"</strong>입니다. 뭐 하나 고장 나면 고치기도 힘들고 띄우는 데 시간(협상)도 오래 걸립니다.
   - **WireGuard**: 오직 모터, 배터리, 바퀴 딱 3개의 초경량 부품으로만 만든 <strong>"최고급 전기 자전거"</strong>입니다. 고장 날 부품 자체가 없고, 페달을 밟으면 0.1초 만에 최고 속도로 튀어 나갑니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMVPN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WireGuard</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QoS</div></div>
-</div>
-</div>
-
-
+```text
+[DMVPN]
+    │
+    ▼
+[WireGuard]
+    │
+    └──▶ [QoS]
+```
 
 - **📢 섹션 요약 비유**: <strong> WireGuard는 복잡한 코스 요리 전문점(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a>)을 밀어내고 등장한 </strong>"단일 메뉴 국밥집"**입니다. 짜장면, 짬뽕(다양한 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/)) 다 버리고 무조건 "국밥 한 그릇(단일 최신 암호화)"만 팔기 때문에, 주방장(라우터)이 요리(패킷 처리)하는 속도가 타의 추종을 불허합니다.
 
@@ -58,25 +54,27 @@ WireGuard는 협상이라는 개념 자체가 아예 없다. (Crypto Agility의 
 - **들어올 때 (Inbound)**: 어떤 놈이 나한테 패킷을 쐈는데, 암호 덩어리를 뜯어보니(복호화) 그 열쇠가 아까 적어둔 공개키 `abcde...`와 완벽히 맞아떨어졌고 그 안의 알맹이 출발지 IP가 `10.1.1.2`다? **"암호가 풀렸네? 넌 100% 믿을 수 있는 놈이야! 통과!"** (별도의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 검사 싹 다 생략).
 - **나갈 때 (Outbound)**: 목적지가 `10.1.1.2`인 패킷을 쏴야 한다면? <strong>"아까 그 공개키(<code>abcde...</code>)로 묻지도 따지지도 않고 바로 암호화해서 던진다!"</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WireGuard의 로밍(Roaming) 불사신 능력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰 (재택근무)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 카페 와이파이 연결 중 (출발지 IP: 1.1.1.1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; VPN 서버와 UDP로 짱짱하게 암호화 통신 중.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 카페를 나서서 5G(LTE)로 전환됨! (출발지 IP: 2.2.2.2로 바뀜!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* IPsec의 반응: "어? IP가 바뀌었네? 보안 위협이다! 연결 끊어!!" (접속 튕김)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* WireGuard의 뇌구조:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"IP가 2.2.2.2로 바뀌어서 날아왔네? 상관없어, 암호화 풀어보자...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오! 암호가 원래 쓰던 그놈 열쇠(Public Key)로 완벽하게 풀리네?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그럼 얜 IP만 바뀐 거고 아까 그놈 맞네! 연결 계속 유지해!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 모바일 환경에서 와이파이와 셀룰러를 넘나들어도 VPN이 절대 끊기지 않음.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                WireGuard의 로밍(Roaming) 불사신 능력             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 스마트폰 (재택근무) ]                                        │
+ │   1) 카페 와이파이 연결 중 (출발지 IP: 1.1.1.1)                    │
+ │      -> VPN 서버와 UDP로 짱짱하게 암호화 통신 중.                 │
+ │                                                             │
+ │   2) 카페를 나서서 5G(LTE)로 전환됨! (출발지 IP: 2.2.2.2로 바뀜!)     │
+ │                                                             │
+ │   * IPsec의 반응: "어? IP가 바뀌었네? 보안 위협이다! 연결 끊어!!" (접속 튕김)│
+ │                                                             │
+ │   * WireGuard의 뇌구조:                                       │
+ │     "IP가 2.2.2.2로 바뀌어서 날아왔네? 상관없어, 암호화 풀어보자...    │
+ │      오! 암호가 원래 쓰던 그놈 열쇠(Public Key)로 완벽하게 풀리네?     │
+ │      그럼 얜 IP만 바뀐 거고 아까 그놈 맞네! 연결 계속 유지해!!"         │
+ │                                                             │
+ │   ▶ 결과: 모바일 환경에서 와이파이와 셀룰러를 넘나들어도 VPN이 절대 끊기지 않음.│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스페이스 동작 (무자비한 속도)
 OpenVPN은 유저 스페이스(User Space)라는 일반 프로그램 영역에서 돌아가서, 패킷이 올 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 유저 영역을 왔다 갔다 하며 속도를 다 갉아먹는다([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching).
@@ -138,19 +136,15 @@ WireGuard는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_r
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DMVPN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WireGuard</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: QoS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DMVPN]
+    │
+    ▼
+[현재 개념: WireGuard]
+    │
+    ├──▶ [확장 A: QoS]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 WireGuard는 DMVPN에서 출발해 현재 메커니즘을 정교화하고, 이후 QoS와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

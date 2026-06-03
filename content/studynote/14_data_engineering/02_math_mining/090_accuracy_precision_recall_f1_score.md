@@ -39,19 +39,18 @@ tags = ["studynote-data-engineering"]
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/">재현율</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/">Recall</a>)</strong> | `TP / (TP + FN)` | 실제 '양성'인 것 중 모델이 찾아낸 비율 | FN(미탐) 최소화 |
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/">F1-Score</a></strong> | `2 × (Precision × Recall) / (Precision + Recall)` | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)의 조화 평균 | 두 지표의 균형 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정밀도와 재현율의 트레이드오프 (Trade-off)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">판단 임계값(Threshold) 하향 조정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">더 쉽게 '양성'으로 판정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 실제 양성을 더 많이 찾아냄 ====&gt; 재현율(Recall) 상승</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 정상도 양성으로 잘못 판정 증가 ===&gt; 정밀도(Precision) 하락</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 반대로 임계값을 올리면 정밀도는 오르지만 재현율은 떨어진다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             정밀도와 재현율의 트레이드오프 (Trade-off)          │
+├──────────────────────────────────────────────────────────────┤
+│ [판단 임계값(Threshold) 하향 조정] ─▶ 더 쉽게 '양성'으로 판정  │
+│    │                                                         │
+│    ├─▶ 실제 양성을 더 많이 찾아냄 ====> 재현율(Recall) 상승    │
+│    └─▶ 정상도 양성으로 잘못 판정 증가 ===> 정밀도(Precision) 하락│
+│                                                              │
+│ ※ 반대로 임계값을 올리면 정밀도는 오르지만 재현율은 떨어진다.      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이러한 반비례 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 때문에 한 지표만 높이는 꼼수를 막기 위해, 둘 다 높아야만 좋은 점수를 받는 조화 평균인 F1-Score를 종합 지표로 사용한다.
 
@@ -105,23 +104,21 @@ tags = ["studynote-data-engineering"]
 | **F-Beta Score** | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 중 특정 지표에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Beta)를 부여한 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">분류 예측 및 혼동 행렬 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정확도의 한계 인식 (데이터 불균형 문제)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정밀도 (Precision) · 재현율 (Recall) 세분화 (FP/FN 억제)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">F1-Score (두 지표의 조화 평균으로 종합 평가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비용 민감 학습 및 도메인 특화 지표(F-Beta) 적용</div>
-</div>
-</div>
-
-
+```text
+분류 예측 및 혼동 행렬 도입
+    │
+    ▼
+정확도의 한계 인식 (데이터 불균형 문제)
+    │
+    ▼
+정밀도 (Precision) · 재현율 (Recall) 세분화 (FP/FN 억제)
+    │
+    ▼
+F1-Score (두 지표의 조화 평균으로 종합 평가)
+    │
+    ▼
+비용 민감 학습 및 도메인 특화 지표(F-Beta) 적용
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 사과 골라내기 시험에서 '전체 중 몇 개를 맞췄나'가 정확도예요.

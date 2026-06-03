@@ -29,22 +29,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 메모리 계층이 왜 “한 방향으로 갈수록 좋기만 한 구조”가 아니라, 상충하는 속성과 비용을 균형화한 구조인지 보여준다.
 
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        Memory Hierarchy: latency, capacity, cost trade-off  │
+├──────────────┬───────────────┬──────────────┬───────────────┤
+│ Level        │ Typical speed │ Capacity     │ Cost per bit  │
+├──────────────┼───────────────┼──────────────┼───────────────┤
+│ Register     │ fastest       │ very tiny    │ highest       │
+│ Cache        │ very fast     │ small        │ very high     │
+│ Main Memory  │ moderate      │ medium/large │ medium        │
+│ SSD / HDD    │ slowest       │ very large   │ lowest        │
+└──────────────┴───────────────┴──────────────┴───────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory Hierarchy: latency, capacity, cost trade-off</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level</div><div class="kb-diagram-cell">Typical speed</div><div class="kb-diagram-cell">Capacity</div><div class="kb-diagram-cell">Cost per bit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register</div><div class="kb-diagram-cell">fastest</div><div class="kb-diagram-cell">very tiny</div><div class="kb-diagram-cell">highest</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache</div><div class="kb-diagram-cell">very fast</div><div class="kb-diagram-cell">small</div><div class="kb-diagram-cell">very high</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main Memory</div><div class="kb-diagram-cell">moderate</div><div class="kb-diagram-cell">medium/large</div><div class="kb-diagram-cell">medium</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD / HDD</div><div class="kb-diagram-cell">slowest</div><div class="kb-diagram-cell">very large</div><div class="kb-diagram-cell">lowest</div></div>
-<div class="kb-diagram-note">위로 갈수록 CPU에 가까움 / 지연시간 감소 / 비용 증가</div>
-<div class="kb-diagram-note">아래로 갈수록 CPU에서 멀어짐 / 용량 증가 / 비용 감소</div>
-</div>
-</div>
-
-
+위로 갈수록  CPU에 가까움 / 지연시간 감소 / 비용 증가
+아래로 갈수록  CPU에서 멀어짐 / 용량 증가   / 비용 감소
+```
 
 이 표의 핵심은 “위 계층이 항상 우월하다”가 아니라, <strong>위 계층은 속도를 사고 아래 계층은 용량을 산다</strong>는 점이다. 그래서 계층 구조의 설계 포인트는 각 계층의 장점을 그대로 두고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 규칙으로 단점을 상쇄하는 데 있다.
 
@@ -67,22 +66,23 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 CPU 요청이 계층을 따라 내려가고, 찾은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 위로 올리며 평균 접근 시간을 줄이는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read path: search upward, fetch downward</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register / L1 Cache ? ── hit ▶ return quickly</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lower Cache / DRAM ? ── hit ▶ copy upward</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD / HDD access ▶ load to DRAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">then refill up</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          Read path: search upward, fetch downward            │
+├──────────────────────────────────────────────────────────────┤
+│ CPU request                                                  │
+│    │                                                         │
+│    ▼                                                         │
+│ Register / L1 Cache ? ── hit ───────────────▶ return quickly │
+│    │ miss                                                    │
+│    ▼                                                         │
+│ Lower Cache / DRAM ? ── hit ───────────────▶ copy upward     │
+│    │ miss                                                    │
+│    ▼                                                         │
+│ SSD / HDD access     ───────────────────────▶ load to DRAM   │
+│                                              then refill up  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 과정에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 설명할 때 자주 쓰는 값이 [AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/) (Average Memory Access Time)이다. 개념적으로는 `평균 접근 시간 = 히트 시간 + 미스율 × 미스 패널티`로 볼 수 있다. 즉 캐시는 단지 “빠른 저장소”가 아니라, 미스가 드물다는 전제 아래 전체 평균을 낮추는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 장치다. 그래서 캐시 용량, 연관도, 교체 정책보다 더 근본적인 질문은 <strong>프로그램이 지역성을 보이느냐</strong>다.
 
@@ -159,25 +159,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 기억장치 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 벽 (Memory Wall)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 계층 구조 (Memory Hierarchy)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 캐시 메모리 (Cache Memory)</div>
-<div class="kb-diagram-note">─▶ 캐시 히트/미스 (Cache Hit/Miss)</div>
-<div class="kb-diagram-note">─▶ AMAT (Average Memory Access Time)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 가상 메모리 (Virtual Memory)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ 워킹셋 (Working Set)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ 스래싱 (Thrashing)</div>
-</div>
-</div>
-
-
+```text
+단일 기억장치 한계
+    │
+    ▼
+메모리 벽 (Memory Wall)
+    │
+    ▼
+메모리 계층 구조 (Memory Hierarchy)
+    │
+    ├─▶ 캐시 메모리 (Cache Memory)
+    │        │
+    │        ├─▶ 캐시 히트/미스 (Cache Hit/Miss)
+    │        └─▶ AMAT (Average Memory Access Time)
+    │
+    └─▶ 가상 메모리 (Virtual Memory)
+             │
+             ├─▶ 워킹셋 (Working Set)
+             └─▶ 스래싱 (Thrashing)
+```
 
 이 흐름은 “속도 격차 인식 → 계층화 도입 → 캐시 최적화와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 확장”으로 이어지는 사고의 확장 순서를 보여준다.
 
