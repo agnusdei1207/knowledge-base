@@ -62,6 +62,7 @@
       openSearchModal()
     }
     if (event.key === "Escape") closeSearchModal()
+    if (event.key === "Escape") setMobileExplorerOpen(false)
   })
 
   const explorer = document.querySelector(".explorer")
@@ -70,9 +71,26 @@
   const explorerContent = document.querySelector(".explorer-content")
   let explorerLoaded = false
 
+  function setMobileExplorerOpen(open) {
+    if (!explorer) return
+    explorer.classList.toggle("open", open)
+    document.body.classList.toggle("explorer-open", open)
+    mobileExplorerButton?.setAttribute("aria-expanded", String(open))
+  }
+
   mobileExplorerButton?.addEventListener("click", () => {
-    explorer?.classList.toggle("open")
+    setMobileExplorerOpen(!explorer?.classList.contains("open"))
     loadExplorer()
+  })
+  explorer?.addEventListener("click", (event) => {
+    if (event.target === explorer) {
+      setMobileExplorerOpen(false)
+    }
+  })
+  explorerContent?.addEventListener("click", (event) => {
+    if (event.target instanceof HTMLAnchorElement && mobileQuery.matches) {
+      setMobileExplorerOpen(false)
+    }
   })
   desktopExplorerButton?.addEventListener("click", () => {
     explorer?.classList.toggle("collapsed")
@@ -210,241 +228,207 @@
 
   function drawGraph(data) {
     const container = document.querySelector("#graph-container")
-    if (!container || !data.nodes?.length || typeof d3 === "undefined") return
+    if (!container || !data.nodes?.length || typeof cytoscape === "undefined") return
 
     container.innerHTML = ""
 
-    const rect = container.getBoundingClientRect()
-    const width = rect.width || 280
-    const height = rect.height || 320
-
-    // Resolve current page path
     const currentNorm = decodeURIComponent(window.location.pathname).replace(/\/$/, "")
-
-    // Prepare node data (already filtered and sorted by Python)
-    const graphNodes = data.nodes.map(n => {
+    const allNodes = data.nodes.map(n => {
       let isCurrent = false
       try {
         const linkNorm = decodeURIComponent(new URL(n.url, window.location.origin).pathname).replace(/\/$/, "")
         isCurrent = (currentNorm === linkNorm && linkNorm !== "")
       } catch {}
-      return { ...n, degree: Number(n.degree || 1), group: n.group || "root", isCurrent }
-    })
-
-    const nodeById = new Map(graphNodes.map(n => [n.id, n]))
-    const graphLinks = data.links
-      .filter(l => nodeById.has(l.source) && nodeById.has(l.target))
-      .map(l => ({ source: l.source, target: l.target }))
-
-    // Build adjacency set for highlight logic
-    const adjacency = new Set()
-    graphLinks.forEach(l => {
-      const sId = typeof l.source === "object" ? l.source.id : l.source
-      const tId = typeof l.target === "object" ? l.target.id : l.target
-      adjacency.add(`${sId}-${tId}`)
-      adjacency.add(`${tId}-${sId}`)
-    })
-    function isConnected(a, b) {
-      return a === b || adjacency.has(`${a}-${b}`)
-    }
-
-    // Read theme colors
-    const cs = getComputedStyle(root)
-    const colNode = cs.getPropertyValue("--tertiary").trim() || "#73826F"
-    const colActive = cs.getPropertyValue("--secondary").trim() || "#A65B32"
-    const colLink = cs.getPropertyValue("--lightgray").trim() || "#E5DEC9"
-    const colLabel = cs.getPropertyValue("--darkgray").trim() || "#383228"
-    const colMuted = cs.getPropertyValue("--gray").trim() || "#8E8575"
-
-    const degreeExtent = d3.extent(graphNodes, d => d.degree)
-    const radiusScale = d3.scaleSqrt()
-      .domain([Math.max(1, degreeExtent[0] || 1), Math.max(2, degreeExtent[1] || 2)])
-      .range([3.2, 13])
-    const nodeFromRef = (ref) => {
-      if (ref && typeof ref === "object") return ref
-      return nodeById.get(ref)
-    }
-    const nodeId = (ref) => {
-      const node = nodeFromRef(ref)
-      return node?.id || ref
-    }
-    const nodeRadius = (ref) => {
-      const node = nodeFromRef(ref)
-      if (!node) return 3.2
-      const base = radiusScale(Number(node.degree) || 1)
-      if (node.isCurrent) return Math.max(12, base + 3)
-      return node.section ? Math.max(7, base) : base
-    }
-    const defaultLabelVisible = (node) => {
-      return node.isCurrent || node.section || node.degree >= (degreeExtent[1] || 0) * 0.42
-    }
-    const finiteOr = (value, fallback) => Number.isFinite(value) ? value : fallback
-    const boundedX = (node) => {
-      const r = nodeRadius(node) + 8
-      return Math.max(r, Math.min(width - r, finiteOr(node.x, width / 2)))
-    }
-    const boundedY = (node) => {
-      const r = nodeRadius(node) + 12
-      return Math.max(r, Math.min(height - r, finiteOr(node.y, height / 2)))
-    }
-    const groups = Array.from(new Set(graphNodes.map(d => d.group))).sort()
-    const groupIndex = new Map(groups.map((group, index) => [group, index]))
-    const clusterRadius = Math.min(width, height) * 0.34
-    const clusterCenter = (group) => {
-      const index = groupIndex.get(group) || 0
-      const angle = groups.length <= 1 ? 0 : (index / groups.length) * Math.PI * 2
-      const x = width / 2 + Math.cos(angle) * clusterRadius
-      const y = height / 2 + Math.sin(angle) * clusterRadius * 0.72
       return {
-        x: Math.max(28, Math.min(width - 28, x)),
-        y: Math.max(28, Math.min(height - 28, y)),
+        ...n,
+        degree: Number(n.degree || 1),
+        group: n.group || "root",
+        isCurrent,
       }
+    })
+    const allNodeById = new Map(allNodes.map(n => [n.id, n]))
+    const allLinks = (data.links || [])
+      .map((link, index) => ({
+        id: `e${index}`,
+        source: typeof link.source === "object" ? link.source.id : link.source,
+        target: typeof link.target === "object" ? link.target.id : link.target,
+      }))
+      .filter(link => allNodeById.has(link.source) && allNodeById.has(link.target))
+
+    const currentNode = allNodes.find(n => n.isCurrent)
+    const neighborIds = new Set(currentNode ? [currentNode.id] : [])
+    if (currentNode) {
+      allLinks.forEach(link => {
+        if (link.source === currentNode.id) neighborIds.add(link.target)
+        if (link.target === currentNode.id) neighborIds.add(link.source)
+      })
     }
-    graphNodes.forEach((node, index) => {
-      const center = clusterCenter(node.group)
-      const angle = index * 2.399963229728653
-      const offset = (index % 5) * 2.5
-      node.x = finiteOr(node.x, center.x + Math.cos(angle) * offset)
-      node.y = finiteOr(node.y, center.y + Math.sin(angle) * offset)
+
+    const rankedNodes = [...allNodes].sort((a, b) => {
+      if (a.isCurrent !== b.isCurrent) return a.isCurrent ? -1 : 1
+      if (neighborIds.has(a.id) !== neighborIds.has(b.id)) return neighborIds.has(a.id) ? -1 : 1
+      if (a.section !== b.section) return a.section ? -1 : 1
+      return b.degree - a.degree
+    })
+    const selectedIds = new Set(rankedNodes.slice(0, 180).map(n => n.id))
+    const graphNodes = rankedNodes.filter(n => selectedIds.has(n.id))
+    const graphLinks = allLinks.filter(link => selectedIds.has(link.source) && selectedIds.has(link.target))
+
+    const cs = getComputedStyle(root)
+    const colNode = cs.getPropertyValue("--tertiary").trim() || "#6f5f52"
+    const colActive = cs.getPropertyValue("--secondary").trim() || "#c96442"
+    const colLink = cs.getPropertyValue("--lightgray").trim() || "#e9ded2"
+    const colLabel = cs.getPropertyValue("--darkgray").trim() || "#4e463f"
+    const colMuted = cs.getPropertyValue("--gray").trim() || "#8a7c70"
+    const maxDegree = graphNodes.reduce((max, node) => Math.max(max, node.degree), 1)
+
+    const elements = [
+      ...graphNodes.map(node => ({
+        classes: [
+          node.section ? "section" : "",
+          node.isCurrent ? "current" : "",
+          neighborIds.has(node.id) ? "neighbor" : "",
+        ].filter(Boolean).join(" "),
+        data: {
+          id: node.id,
+          label: node.title || "Untitled",
+          url: node.url,
+          degree: node.degree,
+        },
+      })),
+      ...graphLinks.map(link => ({
+        data: {
+          id: link.id,
+          source: link.source,
+          target: link.target,
+        },
+      })),
+    ]
+
+    const cy = cytoscape({
+      container,
+      elements,
+      wheelSensitivity: 0.14,
+      minZoom: 0.25,
+      maxZoom: 3,
+      style: [
+        {
+          selector: "node",
+          style: {
+            "background-color": colNode,
+            "border-color": colMuted,
+            "border-opacity": 0.38,
+            "border-width": 1,
+            "color": colLabel,
+            "font-family": "var(--bodyFont), sans-serif",
+            "font-size": 7,
+            "font-weight": 500,
+            "height": ele => 6 + Math.sqrt(Number(ele.data("degree")) || 1) / Math.sqrt(maxDegree) * 16,
+            "label": ele => {
+              if (ele.hasClass("current") || ele.hasClass("section")) return ele.data("label")
+              return ""
+            },
+            "min-zoomed-font-size": 7,
+            "overlay-opacity": 0,
+            "shape": "ellipse",
+            "text-background-color": cs.getPropertyValue("--light").trim() || "#faf7f2",
+            "text-background-opacity": 0.82,
+            "text-background-padding": 2,
+            "text-halign": "center",
+            "text-margin-y": -8,
+            "text-valign": "top",
+            "width": ele => 6 + Math.sqrt(Number(ele.data("degree")) || 1) / Math.sqrt(maxDegree) * 16,
+          },
+        },
+        {
+          selector: "node.section",
+          style: {
+            "background-color": colMuted,
+            "height": 14,
+            "width": 14,
+          },
+        },
+        {
+          selector: "node.current",
+          style: {
+            "background-color": colActive,
+            "border-color": colActive,
+            "border-width": 3,
+            "height": 22,
+            "width": 22,
+            "z-index": 20,
+          },
+        },
+        {
+          selector: "edge",
+          style: {
+            "curve-style": "haystack",
+            "haystack-radius": 0,
+            "line-color": colLink,
+            "opacity": 0.36,
+            "width": 1,
+          },
+        },
+        {
+          selector: ".dimmed",
+          style: {
+            "opacity": 0.14,
+          },
+        },
+        {
+          selector: ".focused",
+          style: {
+            "label": "data(label)",
+            "opacity": 1,
+            "z-index": 30,
+          },
+        },
+        {
+          selector: "edge.focused",
+          style: {
+            "line-color": colActive,
+            "opacity": 0.92,
+            "width": 1.8,
+          },
+        },
+      ],
+      layout: {
+        name: "cose",
+        animate: false,
+        componentSpacing: 26,
+        idealEdgeLength: 52,
+        nodeOverlap: 12,
+        nodeRepulsion: 8500,
+        padding: 18,
+        randomize: false,
+      },
     })
 
-    // SVG setup
-    const svg = d3.select(container)
-      .append("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .attr("viewBox", `0 0 ${width} ${height}`)
-
-    // Zoom / pan behaviour
-    const g = svg.append("g")
-    const zoom = d3.zoom()
-      .scaleExtent([0.3, 4])
-      .on("zoom", (event) => g.attr("transform", event.transform))
-    svg.call(zoom)
-
-    // Force simulation
-    const simulation = d3.forceSimulation(graphNodes)
-      .force("link", d3.forceLink(graphLinks).id(d => d.id).distance(d => 34 + Math.max(nodeRadius(d.source), nodeRadius(d.target)) * 3).strength(0.35))
-      .force("charge", d3.forceManyBody().strength(d => -70 - nodeRadius(d) * 18).distanceMax(260))
-      .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("x", d3.forceX(d => clusterCenter(d.group).x).strength(0.08))
-      .force("y", d3.forceY(d => clusterCenter(d.group).y).strength(0.08))
-      .force("collide", d3.forceCollide(d => nodeRadius(d) + 2))
-      .alphaDecay(0.025)
-
-    // Draw links
-    const linkGroup = g.append("g")
-    const linkEls = linkGroup.selectAll("line")
-      .data(graphLinks)
-      .join("line")
-      .attr("stroke", colLink)
-      .attr("stroke-width", 0.75)
-      .attr("stroke-opacity", 0.34)
-
-    // Draw nodes
-    const nodeGroup = g.append("g")
-    const nodeEls = nodeGroup.selectAll("circle")
-      .data(graphNodes)
-      .join("circle")
-      .attr("r", d => nodeRadius(d))
-      .attr("fill", d => d.isCurrent ? colActive : colNode)
-      .attr("stroke", d => d.isCurrent ? colActive : colMuted)
-      .attr("stroke-width", d => d.isCurrent ? 2.2 : 0.7)
-      .attr("stroke-opacity", 0.55)
-      .attr("fill-opacity", 0.9)
-      .attr("cursor", "pointer")
-      .call(d3.drag()
-        .on("start", dragStart)
-        .on("drag", dragged)
-        .on("end", dragEnd)
-      )
-
-    // Node labels (hidden by default except current, shown on hover/highlight)
-    const labelGroup = g.append("g")
-    const labelEls = labelGroup.selectAll("text")
-      .data(graphNodes)
-      .join("text")
-      .text(d => {
-        const t = d.title || ""
-        return t.length > 25 ? t.slice(0, 23) + "…" : t
-      })
-      .attr("font-size", d => d.isCurrent ? "10px" : "8px")
-      .attr("font-weight", d => d.isCurrent || d.degree >= (degreeExtent[1] || 0) * 0.55 ? "700" : "500")
-      .attr("font-family", "var(--bodyFont), sans-serif")
-      .attr("fill", colLabel)
-      .attr("text-anchor", "middle")
-      .attr("dy", d => -(nodeRadius(d) + 5))
-      .attr("pointer-events", "none")
-      .attr("opacity", d => defaultLabelVisible(d) ? 1 : 0)
-
-    // Tooltip
-    const tooltip = d3.select("body").append("div")
-      .attr("class", "graph-tooltip")
-      .style("display", "none")
-
-    // Hover interactions
-    nodeEls
-      .on("mouseover", function (event, d) {
-        tooltip.style("display", "block").text(d.title)
-
-        // Dim everything, highlight connected
-        nodeEls
-          .attr("opacity", n => isConnected(d.id, n.id) ? 1 : 0.15)
-        linkEls
-          .attr("stroke-opacity", l => (nodeId(l.source) === d.id || nodeId(l.target) === d.id) ? 0.85 : 0.04)
-          .attr("stroke-width", l => (nodeId(l.source) === d.id || nodeId(l.target) === d.id) ? 1.6 : 0.5)
-        labelEls
-          .attr("opacity", n => isConnected(d.id, n.id) ? 1 : 0)
-      })
-      .on("mousemove", function (event) {
-        tooltip
-          .style("left", (event.clientX + 14) + "px")
-          .style("top", (event.clientY + 14) + "px")
-      })
-      .on("mouseout", function () {
-        tooltip.style("display", "none")
-        nodeEls.attr("opacity", 1)
-        linkEls.attr("stroke-opacity", 0.34).attr("stroke-width", 0.75)
-        labelEls.attr("opacity", d => defaultLabelVisible(d) ? 1 : 0)
-      })
-      .on("click", function (event, d) {
-        if (d.url) window.location.href = d.url
-      })
-
-    // Tick — update positions
-    simulation.on("tick", () => {
-      graphNodes.forEach(node => {
-        node.x = boundedX(node)
-        node.y = boundedY(node)
-      })
-      linkEls
-        .attr("x1", d => nodeFromRef(d.source)?.x || width / 2)
-        .attr("y1", d => nodeFromRef(d.source)?.y || height / 2)
-        .attr("x2", d => nodeFromRef(d.target)?.x || width / 2)
-        .attr("y2", d => nodeFromRef(d.target)?.y || height / 2)
-      nodeEls
-        .attr("cx", d => d.x)
-        .attr("cy", d => d.y)
-      labelEls
-        .attr("x", d => d.x)
-        .attr("y", d => d.y)
+    cy.ready(() => {
+      cy.fit(undefined, 18)
     })
 
-    // Drag handlers
-    function dragStart(event, d) {
-      if (!event.active) simulation.alphaTarget(0.3).restart()
-      d.fx = d.x
-      d.fy = d.y
+    function clearFocus() {
+      cy.elements().removeClass("dimmed focused")
     }
-    function dragged(event, d) {
-      d.fx = event.x
-      d.fy = event.y
-    }
-    function dragEnd(event, d) {
-      if (!event.active) simulation.alphaTarget(0)
-      d.fx = null
-      d.fy = null
-    }
+
+    cy.on("mouseover", "node", event => {
+      const node = event.target
+      const neighborhood = node.closedNeighborhood()
+      cy.elements().not(neighborhood).addClass("dimmed")
+      neighborhood.addClass("focused")
+    })
+
+    cy.on("mouseout", "node", clearFocus)
+
+    cy.on("tap", "node", event => {
+      const url = event.target.data("url")
+      if (url) window.location.href = url
+    })
+
+    cy.on("tap", event => {
+      if (event.target === cy) clearFocus()
+    })
   }
 
   if (window.mermaid) {

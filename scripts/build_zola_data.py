@@ -177,6 +177,16 @@ def readable_ascii_phrase(text: str) -> str:
 
 
 def title_from_segment(segment: str) -> str:
+    if segment == "r-and-d":
+        return "R&D"
+    if segment == "personal":
+        return "Personal"
+    if segment == "work":
+        return "Work"
+    if segment == "studynote":
+        return "Study Note"
+    if segment == "inbox":
+        return "Inbox"
     number = number_from_segment(segment)
     rest = re.sub(r"^\d+[._-]*", "", segment)
     label = readable_ascii_phrase(rest)
@@ -212,7 +222,21 @@ def general_nav_title(path: Path, title: str) -> str:
     if segment in NAV_PATH_TITLES:
         return NAV_PATH_TITLES[segment]
 
-    return strip_number_prefix(title_from_segment(segment)) or "Topic"
+    # Extract number prefix if any
+    number = number_from_segment(segment)
+    
+    # Extract English/ASCII from title
+    title_candidate = strip_number_prefix(readable_ascii_phrase(title))
+    segment_candidate = strip_number_prefix(readable_ascii_phrase(segment))
+    
+    candidate = title_candidate
+    # Fallback to segment if title has no English or is too short
+    if not candidate or len(candidate) < len(segment_candidate) * 0.5:
+        candidate = segment_candidate or candidate or "Topic"
+        
+    if number:
+        return f"{number}: {candidate}"
+    return candidate
 
 
 def nav_title_for(path: Path, title: str) -> str:
