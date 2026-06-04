@@ -10,7 +10,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
-ENV NODE_OPTIONS=--max-old-space-size=8192
+ENV NODE_OPTIONS=--max-old-space-size=16384
 RUN npm run build
 
 FROM nginx:1.29-alpine AS runner
