@@ -11,160 +11,237 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 아웃박스 패턴 메시지 보장은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 마이크로서비스 환경에서 발생하는 **이중 쓰기 문제(Dual Write Problem)** 를 원자적 트랜잭션(Atomic Transaction) 내 메시지 저장(Outbox 테이블)으로 회피하여, 비즈니스 데이터 변경과 이벤트 발행을 **트랜잭션 일관성(Transactional Consistency)** 하에 결합하는 분산 트랜잭션 대안 패턴이다.
+> 2. **가치**: 2PC(Two-Phase Commit) 대비 **가용성·확장성**을 확보하면서 **최소 1회 전달(At-Least-Once Delivery)** 을 보장하며, Debezium 등 CDC(Change Data Capture) 도구와 결합 시 지연 시간(Latency)을 **수십 ms 수준**으로 단축하고 시스템 간 결합도를 제거한다.
+> 3. **판단 포인트**: 구현 난이도, 메시지 순서 보장(Per-Aggregate Ordering), 멱등성(Idempotency) 처리, Outbox 테이블 정리(Archiving) 정책, Polling vs Log-Tailing 방식 선택, 그리고 **Hot Partition** 문제 회피를 위한 파티셔닝/셔딩 전략이 핵심 의사결정 포인트다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-아웃박스 패턴 메시지 보장은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+### 1.1 분산 환경에서의 메시지 발행 딜레마
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Outbox Pattern Message Guarantee 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+MSA(Microservice Architecture) 환경에서 한 트랜잭션이 "주문 생성"과 "주문 완료 이벤트 발행" 두 작업을 동시에 수행해야 할 때, 개발자는 본질적인 모순에 직면한다. **RDBMS는 ACID 트랜잭션을, Kafka/RabbitMQ 같은 Message Broker는 AMQP/Producer-Consumer 프로토콜을 제공**하지만, 둘은 서로 다른 시스템이라 단일 원자성(Atomicity)을 제공할 수 없다.
+
+기존의 모놀리식 아키텍처에서는 RDBMS 내 단일 트랜잭션으로 모든 비즈니스 로직을 처리했기에 메시지 발행 자체가 불필요했다. 그러나 서비스가 분리되면서 **서비스 간 상태 전파**는 결국 비동기 메시지 또는 HTTP API 호출로 대체되었고, 그중 이벤트 기반(Event-Driven) 통신은 **느슨한 결합(Loose Coupling)** 과 **확장성** 측면에서 우월하다.
+
+### 1.2 이중 쓰기 문제(Dual Write Problem)
 
 ```text
-+--------------------------------------------------------------+
-|                    아웃박스 패턴 메시지 보장 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++------------------------------------------------------------------+
+|              Dual Write Problem (기존 방식의 결함)                  |
++------------------------------------------------------------------+
+
+   [Order Service] --- ① 주문 INSERT ---► [Order DB]
+        |
+        |  ② 주문완료 이벤트 PUBLISH (별도 네트워크 호출)
+        v
+   [Kafka Broker] -----► [Inventory Service]
+        |
+        |
+   ⚠️  ① 성공, ② 실패 시?
+       -> 주문은 생성되었으나 이벤트는 유실 (데이터 불일치)
+   ⚠️  ① 실패, ② 성공 시?
+       -> Phantom Event (주문 없는 이벤트 발행)
+   ⚠️  ①·② 사이 네트워크 단절?
+       -> 정합성 깨짐, 보상 트랜잭션(Compensating Transaction) 필요
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+### 1.3 왜 Outbox Pattern인가?
 
-- **📢 섹션 요약 비유**: 아웃박스 패턴 메시지 보장은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+이 문제를 해결하기 위한 후보 기술은 **2PC(2-Phase Commit)**, **XA Transaction**, **Saga Pattern** 등이 존재하지만, 각각 명확한 한계를 가진다.
+
+- **2PC/XA**: Message Broker가 XA를 지원하지 않거나(Kafka는 미지원), Coordinator 장애 시 **Blocking 문제** 발생
+- **Saga**: 보상 트랜잭션을 직접 설계해야 하며, 비즈니스 로직 복잡도 증가, **장기 트랜잭션** 부적합
+- **Event Sourcing**: 도메인 모델 자체를 이벤트 중심으로 재설계해야 하므로 기존 CRUD 시스템에 적용 어려움
+
+**Outbox Pattern**은 이러한 한계를 우회하면서도 **기존 CRUD 트랜잭션 모델**을 그대로 유지할 수 있는 현실적 해법이다. 핵심 아이디어는 단순하다: **"이벤트도 DB의 한 Row로 취급하라"**.
+
+### 1.4 패러다임 전환: Before vs After
+
+| 구분 | 모놀리식 + JMS | MSA + Outbox Pattern |
+|:-----|:--------------|:---------------------|
+| 트랜잭션 경계 | 단일 DB + EJB/JTA | 비즈니스 DB + Outbox 테이블 (단일 트랜잭션) |
+| 메시지 신뢰성 | XA/JTA 기반 보장 | CDC + Idempotent Consumer로 보장 |
+| 장애 시 동작 | Coordinator 복구 대기 | DB WAL(Log) 기반 재처리 |
+| 시스템 결합도 | 강한 결합(Strong Coupling) | DB 스키마만 공유, 서비스는 독립 |
+
+- **📢 섹션 요약 비유**: 택배가 두 곳(창고 A, 택배사 B)에 동시에 도착해야 하는데 한 곳에만 보낸 상황입니다. 택배 상자를 "창고 안 박스"에 넣어두고, 별도 직원이 박스만 모아 택배사에 전달하면 **한 번의 거래로 두 곳에 모두 확실히** 보낼 수 있습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-아웃박스 패턴 메시지 보장의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 2.1 Outbox Pattern의 핵심 메커니즘
 
 ```text
-+--------------------------------------------------------------+
-|              Outbox Pattern Message Guarantee 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++------------------------------------------------------------------------+
+|              Outbox Pattern 상세 아키텍처 (Log-Tailing 방식)            |
++------------------------------------------------------------------------+
+
+  [Client] --HTTP--► [Order Service]
+                         |
+                         |  @Transactional BEGIN
+                         |  +------------------------------+
+                         +-►| 1. INSERT INTO orders ...    |
+                         |  | 2. INSERT INTO outbox (      |◄--+
+                         |  |     event_id, aggregate_type, |   |
+                         |  |     aggregate_id, payload,   |   |
+                         |  |     created_at, status='NEW')|   |
+                         |  +------------------------------+   |
+                         |  COMMIT (단일 원자성)                    |
+                         v                                       |
+                  [Order DB]                                     |
+                  +------+------+                                |
+                  |  orders     |                                |
+                  |  outbox     |◄----------------------------+  |
+                  +------+------+                             |  |
+                         |  binlog/WAL streaming             |  |
+                         |  (Debezium Engine)                 |  |
+                         v                                    |  |
+                  [Kafka Connect] ---- CDC Source ------------+  |
+                         |                                    |
+                         |  (commit_log_offset, snapshot)     |
+                         v                                    |
+                  [Kafka Topic: order.events]                 |
+                         |                                    |
+                         |  consumer group                    |
+                         v                                    |
+                  [Inventory Service / Notification / ...]     |
+                                                            |
+   ----------------------------------------------------------+
+   별도 Polling Worker (Fallback)
+   [Outbox Poller] --- SELECT * FROM outbox WHERE status='NEW' --► [Broker]
+   (5~30초 주기, 1000건 배치, status='SENT' 마킹)
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+### 2.2 구성 요소별 역할
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Business Service** | 도메인 로직 + Outbox Row 동시 INSERT | Spring `@Transactional`, JPA `@TransactionalEventListener(AFTER_COMMIT)`, JDBC BATCH INSERT |
+| **Outbox 테이블** | 미발행 이벤트 저장소, 단일 진실 공급원(SSOT) | 스키마: `id BIGINT PK, aggregate_type, aggregate_id, event_type, payload JSON, headers MAP, created_at, processed_at, status(NEW/SENT/FAILED), retry_count, version` |
+| **CDC Engine (Debezium)** | DB의 `binlog`(MySQL) / `WAL`(Postgres) / `redo log`(Oracle) 실시간 스트리밍 | `io.debezium.connector.mysql.MySqlConnector`, Kafka Connect REST API로 offset 관리, **Log-Based** -> 지연 50ms 이하 |
+| **Message Relay (Polling)** | CDC 장애 대비(Fallback) 또는 단순 구현 시 사용 | `SELECT ... FOR UPDATE SKIP LOCKED`, `@Scheduled(fixedDelay)`, MySQL 8.0+ 또는 Postgres 전용 |
+| **Message Broker** | 이벤트 수신·배포·저장 | Kafka(파티션 기반 순서), RabbitMQ(routing key), RocketMQ(`TransactionListener` 네이티브 지원) |
+| **Consumer Service** | 멱등성 보장하며 비즈니스 처리 | `Idempotency-Key` 헤더, DB Unique Constraint, Inbox 테이블 패턴 병행 |
+| **Outbox Purger** | 처리 완료 Row 정리(아카이빙) | `DELETE WHERE processed_at < NOW() - 7d` 또는 S3/GCS 콜드 스토리지 이전 |
+| **Monitoring & DLQ** | 실패 추적, 알람, 데드 레터 큐 | Prometheus `outbox_lag_seconds`, `outbox_pending_count` 메트릭, `retry_count > 5` 시 DLQ |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 2.3 핵심 알고리즘 및 트랜잭션 원리
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+#### ① 이벤트 발행을 트랜잭션 내부로 흡수하는 알고리즘 (Pseudocode)
+
+```java
+@Transactional  // 단일 트랜잭션
+public Order createOrder(OrderRequest req) {
+    // 1) 비즈니스 데이터 저장
+    Order order = orderRepository.save(new Order(req));
+
+    // 2) 동일 트랜잭션 내에서 Outbox Row 저장
+    OutboxEvent event = OutboxEvent.builder()
+        .aggregateType("Order")
+        .aggregateId(order.getId())
+        .eventType("OrderCreated")
+        .payload(toJson(order))
+        .headers(Map.of("traceId", MDC.get("traceId")))
+        .status(OutboxStatus.NEW)
+        .createdAt(Instant.now())
+        .build();
+    outboxRepository.save(event);
+
+    // 트랜잭션 COMMIT 시점에 두 Row가 함께 영구화 (Atomicity)
+    return order;
+}
+```
+
+이후 **커밋 이후**(`AFTER_COMMIT`)에 발행이 일어나야 하므로 다음 두 방식 중 하나를 선택한다.
+
+#### ② Polling Publisher 방식
+
+```text
++----------------------------------------+
+|  Scheduled Task (every 1~5 sec)        |
++----------------------------------------+
+| 1. BEGIN TX                             |
+| 2. SELECT * FROM outbox                |
+|    WHERE status = 'NEW'                |
+|    ORDER BY id                          |
+|    LIMIT 100                            |
+|    FOR UPDATE SKIP LOCKED   ◄-- 동시성 |
+| 3. publishToBroker(events)              |
+| 4. UPDATE outbox                       |
+|    SET status = 'SENT',                |
+|        processed_at = NOW()            |
+| 5. COMMIT                              |
++----------------------------------------+
+```
+
+- **장점**: 구현 단순, 단일 DB로 충분
+- **단점**: 폴링 지연, DB 부하, Hot Row 문제
+
+#### ③ Transaction Log Tailing (CDC) 방식
+
+```text
++--------------------------------------------------+
+|  Debezium MySQL Connector 설정 (예시)            |
++--------------------------------------------------+
+|  connector.class: io.debezium.connector.mysql   |
+|  database.hostname: order-db                     |
+|  database.port: 3306                             |
+|  database.user: debezium                         |
+|  database.server.id: 184054                      |
+|  table.include.list: mydb.outbox                 |
+|  transforms: outbox.route                        |
+|  transforms.outbox.route.type: org.apache.kafka  |
+|    .connect.transforms.RegexRouter                |
+|  transforms.outbox.route.regex:                  |
+|    (.*)                                          |
+|  transforms.outbox.route.replacement:            |
+|    outbox.events.$1                              |
+|  snapshot.mode: schema_only    ◄-- 스냅샷 미사용  |
+|  tombstones.on.delete: false                     |
++--------------------------------------------------+
+```
+
+- **장점**: 실시간(수십 ms), DB 부하 없음, 트랜잭션 순서 보장
+- **단점**: CDC 인프라 필요(Debezium + Kafka Connect), DB별 WAL 형식 차이, Schema Evolution 관리
+
+### 2.4 멱등성(Idempotency) 및 순서 보장
+
+| 보장 범위 | 메커니즘 | 구현 코드 포인트 |
+|:---------|:--------|:----------------|
+| **At-Least-Once** | Polling 재시도 또는 CDC offset 리셋 | Broker는 중복 수신 가능 |
+| **Exactly-Once-Effect** | Consumer 멱등 키 + DB Unique Constraint | `INSERT ... ON CONFLICT DO NOTHING` (Postgres) |
+| **Per-Aggregate Order** | `aggregate_id` 기준 Kafka 동일 파티션 라우팅, 또는 Outbox `seq_no` 필드 사용 | `key=aggregateId`, Consumer는 순서 처리 후 commit |
+| **Strict Global Order** | 단일 파티션 사용 시 가능하나 처리량 저하 | 일반적으로 권장하지 않음 |
+
+- **📢 섹션 요약 비유**: 학급 우편함(Outbox 테이블)에 선생님에게 보낼 편지(이벤트)를 넣어두면, 전학생(CDC)이 매일 아침 우편함만 훑어 우체국(Broker)에 가져갑니다. 편지가 사라져도 우편함 기록으로 재발송이 가능하고, **학급 전체에 동일 순서**로 전달되도록 출석번호(aggregate_id) 순으로 분류합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-아웃박스 패턴 메시지 보장을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### 3.1 유사 패턴/기술 비교
 
-| 구분 | 전통적 접근 | 아웃박스 패턴 메시지 보장 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | **Outbox Pattern (CDC)** | **Outbox Pattern (Polling)** | **2PC / XA** | **Event Sourcing** | **Kafka Transactional Producer** |
+|:-----|:------------------------|:-----------------------------|:------------|:-------------------|:---------------------------------|
+| **데이터 정합성** | Strong (DB 단일 트랜잭션) | Strong (단일 트랜잭션) | Strong (분산 락) | Strong (이벤트가 SSOT) | Weak (Producer 측 단독 보장) |
+| **시스템 결합도** | DB 스키마만 결합 | DB 스키마만 결합 | 모든 노드가 XA 지원 | 서비스별로 분리 | Broker에 결합 |
+| **지연 시간** | 50~500ms | 1~30초 (폴링 주기) | 네트워크 RTT × 2 | 100ms 이하 | 5~50ms |
+| **장애 복구** | CDC offset 리셋 | Polling 재시도 | Coordinator 복구 | Event Replay | Producer Fencing |
+| **구현 복잡도** | 중 (Debezium 필요) | 하 (단순 쿼리) | 상 (XA 드라이버) | 상 (CQRS 강제) | 중 (Producer API) |
+| **스케일아웃 한계** | Log I/O에 의존 | Poller 인스턴스 수 | Coordinator 병목 | 이벤트 저장소 성능 | Partition 수 |
+| **순서 보장** | Per-Aggregate 가능 | Per-Aggregate 가능 | 전역 보장 | 시간순 보장 | Per-Partition 보장 |
+| **적합 시나리오** | 일반 MSA, 고가용성 | 소규모, 단순화 필요 | 단일 DB + Broker 동종 | 금융 도메인, 감사 | Stream Processing |
+| **주요 도구** | Debezium, Maxwell, Canal, AWS DMS | Spring `@Scheduled` | Atomikos, Narayana | Axon, EventStoreDB | Kafka EOS API |
 
-관련 기술 영역과의 연결점도 중요하다. 아웃박스 패턴 메시지 보장은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+### 3.2 인접 시스템과의 통합
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 아웃박스 패턴 메시지 보장은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 아웃박스 패턴 메시지 보장을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-아웃박스 패턴 메시지 보장을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 아웃박스 패턴 메시지 보장 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 아웃박스 패턴 메시지 보장은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 아웃박스 패턴 메시지 보장의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 아웃박스 패턴 메시지 보장의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-아웃박스 패턴 메시지 보장 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 아웃박스 패턴 메시지 보장은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 통합 대상 | 연결 방식 | 기술적 고려사항 |
+|:---------|:---------|:---------------|
+| **API Gateway** | Event 발행 후 Webhook으로 동기 응답 | 멱등 토큰을 `Idempotency-Key` 헤더로 전달 |
+| **Event Bus (Kafka)** | Debezium이 직접
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 463 / 600

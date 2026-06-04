@@ -112,7 +112,7 @@ RoT가 잘 구현되면 [펌웨어](/knowledge-base/studynote/02_operating_syste
 
 다만 RoT 역시 완결된 마법은 아니다. 제조 신뢰, 키 수명주기, 교체·폐기 절차, 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 성숙해야 효과가 완성된다. 따라서 이 개념은 "보안 칩 하나 추가"가 아니라, <strong>하드웨어에서 시작해 운영 절차와 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>까지 이어지는 신뢰 체계의 시작점</strong>으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: RoT는 건물의 경비원이 아니라 건물의 기초 공사와 같다. 위층 경비가 아무리 훌륭해도 기초가 흔들리면 건물 전체를 믿을 수 없듯, 시스템 보안도 가장 아래의 신뢰점이 단단해야 오래 버틴다.
+- **📢 섹션 요약 비유**: RoT는 출입문 앞의 경비원보다 더 아래에 있는 지반 검사에 가깝다. 위층 보안 장치가 아무리 촘촘해도 가장 아래의 신뢰점이 흔들리면 시스템 전체를 믿기 어렵다.
 
 ---
 

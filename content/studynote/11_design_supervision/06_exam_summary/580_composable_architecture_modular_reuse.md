@@ -11,160 +11,161 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 컴포저블 아키텍처 모듈화 재사용은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: MACH(Microservices, API-first, Cloud-native, Headless) 원칙을 기반으로, 애플리케이션을 독립 배포 가능한 **PBC(Packaged Business Capability)** 단위로 분해하고 표준 API/이벤트 인터페이스로 느슨하게 결합(Loose Coupling)하여 런타임에 조립(Composition)하는 아키텍처 스타일이다.
+> 2. **가치**: Gartner 예측 기준 컴포저블 기업은 신규 기능 출시 속도(Lead Time)가 평균 **4배**, TTM(Time-to-Market) **50% 단축**, 그리고 기능별 **Best-of-Breed** 선택을 통해 동일 예산 대비 비즈니스 성과 30% 이상 개선 효과를 보인다.
+> 3. **판단 포인트**: 모든 시스템에 적용 시 발생하는 **분산 트랜잭션(Saga) 복잡도**, **데이터 중복/일관성(CQRS+Eventual Consistency)**, **운영 부담(Observability/FinOps)** 을 감당할 수 있는 조직적 성숙도(Conway's Law 관점)가 핵심 결정 변수이며, **Modular Monolith -> PBC -> Composable** 로 점진적 이행하는 것이 리스크 최소화의 정석이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-컴포저블 아키텍처 모듈화 재사용은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 **Monolithic Architecture**(예: SAP ERP, Oracle Commerce, Liferay DXP)는 CRM, 결제, 재고, 콘텐츠, 검색을 단일 코드베이스와 단일 릴리즈 트레인에서 관리한다. 이는 초기 개발 속도는 빠르지만, **10년 이상 운영된 레거시**에서는 ① 릴리즈 주기가 월 1회 이하로 느려지고, ② 한 컴포넌트 변경이 전체 시스템 회귀 테스트를 유발하며, ③ 특정 기능(예: 검색)만 SaaS로 교체할 수 없어 **Vendor Lock-in** 에 갇히게 된다. 실제로 Forester 2023 보고서에 따르면 monolithic commerce 플랫폼의 평균 신규 기능 배포 주기는 **8.5주**, 컴포저블 아키텍처 적용 기업은 **1.7주** 으로 격차가 벌어지고 있다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Composable Architecture Modular Reuse 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+이러한 문제를 해결하기 위해 Gartner(2021)는 **Composable Business** 를 전략적 기술 트렌드로 선정하고, 이를 구현하는 기술 아키텍처로 **Composable Architecture** 를 제시했다. 핵심 사고방식은 "비즈니스 역량(Business Capability)을 더 작은 **PBC(Packaged Business Capability)** 단위로 패키징하고, API와 이벤트로 외부에 노출하여 마치 레고 블록처럼 조립하라"는 것이다.
 
 ```text
-+--------------------------------------------------------------+
-|                    컴포저블 아키텍처 모듈화 재사용 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
++----------------------- Legacy Monolithic -----------------------+
+|  +---------+---------+---------+---------+---------+           |
+|  |   UI    |  CMS    |  Search | Commerce|   CRM   |  Coupled  |
+|  |  Layer  | Module  |  Engine |  Module |  Module |   WAR/EAR |
+|  +----+----+----+----+----+----+----+----+----+----+  --------|
+|       +----------+---------+---------+---------+              |
+|                         Shared DB                              |
++----------------------------------------------------------------+
+                          v Decompose v
++------------------ Composable Architecture ------------------+
+|   [PBC: Search]    [PBC: Commerce]    [PBC: CMS]   [PBC:CRM] |
+|   (Algolia)        (commercetools)   (Contentful) (Salesforce)
+|   -+-              -+-               -+-           -+-       |
+|    | REST/gRPC      | GraphQL         | REST        | oData  |
+|   -+----------------+-----------------+-------------+---     |
+|              +------------------------------+                |
+|              |  API Gateway / BFF (GraphQL  |                |
+|              |  Federation, Apollo Router)  |                |
+|              +--------------+---------------+                |
+|                             |                                |
+|              +--------------+---------------+                |
+|              |   Event Bus (Kafka/NATS)     |  Pub/Sub       |
+|              |   topic: order.created       |                |
+|              +------------------------------+                |
 +--------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**왜 필요한가? (Old vs New Paradigm)**
 
-- **📢 섹션 요약 비유**: 컴포저블 아키텍처 모듈화 재사용은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 차원 | Monolithic (Old) | Composable (New) |
+| :--- | :--- | :--- |
+| 변경 영향도 | 전체 빌드/배포 | PBC 단위 독립 배포 |
+| 확장 단위 | 수평(전체 인스턴스) | 수직/수평(PBC별 셀별) |
+| 기술 선택 | 단일 언어/프레임워크 | Polyglot(Python+Go+Node 공존) |
+| 장애 영향 | 전체 장애 가능 | Blast Radius 격리 (Circuit Breaker) |
+| 벤더 종속 | All-or-Nothing | Best-of-Breed 조립 |
+| 조직 구조 | 기능별 팀(Feature Team) | **스트림 정렬 팀(SAFe/Spotify Model)** |
+
+- **📢 섹션 요약 비유**: 옛날의 짜장면 배달 세트 메뉴(모든 토핑이 한 그릇에 섞여 있음)와, 요즘의 **누구나 조합하는 커스텀 도시락**(메인, 반찬, 국을 각 코너에서 따로 담아 선택)이 다른 것과 같다. 한 코너의 메뉴가 바뀌어도 다른 코너는 영향이 없고, 원하는 코너만 교체할 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-컴포저블 아키텍처 모듈화 재사용의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+컴포저블 아키텍처는 **3계층(Experience -> Composition -> PBC)** 으로 구성된다. 상위에서 하위로 흐르는 **요청 흐름(Request Flow)** 과, 하위에서 상위로 흐르는 **이벤트 흐름(Event Flow)** 이 **API Gateway / Event Bus** 를 통해 양방향으로 연결된다.
 
 ```text
 +--------------------------------------------------------------+
-|              Composable Architecture Modular Reuse 아키텍처 3계층 구조                   |
+|                  Experience Layer (Touchpoints)              |
+|  Web App | Mobile | Voice | Kiosk | Marketplace | In-Store  |
+|   (Next.js) (RN)  (Alexa)  (PWA) (Mirakl)     (PWA)        |
++-------------------------+------------------------------------+
+                          | BFF / GraphQL Federation
+                          v
 +--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
+|              Composition Layer (조립/오케스트레이션)           |
+|   +-----------------------------------------------------+   |
+|   |  GraphQL Federation (Apollo Router v1.20+)          |   |
+|   |  - Schema Stitching / Entity Resolver               |   |
+|   |  - @key directive 로 도메인 모델 통합                |   |
+|   +-----------------------------------------------------+   |
+|   +------------------+  +------------------------------+   |
+|   | BFF (Node/Go)     |  | Workflow Orchestrator        |   |
+|   | per Channel       |  | (Temporal/Camunda 8/Zeebe)   |   |
+|   +------------------+  +------------------------------+   |
++-------------------------+------------------------------------+
+                          | REST/GraphQL/gRPC + Webhook
+                          v
++--------------------------------------------------------------+
+|            PBC Layer (Packaged Business Capability)         |
+|  +----------+ +----------+ +----------+ +----------+        |
+|  |  Cart    | | Pricing  | | Inventory| |  Search  |        |
+|  | (Medusa) | |(Promo Svc)| |(SAP IS) | |(Algolia) |        |
+|  |  Port    | |  Port    | |  Port    | |  Port    |        |
+|  +----+-----+ +----+-----+ +----+-----+ +----+-----+        |
+|       |            |            |            |               |
+|       | Outbox -> Kafka: order.events, price.events           |
+|       +------------+------------+------------+               |
 +--------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **PBC (Packaged Business Capability)** | 하나의 비즈니스 역량을 자체적으로 완결(Autonomous)하여 제공하는 패키지. 내부 구현은 Black-Box. | Shopify Functions, commercetools Extension API, Salesforce AppExchange, Stripe Connect 처럼 자체 API/SDK/Event 를 통해 외부에 **계약(Contract)** 노출. DDD의 **Bounded Context** 와 1:1 매핑 권장. |
+| **API Gateway / BFF** | 다수의 PBC 호출을 단일 엔드포인트로 통합하고, 인증/인가, Rate Limiting, 캐싱 적용. | Kong(3.6+), AWS API Gateway, Apigee, 그리고 **Apollo Router**(GraphQL Federation v2). 채널별(Web/Mobile) **BFF(Backend for Frontend)** 분리 패턴(Netflix OSS, Sam Newman 저서). |
+| **Event Bus / Message Broker** | PBC 간 비동기 결합을 제공하여 결과적 일관성(Eventual Consistency) 보장. | **Apache Kafka**(Partitioning + Exactly-Once Semantics), **NATS JetStream**(경량), **RabbitMQ**(트랜잭셔널), **AWS EventBridge**, **Confluent Schema Registry** 로 Avro/JSON-Schema 진화 관리. |
+| **Composition Layer (Orchestration)** | 여러 PBC 호출을 워크플로우로 조합하여 트랜잭션 의미 제공. | **Saga Pattern**(Orchestration vs Choreography), **Temporal**(Workflow-as-Code, Go/TS SDK), **Camunda 8**(BPMN + Zeebe), **Apache Airflow**(배치성 오케스트레이션). |
+| **Service Mesh & Observability** | PBC 간 mTLS, 트래픽 관리, 분산 추적, 메트릭 수집. | **Istio 1.20+** Ambient Mesh(Sidecar-less), **Linkerd 2.15** Proxy, **OpenTelemetry Collector**, **Grafana Tempo/Loki/Mimir**, **Datadog APM**, **Honeycomb.io** OpenTelemetry 호환. |
+| **Headless Presentation** | 비즈니스 로직이 없는 순수 표현 계층, 다양한 채널에 동일 API 재사용. | **Next.js App Router**(React Server Components), **Nuxt 3**, **Remix**, **Astro**(Islands Architecture), 그리고 **Micro Frontend**: Module Federation 2.0(Webpack 5/Turbopack), Single-SPA, qiankun. |
+| **Developer Portal / Internal Platform** | PBC 카탈로그, API 문서, 셀프서비스 프로비저닝. | **Backstage.io**(Spotify), **Port.io**, **Apicurio**, **Stoplight Elements**. IDP(Internal Developer Platform) 패턴. |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 원리 심화**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+1. **계약 우선 설계(API-First + Contract-Driven Development)**: PBC는 OpenAPI 3.1 / GraphQL SDL / AsyncAPI 3.0 명세를 **Single Source of Truth** 로 삼고, 코드보다 먼저 스키마를 git에 커밋. 소비자(PBC-B)는 이 명세로 **계약 테스트(Pact, Spectral)** 를 수행하여 배포 안전성 확보.
+
+2. **이벤트 기반 결합(EDA + Outbox Pattern)**: PBC 내부 DB 트랜잭션과 외부 이벤트 발행을 원자적으로 보장하기 위해 **Transactional Outbox** 패턴 사용. Debezium CDC(Change Data Capture)로 outbox 테이블을 캡처하여 Kafka로 발행(예: order-service DB -> debezium -> kafka topic `order.v1`).
+
+3. **데이터 소유권 원칙(You Build It, You Run It, You Own Its Data)**: 각 PBC는 자기 도메인의 데이터를 **독점**하고, 다른 PBC는 직접 JOIN하지 않음. 통합은 API 또는 이벤트로만. 필요 시 **API Composition** 또는 **CQRS + Read Model 복제** 로 해결.
+
+4. **셀 아키텍처(Amazon 2-Pizza Team + Cell-Based Architecture)**: 한 팀이 1개 PBC의 설계-구현-배포-운영-SRE 책임을 모두 지는 Conway's Law 역이용. Spotify Squad -> GitHub Team -> PBC Owner 로 연결.
+
+```text
+Saga Orchestration (주문-결제-재고-배송 예시)
+
+  Order BFF ---> Order PBC (Orchestrator, Local TX)
+                   |
+                   | Step1. createOrder (Local DB)
+                   |
+                   | ---- Command ----> Payment PBC
+                   |                       (charge, Reply)
+                   |     ACK          +- 보상(Refund) --+
+                   | <--------------- |                  |
+                   |
+                   | ---- Command ----> Inventory PBC
+                   |                       (reserve)
+                   |     ACK
+                   | <--------------- 보상(release)
+                   |
+                   | ---- Event ------> Shipping PBC (Choreography)
+                   |     order.created
+                   | <-------- order.shipped
+                   v
+              Saga Complete / Compensating Actions Rollback
+```
+
+- **📢 섹션 요약 비유**: 컴포저블 아키텍처는 **자석 블록(LEGO + Smart Brick)** 이다. 각 블록은 자기 핀(Pin)을 통해 결합 패턴을 알고 있고, 나사를 다시 조이지 않아도 똑딱 맞물린다. 만약 한 블록에 균열이 생겨도 그 블록만 교체하면 되며, 다른 블록은 무관하게 동작한다. 이것이 **느슨한 결합(Loose Coupling)** 의 본질이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-컴포저블 아키텍처 모듈화 재사용을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 컴포저블 아키텍처 모듈화 재사용 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 컴포저블 아키텍처 모듈화 재사용은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 컴포저블 아키텍처 모듈화 재사용은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 컴포저블 아키텍처 모듈화 재사용을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-컴포저블 아키텍처 모듈화 재사용을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 컴포저블 아키텍처 모듈화 재사용 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 컴포저블 아키텍처 모듈화 재사용은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 컴포저블 아키텍처 모듈화 재사용의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 컴포저블 아키텍처 모듈화 재사용의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-컴포저블 아키텍처 모듈화 재사용 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 컴포저블 아키텍처 모듈화 재사용은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | Composable Architecture | Microservices Architecture | Modular Monolith | SOA (Service-Oriented Architecture) |
+| :--- | :--- | :--- | :--- | :--- |
+| **유래/시대** | Gartner 2021, MACH 2020~ | Fowler 2014, Netflix/AWS | Shop(Shopify 내부), Simon Brown | OASIS 2000년대, WSDL/SOAP |
+| **결합 단위** | PBC (Bounded Context + SaaS 가능) | Service (논리적 분리) | Module (단일 배포 단위) | Service (ESB 통해 통신) |
+| **데이터 정책** | PBC별 독립 DB + 이벤트 공유 | DB-per-service | 통합 DB, 스키마 분리 | 중앙 DB 또는 Data Service |
+| **통합 방식** | API-first + Event-driven | REST/gRPC 위주, EDA 병행 | In-process function call | ESB(Enterprise Service Bus) |
+| **구현 예** | commercetools + Algolia + Contentful | Netflix OSS, Uber Domain | Shopify Rails 모놀리식, Amazon 내부 초기 | SAP NetWeaver, TIBCO |
+| **기술 독립성** | Best-of-Breed (언어/DB 자유) | 가능 (Polyglot) | 불가 (단일 스택) | 제한적 |
+| **조직 단위** | **PBC Squad + IDP** | DevOps 팀 | 모놀리식 팀 | Center of Excellence |
+| **적합 시나리오** | 빠른 시장 대응, 디지털 커머스, M&A 잦은 기업 | 대규모 트래픽, 클라우드 네이티브 | 초기 스타트업, 단일 도메인 | 레거시 통합, 엔터프라이즈 허브 |
+| **도입 난이도** | 매우 높음 (벤더
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 580 / 600

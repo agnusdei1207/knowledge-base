@@ -21,26 +21,26 @@ tags = ["studynote-ict-convergence"]
 
 소셜 네트워크 분석(Social Network Analysis, SNA)의 핵심은 "어떤 노드가 다른 노드들 사이의 관계 구조에서 전략적으로 중요한 위치를 점유하고 있는가"를 측정하는 것이다. 1948년 Shaw이 제안하고 Bavelas(1950)가 실험으로 정형화한 중심성 개념은 이후 Freeman(1977, 1979)이 차수·매개·근접의 3대 메트릭을 수학적으로 완성하면서 현대 그래프 이론의 한 축으로 자리 잡았다. 이후 Bonacich(1972)의 아이겐벡터 중심성, Brin-Page(1998)의 PageRank, Kleinberg(1999)의 HITS, Katz(1953)의 감쇠합 산정 등 전파·순위·계층을 반영한 후속 메트릭이 등장했다.
 
-기존 RDBMS 기반의 JOIN 연쇄 분석은 깊이(Depth) k=3만 넘어가도 결과 집합이 지수적으로 폭증하여(예: 평균 차수 d=10, 깊이 3 → 1,000개 노드 스캔) 실시간 분석이 불가능했다. 그래프 네이티브 처리 방식은 인덱스 프리 어드미션(Index-Free Adjacency)을 통해 1-hop 이웃을 O(1)에 조회하고, multi-hop traversal을 인접 리스트 기반으로 처리하여 10⁻⁶~10⁻³ 초 단위로 응답한다. 마케팅·보안·바이오인포매틱스·전력 그리드·IoT 등 거의 모든 도메인에서 "가장 영향력 있는 누군가/가장 취약한 연결"을 찾는 것이 의사결정의 핵심 변수이므로, 소셜 네트워크 중심성은 단순 학문적 지표가 아니라 **데이터 기반 의사결정의 1차 필터**로 작동한다.
+기존 RDBMS 기반의 JOIN 연쇄 분석은 깊이(Depth) k=3만 넘어가도 결과 집합이 지수적으로 폭증하여(예: 평균 차수 d=10, 깊이 3 -> 1,000개 노드 스캔) 실시간 분석이 불가능했다. 그래프 네이티브 처리 방식은 인덱스 프리 어드미션(Index-Free Adjacency)을 통해 1-hop 이웃을 O(1)에 조회하고, multi-hop traversal을 인접 리스트 기반으로 처리하여 10⁻⁶~10⁻³ 초 단위로 응답한다. 마케팅·보안·바이오인포매틱스·전력 그리드·IoT 등 거의 모든 도메인에서 "가장 영향력 있는 누군가/가장 취약한 연결"을 찾는 것이 의사결정의 핵심 변수이므로, 소셜 네트워크 중심성은 단순 학문적 지표가 아니라 **데이터 기반 의사결정의 1차 필터**로 작동한다.
 
 ```text
 [전통 RDBMS vs 그래프 네이티브 중심성 분석 비교]
 
-   ┌──────────────────┐                ┌──────────────────────────────┐
-   │   RDBMS 환경     │                │   Graph-Native 분석 환경     │
-   │  (관계형 조인)    │                │   (인접 리스트 + 인메모리)    │
-   └────────┬─────────┘                └──────────────┬───────────────┘
-            │                                          │
-   ┌────────▼─────────┐                ┌───────────────▼───────────────┐
-   │ User ──┐         │                │  (A)──(B)──(C)──(D)           │
-   │        │         │                │   │  ╲ │  ╱ │                 │
-   │ User ──┤ JOIN×N  │   ──────►      │  (E)──(F)──(G)                │
-   │        │         │   (Bavelas     │   │   ╲ │  ╱ │                 │
-   │ User ──┘         │    Freeman     │  (H)──(I)──(J)                │
-   │  + Friend        │    Brandes)    │   ↑ 인접 행렬 CSR/COO 인덱스  │
-   │  + FriendOf      │                │   ↑ n-hop 즉시 인출            │
-   │  + Liked_Page    │                │   ↑ α·β·γ 파라미터 즉시 산정  │
-   └──────────────────┘                └──────────────────────────────────┘
+   +------------------+                +------------------------------+
+   |   RDBMS 환경     |                |   Graph-Native 분석 환경     |
+   |  (관계형 조인)    |                |   (인접 리스트 + 인메모리)    |
+   +--------+---------+                +--------------+---------------+
+            |                                          |
+   +--------v---------+                +---------------v---------------+
+   | User --+         |                |  (A)--(B)--(C)--(D)           |
+   |        |         |                |   |  ╲ |  ╱ |                 |
+   | User --+ JOIN×N  |   ------►      |  (E)--(F)--(G)                |
+   |        |         |   (Bavelas     |   |   ╲ |  ╱ |                 |
+   | User --+         |    Freeman     |  (H)--(I)--(J)                |
+   |  + Friend        |    Brandes)    |   ^ 인접 행렬 CSR/COO 인덱스  |
+   |  + FriendOf      |                |   ^ n-hop 즉시 인출            |
+   |  + Liked_Page    |                |   ^ α·β·γ 파라미터 즉시 산정  |
+   +------------------+                +----------------------------------+
    * 3-hop 조회: ~10²~10⁴ ms                * 3-hop 조회: ~1~50 ms
    * 메모리:  관계형 O(n²) 정규화              * 메모리:  인접 리스트 O(n+E)
    * 정확도:  샘플링 손실 多                   * 정확도:  exact / approximate
@@ -62,7 +62,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-소셜 네트워크 중심성 분석 시스템은 일반적으로 **① 데이터 수집 → ② 그래프 모델링 → ③ 메트릭 산출 → ④ 시각화·응용**의 4계층 파이프라인으로 구성된다. 입력 그래프는 방향성·가중치·시간차원의 유무에 따라 (a) 단순 무향 비가중치, (b) 방향 그래프(Digraph), (c) 다중 가중치 그래프(Multi-weight), (d) 시계열 다층 그래프(Temporal/Multiplex)로 분류되며, 메트릭 정의 자체가 그래프 유형에 의존한다.
+소셜 네트워크 중심성 분석 시스템은 일반적으로 **① 데이터 수집 -> ② 그래프 모델링 -> ③ 메트릭 산출 -> ④ 시각화·응용**의 4계층 파이프라인으로 구성된다. 입력 그래프는 방향성·가중치·시간차원의 유무에 따라 (a) 단순 무향 비가중치, (b) 방향 그래프(Digraph), (c) 다중 가중치 그래프(Multi-weight), (d) 시계열 다층 그래프(Temporal/Multiplex)로 분류되며, 메트릭 정의 자체가 그래프 유형에 의존한다.
 
 ### 중심성 메트릭별 수학적 정의
 
@@ -73,7 +73,7 @@ tags = ["studynote-ict-convergence"]
 
 2) 매개 중심성 (Betweenness Centrality)
    C_B(v) = Σ_{s≠v≠t}  [σ_st(v) / σ_st]
-   σ_st   : s→t 최단경로 수
+   σ_st   : s->t 최단경로 수
    σ_st(v): 그 중 v를 지나는 경로 수
    - Brandes(2001) 알고리즘: 단일 BFS로 모든 최단경로 수 누적
      δ_s(v) = Σ_w  δ_s(w) / σ_sw  · [v∈P_s(w)]
@@ -86,11 +86,11 @@ tags = ["studynote-ict-convergence"]
 
 4) 아이겐벡터 / Bonacich 중심성
    C_E(v) = (1/λ) · Σ_{u∈N(v)} C_E(u)
-   → 고유방정식 A·x = λ·x 의 최대 고유값 λ_max에 대한 고유벡터
+   -> 고유방정식 A·x = λ·x 의 최대 고유값 λ_max에 대한 고유벡터
    - Power iteration: x^{(k+1)} = (A·x^{(k)}) / ||A·x^{(k)}||₂
 
 5) PageRank (방향 + 감쇠)
-   PR(v) = (1-d)/N + d · Σ_{u→v}  PR(u) / L(u)
+   PR(v) = (1-d)/N + d · Σ_{u->v}  PR(u) / L(u)
    d: 감쇠계수(0.85), L(u): out-degree of u, dangling node 처리
    - Power method, Gauss-Seidel, Monte Carlo 병렬화
 
@@ -99,9 +99,9 @@ tags = ["studynote-ict-convergence"]
    0 < α < 1/λ(A) 이어야 수렴
 
 7) HITS (Hyperlink-Induced Topic Search)
-   hub(v)    = Σ_{v→u}  auth(u)
-   auth(v)   = Σ_{u→v}  hub(u)
-   → 서로 상호 강화되는 두 벡터로 수렴
+   hub(v)    = Σ_{v->u}  auth(u)
+   auth(v)   = Σ_{u->v}  hub(u)
+   -> 서로 상호 강화되는 두 벡터로 수렴
 
 8) α-중심성 / DECA / Cross-Clique
    C_α(v) = Σ_{u∈V\{v}}  e^(-α·d(v,u))        (α: 감쇠율)
@@ -110,64 +110,64 @@ tags = ["studynote-ict-convergence"]
 ```text
 [소셜 네트워크 중심성 분석 시스템 4계층 아키텍처]
 
-   ┌────────────────────────────────────────────────────────────────────┐
-   │  L1. Data Ingestion                                              │
-   │   ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐              │
-   │   │ Twitter  │ │ Facebook │ │   Call   │ │  Mobile  │              │
-   │   │   API    │ │   Graph  │ │   CDR    │ │  Cell-ID │              │
-   │   └────┬─────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘              │
-   │        └────────────┴─────┬──────┴────────────┘                    │
-   │                          ▼                                         │
-   │            Kafka / Pulsar / Kinesis                                │
-   │            (event-time, idempotent ingestion)                      │
-   └────────────────────────────┬───────────────────────────────────────┘
-                                ▼
-   ┌────────────────────────────────────────────────────────────────────┐
-   │  L2. Graph Storage & Modeling                                      │
-   │   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                │
-   │   │  Neo4j 5.x  │  │ TigerGraph  │  │ JanusGraph  │                │
-   │   │ (Labeled    │  │ (Native MPP │  │ (Cassandra  │                │
-   │   │  Property)  │  │  C++)       │  │  +ES)       │                │
-   │   └──────┬──────┘  └──────┬──────┘  └──────┬──────┘                │
-   │          │                │                │                       │
-   │   ┌──────▼──────┐  ┌──────▼──────┐  ┌──────▼──────┐                │
-   │   │  Apache     │  │  NetworkX   │  │  iGraph     │                │
-   │   │  TinkerPop  │  │  (in-mem)   │  │  (C core)   │                │
-   │   │  Gremlin    │  │             │  │             │                │
-   │   └─────────────┘  └─────────────┘  └─────────────┘                │
-   │   Schema: (Person)-[:FOLLOWS {ts, weight}]->(Person)               │
-   │           (Person)-[:POSTED]->(Tweet)<-[:MENTIONS]-(Person)        │
-   └────────────────────────────┬───────────────────────────────────────┘
-                                ▼
-   ┌────────────────────────────────────────────────────────────────────┐
-   │  L3. Centrality Computation Engine                                 │
-   │   ┌─────────────────────────────────────────────────────────┐      │
-   │   │  Exact Algorithms                                       │      │
-   │   │   • Brandes Betweenness  O(VE)  (single-source BFS)     │      │
-   │   │   • Dijkstra for weighted betweenness                    │      │
-   │   │   • Power Iteration for Eigenvector / PageRank          │      │
-   │   │   • Floyd-Warshall for all-pairs (small world only)     │      │
-   │   ├─────────────────────────────────────────────────────────┤      │
-   │   │  Approximation / Sampling                               │      │
-   │   │   • Riondato-Kornaropoulos  VC-dim sampling for k-medo. │      │
-   │   │   • Bader et al. adaptive sampling for betweenness      │      │
-   │   │   • Local clustering coefficient (transitivity)         │      │
-   │   ├─────────────────────────────────────────────────────────┤      │
-   │   │  Distributed BSP / Pregel-like                          │      │
-   │   │   • Spark GraphX (Pregel API)                            │      │
-   │   │   • Apache Giraph                                        │      │
-   │   │   • Google Pregel / cuGraph (GPU)                        │      │
-   │   └─────────────────────────────────────────────────────────┘      │
-   └────────────────────────────┬───────────────────────────────────────┘
-                                ▼
-   ┌────────────────────────────────────────────────────────────────────┐
-   │  L4. Application & Visualization                                   │
-   │   • Gephi / Cytoscape / d3-force                                   │
-   │   • Influence ranking dashboard                                    │
-   │   • Fraud ring detection alert                                     │
-   │   • Recommendation: candidate injection for cold-start             │
-   │   • Diffusion simulator (SIR / IC / LT)                            │
-   └────────────────────────────────────────────────────────────────────┘
+   +--------------------------------------------------------------------+
+   |  L1. Data Ingestion                                              |
+   |   +----------+ +----------+ +----------+ +----------+              |
+   |   | Twitter  | | Facebook | |   Call   | |  Mobile  |              |
+   |   |   API    | |   Graph  | |   CDR    | |  Cell-ID |              |
+   |   +----+-----+ +----+-----+ +----+-----+ +----+-----+              |
+   |        +------------+-----+------+------------+                    |
+   |                          v                                         |
+   |            Kafka / Pulsar / Kinesis                                |
+   |            (event-time, idempotent ingestion)                      |
+   +----------------------------+---------------------------------------+
+                                v
+   +--------------------------------------------------------------------+
+   |  L2. Graph Storage & Modeling                                      |
+   |   +-------------+  +-------------+  +-------------+                |
+   |   |  Neo4j 5.x  |  | TigerGraph  |  | JanusGraph  |                |
+   |   | (Labeled    |  | (Native MPP |  | (Cassandra  |                |
+   |   |  Property)  |  |  C++)       |  |  +ES)       |                |
+   |   +------+------+  +------+------+  +------+------+                |
+   |          |                |                |                       |
+   |   +------v------+  +------v------+  +------v------+                |
+   |   |  Apache     |  |  NetworkX   |  |  iGraph     |                |
+   |   |  TinkerPop  |  |  (in-mem)   |  |  (C core)   |                |
+   |   |  Gremlin    |  |             |  |             |                |
+   |   +-------------+  +-------------+  +-------------+                |
+   |   Schema: (Person)-[:FOLLOWS {ts, weight}]->(Person)               |
+   |           (Person)-[:POSTED]->(Tweet)<-[:MENTIONS]-(Person)        |
+   +----------------------------+---------------------------------------+
+                                v
+   +--------------------------------------------------------------------+
+   |  L3. Centrality Computation Engine                                 |
+   |   +---------------------------------------------------------+      |
+   |   |  Exact Algorithms                                       |      |
+   |   |   • Brandes Betweenness  O(VE)  (single-source BFS)     |      |
+   |   |   • Dijkstra for weighted betweenness                    |      |
+   |   |   • Power Iteration for Eigenvector / PageRank          |      |
+   |   |   • Floyd-Warshall for all-pairs (small world only)     |      |
+   |   +---------------------------------------------------------+      |
+   |   |  Approximation / Sampling                               |      |
+   |   |   • Riondato-Kornaropoulos  VC-dim sampling for k-medo. |      |
+   |   |   • Bader et al. adaptive sampling for betweenness      |      |
+   |   |   • Local clustering coefficient (transitivity)         |      |
+   |   +---------------------------------------------------------+      |
+   |   |  Distributed BSP / Pregel-like                          |      |
+   |   |   • Spark GraphX (Pregel API)                            |      |
+   |   |   • Apache Giraph                                        |      |
+   |   |   • Google Pregel / cuGraph (GPU)                        |      |
+   |   +---------------------------------------------------------+      |
+   +----------------------------+---------------------------------------+
+                                v
+   +--------------------------------------------------------------------+
+   |  L4. Application & Visualization                                   |
+   |   • Gephi / Cytoscape / d3-force                                   |
+   |   • Influence ranking dashboard                                    |
+   |   • Fraud ring detection alert                                     |
+   |   • Recommendation: candidate injection for cold-start             |
+   |   • Diffusion simulator (SIR / IC / LT)                            |
+   +--------------------------------------------------------------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |

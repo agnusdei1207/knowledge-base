@@ -11,160 +11,201 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: API 설계 RESTful GraphQL gRPC은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: API 설계 패러다임은 **리소스 중심(REST/HTTP-JSON)**, **쿼리 중심(GraphQL/Schema-First)**, **계약 중심(gRPC/Protobuf over HTTP/2)**의 3축으로 수렴하며, 각기 다른 직렬화·전송·계약 정의 메커니즘을 통해 *네트워크 효율성·타입 안전성·클라이언트 자율성*을 상충관계(Trade-off) 속에서 최적화한다.
+> 2. **가치**: 페이로드 절감(REST 대비 GraphQL/gRPC 평균 40~80%), 계약 기반 코드 자동 생성(`.proto` → 12+ 언어 SDK), HTTP/2 멀티플렉싱을 통한 동시성 처리(Head-of-Line Blocking 제거), Strongly-Typed Schema를 통한 런타임 오류 컴파일 타임 전환으로 **MTTR 평균 30% 감소** 효과를 창출한다.
+> 3. **판단 포인트**: **내부 서비스 간 통신(Backend-to-Backend)**은 gRPC 우선, **외부 공개 API(B2C/공공)**는 REST·OpenAPI 3.1 우선, **애그리게이션·BFF(Backend-For-Frontend)**는 GraphQL Federation 또는 BFF 패턴을 적용하는 *3-Tier API 전략*이 핵심 의사결정 프레임이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-API 설계 RESTful GraphQL gRPC은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+소프트웨어 산업이 SOA(Service-Oriented Architecture)에서 MSA(Microservices Architecture)로 전환되면서, 수십~수백 개의 독립 서비스가 네트워크를 통해 상호작용하는 **분산 컴퓨팅 환경**이 표준이 되었다. 이에 따라 각 서비스의 **계약(Contract)**, **전송(Transport)**, **직렬화(Serialization)** 방식이 전체 시스템의 처리량·확장성·운영 복잡도를 결정짓는 핵심 변수로 부상했다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, API Design RESTful GraphQL gRPC 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+과거 SOAP/XML-RPC 기반의 무거운 WS-* 스택(WS-Security, WS-ReliableMessaging 등)은 **WSDL**(Web Services Description Language) 중심의 **코드-우선(Code-First) 계약**과 XML의 텍스트 무결성 오버헤드로 인해 모바일·클라우드 환경에서 병목이 발생했다. Roy Fielding이 2000년 박사논문에서 제시한 **REST**(Representational State Transfer)는 **HTTP 표준 메서드(GET/POST/PUT/DELETE/PATCH)**와 **리소스 URI**, **HATEOAS**(Hypermedia as the Engine of Application State) 원칙을 통해 stateless·cacheable·layered 시스템이라는 제약 조건을 만족시키며 웹 API의 사실 표준이 되었다.
+
+그러나 2010년대 후반, 모바일 폭증·실시간성 요구·MSA 내부 통신의 빈도 증가로 인해 **Over-fetching**(필요 이상의 필드 수신), **Under-fetching**(추가 라운드트립 필요), **문서-구현 간 Drift** 문제가 REST의 한계로 명확해졌다. 이를 해결하기 위해 **GraphQL**(2015년 Facebook 공개)과 **gRPC**(2015년 Google 공개, 내부 Stubby의 오픈소스화)가 등장했으며, 각각 *클라이언트 주도 쿼리*와 *고성능 바이너리 RPC*라는 차별화된 해법을 제시했다.
 
 ```text
-+--------------------------------------------------------------+
-|                    API 설계 RESTful GraphQL gRPC 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[API 설계 패러다임 진화 흐름]
+
+   1990s        2000s         2010s 초         2010s 후반~현재
+ ┌─────────┐  ┌──────────┐  ┌─────────────┐  ┌──────────────────┐
+ │  CORBA  │→ │SOAP/WS-* │→ │   REST/HTTP │→ │ GraphQL  + gRPC  │
+ │ (IIOP)  │  │(XML/WSDL)│  │  (JSON/URI) │  │  (Schema/Proto)  │
+ └─────────┘  └──────────┘  └─────────────┘  └──────────────────┘
+   RPC기반     표준화중심      자원중심          계약·쿼리·이벤트
+   바이너리     무거운스택     웹친화적           고성능·타입안정
+                    │                │                  │
+                    ▼                ▼                  ▼
+              [WSDL→UDDI]      [OpenAPI 3.1]      [GraphQL SDL / .proto]
+              (정적 발견)       (동적 문서화)        (계약 자동생성)
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**MSA 환경에서의 API 설계가 필수불가결한 이유**는 다음과 같이 정량화된다:
+- Netflix는 700+ 마이크로서비스 간 통신을 위해 **REST→gRPC 전환**으로 P99 latency를 평균 50% 절감 (2018~2020).
+- GitHub는 v3 REST API의 **GraphQL 버전(2016)**을 통해 모바일 앱의 네트워크 요청 수를 평균 90% 감소.
+- Shopify, Yelp, Pinterest는 **BFF + GraphQL Federation**으로 50+ 도메인 서비스의 데이터를 단일 엔드포인트로 통합.
 
-- **📢 섹션 요약 비유**: API 설계 RESTful GraphQL gRPC은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: API 설계는 **우체국 시스템의 진화**와 같다. SOAP는 무거운 *공식 외교문서*(봉인·인증·추적 필수), REST는 누구나 사용하는 *일반 우편*(간단·표준), GraphQL은 *맞춤형 쇼핑清单*(받고 싶은 것만 적어 발송), gRPC는 *군사 전용 암호전송*(고속·압축·계약 엄격).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-API 설계 RESTful GraphQL gRPC의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1. RESTful API 아키텍처
+
+REST는 **자원(Resource)**을 URI로 표현하고, **HTTP 동사(Verb)**로 상태를 전이시키는 stateless 아키텍처 스타일이다. Richardson Maturity Model(RMM)은 REST 성숙도를 4단계로 분류한다:
+
+- **Level 0**: HTTP를 터널로 사용(SOAP XML-RPC 스타일)
+- **Level 1**: 개별 자원(Resource) 분리
+- **Level 2**: HTTP 동사 + 상태코드 활용
+- **Level 3**: HATEOAS — 응답에 하이퍼미디어 링크 포함
 
 ```text
-+--------------------------------------------------------------+
-|              API Design RESTful GraphQL gRPC 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[RESTful API 요청-응답 플로우 (Level 2-3)]
+
+  Client                        Server                  Database
+    │                              │                       │
+    │  GET /users/42/orders       │                       │
+    │  Accept: application/json    │                       │
+    │  Authorization: Bearer xxx   │                       │
+    ├─────────────────────────────►│                       │
+    │                              │  SELECT * FROM orders │
+    │                              │  WHERE user_id = 42   │
+    │                              ├──────────────────────►│
+    │                              │◄──────────────────────┤
+    │  200 OK                      │   [rows...]           │
+    │  Content-Type: application/json                       │
+    │  Link: </orders?page=2>; rel="next"                   │
+    │  { "id":42, "name":"Kim",   │                       │
+    │    "orders":[ {...} ] }     │                       │
+    │◄─────────────────────────────┤                       │
+    │                              │                       │
+    
+    ※ HTTP 상태코드 활용 규약
+    2xx: Success (200 OK, 201 Created, 204 No Content)
+    3xx: Redirection (301 Moved, 304 Not Modified, 캐시)
+    4xx: Client Error (400 Bad Request, 401 Unauthorized, 404, 429 Too Many Req)
+    5xx: Server Error (500, 502 Bad Gateway, 503, 504 Gateway Timeout)
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+**핵심 제약 조건**(Architectural Constraints):
+1. **Client-Server**: 관심사 분리
+2. **Stateless**: 각 요청은 독립, 서버는 클라이언트 컨텍스트 미보유 → 수평확장에 유리
+3. **Cacheable**: `Cache-Control`, `ETag`, `Last-Modified`로 HTTP 캐시 활용
+4. **Uniform Interface**: URI(자원 식별), HTTP동사(자원 조작), MIME타입(표현), HATEOAS(상태전이)
+5. **Layered System**: 로드밸런서·CDN·API Gateway 투명 삽입 가능
+6. **Code-On-Demand**(선택): 스크립트 다운로드 실행
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 2. GraphQL 아키텍처
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-API 설계 RESTful GraphQL gRPC을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | API 설계 RESTful GraphQL gRPC |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. API 설계 RESTful GraphQL gRPC은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 API 설계 RESTful GraphQL gRPC은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 API 설계 RESTful GraphQL gRPC을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-API 설계 RESTful GraphQL gRPC을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, API 설계 RESTful GraphQL gRPC 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: API 설계 RESTful GraphQL gRPC은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | API 설계 RESTful GraphQL gRPC의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | API 설계 RESTful GraphQL gRPC의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+GraphQL은 **단일 엔드포인트(POST /graphql)**에서 클라이언트가 **쿼리 언어**로 필요한 데이터의 *모양(shape)*을 선언하면, 서버는 정확히 그 구조로 응답하는 **선언적·쿼리 지향** API이다.
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-API 설계 RESTful GraphQL gRPC 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+[GraphQL 요청-응답 플로우 (단일 엔드포인트)]
+
+  Client                  GraphQL Server           Resolvers       Data Sources
+    │                          │                       │                │
+    │  POST /graphql          │                       │                │
+    │  query: "{             │                       │                │
+    │    user(id:42) {        │                       │                │
+    │      name               │                       │                │
+    │      orders {           │                       │                │
+    │        id, totalPrice   │                       │                │
+    │      }                  │                       │                │
+    │    }                    │                       │                │
+    │  }"                     │                       │                │
+    ├─────────────────────────►│                       │                │
+    │                          │  Parse & Validate     │                │
+    │                          │  (Schema Introspection│                │
+    │                          │   + Type Check)       │                │
+    │                          │  ─────────────►       │                │
+    │                          │  Build Execution Plan │                │
+    │                          │  (병렬/순차 최적화)   │                │
+    │                          │                       │                │
+    │                          │  user(42) ───────────►│  REST/gRPC     │
+    │                          │                       ├───────────────►│
+    │                          │  orders(42) ─────────►│  DataLoader    │
+    │                          │  (Batching + Caching) ├───────────────►│
+    │                          │                       │                │
+    │                          │◄──────────────────────┤                │
+    │  200 OK                  │   { user: {           │                │
+    │  { data:{                │     name:"Kim",       │                │
+    │     user:{               │     orders:[          │                │
+    │        name:"Kim",       │       {id:1,total:...}│                │
+    │        orders:[{...}]    │     ]                 │                │
+    │     }                    │   }                   │                │
+    │   }}                     │   }                   │                │
+    │◄─────────────────────────┤                       │                │
+    │                          │                       │                │
+    ※ Subscription은 WebSocket / Server-Sent Events 기반
+    ※ Persisted Query: 쿼리를 서버에 미리 등록 → 네트워크 페이로드 0에 수렴
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+**GraphQL 핵심 구성요소**:
+- **Schema Definition Language (SDL)**: `type`, `query`, `mutation`, `subscription`, `input`, `enum`, `union`, `interface`로 계약 정의
+- **Resolver**: Schema 필드별 데이터 fetch 함수 (4-argument: `parent, args, context, info`)
+- **Execution Engine**: 쿼리를 AST로 파싱 → 참조 그래프 분석 → N+1 문제 해결 위해 `DataLoader` (배치·캐시) 사용
+- **N+1 Problem 해결**: 필드별 개별 호출 대신 `batch`로 묶어 한 번에 조회 (예: 사용자 100명의 주문 → 1회 배치 쿼리)
 
-1. API 설계 RESTful GraphQL gRPC은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+### 3. gRPC 아키텍처
 
----
+gRPC는 Google의 **Stubby**(2001년~ 내부 RPC 시스템)에서 파생된 **고성능·계약 우선(Contract-First)·다언어** RPC 프레임워크로, **Protocol Buffers(Protobuf) v3**를 IDL(Interface Definition Language)로 사용하고 **HTTP/2** 위에서 동작한다.
 
+```text
+[gRPC 통신 플로우 (Unary, Server Streaming, Client Streaming, Bidirectional)]
+
+  ┌──────────┐                  ┌──────────┐                  ┌──────────┐
+  │ gRPC     │  .proto 컴파일   │ Stub/    │  HTTP/2 Stream  │ gRPC     │
+  │ Client   │  ────────────►   │ Channel  │  ─────────────►  │ Server   │
+  │          │                  │ (Stub)   │                  │ (Service)│
+  └──────────┘                  └──────────┘                  └──────────┘
+       │                              │                              │
+       │  1. .proto 파일 작성         │                              │
+       │  ──────────────────────►     │                              │
+       │                              │  2. protoc 컴파일            │
+       │                              │  → 메시지 클래스 자동생성     │
+       │                              │  → 서버/클라이언트 Stub 생성  │
+       │                              │                              │
+       │  3. Stub 메서드 호출         │                              │
+       │  (언어 네이티브 함수처럼)    │                              │
+       │ ────────────────────────────►                              │
+       │                              │  4. Protobuf 직렬화          │
+       │                              │  (Binary, ~JSON 대비 1/3)     │
+       │                              │  5. HTTP/2 Stream으로 전송    │
+       │                              │  (Header 압축 HPACK)         │
+       │                              │  6. Multiplexing (단일 TCP)  │
+       │                              │ ────────────────────────────►│
+       │                              │                              │
+       │  4가지 통신 패턴             │                              │
+       │  ┌────────────────────┐     │                              │
+       │  │ Unary: 1 req → 1 res    │                              │
+       │  │ Server Stream: 1 req → N│                              │
+       │  │ Client Stream: N → 1    │                              │
+       │  │ Bidi Stream: N ↔ N      │                              │
+       │  └────────────────────┘     │                              │
+       │                              │                              │
+```
+
+**gRPC 핵심 기술**:
+- **Protocol Buffers v3**: `.proto` 파일에 `service`, `rpc`, `message` 정의 → `protoc` 컴파일러가 **12개 이상 언어**(Go, Java, C++, Python, Node.js, Ruby, PHP, C#, Dart, Kotlin, Rust 등)용 SDK 자동 생성
+- **HTTP/2 전송 계층**: Multiplexing(이진 데이터 프레임 단위로 다중 스트림 동시 전송 → **HOL Blocking 회피**), Header 압축(HPACK), 바이너리 프레이밍, 서버 푸시(제한적)
+- **서비스 정의 4가지 패턴**:
+  1. **Unary**: 일반 RPC (`GetUser(UserId) returns (User)`)
+  2. **Server Streaming**: 서버가 다수 메시지 전송 (`Subscribe(Stock) returns (stream Price)`)
+  3. **Client Streaming**: 클라이언트가 다수 메시지 전송 (`Upload(stream Chunk) returns (Ack)`)
+  4. **Bidirectional Streaming**: 양방향 독립 스트림 (`Chat(stream Msg) returns (stream Msg)`)
+- **Interceptors**: 미들웨어 패턴 (인증, 로깅, 메트릭, 재시도)
+- **Load Balancing**: `grpclb`, Client-Side LB (Consistent Hashing, Round Robin)
+- **Deadline/Timeout Propagation**: 클라이언트가 상한 시간 명시, 서버가 자율적 취소
+
+### 4. 3가지 패러다임 통합 구성 요소 비교
+
+| 구성 요소 | REST (HTTP/JSON) | GraphQL | gRPC |
+| :--- | :--- | :--- | :--- |
+| **계약 정의** | OpenAPI 3.1 (YAML/JSON, 코드-우선도 가능) | GraphQL SDL (`schema { query, mutation, subscription }`) | Protocol Buffers v3 (`.proto` IDL) |
+| **전송 프로토콜** | HTTP/1.1, HTTP/2, HTTP/3 모두 가능 | HTTP/1.1 + WebSocket(Subscription) | **HTTP/2 전용** (의무) |
+| **직렬화 포맷** | JSON (텍스트, 평균 200~
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 564 / 600

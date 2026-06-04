@@ -11,160 +11,193 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CQRS 명령 조회 분리 패턴 심화은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: CQRS는 단일 모델에서 Command(상태 변경)와 Query(조회)의 책임과 데이터 저장소·트랜잭션 모델·확장성 정책을 **물리적으로 분리**하여, 쓰기 경로의 무결성과 읽기 경로의 응답성을 독립적으로 최적화하는 아키텍처 패턴이다. 심화 단계에서는 Event Sourcing, Projection, Saga, Polyglot Persistence가 결합된 **이벤트 주도 비동기 시스템**으로 진화한다.
+> 2. **가치**: 쓰기/읽기 트래픽이 100:1 이상으로 비대칭이거나, 조회 화면이 10종 이상이며 각기 다른 비정규 뷰를 요구하는 도메인에서 **읽기 p99 latency 70~90% 감소**, **DB write throughput 3~5배 향상**, **이벤트 로그 기반 감사·시간여행 디버깅·이벤트 재투영을 통한 신규 read model 무중단 추가**라는 정량적 가치를 제공한다.
+> 3. **판단 포인트**: 모든 시스템에 CQRS를 적용해서는 안 된다. **도메인 복잡도(협상·승인·불변식 다수)**, **읽기/쓰기 비율 비대칭성**, **읽기 모델 다변성**, **팀의 이벤트 기반 설계 역량**이 임계치를 넘어야 도입을 정당화할 수 있다. 핵심 트레이드오프는 *강한 일관성(Strong Consistency) ↔ 결과적 일관성(Eventually Consistent)*, *단일 DB 단순성 ↔ 다중 저장소 운영 복잡성*이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-CQRS 명령 조회 분리 패턴 심화은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 CRUD 아키텍처는 하나의 애그리거트(예: `Order`)를 **정규화된 3NF 테이블**에 저장하고, ORM(JPA/Hibernate) 매핑을 통해 동일한 도메인 객체를 Command 처리와 Query 응답 양쪽에 사용한다. 이러한 "단일 모델" 방식은 다음과 같은 한계에 부딪힌다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, CQRS Command Query Separation Advanced 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+1. **읽기·쓰기 요구사항 충돌**: 쓰기는 강한 ACID와 무결성 제약(FK, Check Constraint, 낙관적 락)이 필요하지만, 조회는 비정규화·全文 검색·집계·정렬·페이지네이션 최적화가 필요하다. 한 테이블에 두 트레이드오프를 공존시키면 인덱스 폭증과 락 경합이 발생한다.
+2. **확장성 비대칭**: 전자상거래·IoT·금융 거래 시스템에서 쓰기 트래픽은 초당 수백~수천 건 수준이지만, 동일 도메인의 조회는 캐시 미스 시 초당 수만~수백만 건에 달한다. 단일 RDB는 이 두 부하를 같은 connection pool과 같은 디스크 IO로 감당해야 하므로 **수직 확장 한계**에 빠르게 도달한다.
+3. **모델 변형 폭발**: "주문 상세 조회"가 모바일 앱·웹·관리자 대시보드·B2B EDI별로 다른 컬럼·집계·정렬 기준을 요구하면, 동일한 도메인 객체에 **@SecondaryTable, DTO Projection, View SQL**이 난립하여 도메인 모델이 오염된다.
+4. **감사·추적 요구**: 금융·의료 도메인은 누가·언제·어떤 값으로 무엇을 변경했는지를 immutable log로 보존해야 한다. CRUD는 update/delete로 인해 이력을 직접 보존하지 못한다.
+
+CQRS는 2010년 Bertrand Meyer의 *CQS(Command-Query Separation)* 원칙을 분산 시스템 수준으로 확장한 **Greg Young(2010)·Udi Dahan(2009)**의 패턴이다. 단일 애플리케이션의 함수 수준 원칙을 넘어, **쓰기 모델(Write Side)·읽기 모델(Read Side)·이벤트 스토어(Event Store)·프로젝션(Projection)·프로세스 매니저(Saga)**의 5개 컴포넌트로 시스템을 분리한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    CQRS 명령 조회 분리 패턴 심화 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++------------------- Legacy CRUD Architecture -------------------+
+|                                                                 |
+|   Client --► [Web/API] --► [Service] --► [ORM Domain Model]     |
+|                                    |                            |
+|                                    v                            |
+|                            +--------------+                    |
+|                            |  RDB (3NF)   |  ◄-- 동일 모델      |
+|                            |  Order,Item  |      read+write     |
+|                            |  + Indexes   |      양쪽 책임      |
+|                            +--------------+                    |
+|                                   |                             |
+|   Read API ◄-- DTO/JOIN/View ----+                             |
+|   (Slow due to lock contention, index bloat)                   |
++-----------------------------------------------------------------+
+
+                              v v v  REFACTOR  v v v
+
++-------------------- CQRS + Event Sourcing ----------------------+
+|                                                                 |
+|  Write Side                Event Bus            Read Side       |
+|  +------------+         +----------+         +------------+    |
+|  |  Command   |--------►|  Kafka   |--------►| Projection |    |
+|  |  Handler   | Domain  |  Topic   | Events  |  Workers   |    |
+|  |  (Aggregate)| Events |  3 nodes |         +-----+------+    |
+|  +-----+------+         +----------+               |           |
+|        | append()                            +------v------+    |
+|        v                                     |  Read DB    |    |
+|  +------------+                              | (Denormal)  |    |
+|  | EventStore | --► Snapshot + Snapshot --►   | ES/Redis/   |    |
+|  | (append    |     Replay (새 view)         | MongoDB     |    |
+|  |  only log) |                              +-------------+    |
+|  +------------+                                                 |
++-----------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**Legacy vs CQRS 패러다임 비교**
 
-- **📢 섹션 요약 비유**: CQRS 명령 조회 분리 패턴 심화은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 차원 | CRUD Monolith | CQRS Advanced |
+| :--- | :--- | :--- |
+| 데이터 표현 | 1개의 정규화 모델 | N개의 비정규 read model + 1개의 이벤트 스트림 |
+| 트랜잭션 | 단일 ACID, 즉시 일관 | 쓰기는 이벤트 append, 조회는 eventually consistent |
+| 확장 단위 | DB 인스턴스 1개 | Command Side / Read Side / Projection 각각 독립 확장 |
+| 변경 이력 | update로 덮어씀 | 이벤트 로그로 영구 보존 (immutable) |
+| 신규 뷰 추가 | 스키마 변경 + 마이그레이션 | 새 Projection Worker 배포만으로 무중단 추가 |
+| 복잡도 | 낮음 | 중~고 (이벤트 스키마 진화, projection lag 모니터링 필수) |
+
+- **📢 섹션 요약 비유**: CRUD는 "주방과 홀이 같은 도마 하나로 요리와 접시 세척을 번갈아 하는 셰프"이고, CQRS는 "주방(명령)은 칼·불·냉장고만, 홀(조회)은 트레이·메뉴판·POS만, 그 사이를 웨이터(이벤트 버스)가 음식을 운반하는 전문 레스토랑"이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CQRS 명령 조회 분리 패턴 심화의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+심화 CQRS 시스템은 5개 계층으로 구성된다. 각 계층의 책임·기술 선택·통신 프로토콜을 명확히 구분하는 것이 실무 역량의 핵심이다.
 
 ```text
-+--------------------------------------------------------------+
-|              CQRS Command Query Separation Advanced 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+                    +----------------------------------------+
+                    |             Client / UI Layer          |
+                    |  (Web/Mobile, BFF GraphQL, gRPC stub)  |
+                    +--------------+--------------+----------+
+                                   |              |
+                          Command (POST/PUT)   Query (GET)
+                                   |              |
+            +----------------------v-+          +-v---------------------+
+            |   Write API (Spring    |          |   Read API (FastAPI / |
+            |   Boot + Axon/AxonIQ)  |          |   Node + GraphQL)     |
+            |   • AuthN/Z, RateLimit |          |   • Cache (Redis/CDN) |
+            |   • Idempotency-Key    |          |   • Read-after-write  |
+            |   • Aggregate Lock     |          |     hinting           |
+            +----------+-------------+          +-^---------------------+
+                       |                           |
+                       v                           |
+            +----------------------+               |
+            |   Aggregate (Domain) |               |
+            |   • loadFromHistory()|               |
+            |   • decide(cmd)->evt  |               |
+            |   • apply(evt) state |               |
+            |   • @EventSourcing   |               |
+            +----------+-----------+               |
+                       | events[]                  |
+                       v                           |
+            +----------------------+               |
+            |   EventStore         |               |
+            |  +----------------+  |               |
+            |  |Stream:order-123|  |               |
+            |  |0:Created       |  |               |
+            |  |1:ItemAdded     |  |               |
+            |  |2:Shipped       |  |               |
+            |  |...append only..|  |               |
+            |  +----------------+  |               |
+            |  (EventStoreDB /     |               |
+            |   Kafka+Compacted /  |               |
+            |   Postgres+JSONB)    |               |
+            +----------+-----------+               |
+                       | publish                   |
+                       v                           |
+            +----------------------+               |
+            |   Message Broker     |               |
+            |  (Kafka/RabbitMQ/    |               |
+            |   Pulsar/NATS)       |               |
+            |  • Ordered per agg   |               |
+            |  • DLQ + Retry       |               |
+            |  • Schema Registry   |               |
+            +----------+-----------+               |
+                       | subscribe (per view)     |
+        +--------------+--------------+------------+
+        v              v              v            v
+   +---------+    +---------+    +---------+  +---------+
+   | Proj. A |    | Proj. B |    | Proj. C |  | Proj. D |
+   |OrderSum |    |SearchIdx|    |DashAgg  |  | AuditLog|
+   |-> MySQL  |    |-> ES     |    |-> Redis  |  |-> S3     |
+   +----+----+    +----+----+    +----+----+  +---------+
+        |              |              |
+        +--------------+--------------+
+                       | API queryable
+                       +------------------► Read API
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+### 1. Command Side (쓰기 경로)
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Command DTO** | 사용자 의도 표현, 불변 객체 | `record CreateOrderCmd(String id, List<LineItem> items)`; 유효성 검증은 Bean Validation(Java) / FluentValidation(.NET) / Pydantic |
+| **Aggregate Root** | 도메인 불변식 강제, 라이프사이클 캡슐화 | `Order` 엔티티: `create()`, `addItem()`, `ship()` 메서드 안에서 비즈니스 규칙(예: 출하 후 아이템 변경 불가) 검증. 외부에서는 `getter`로 상태 조회만 허용 |
+| **Command Handler** | Aggregate 라이프사이클·트랜잭션 경계 관리 | Axon `@CommandHandler`, Spring `@Transactional` + `AggregateLifecycle.apply(event)`. **트랜잭션 = 1 커맨드 = N 이벤트 append** |
+| **Event Store** | 이벤트 스트림 영구 저장, Optimistic Concurrency | EventStoreDB(20k events/sec/stream), Axon Server, Kafka compacted topic(`min.cleanable.dirty.ratio`, `segment.ms`), Postgres + JSONB(`UNIQUE(stream_id, version)`) |
+| **Idempotency Layer** | 중복 커맨드 방지 | `Idempotency-Key` HTTP 헤더 -> 별도 저장소(Redis SETNX TTL 24h)에 키-결과 매핑. 결제·PG 연동에서 필수 |
+| **Saga / Process Manager** | 다중 애그리거트 간 장기 트랜잭션 | `OrderSaga`: `OrderCreated -> reserveInventory -> PaymentRequested -> PaymentCompleted -> OrderConfirmed`. **Choreography(중앙 orchestrator 없음) vs Orchestration(중앙 BP) trade-off** |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 2. Read Side (읽기 경로)
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-CQRS 명령 조회 분리 패턴 심화을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | CQRS 명령 조회 분리 패턴 심화 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| **Projection Worker** | 이벤트 스트림을 소비하여 read model 갱신 | At-least-once 소비 -> 멱등 처리(예: `(aggregate_id, version)` UPSERT). Spring Cloud Stream, Kafka Streams DSL, Debezium CDC |
+| **Polyglot Read DB** | 뷰 특화 저장소 | MySQL(트랜잭션 뷰), PostgreSQL+JSONB(반정형), Elasticsearch(全文/형태소/지리 검색), Redis(ZSET/SortedSet 랭킹), ClickHouse(시계열 집계), MongoDB(다형성 문서) |
+| **Read API** | CQRS의 Q, 캐시 친화적 응답 | GraphQL(DataLoader로 N+1 해결), REST+JPA(읽기 전용 `@Transactional(readOnly=true)`), gRPC streaming(실시간 push) |
+| **Catch-up Subscription** | 신규 projection이 과거 이벤트 재처리 | `$all` 백필 잡 -> `currentPosition` 저장 -> `live` tail로 전환. EventStore의 `$projections` 모드(`continuous`, `transient`, `oneTime`) |
+| **Snapshot Store** | Aggregate 재구성 비용 절감 | 100개 이벤트마다 또는 1MB 초과 시 snapshot. Snapshot 자체도 이벤트처럼 append하고, `loadFromSnapshot+tail`로 최신 상태 복원 |
+| **Materialized View Cache** | 핫키·페이지 단위 캐시 | Redis Cluster(Shard by aggregate id), Caffeine L1(서버 로컬), CDN(Etag/Last-Modified). 캐시 invalidation은 TTL이 아닌 **event-driven purge** 권장 |
 
-관련 기술 영역과의 연결점도 중요하다. CQRS 명령 조회 분리 패턴 심화은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+### 3. Event Bus & Schema Evolution
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 CQRS 명령 조회 분리 패턴 심화은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+이벤트 스키마는 **불변(immutable)**이다. 호환성 규칙은 다음과 같다.
 
----
+- **Backward Compatible (Consumer 호환)**: 필드 추가(기본값 있음), enum 신규 값 추가. Avro/Protobuf는 `default` 키워드로 처리.
+- **Forward Compatible (Producer 호환)**: 필드 제거는 *소비자*가 모두 새 스키마로 배포된 후 진행.
+- **Major 버전 전략**: `OrderCreated_v1` -> `OrderCreated_v2`로 topic 분리, 두 버전을 동시에 routing하는 Upcaster 작성(Axon `EventUpcaster`).
 
-## Ⅳ. 실무 적용 및 기술사 판단
+### 4. 일관성 모델 (Consistency Model)
 
-실무에서 CQRS 명령 조회 분리 패턴 심화을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
+| 모델 | 지연 | 적용 시나리오 |
+| :--- | :--- | :--- |
+| **Strong Consistency** | 0ms (단일 트랜잭션) | 쓰기 후 동일 aggregate 재조회 (Read-your-own-writes hint) |
+| **Causal Consistency** | < 10ms | 동일 사용자 세션의 후속 조회, Kafka 동일 partition key 순서 보장 |
+| **Read-your-writes** | ~ projection lag | UI에서 "주문 완료" 클릭 후 마이페이지에 반영되어야 함 -> projection lag이 작은 read replica 라우팅 |
+| **Bounded Staleness** | k ms (예: 1초) | 대시보드·추천·검색 인덱스 (Elasticsearch `index.refresh_interval=1s`) |
+| **Eventual Consistency** | 무제한 (수렴 보장) | 통계·집계·BI·냉장고 같은 부가 read model |
 
-### 기술사형 판단 체크리스트
+**Projection Lag SLO 예시**: 95 percentile < 2초, 99 percentile < 10초, 99.9 percentile < 60초. 초과 시 `projection_lag_seconds` Prometheus 알람 -> PagerDuty.
 
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-CQRS 명령 조회 분리 패턴 심화을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, CQRS 명령 조회 분리 패턴 심화 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: CQRS 명령 조회 분리 패턴 심화은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | CQRS 명령 조회 분리 패턴 심화의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | CQRS 명령 조회 분리 패턴 심화의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+### 5. Saga의 보상 트랜잭션 (Compensation)
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-CQRS 명령 조회 분리 패턴 심화 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. CQRS 명령 조회 분리 패턴 심화은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+OrderCreated
+   |  +--------------------------------------------------+
+   +--►| Saga: OrderFulfillmentSaga                      |
+   |   |  step1: Inventory.reserve()                     |
+   |   |     success -► step2: Payment.charge()          |
+   |   |     failure  -► step2: Payment.charge()         |
+   |   |                     success -► ✓
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 480 / 600

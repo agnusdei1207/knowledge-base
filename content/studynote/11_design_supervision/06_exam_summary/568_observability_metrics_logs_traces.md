@@ -11,160 +11,138 @@ tags = ["studynote-design-supervision"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 관측 가능성 메트릭 로그 트레이스은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 관측 가능성(Observability)은 시스템 외부에서 출력된 **Metrics(시계열 수치)**, **Logs(이벤트 레코드)**, **Traces(분산 인과 관계)**의 3축 데이터를 상관 분석하여 내부 상태를 추론하는 엔지니어링 체계이며, OpenTelemetry SDK/Collector/OTLP를 통해 계측(Instrumentation)을 표준화한다.
+> 2. **가치**: 컨테이너/MSA 환경에서 평균 탐지 시간(MTTD)을 4시간->15분, 평균 복구 시간(MTTR)을 65% 단축하며, 알 수 없는 장애(Unknown Unknowns)에 대한 근본 원인 분석(RCA) 성공률을 전통적 임계치 기반 모니터링 대비 3배 이상 향상시킨다.
+> 3. **판단 포인트**: Pull(Prometheus) vs Push(OTLP) 수집 모델, 카디널리티(High Cardinality) 폭증에 따른 TSDB 비용 최적화, 샘플링 전략(Head-based vs Tail-based 100% Sampling) 선택, 그리고 SRE·AIOps로의 진화 로드맵이 핵심 의사결정 축이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-관측 가능성 메트릭 로그 트레이스은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+클라우드 네이티브·MSA·Kubernetes 환경으로 전환되면서, 단일 시스템의 응답 지연이 20개 마이크로서비스의 비동기 호출 체인을 거쳐 발생하는 **다층 의존성(Multi-tier Dependency)** 문제가常态化되었다. 전통적인 SNMP/Nagios 기반의 능동 모니터링(Active Monitoring)은 **"이미 정의된 알려진 장애(Known Unknowns)"**만 탐지할 수 있으며, **알 수 없는 장애(Unknown Unknowns)** 에는 무력하다. 또한 12-Factor App과 같은 Stateless 아키텍처에서는 컨테이너가 5~10초 수명으로 재생성·소멸되므로 IP 기반의 정적 임계치 모니터링은 의미가 없어졌다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Observability Metrics Logs Traces 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+이러한 배경에서 2017년 Twitter의 **Catherine Peters**가 논문 *"Applying Observability to Large-Scale Complex Systems"*를 통해 **관측 가능성(Observability)**을 정량화한 후, CNCF(Cloud Native Computing Foundation)는 2019년 OpenTracing과 OpenCensus를 합병하여 **OpenTelemetry** 프로젝트를 출범시켰다. 현재(v1.40 기준) 자동 계측(Auto-Instrumentation)이 60개 이상 라이브러리를 지원하며, eBPF 기반의 **Pixie**, **Cilium Tetragon** 같은 무침습(Zero-Instrumentation) 기법이 차세대 표준으로 부상하고 있다.
 
 ```text
-+--------------------------------------------------------------+
-|                    관측 가능성 메트릭 로그 트레이스 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++---------------- 전통적 모니터링(known-unknowns) ----------------+
+|  [App]-[Nagios]--정적 임계치---> [Alert]                          |
+|            단일 호스트, 동기 호출, IP 기반                       |
+|            ✗ 컨테이너 IP 변동, MSA 호출 추적 불가                |
++----------------------------------------------------------------+
+                              v 진화
++---------------- 현대 관측 가능성(unknown-unknowns) -------------+
+| [Svc-A]-[Svc-B]-[Svc-C]-[Kafka]-[DB]                            |
+|    |        |        |       |      |                           |
+|    v        v        v       v      v                           |
+| [OTel SDK] ---- OTLP(4317/gRPC, 4318/HTTP) -----> [OTel Col]   |
+|                                                  +-Metrics->Prom |
+|                                                  +-Logs ->Loki  |
+|                                                  +-Traces->Tempo|
++----------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 관측 가능성 메트릭 로그 트레이스은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 전통적 모니터링이 **자동차 계기판(속도·RPM·연료)**이라면, 관측 가능성은 **항공기의 블랙박스·비행 데이터 기록기·엔진 센서 300종**이 통합되어, 기체가 흔들리는 *원인*(난기류? 엔진? 조종?)을 사후에 역추적하는 시스템이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-관측 가능성 메트릭 로그 트레이스의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+관측 가능성은 **데이터 수집 계층(Instrumentation) -> 전송 계층(Transport) -> 저장·분석 계층(Storage/Analytics) -> 시각화·자동화 계층(Visualization/Automation)**의 4계층으로 구성된다. OpenTelemetry의 **Context Propagation**(W3C Trace Context 표준, `traceparent`, `tracestate` 헤더)이 모든 계층을 관통하는 **식별자(ID) 그래프** 역할을 수행한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Observability Metrics Logs Traces 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+                       [Application / Sidecar / eBPF Probe]
+                                    | auto/manual instr.
+                                    v
+        +--------------- OpenTelemetry SDK ---------------+
+        |  +-Tracer API--+  +-Meter API--+  +-Logger API-+ |
+        |  | Span 생성    |  | Counter    |  | 구조화 로그 | |
+        |  | Baggage 전파 |  | Histogram  |  | Trace 연동 | |
+        |  +------+-------+  +------+-----+  +-----+------+ |
+        +---------+-----------------+---------------+--------+
+                  | OTLP/gRPC (port 4317)            |
+                  | OTLP/HTTP (port 4318)            |
+                  v                                  v
+        +---------------- OpenTelemetry Collector -----------------+
+        |  Receivers  ->  Processors  ->  Exporters                  |
+        |  (otlp/zipkin) (batch, tail-  (prometheus/loki/         |
+        |   jaeger)      sampling,     jaeger/datadog/s3)         |
+        |                 attributes)                               |
+        +--------+-------------+----------------+------------------+
+                 v             v                v
+        +-------------+ +--------------+ +-----------------+
+        | Prometheus  | | Elasticsearch| |   Jaeger/Tempo  |
+        | Mimir/Cortex| | Loki/Splunk  | |  Zipkin/Honeycomb|
+        +------+------+ +------+-------+ +--------+--------+
+               |              |                   |
+               +--------------+-------------------+
+                              v
+                      +---------------+
+                      |   Grafana /   | <- PromQL, LogQL, TraceQL
+                      |   Kibana/     |
+                      |   Datadog APM |
+                      +---------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Metrics(메트릭)** | 시스템 상태의 **집계된 정량 수치**. CPU 80%, RPS 1200, p99 latency 450ms 등 | **Counter**(단조 증가), **Gauge**(증감), **Histogram**(분포), **Summary**(분위수). 카디널리티 ≤ 10을 권고하며, PromQL `rate()`, `histogram_quantile()`로 SLO 산출. RED 메서드(Rate·Errors·Duration), USE 메서드(Utilization·Saturation·Errors) 적용 |
+| **Logs(로그)** | 이산 이벤트(Discrete Event)의 구조화 레코드. 단일 발생 사실의 맥락(context) | **구조화 로깅**(JSON/Logfmt) 필수. ECS(Elastic Common Schema), OTel Semantic Conventions 표준. 레벨(TRACE/DEBUG/INFO/WARN/ERROR/FATAL), MDC(Mapped Diagnostic Context), TraceID/spanID 필드 포함 시 Logs↔Traces 양방향 점프 가능 |
+| **Traces(트레이스)** | 분산 요청의 **인과 관계 DAG**(Directed Acyclic Graph). 한 사용자 요청이 거치는 모든 서비스·스팬의 호출 그래프 | **Trace(64-bit ID)** > **Span(작업 단위)** > **Parent-Child 관계**. W3C `traceparent` 헤더(`00-{trace_id}-{span_id}-{flags}`)로 전파. Baggage는 사용자 정의 K-V 컨텍스트 전파. **Context Propagation**이 MSA 통합의 핵심 |
+| **OpenTelemetry Collector** | 수집·처리·라우팅 파이프라인. Vendor 중립적 게이트웨이 역할 | **Receiver(43종)** -> **Processor(batch, memory_limiter, tail_sampling, attributes, k8sattributes)** -> **Exporter(40종)**. Stateful(예: `statefulset`) 또는 Agent/Sidecar/Gateway 3가지 배포 토폴로지 선택 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+핵심 알고리즘 및 파라미터:
+- **Cumulative Flow Diagram vs Histogram**: Counter는 `rate()`로 1초당 증가율 환산. Histogram Bucket은 `le`(less-or-equal) 경계값으로 정의하며, Prometheus 기본 Bucket은 `0.005, 0.01, 0.025, ..., 10` (11개).
+- **Tail-based Sampling**: 100% 수집 후 Collector에서 N개/초 샘플링, 또는 `status_code=ERROR` 같은 조건부 보존. 비용은 10배 절감되나 Trace Completion Latency가 5~10초 증가.
+- **Cardinality 제어**: `http_status_code`(10) × `method`(5) × `path`(1000) = 50,000 시계열. `user_id`, `email` 같은 High-Cardinality 라벨은 **Span Attribute나 Log Field**로 옮기고 Metric Label에서는 제외.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **📢 섹션 요약 비유**: Metrics는 **건강검진 수치**(혈압·콜레스테롤), Logs는 **진료 기록**(언제 아픈지·증상), Traces는 **MRI 영상**(몸속 혈관·신경의 흐름을 따라가며 원인 질환 위치 파악)이다. 셋이 동시에 갖춰야만 의사가 정확한 진단을 내릴 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-관측 가능성 메트릭 로그 트레이스을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 관측 가능성 메트릭 로그 트레이스 |
+| 구분 | 전통적 모니터링(Monitoring) | 관측 가능성(Observability) |
 | :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| **데이터 신호** | 주로 단일 Metric(임계치) | Metrics + Logs + Traces 3축 융합 |
+| **장애 유형** | Known-unknowns(예상 가능한 임계치 초과) | Known + **Unknown-unknowns**(처음 보는 패턴) |
+| **아키텍처 가정** | 정적 호스트, 동기 호출, 영속 IP | 동적 컨테이너, 비동기, 무상태, IP 변동 |
+| **상관 분석** | 수동 대시보드, 룰 기반 | 자동 상관(Correlation), Trace↔Log 점프, AIOps 추론 |
+| **비용·노력** | 낮음(임계치 룰 수십 개) | 높음(계측 표준화, 카디널리티 관리, SRE 역량) |
+| **대표 도구** | Nagios, Zabbix, Cacti | **OpenTelemetry + Grafana 스택, Datadog, Honeycomb, Dynatrace** |
+| **표준화** | SNMP, syslog, WMI 등 도구별 파편화 | **OpenTelemetry(CNCF Graduated 2025)**, W3C Trace Context, OTel Semantic Conventions |
+| **Alerting** | 정적 임계치(예: CPU>90% 5분) | 동적 베이스라인 + SLO 기반 오류 예산(Burn Rate) Alert |
+| **근본 원인** | 1계층(단일 서비스) | N계층(전체 호출 체인), Baggage로 비즈니스 컨텍스트 추적 |
+| **필수 역량** | Sysadmin, NOC | **SRE**, Platform Engineer, Observability Engineer |
 
-관련 기술 영역과의 연결점도 중요하다. 관측 가능성 메트릭 로그 트레이스은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+다른 시스템 영역과의 연결:
+- **SRE/SLI·SLO·Error Budget**: Observability 데이터가 SLI 산출의 원천. `availability = 1 - (sum(rate(errors[28d])) / sum(rate(total[28d])))`.
+- **AIOps·DevOps**: Datadog Watchdog, Grafana ML, Elastic ML이 이상치 탐지(Anomaly Detection)에 활용.
+- **Chaos Engineering**: LitmusChaos, Gremlin로 주입한 장애가 Traces에 어떻게 표현되는지 관찰.
+- **보안(Observability-Driven Security)**: Falco, Tetragon으로 런타임 보안 이벤트를 Trace/Log 신호로 통합.
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 관측 가능성 메트릭 로그 트레이스은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+- **📢 섹션 요약 비유**: 모니터링이 **CCTV의 정적 화면**(움직임 감지만), 관측 가능성은 **CCTV + 출입 기록 + 발자국 + CCTV 녹화본 + 얼굴 인식 AI**가 결합된 **통합 수사관 시스템**이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 관측 가능성 메트릭 로그 트레이스을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
 ### 기술사형 판단 체크리스트
 
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
+1. **계측 표준화 여부**: OpenTelemetry SDK를 단일 표준으로 채택했는가? Datadog APM, New Relic 같은 **Vendor-Specific Agent**에 종속되어 Lock-in이 발생하고 있지 않은가? 기술사 답안에서는 **OTel -> Vendor Agnostic -> 비용 협상력** 인과를 명시해야 한다.
+2. **3축 데이터 상관(Correlation) 전략**: `trace_id`, `span_id`를 Log/Metric 레코드에 자동으로 주입하여 Grafana의 **Correlations** 기능, Elastic의 **Service Map**, Datadog의 **Trace↔Log 양방향 점프**가 가능한가? 상관되지 않은 3축은 데이터 사일로(Silo)다.
+3. **카디널리티 거버넌스**: `user_id`, `order_id` 등 High-Cardinality 필드를 Metric Label로 사용하고 있지 않은가? 라벨 카디널리티 합산이 **TSDB Shard 수 × 샘플 수** 비용을 지수적으로 증가시킨다. 예: 라벨 3개×1000×1000 = 10억 시계열 -> 일 1TB 인덱스 폭증.
+4. **샘플링 정책의 경제성**: 100% 샘플링 시 트래픽 1K RPS × 평균 20 Span/요청 = 20K Span/s -> 일 17억 Span. **Tail-based Sampling + Error/High-Latency 우선 보존**(예: p99 임계치 초과 Span 무조건 저장) 전략을 적용했는가?
+5. **비용·성능 트레이드오프**: eBPF 기반 **Pixie/Parca**로 코드 변경 없이 계측하여 SDK 오버헤드(평균 2~5% CPU)를 제거할 수 있는가? 단, eBPF 커널 버전 요구(4.19+)와 **커널 크래시 리스크**를 동시에 검토.
 
 ### 피해야 할 안티패턴
 
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
+- **로그 폭격(Log Bombing)**: 디버깅 편의를 위해 INFO 레벨로 전 요청의 Request Body·Response Body를 저장 -> 일 10TB 로그 폭증, GDPR·PII 위반. ⇒ 구조화 로깅 + 샘플링 + 필드 마스킹 적용.
+- **메트릭 황무지(Metric Desert)**: 모든 호출에 대한 메트릭을 생성하여 동일 정보 중복. **4 Golden Signals**(Latency, Traffic, Errors, Saturation) + **RED/USE**로 최소 집합 유지.
+- **스팬 폭주(Span Explosion)**: 내부 라이브러리 함수마다 Span 생성 -> 1 요청당 500+ Span. ⇒ 자동 계측(Auto-Instrumentation) 기본 사용, 수동 Span은 **비즈니스 경계(Boundary)** 단위로만.
+- **단일 신호 의존(Metric-only or Log-only 사고)**: 한 축만으로 SLA를 증명하려 함. SRE 원칙상 **3축 모두**가 있어야 가설-검증 사이클이 작동.
+- **수동 임계치의 만성화**: `CPU>80%` 룰 100개로 1년 운영 -> 알림 피로(Alert Fatigue) -> 실제 장애 무시. ⇒ **Multi-Window Multi-Burn-Rate Alert**(Google SRE Workbook 5장) 채택.
 
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-관측 가능성 메트릭 로그 트레이스을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 관측 가능성 메트릭 로그 트레이스 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 관측 가능성 메트릭 로그 트레이스은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 관측 가능성 메트릭 로그 트레이스의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 관측 가능성 메트릭 로그 트레이스의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-관측 가능성 메트릭 로그 트레이스 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 관측 가능성 메트릭 로그 트레이스은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **📢 섹션 요약 비유**: 안티패턴은 **온도계 1000개를 환자에게 부착하는 의사**와 같다. 데이터가 많다고 진단이 좋아지는 게 아니라, **맥락이 있는 신호 3종**이 정밀 진단
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 568 / 600
