@@ -12,7 +12,7 @@ tags = ["studynote-it-management"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: IT 경영 관리는 **COBIT 2019(거버넌스·목표 계층)**, **ITIL 4(SVS·34개 실천)** , **ISO/IEC 20000(서비스경영체계)**, **ISO 27001(정보보안경영체계)** 4대 프레임워크를 **Balanced Scorecard(BSC)** 와 **TOGAF ADM** 으로 통합 운영하여 비즈니스 가치(ROI/NPV/ROA)를 극대화하는 경영 체계이다.
-> 2. **가치**: McKinsey(2024) 기준 디지털 전환成熟 기업은 **EBITDA 마진 26% 향상**, **Time-to-Market 40% 단축**, **IT 운영비용 20~30% 절감** 효과를 달성하며, Gartner(2025) 보고서에서는 통합 거버넌스 도입 기업의 IT 프로젝트 성공률이 **28% → 65%** 로 상승한다.
+> 2. **가치**: McKinsey(2024) 기준 디지털 전환成熟 기업은 **EBITDA 마진 26% 향상**, **Time-to-Market 40% 단축**, **IT 운영비용 20~30% 절감** 효과를 달성하며, Gartner(2025) 보고서에서는 통합 거버넌스 도입 기업의 IT 프로젝트 성공률이 **28% -> 65%** 로 상승한다.
 > 3. **판단 포인트**: 기술사적 의사결정 핵심은 **①** 거버넌스(Decision/Diff./Monitoring)와 관리(Plan/Build/Run/Improve)의 **RACI 분리**, **②** CapEx/OpEx/ITaaS(클라우드) 재무 모델 선택, **③** Zero-Trust × DevSecOps × AIOps 융합 시 **CSF(KPI 17~23개)** 와 **KGI(4~6개)** 의 인과 매핑 정합성이다.
 
 ---
@@ -26,34 +26,34 @@ tags = ["studynote-it-management"]
 특히 2024년 기준 국내 대기업·공공기관의 **60~70%** 가 COBIT·ITIL·ISO 20000을 부분 도입했으나, **실질 통합률은 15% 미만** (한국정보화진흥원, 2024)이라는 진단이 있어, **"도입이 아닌 통합 거버넌스"** 가 본 토픽의 핵심 쟁점이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│            IT 경영 관리 4대 프레임워크 통합 참조 모델            │
-│                                                                  │
-│  ┌──────────────┐   ┌──────────────┐   ┌──────────────┐         │
-│  │   COBIT 2019 │   │   ITIL 4     │   │ ISO/IEC 20000│         │
-│  │  (거버넌스)  │   │  (서비스)    │   │   (인증)     │         │
-│  │  40 Governance│   │  SVS+34      │   │   10 clauses │         │
-│  │  & Mgmt Obj. │   │  Practices   │   │              │         │
-│  └──────┬───────┘   └──────┬───────┘   └──────┬───────┘         │
-│         │                  │                  │                  │
-│         └─────────┬────────┴────────┬─────────┘                  │
-│                   │                 │                            │
-│            ┌──────▼──────┐   ┌──────▼──────┐                     │
-│            │ Balanced    │   │  TOGAF ADM  │                     │
-│            │ Scorecard   │   │ (EA架构)    │                     │
-│            │ (BSC 4관점) │   │  Phase A~H  │                     │
-│            └──────┬──────┘   └──────┬──────┘                     │
-│                   │                 │                            │
-│            ┌──────▼─────────────────▼──────────┐                 │
-│            │      ISO/IEC 27001 (ISMS)        │                 │
-│            │    Annex A 93 통제 항목          │                 │
-│            └──────────────┬───────────────────┘                 │
-│                           │                                     │
-│                  ┌────────▼─────────┐                           │
-│                  │   비즈니스 가치  │                           │
-│                  │ (ROI/NPV/ROA)    │                           │
-│                  └──────────────────┘                           │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|            IT 경영 관리 4대 프레임워크 통합 참조 모델            |
+|                                                                  |
+|  +--------------+   +--------------+   +--------------+         |
+|  |   COBIT 2019 |   |   ITIL 4     |   | ISO/IEC 20000|         |
+|  |  (거버넌스)  |   |  (서비스)    |   |   (인증)     |         |
+|  |  40 Governance|   |  SVS+34      |   |   10 clauses |         |
+|  |  & Mgmt Obj. |   |  Practices   |   |              |         |
+|  +------+-------+   +------+-------+   +------+-------+         |
+|         |                  |                  |                  |
+|         +---------+--------+--------+---------+                  |
+|                   |                 |                            |
+|            +------v------+   +------v------+                     |
+|            | Balanced    |   |  TOGAF ADM  |                     |
+|            | Scorecard   |   | (EA架构)    |                     |
+|            | (BSC 4관점) |   |  Phase A~H  |                     |
+|            +------+------+   +------+------+                     |
+|                   |                 |                            |
+|            +------v-----------------v----------+                 |
+|            |      ISO/IEC 27001 (ISMS)        |                 |
+|            |    Annex A 93 통제 항목          |                 |
+|            +--------------+-------------------+                 |
+|                           |                                     |
+|                  +--------v---------+                           |
+|                  |   비즈니스 가치  |                           |
+|                  | (ROI/NPV/ROA)    |                           |
+|                  +------------------+                           |
++------------------------------------------------------------------+
 ```
 
 - **📢 섹션 요약 비유**: IT 경영 관리는 **자동차 운전**과 같다. **COBIT**은 운전면허·교통법규(거버넌스), **ITIL**은 정비소·주유(서비스 운영), **ISO 20000**은 정기검사 합격증(인증), **ISO 27001**은 블랙박스·에어백(보안), **TOGAF**는 네비게이션(아키텍처), **BSC**는 계기판(KPI)이다. 이 중 하나라도 없으면 사고가 나거나 목적지에 도달하지 못한다.
@@ -67,36 +67,36 @@ tags = ["studynote-it-management"]
 COBIT 2019는 ISACA에서 2018년发布的 핵심 거버넌스 프레임워크로, **40개 Governance/Management Objective** 와 **6개 Governance System Principle**, **3개 Governance Framework Principle**로 구성된다. 핵심은 **EDM(Evaluate-Direct-Monitor)** 사이클과 **Plan-Build-Run-Improve**의 명확한 분리이다.
 
 ```text
-┌──────────────────────────────────────────────────────────────────┐
-│            COBIT 2019 40개 목표 계층 (Cascading Goals)          │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────┐    │
-│  │  Stakeholder Drivers (13개)                            │    │
-│  │  - Benefit Realisation  - Risk Optimisation             │    │
-│  │  - Resource Optimisation                                │    │
-│  └─────────────────────────┬──────────────────────────────┘    │
-│                            ▼                                    │
-│  ┌────────────────────────────────────────────────────────┐    │
-│  │  Enterprise Goals (13개)                               │    │
-│  │  EG01 포트폴리오 / EG05 재무 / EG08 최적화 / EG13 보안  │    │
-│  └─────────────────────────┬──────────────────────────────┘    │
-│                            ▼                                    │
-│  ┌────────────────────────────────────────────────────────┐    │
-│  │  Alignment Goals (13개)                                │    │
-│  │  AG01 IT Framework / AG04 Quality / AG09 Cost / AG15 보안│   │
-│  └─────────────────────────┬──────────────────────────────┘    │
-│                            ▼                                    │
-│  ┌────────────────────────────────────────────────────────┐    │
-│  │  Component Goals  ── Components (7가지)                │    │
-│  │  Process / Structure / Information / People/Skills/    │    │
-│  │  Culture/Ethics / Services/Infrastructure/Apps         │    │
-│  └────────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────────┘
++------------------------------------------------------------------+
+|            COBIT 2019 40개 목표 계층 (Cascading Goals)          |
+|                                                                  |
+|  +--------------------------------------------------------+    |
+|  |  Stakeholder Drivers (13개)                            |    |
+|  |  - Benefit Realisation  - Risk Optimisation             |    |
+|  |  - Resource Optimisation                                |    |
+|  +-------------------------+------------------------------+    |
+|                            v                                    |
+|  +--------------------------------------------------------+    |
+|  |  Enterprise Goals (13개)                               |    |
+|  |  EG01 포트폴리오 / EG05 재무 / EG08 최적화 / EG13 보안  |    |
+|  +-------------------------+------------------------------+    |
+|                            v                                    |
+|  +--------------------------------------------------------+    |
+|  |  Alignment Goals (13개)                                |    |
+|  |  AG01 IT Framework / AG04 Quality / AG09 Cost / AG15 보안|   |
+|  +-------------------------+------------------------------+    |
+|                            v                                    |
+|  +--------------------------------------------------------+    |
+|  |  Component Goals  -- Components (7가지)                |    |
+|  |  Process / Structure / Information / People/Skills/    |    |
+|  |  Culture/Ethics / Services/Infrastructure/Apps         |    |
+|  +--------------------------------------------------------+    |
++------------------------------------------------------------------+
 ```
 
 ### 2. ITIL 4 Service Value System (SVS)
 
-ITIL 4는 2019년 AXELOS에서 발표된 차세대 프레임워크로, **SVS(Service Value System)** 중심으로 **34개 Best Practice** 를 **SVC(Service Value Chain)** 6단계(Plan→Engage→Design&Transition→Obtain/Build→Deliver&Support→Improve)로 재구성했다. **4가지 차원(Organization & People / Information & Technology / Partners & Suppliers / Value Streams & Processes)** 과 **7가지 guiding principle** 이 핵심이다.
+ITIL 4는 2019년 AXELOS에서 발표된 차세대 프레임워크로, **SVS(Service Value System)** 중심으로 **34개 Best Practice** 를 **SVC(Service Value Chain)** 6단계(Plan->Engage->Design&Transition->Obtain/Build->Deliver&Support->Improve)로 재구성했다. **4가지 차원(Organization & People / Information & Technology / Partners & Suppliers / Value Streams & Processes)** 과 **7가지 guiding principle** 이 핵심이다.
 
 ### 3. ISO/IEC 20000-1:2018 서비스경영체계
 
@@ -104,8 +104,8 @@ ITIL 4는 2019년 AXELOS에서 발표된 차세대 프레임워크로, **SVS(Ser
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| **EDM(거버넌스)** | 의사결정·지시·감독 | 이사회/IT거버넌스위원회 → **5 의사결정(D1~D5)**: Benefit Delivery, Risk Optimization, Resource Optimization, Stakeholder Transparency, Compliance |
-| **Plan(계획)** | 전략·포트폴리오 기획 | **전략 매핑**: BSC 4관점(재무/고객/내부/학습성장) → IT 전략맵 → **IT 투자 분류**: Run(60~70%) / Grow(15~25%) / Transform(5~15%) — Gartner IT Spend Benchmark |
+| **EDM(거버넌스)** | 의사결정·지시·감독 | 이사회/IT거버넌스위원회 -> **5 의사결정(D1~D5)**: Benefit Delivery, Risk Optimization, Resource Optimization, Stakeholder Transparency, Compliance |
+| **Plan(계획)** | 전략·포트폴리오 기획 | **전략 매핑**: BSC 4관점(재무/고객/내부/학습성장) -> IT 전략맵 -> **IT 투자 분류**: Run(60~70%) / Grow(15~25%) / Transform(5~15%) — Gartner IT Spend Benchmark |
 | **Build(구축)** | 솔루션·아키텍처 개발 | **TOGAF ADM Phase A~H** + **Agile@Scale (SAFe 6.0)** + **DevSecOps 파이프라인**(SAST/DAST/SCA) |
 | **Run(운영)** | 서비스 전달·지원 | **ITIL 4 SVC** 6활동 + **AIOps**(Anomaly Detection, Predictive Maintenance) + **SLA 99.9~99.99%** + **Incident MTTR < 30분** |
 | **Improve(개선)** | 지속적 혁신 | **CSI(Continual Service Improvement)** + **Lean Six Sigma DMAIC** + **Kaizen** + **KPI 17~23개** |
@@ -137,7 +137,7 @@ ROA   = (Net Income / Total IT Asset) × 100
 | **주 목적** | 거버넌스·컴플라이언스 | 서비스 운영·가치 창출 | 서비스경영 인증 | 정보보안 경영체계(ISMS) |
 | **구조** | 40 GO + EDM + 컴포넌트 | SVS + SVC 6활동 + 34 BP | 10 Clause + Annex A | 10 Clause + Annex A 93 통제 |
 | **인증 가능** | ❌(COBIT 2019 Design/Implement 인증) | ❌(PeopleCert 자격증만) | ✅ | ✅ |
-| **핵심 사이클** | EDM / Plan-Build-Run-Improve | SVC 6활동 (Plan→Improve) | PDCA + Risk | PDCA + Statement of Applicability |
+| **핵심 사이클** | EDM / Plan-Build-Run-Improve | SVC 6활동 (Plan->Improve) | PDCA + Risk | PDCA + Statement of Applicability |
 | **적합 조직** | 대기업·공공·금융 | 서비스 중심 MSP/IDC | SI·MSP 인증 필요기업 | 전 산업 (정보보안 의무화) |
 | **측정 지표** | CSF/KPI 17~23개 | KPI 17개 + Practice Metric | SLA/OLA/UC 100% 가시화 | KRI 25개 + 보안 KPI |
 | **강점** | Stakeholder-Value 매핑 | Agile/Cloud 친화 | 글로벌 인증 브랜드 | 보안 통제 항목 표준화 |

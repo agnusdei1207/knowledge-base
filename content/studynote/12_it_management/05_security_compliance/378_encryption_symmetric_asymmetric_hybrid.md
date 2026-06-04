@@ -11,160 +11,143 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 암호화 기술 대칭 비대칭 하이브리드은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 대칭키 암호(AES-256, ChaCha20, SEED)는 동일한 비밀키로 암복호화하여 처리속도 100~1000배 우위이나 키 분배 문제(Knapsack Problem)를 가지며, 비대칭키 암호(RSA-2048, ECC-P256)는 수학적 일방향 함수(소인수분해, 이산대수) 기반 공개키 교환으로 키 분배는 해결하나 연산 비용이 높음. 하이브리드 암호는 **공개키로 세션키를 안전하게 캡슐화(Key Encapsulation Mechanism, KEM)하고, 대칭키로 실제 데이터(평문)를 암호화(Data Encapsulation Mechanism, DEM)**하는 두 계층 구조의 합성 암호체계.
+> 2. **가치**: TLS 1.3 핸드셰이크 기준으로 측정 시 하이브리드 방식은 1-RTT(Zero-RTT 옵션) 내 RSA-PSS 또는 X25519 ECDHE로 세션키 협상 후 AES-256-GCM으로 10Gbps 라인레이트 암호화가 가능. NIST SP 800-57 기준 RSA 2048bit는 AES-128bit와 동일 보안강도(112-bit), RSA 3072bit는 AES-128bit(128-bit), RSA 15360bit는 AES-256bit(256-bit) 보안강도 매핑.
+> 3. **판단 포인트**: 양자컴퓨팅 위협(Shor's Algorithm)으로 RSA/ECC는 공통취약점 보유 -> NIST PQC 표준(CRYSTALS-Kyber, CRYSTALS-Dilithium)을 하이브리드 KEM으로 도입하는 **PQC Migration 전략**이 핵심. 또한 블록암호 운용모드(GCM vs CBC) 선택, 키 생명주기(Lifecycle), HSM/TPM 하드웨어 백업, FIPS 140-2/3 검증 여부가 실무 판단 기준.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-암호화 기술 대칭 비대칭 하이브리드은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
-
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Encryption Symmetric Asymmetric Hybrid 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+정보보안의 CIA Triad(Confidentiality, Integrity, Availability) 중 기밀성(Confidentiality)을 보장하는 암호화 기술은 1976년 Diffie-Hellman 논문 "New Directions in Cryptography" 발표 이후 현대 암호학(Modern Cryptography)의 기틀 위에 발전해왔다. 초기 대칭키 암호(DES, 56-bit)는 NIST가 1977년 연방표준(FIPS 46)으로 채택했으나, 1998년 EFF의 Deep Crack이 56시간 만에 키 전수조사(Brute Force)에 성공하면서 1997년 AES 공모가 시작되었고, 2001년 Rijndael 알고리즘이 AES(Advanced Encryption Standard, FIPS 197)로 최종 선정되었다. 반면 비대칭키 암호는 1976년 DH(Diffie-Hellman) 키 교환, 1977년 RSA(Rivest-Shamir-Adleman) 알고리즘이 등장하면서 키 분배 문제를 해결했으나, RSA-1024는 2009년 768bit 소인수분해 성공 이후 단계적 폐기, RSA-2048도 양자컴퓨팅의 등장으로 2030년 이후 사용 금지 권고(NIST SP 800-131A)가 이루어지고 있다.
 
 ```text
-+--------------------------------------------------------------+
-|                    암호화 기술 대칭 비대칭 하이브리드 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+   [ 암호화 기술 진화 흐름도 ]
+
+   1976          1977          2001          2017          2022          2024~
+     |            |             |            |             |             |
+     v            v             v            v             v             v
+  +------+   +------+      +------+    +----------+  +----------+  +----------+
+  | DH/  |   | RSA  |      | AES  |    |  PQC     |  | Kyber    |  | PQC      |
+  | RSA  |--->| 표준 |------>|Rijn- |---->| 표준화   |-->| FIPS 203 |-->| Hybrid   |
+  | 등장 |   | 채택 |      |dael  |    |  시작    |  | 발표     |  | TLS 1.3  |
+  +------+   +------+      +------+    +----------+  +----------+  +----------+
+     |            |             |            |             |             |
+  대칭+비대칭   공개키 기반     블록암호     양자내성      격자기반      양자내성
+  패러다임     키분배 해결    표준화       알고리즘     KEM 표준화    하이브리드
+                                       (NIST PQC)   (Dilithium)
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+현대 정보시스템이 단일 암호 방식으로 동작하기 어려운 근본적인 이유는 **연산 복잡도와 보안 요구사항의 비대칭성**에 있다. AES-NI(Advanced Encryption Standard New Instructions) 하드웨어 가속 시 AES-256은 약 0.5~1.5 cycles/byte로 처리되어 10Gbps NIC에서 라인레이트 암호화가 가능하지만, RSA-2048 서명 검증 한 건에 약 0.2~2ms(OpenSSL 3.0 기준) 소요되어 HTTP/2의 평균 요청 수명(1~10ms) 대비 과도한 지연을 유발한다. 반대로 ECDH-P256 키 교환은 1ms 내 완료되어 핸드셰이크에 적합하다. 또한 대칭키는 n명 사용자 간 안전한 통신에 n(n-1)/2개의 키가 필요한 O(n²) 문제로, 1000명 조직이면 499,500개 키 관리가 필요한 반면, 비대칭키는 n개 키페어(2n)만으로 n²개의 안전한 채널을 구성할 수 있다.
 
-- **📢 섹션 요약 비유**: 암호화 기술 대칭 비대칭 하이브리드은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 대칭키 암호는 **집 열쇠를 복제본으로 만들어 모든 가족에게 나눠주는 것**(빠르지만 복제·회수 어려움), 비대칭키는 **개인 우편함**처럼 누구나 우편을 넣을 수 있고(공개키) 본인만 우편을 꺼낼 수 있는 것(개인키), 하이브리드는 **택배 상자 안에 작은 금고를 넣어 보내는 것**(금고는 자물쇠로 잠그고, 자물쇠는 우편함 공개키로 봉인).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-암호화 기술 대칭 비대칭 하이브리드의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1. 대칭키 암호 (Symmetric Key Cryptography)
+
+**블록 암호 (Block Cipher)**: 고정 길이(128-bit) 블록 단위로 평문을 암호화하며, 핵심 구조는 **SPN(Substitution-Permutation Network)** 또는 **Feistel Network**이다. AES는 10/12/14 라운드(AES-128/192/256)동안 SubBytes(S-box 비선형置换), ShiftRows(행 단위 좌순환), MixColumns(열 단위 GF(2⁸) 행렬곱), AddRoundKey(XOR) 4단계를 반복한다. **운용모드(Mode of Operation)**는 NIST SP 800-38A~G에서 정의하며 보안성·성능·기능성에 큰 차이를 보인다.
 
 ```text
-+--------------------------------------------------------------+
-|              Encryption Symmetric Asymmetric Hybrid 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+   [ 하이브리드 암호화 프로토콜 (TLS 1.3 기준) 상세 흐름도 ]
+
+   Client                                          Server
+     |                                                |
+     |  ① ClientHello                                  |
+     |    - 지원 cipher_suites:                        |
+     |      TLS_AES_256_GCM_SHA384                    |
+     |      TLS_CHACHA20_POLY1305_SHA256              |
+     |      TLS_AES_128_GCM_SHA256                    |
+     |    - key_share: X25519 PublicKey (32 bytes)     |
+     |    - signature_algorithms:                      |
+     |      ecdsa_secp256r1_sha256                    |
+     |      rsa_pss_rsae_sha256                       |
+     | ---------------------------------------------->  |
+     |                                                |
+     |                          ② ServerHello          |
+     |                          - selected: TLS_AES_256_GCM_SHA384
+     |                          - key_share: X25519 PubKey |
+     |                          ③ EncryptedExtensions  |
+     |                          ④ Certificate           |
+     |                          ⑤ CertificateVerify     |
+     |                          ⑥ Finished (MAC)        |
+     | <----------------------------------------------  |
+     |                                                |
+     |  ⑦ Finished (MAC)                               |
+     | ---------------------------------------------->  |
+     |                                                |
+     |  ------- 양방향 데이터 통신 (AES-256-GCM) ------  |
+     |  [HKDF-Expand-Label로 유도된 키]                  |
+     |  - client_application_traffic_secret             |
+     |  - server_application_traffic_secret             |
+     |  - key: 32 bytes | IV: 12 bytes | tag: 16 bytes |
+     |                                                |
+     |  (c)HKDF-Extract-Then-Expand 구조:               |
+     |  IKM = X25519(client_priv, server_pub)          |
+     |  PRK = HKDF-Extract(salt, IKM)                  |
+     |  AES_KEY = HKDF-Expand(PRK, "key", 32)          |
+     |  AES_IV  = HKDF-Expand(PRK, "iv", 12)           |
+     |                                                |
+
+   [ KEM-DEM 상세 구조 (RSA-OAEP + AES-GCM 하이브리드) ]
+
+   +----------- KEM (Key Encapsulation Mechanism) -----------+
+   |                                                          |
+   |  Server -(PKCS#1 v2.2 RSA-OAEP)--> Client                 |
+   |                                                          |
+   |  ① Client:                                               |
+   |     r = random(256-bit)                                  |
+   |     shared_secret = r                                    |
+   |     encrypted_r = RSA-OAEP-Encrypt(server_pubkey, r)    |
+   |     -> Server로 전송                                      |
+   |  ② Server:                                               |
+   |     r' = RSA-OAEP-Decrypt(server_privkey, encrypted_r)   |
+   |     -> 동일 shared_secret 획득                             |
+   |  ③ 양측:                                                  |
+   |     KEK = HKDF-SHA256(r, "encryption")                   |
+   |                                                          |
+   +----------- DEM (Data Encapsulation Mechanism) -----------+
+   |                                                          |
+   |  Client:                                                  |
+   |  ④ DEK = CSPRNG(32 bytes)                                |
+   |  ⑤ ciphertext = AES-256-GCM-DEK(plaintext, AAD)         |
+   |  ⑥ enc_dek = DEK_KEK(DEK)                                |
+   |  ⑦ 전송: (enc_dek || ciphertext || auth_tag)             |
+   |                                                          |
+   |  Server:                                                  |
+   |  ⑧ DEK' = DEK_KEK_decrypt(enc_dek)                      |
+   |  ⑨ plaintext = AES-256-GCM-DEK'_decrypt(ciphertext)     |
+   |  ⑩ GCM Tag 검증 (인증된 복호화, AEAD)                    |
+   |                                                          |
+   +----------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+**스트림 암호 (Stream Cipher)**: ChaCha20은 Salsa20을 Daniel J. Bernstein이 2008년 개선한 알고리즘으로, 256-bit 키와 96-bit nonce로부터 512-bit 블록 단위(32개의 32-bit word)로 키스트림을 생성하며, Poly1305 MAC과 결합된 ChaCha20-Poly1305는 TLS 1.3 표준 cipher suite로 채택되었다. 모바일 환경(ARM Cortex-A53 등 AES-NI 미지원)에서 AES-GCM 대비 약 3~5배 빠르다.
+
+**한국 표준 대칭키**: SEED(1999, 128-bit, KISA), ARIA(2004, 128/192/256-bit, NSRI) 모두 3GPP/ISO/IEC 표준이며, SEED는 2024년 현재도 한국 공공기관 망 분리 시스템의 표준으로 사용된다.
+
+### 2. 비대칭키 암호 (Public Key Cryptography)
+
+**RSA 알고리즘**: 1977년 MIT 연구진이 제안한 알고리즘으로, 다음 수학적 난제에 기반한다.
+- **키 생성**: 두 소수 p, q 선택 -> n = p·q (모듈러스) -> φ(n) = (p-1)(q-2) -> e·d ≡ 1 (mod φ(n)) (e=65537, 공개지수)
+- **암호화**: c = m^e mod n
+- **복호화**: m = c^d mod n
+- **보안 근거**: n의 소인수분해 어려움(Integer Factorization Problem)
+
+**타원곡선 암호 (ECC)**: 1985년 Koblitz, Miller가 제안, 이산대수 문제의 변형인 ECDLP(Elliptic Curve Discrete Logarithm Problem)에 기반한다. RSA-3072와 동일 보안강도(128-bit)를 ECC-P256(256-bit)으로 달성할 수 있어 **키 사이즈 효율성**이 핵심 강점이다. Curve25519(X25519, Bernstein 2006)는 Montgomery Ladder 알고리즘으로 상수시간(Constant-time) 연산을 보장하여 사이드채널 공격에 강하다.
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **대칭키 엔진 (Symmetric Engine)** | 대량 평문 데이터 암복호화 | AES-NI 하드웨어 명령어 (AESENC, AESENCLAST, AESDEC, AESKEYGENASSIST), GF(2⁸) S-box, T-Tables 구현. 처리속도: AES-128 CTR 모드 약 8 Gbps (Intel Xeon E5-2690v4), AES-256-GCM 약 4 Gbps |
+| **비대칭키 엔진 (Asymmetric Engine)** | 키 교환(Key Exchange), 전자서명(Digital Signature) | RSA-PSS(PKCS#1 v2.2, 2048/3072/4096bit), ECDSA(FIPS 186-4, secp256r1/secp384r1/secp521r1), EdDSA(Ed25519, Ed448), DH/ECDH(X25519, X448), RSA-PSS Probabilistic Signature Scheme |
+| **키 유도 함수 (KDF)** | 공유 비밀에서 암호학적 강도 유지한 키 파생 | HKDF(HMAC-based KDF, RFC 5869) = Extract(salt, IKM) -> Expand(PRK, info, L). TLS 1.3은 HKDF-Expand-Label 사용. PBKDF2(bcrypt 100K iter, Argon2id 메모리 64MB 병렬 4) 패스워드 기반 |
+| **인증된 암호화 (AEAD)** | 기밀성 + 무결성 + 인증 동시 보장 | AES-GCM (CTR 모드 + GHASH 128-bit MAC), AES-CCM (CTR + CBC-MAC), ChaCha20-Poly1305, AEGIS (Intel AES-NI 최적화, 1.5 cycle/byte). 데이터 평문 + AAD -> (ciphertext, tag) 단일 인터페이스 |
+| **공개키 기반 구조 (PKI)** | 신뢰 앵커(Trust Anchor) 통한 공개키 인증 | X.509 v3 (RFC 5280) 디지털 인증서, CSR(Certificate Signing Request, PKCS#10) 형식, OCSP(Online Certificate Status Protocol) 실시간 폐기 검증, CRL(Certificate Revocation List) X.500 디렉터리, CT(Certificate Transparency, RFC 6962) 인증서 투명 로깅 |
+| **하드웨어 보안 모듈 (HSM/TPM)** | 키 생성·저장·사용을 TCB(Trusted Computing Base) 내 보호 | FIPS 140-2 Level 3/4 인증 HSM (Thales Luna, AWS CloudHSM, nShield), TPM 2.0 (TCG 표준, PCR 0~23, Key Sealing), Intel SGX/ARM TrustZone enclaves, Apple Secure Enclave, Android StrongBox Keymaster |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
-
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-암호화 기술 대칭 비대칭 하이브리드을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 암호화 기술 대칭 비대칭 하이브리드 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 암호화 기술 대칭 비대칭 하이브리드은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 암호화 기술 대칭 비대칭 하이브리드은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 암호화 기술 대칭 비대칭 하이브리드을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-암호화 기술 대칭 비대칭 하이브리드을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 암호화 기술 대칭 비대칭 하이브리드 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 암호화 기술 대칭 비대칭 하이브리드은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 암호화 기술 대칭 비대칭 하이브리드의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 암호화 기술 대칭 비대칭 하이브리드의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-암호화 기술 대칭 비대칭 하이브리드 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 암호화 기술 대칭 비대칭 하이브리드은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+**RSA-OAEP (Optimal Asymmetric Encryption Padding)**: Textbook RSA는 결정적(deterministic)이고 malleable하여 Chosen Ciphertext Attack(CCA)에 취약하다. RSA-OAEP(RFC 8017, Bellare-Rogaway 1994)는 평문에 **랜덤 패딩 + 해시 체인(Label, Seed -> MGF1-SHA256)**을 적용하여 IND-CCA2 보안을 달성한다. MGF1(Mask Generation Function)은 PKCS#1에서 정의한 카운터 모드 기반 해시 함수로, 시드와 카운터를 연결한 SHA-256 출력을 XOR
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 378 / 800
