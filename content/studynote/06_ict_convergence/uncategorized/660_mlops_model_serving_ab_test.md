@@ -11,160 +11,177 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MLOps 모델 서빙 A/B 테스트은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: MLOps 모델 서빙 A/B 테스트는 동일 트래픽을 다중 모델 버전(Control vs Treatment)에 라우팅하여 예측 성능(accuracy/AUC), 시스템 성능(p99 latency/throughput), 비즈니스 KPI(CTR/CVR) 등 다차원 메트릭을 통계적으로 유의미하게 비교 검증하는 **Production-grade Online Controlled Experiment(OCE)** 프레임워크이며, 모델 레지스트리(MLflow/SageMaker Registry), 추론 서버(Triton/TF Serving), 서비스 메시(Istio/Envoy), 피처 스토어(Feast/Tecton), 실험 추적(MLflow Tracking/W&B), 메트릭 수집(Prometheus/Evidently AI)이 통합된 End-to-End 파이프라인이다.
+> 2. **가치**: 오프라인 검증(AUC 0.85 -> 0.87)의 사소한 개선이 실제 운영 환경에서 DAU 기준 +1.2% 매출 증대로 이어지는 사례(Netflix, Uber)처럼, 모델 성능을 **추론이 아닌 의사결정 결과로 직접 측정**하여 비즈니스 임팩트 기반 의사결정 정당화를 가능케 한다. 또한 SRM(Sample Ratio Mismatch) 감지 및 Novelty Effect(신규 효과) 보정을 통해 False Positive 의사결정 위험을 약 40-60% 절감한다.
+> 3. **판단 포인트**: 트래픽 분할은 **Sticky Session(쿠키/세션 해시) vs Stateless Random 분기**의 선택이 1차 결정 포인트이며, 메트릭은 **Proximal(즉시 관측 가능) vs Distal(잔여 효과까지 수일~수주 소요)** 구분에 따라 실험 기간을 7일 vs 30일로 결정한다. 또한 네트워크 효과(양쪽 그룹 간 간섭)와 데이터 누수(학습-서빙 skew)를 사전에 통제하지 못하면 A/B 결과의 신뢰도가 붕괴하므로, Shadow -> Canary(5%) -> A/B(50:50) -> Champion 승격의 점진적 단계 설계가 필수적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-MLOps 모델 서빙 A/B 테스트은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+기계학습 모델은 오프라인 검증(offline evaluation) 단계에서 높은 성능을 보였던 모델이 실제 운영 환경(production)에서는 데이터 분포 변화, 시스템 지연, 사용자 행동 패턴 등 다양한 요인으로 인해 의도한 성능을 발휘하지 못하는 **"Sim2Real Gap"** 또는 **"Training-Serving Skew"** 현상이 빈번히 발생한다. 이러한 문제를 해결하기 위해 MLOps 환경에서는 **Online Controlled Experiment(OCE)**, 즉 **A/B 테스트**를 모델 서빙(model serving) 파이프라인의 핵심 검증 단계로 도입한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, MLOps Model Serving AB Test 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+전통적인 모델 배포 파이프라인은 `학습(Training) -> 검증(Validation) -> 배포(Deployment)`의 일회성 흐름이었으나, 이는 **(1) 모델의 진정한 가치를 사전에 알 수 없고**, **(2) 운영 중 발생하는 데이터 드리프트(data drift)나 컨셉 드리프트(concept drift)에 대한 적응성을 검증할 수 없으며**, **(3) 비즈니스 KPI와의 인과관계를 정량화할 수 없는** 한계를 갖는다. 반면 A/B 테스트 기반 모델 서빙은 "동일한 사용자 분포를 두 개 이상의 모델에 동시 노출시키고, 그 결과를 통계적으로 비교"함으로써 **인과 추론(causal inference)에 기반한 모델 성능 비교**를 가능케 한다.
+
+특히 추천 시스템, 검색 랭킹, 광고 CTR 예측, 사기 탐지(FDS), 리스크 스코어링과 같은 비즈니스 코어 모델에서는 모델의 0.1% 성능 향상이 수십억 원의 매출 차이로 직결되므로, A/B 테스트는 **"ML 모델의 의사결정 ROI를 검증하는 가장 신뢰할 수 있는 툴"** 이라 할 수 있다.
 
 ```text
-+--------------------------------------------------------------+
-|                    MLOps 모델 서빙 A/B 테스트 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[ MLOps A/B Test for Model Serving - High-Level Architecture ]
+
+                          +---------------------------------+
+                          |  Model Registry (MLflow /       |
+                          |  SageMaker / Vertex AI)         |
+                          |  - v1.2.0 (Champion, baseline)   |
+                          |  - v1.3.0-rc1 (Challenger, new)  |
+                          |  - v2.0.0-exp (Treatment)        |
+                          +----------------+----------------+
+                                           |
+                                           | Pull image / weights
+                                           v
++--------------------+        +------------------------+        +----------------------+
+|  User / Client     | -----> |   Edge / API Gateway   | -----> |  Service Mesh /      |
+|  (Web/Mobile/API)  |  HTTPS |   (Kong / Ambassador)  |  gRPC  |  Traffic Splitter    |
+|                    |        |   + JWT, Rate Limit     |        |  (Istio / Envoy /    |
+|  user_id cookie    |        +------------------------+        |   NGINX Plus)        |
++--------------------+                                             +----------+-----------+
+                                                                         |
+                                                  Traffic Split: 90% v1.2.0 | 10% v1.3.0-rc1
+                                                                         |
+                                          +------------------------------+------------------------------+
+                                          |                                                             |
+                                          v                                                             v
+                              +-----------------------+                                  +-----------------------+
+                              | Model Serving v1.2.0  |                                  | Model Serving v1.3.0  |
+                              | (Control, Champion)   |                                  | (Treatment, Challenger)|
+                              | Triton / TF Serving   |                                  | Triton / TorchServe    |
+                              | GPU A100, 4 replicas  |                                  | GPU H100, 2 replicas   |
+                              +-----------+-----------+                                  +-----------+-----------+
+                                          |                                                             |
+                                          |  prediction + log_id + user_id + variant_id                 |
+                                          v                                                             v
+                              +---------------------------------------------------------------------+
+                              |       Observability / Metrics Pipeline                            |
+                              |  Prometheus + Evidently AI + Grafana + Sentry (errors)            |
+                              |  - latency p50/p95/p99, throughput                                |
+                              |  - model metrics: prediction drift, score distribution           |
+                              |  - business KPIs: CTR, CVR, AOV, retention, LTV                  |
+                              +---------------------------------------------------------------------+
+                                                              |
+                                                              v
+                              +---------------------------------------------------------------------+
+                              |    Experiment Analytics & Statistical Engine                      |
+                              |  - Frequentist: t-test, z-test for proportions, CUPED              |
+                              |  - Bayesian: Beta-Binomial, Thompson Sampling                     |
+                              |  - Sequential: mSPRT, Always Valid Inference                       |
+                              |  - SRM (Sample Ratio Mismatch) detection                         |
+                              +---------------------------------------------------------------------+
+                                                              |
+                                                              v
+                              +---------------------------------------------------------------------+
+                              |    Decision / Auto-promotion / Auto-rollback                     |
+                              |  - p-value < 0.05 AND uplift > MDE AND no SRM -> Promote          |
+                              |  - latency SLO breach OR error spike -> Auto rollback            |
+                              +---------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**왜 필요한가? (Old vs New Paradigm)**
 
-- **📢 섹션 요약 비유**: MLOps 모델 서빙 A/B 테스트은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 구분 | 기존 일회성 배포 (Pre-MLOps) | MLOps A/B Test 기반 서빙 |
+|------|------------------------------|--------------------------|
+| **검증 시점** | 배포 전 오프라인 검증만 수행 | 배포 후 운영 환경에서 실증 검증 |
+| **성능 기준** | RMSE, Accuracy, AUC 등 모델 메트릭 | 모델 메트릭 + 시스템 메트릭(latency, throughput) + 비즈니스 KPI |
+| **롤백** | 장애 발생 시 수동 롤백 | SLO 위반 시 자동 롤백(Argo Rollouts, Flagger) |
+| **데이터** | 정적 학습-검증 분할 | 동적 트래픽 분할, Online Learning 가능 |
+| **결정 주체** | 데이터 사이언티스트 단독 판단 | 데이터 사이언 + PM + SRE 합의, 통계적 유의성 기반 |
+| **드리프트 대응** | 배포 후 사후 인지 | 데이터/모델 드리프트 실시간 감지(Evidently, WhyLabs) |
+
+- **📢 섹션 요약 비유**: A/B 테스트는 마치 **"두 가지 요리법으로 같은 손님 집단에 동시에 시식회"**를 여는 것과 같습니다. 한 그룹에게는 기존 레시피(Control), 다른 그룹에게는 신메뉴(Treatment)를 내어 "어떤 요리가 실제 매출을 더 올리는지" 인과적으로 측정하는 것이지, 주방에서만 시식하는(offline eval) 것과는 차원이 다릅니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MLOps 모델 서빙 A/B 테스트의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+MLOps A/B 테스트의 아키텍처는 크게 **6개의 레이어**로 구성된다: **(1) Experiment Design Layer**, **(2) Model Serving Layer**, **(3) Traffic Routing Layer**, **(4) Feature Store / Data Layer**, **(5) Observability / Metrics Layer**, **(6) Statistics & Decision Layer**.
+
+**Step-by-Step 흐름:**
+
+1. **Experiment Design**: 가설 설정(예: "v1.3 모델은 CTR을 +2% 개선할 것"), Primary KPI 선정, Minimum Detectable Effect(MDE) 산정, Sample size 계산, 실험 기간 산출.
+2. **Model Packaging**: Champion/Control과 Challenger/Treatment 모델을 ONNX/TorchScript/SavedModel로 변환하여 모델 레지스트리에 등록.
+3. **Traffic Routing**: 사용자/세션 단위 해시(예: `hash(user_id) % 100 < 10`) 또는 서비스 메시의 weighted routing(예: Istio VirtualService의 weight 90/10)을 통해 분기.
+4. **Sticky Assignment**: 한 사용자가 실험 기간 동안 동일 그룹에 노출되도록 쿠키/세션 토큰/헤더 기반 sticky 분기.
+5. **Online Inference**: 각 모델이 독립된 추론 엔드포인트에서 예측을 반환. Feature는 **Online Feature Store(Feast/Tecton)** 에서 동일하게 lookup하여 분기 일관성 보장.
+6. **Metric Logging**: `(user_id, variant_id, model_version, prediction, actual_label, latency_ms)`를 Kafka/Kinesis로 스트리밍.
+7. **Real-time Aggregation**: Flink/Spark Streaming으로 메트릭을 윈도우 단위(1분/1시간/1일) 집계.
+8. **Statistical Analysis**: 누적 데이터에 대해 Z-test(전환율), t-test(연속값), CUPED(분산 감소), Bayesian(Beta-Binomial) 등을 적용.
+9. **Decision & Action**: p-value < α(0.05), MDE 충족, SRM 미감지 시 승격. SLO 위반 시 자동 롤백.
 
 ```text
-+--------------------------------------------------------------+
-|              MLOps Model Serving AB Test 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[ A/B Test Routing & Logging - Detailed Sequence ]
+
+  Client             Gateway           Splitter            Model A            Model B          Metrics Bus         Stats Engine
+    |                   |                 |                    |                  |                  |                   |
+    | GET /predict      |                 |                    |                  |                  |                   |
+    | (X-User-Id: u123) |                 |                    |                  |                  |                   |
+    |------------------>|                 |                    |                  |                  |                   |
+    |                   | Route to /ab    |                    |                  |                  |                   |
+    |                   |---------------> |                    |                  |                  |                   |
+    |                   |                 | hash(u123)%100=42  |                  |                  |                   |
+    |                   |                 | bucket 42 -> v1.3  |                  |                  |                   |
+    |                   |                 | (sticky session)   |                  |                  |                   |
+    |                   |                 |------------------->| predict()        |                  |                   |
+    |                   |                 |  (parallel call)   |----------------->| predict()        |                   |
+    |                   |                 |                    |                  |                  |                   |
+    |                   |                 |<-------------------| score=0.83       |                  |                   |
+    |                   |                 |<--------------------------------------| score=0.79       |                   |
+    |                   |                 |                    |                  |                  |                   |
+    |                   |                 |  v1.3 selected (42% bucket)             |                  |                   |
+    |                   |                 |  -> use score=0.79                                                          |
+    |                   |                 |                                                                  |                   |
+    |                   |<----------------|          publish: {u123, "B", v1.3, 0.79, 12ms}                              |                   |
+    |                   |                 |-------------------------------------------------------------------------->|                   |
+    |                   |                 |                                                                  | aggregate         |
+    |                   |                 |                                                                  |------------------>|
+    |                   |                 |                                                                  |                   | CUPED, z-test
+    |                   |                 |                                                                  |                   | p=0.012 < 0.05
+    |                   |                 |                                                                  |                   | uplift=+3.2%
+    |<------------------|                 |            return {prediction: 0.79, variant: "B"}                    |                   |
+    | 200 OK            |                 |                                                                  |                   |
+    | {pred:0.79}       |                 |                                                                  |                   | (decision: PROMOTE v1.3)
+    |                   |                 |                                                                  |                   |
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Experiment Config Manager** | 실험 메타데이터(가설, KPI, MDE, 변형 정의) 관리 | GrowthBook, Eppo, Statsig, 내부 `experiment.yaml` (variant 정의, hash salt, traffic ratio, start/end date) |
+| **Model Registry** | 모델 버전 관리, Stage 전이(None->Staging->Production->Archived) | MLflow Model Registry, AWS SageMaker Model Registry, Vertex AI Model Registry, DVC |
+| **Inference Server** | 모델 로딩, 전처리/후처리, 배치/batching, GPU 가속 | NVIDIA Triton Inference Server (HTTP/gRPC, dynamic batching, ensemble model), TensorFlow Serving, TorchServe, BentoML, Seldon Core, KServe |
+| **Traffic Splitter** | 사용자/세션 단위 결정론적 분기, 가중치 라우팅 | Istio VirtualService (weight-based), Envoy HeaderRoute, Linkerd SMI, NGINX Plus `split_clients`, AWS App Mesh, Cloudflare Workers |
+| **Feature Store** | Training-Serving 일관성 보장, Online/Offline 동일성 | Feast (online: Redis/DynamoDB), Tecton, AWS SageMaker Feature Store, Google Vertex Feature Store, Hopsworks |
+| **Experiment Assignment** | 해시 함수 기반 sticky 분기, salt 노출 방지 | `assignment = hash(user_id + experiment_salt) % 10000`, FNV/MurmurHash, 1-way consistent hashing, Interleaving(랭킹 모델용) |
+| **Metrics Pipeline** | 이벤트 수집, 스트리밍 집계, 데이터레이크 적재 | Kafka/Pulsar/Kinesis -> Flink/Spark Streaming -> ClickHouse/BigQuery/Parquet on S3, Snowflake |
+| **Statistical Engine** | 유의성 검정, 분산 감소, 다중 비교 보정, SRM 감지 | Frequentist(z/t/χ²), Bayesian(PyMC, Beta-Binomial), Sequential(mSPRT, e-values), MSLR/False Discovery Rate |
+| **Decision & Rollout** | 승격/유지/중단 결정, 자동 롤백, 점진적 트래픽 확장 | Argo Rollouts (Analysis Template), Flagger, Seldon's Outlier Detector, AWS SageMaker Deployment Guardrails, LaunchDarkly |
+| **Observability** | 시스템/모델/비즈니스 메트릭 통합 대시보드, 알림 | Prometheus + Grafana, OpenTelemetry traces, Evidently AI (data/model drift), WhyLabs, Arize AI, Fiddler AI |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘 및 파라미터 심화:**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**(1) Sample Size 산정 (Two-proportion z-test 기준):**
+```
+n = (Z_{α/2} + Z_β)² × [p1(1-p1) + p2(1-p2)] / (p2-p1)²
 
----
-
-## Ⅲ. 비교 및 연결
-
-MLOps 모델 서빙 A/B 테스트을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | MLOps 모델 서빙 A/B 테스트 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. MLOps 모델 서빙 A/B 테스트은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 MLOps 모델 서빙 A/B 테스트은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 MLOps 모델 서빙 A/B 테스트을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-MLOps 모델 서빙 A/B 테스트을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, MLOps 모델 서빙 A/B 테스트 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: MLOps 모델 서빙 A/B 테스트은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | MLOps 모델 서빙 A/B 테스트의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | MLOps 모델 서빙 A/B 테스트의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-MLOps 모델 서빙 A/B 테스트 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+예) Baseline CTR p1=0.10, 기대 CTR p2=0.105 (MDE=5% relative),
+    α=0.05, Power=0.80 -> n ≈ 30,200 per variant
+    DAU 10만명, 50:50 split -> 약 12일 필요
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+**(2) CUPED (Controlled-experiment Using Pre-Experiment Data) - 분산 감소 기법:**
+```
+Y_CUPED = Y - θ × (X - E[X])
+where θ = Cov(Y, X) / Var(X), X = pre-experiment metric (예: 최근 14일 사용자별 CTR)
+이 방식으로 분산 30-50% 감소 -> 실험 기간 동일 MDE 대비 40-50% 단축
+```
 
-1. MLOps 모델 서빙 A/B 테스트은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+**(3) SRM (Sample Ratio M
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 660 / 800

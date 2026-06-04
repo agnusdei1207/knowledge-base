@@ -11,160 +11,136 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 네트워크 자동화 NetDevOps Ansible은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: NetDevOps는 네트워크 운영에 Git 기반 소스 관리, CI/CD 파이프라인, 코드형 인프라(IaC)를 적용한 문화적·기술적 프레임워크이며, Ansible은 이 프레임워크의 사실상 표준 실행 엔진으로서 Agentless(SSH/NETCONF/RESTCONF) 아키텍처, Push 기반 배포, 선언적 YAML 플레이북, Idempotency 보장이라는 4대 특성을 통해 멀티벤더 멀티 도메인(L2/L3/WAN/SDN/Cloud) 자동화를 단일 런타임으로 통합한다.
+> 2. **가치**: Cisco 기준 수동 CLI 대비 구성 배포 시간을 평균 75~90% 단축하고(MOP 1건 4시간 -> 15분), 휴먼 에러율을 60~80% 감소시키며, AWX/Ansible Tower를 통한 RBAC·감사 로그·승인 워크플로우로 ITIL Change Management 자동화를 실현한다. 또한 NAPALM/PyATS/Genie 추상화 계층을 통해 벤더 종속성을 평균 40% 이상 낮춘다.
+> 3. **판단 포인트**: Push vs Pull 아모(Ansible Push vs Salt Pull), State vs Intent(NAPALM Compliance vs NSO Service Model), Stateless vs Stateful(Ansible 단독 vs Itential/Nautobot/Infoblox 통합), 그리고 Connection 플러그인 선택(CLI+TextFSM vs NETCONF YANG vs RESTCONF YANG vs gNMI/JSON-IETF vs HTTPAPI)에서 트레이드오프가 발생하며, 대규모 환경에서는 AWX/Controller의 조직 단위 분할, Execution Environment 컨테이너화, 그리고 Ansible 개발 모드(`ANSIBLE_KEEP_REMOTE_FILES=1`, `--check`, `--diff`) 전략 수립이 핵심 의사결정 사항이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-네트워크 자동화 NetDevOps Ansible은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 네트워크 운영은 CLI 기반의 1:1 수동 작업, 각 엔지니어의 암묵지(Tacit Knowledge)에 의존한 절차적 운영, 그리고 "변경 금지의 문화"로 특징지어진다. 시스코 IOS-XR, 주니퍼 Junos, 아리스타 EOS, 화웨이 VRP 등 이기종 NOS(Network Operating System)가 혼재하는 환경에서, VLAN 1,000개 추가, BGP 정책 500라인 적용, ACL 10,000건 배포 같은 단순·반복 작업이 엔지니어의 야간·주말 작업으로 이어지며, 그 결과 평균 65%가 운영(Operation)에, 35%만이 혁신에 투입되는 역피라미드형 인력 구조가 고착화되었다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Network Automation NetDevOps Ansible 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+NetDevOps는 이러한 문제를 해결하기 위해 **"네트워크는 결국 소프트웨어 자산"** 이라는 대전제 아래, **PLAN -> CODE -> BUILD -> TEST -> DEPLOY -> OPERATE -> MONITOR**의 7단계 DevOps 파이프라인을 네트워크 도메인에 적용한다. 여기서 Ansible은 CODE/BUILD/DEPLOY 단계를 주도하며, Git은 소스 관리, AWX/Ansible Automation Platform은 오케스트레이션, Batfish/PyATS는 TEST, NetBox/Nautobot는 Source of Truth(SoT), Prometheus/Grafana는 MONITOR 역할을 수행한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    네트워크 자동화 NetDevOps Ansible 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|                   Legacy Network Ops vs NetDevOps                    |
++----------------------------------------------------------------------+
+|                                                                      |
+|  [Legacy: 1990s~2010s]              [NetDevOps: 2017~현재]            |
+|                                                                      |
+|  Operator --► SSH/Telnet            Git Push --► CI Pipeline          |
+|     |             |                       |              |           |
+|     v             v                       v              v           |
+|  switch# conf t  Per-Device         Ansible     --►  AWX/Jenkins      |
+|  switch(config)#  Manual            Playbook         |                |
+|  switch(config-if)#                 (YAML)           v                |
+|       |                                |         Multi-Vendor         |
+|       v                                v         Network Devices      |
+|  No Audit Trail                    Full Audit + Idempotent            |
+|  No Version Ctrl                   Git Tagged + Reviewed             |
+|  SPOF: 1 Engineer                  SPOF 제거: 1 Playbook             |
+|  Change Window: 7 days             Change Window: 15 min             |
+|                                                                      |
+|  ▣ Problem: Scale^ Speedv Error^  ▣ Solution: Code^ Speed^ Errorv    |
++----------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**구체적 필요성 (정량 근거):**
+- **속도**: AnsibleFest 2022 발표에서 대형 통신사는 신규 DC 팜 1,000대 스위치 초기 구성을 6주 -> 3일로 단축(95% 감소)
+- **품질**: Gartner 2023 보고서: 수동 구성 오류가 전체 네트워크 장애의 약 68% 원인, 자동화 적용 후 1년 내 MTTR 평균 42% 감소
+- **규정 준수**: 금융권 전자금융감독규정 제15조의2(변경관리) 충족을 위해 모든 변경의 Git 커밋 이력 + Ansible 실행 로그가 감사 증거(Audit Evidence)로 활용
+- **인력**: Uptime Institute 2023 설문 - 70%의 네트워크 엔지니어가 "자동화 스킬 부족"을 커리어 장벽으로 응답 -> Python+YAML+Jinja2 역량이 신규 필수 스킬로 부상
 
-- **📢 섹션 요약 비유**: 네트워크 자동화 NetDevOps Ansible은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 기존 네트워크 운영이 마치 **수작업 목공(指物) 장인이 망치와 끌로 가구 하나씩 깎아 만드는 방식**이라면, NetDevOps는 **CNC 자동 선반에 G-code(설계도)만 입력하면 동일 품질의 가구를 24시간 대량 생산하는 공장**과 같다. 핵심은 "장인의 손맛"을 "버전 관리된 코드"로 대체하는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-네트워크 자동화 NetDevOps Ansible의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+Ansible의 핵심 아키텍처는 **Control Node(제어 노드)** 와 **Managed Node(관리 대상 노드)** 로 이원화되며, Managed Node에는 별도 Agent를 설치하지 않는 **Agentless** 방식이 원칙이다. 네트워크 장비 특성상 메모리/연산 자원이 제한적이고 IOS/Junos는 Python 3.11+ 런타임 자체를 지원하지 않는 경우가 대부분이므로, 모든 실행 로직은 Control Node(주로 Linux 8/9 + Python 3.10+)에 집중된다.
 
 ```text
-+--------------------------------------------------------------+
-|              Network Automation NetDevOps Ansible 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++--------------------------------------------------------------------+
+|              Ansible Network Automation Architecture              |
++--------------------------------------------------------------------+
+
+  +------------------- Control Node (Linux/RHEL 8+) ---------------+
+  |                                                                 |
+  |  +---------+  +----------+  +----------+  +------------------+ |
+  |  |Inventory|  |Playbooks |  |  Roles   |  |  Collections     | |
+  |  |  (YAML) |  |  (.yml)  |  | (tasks/  |  | (cisco.ios,      | |
+  |  | INI/    |  |          |  |handlers/|  |  junipernetworks | |
+  |  | YAML    |  |          |  |templates|  |  .junos, arista  | |
+  |  +----+----+  +----+-----+  |  vars/  |  |  .eos, community | |
+  |       |             |        | defaults|  |  .general)       | |
+  |       |             |         +----+----+  +------+-----------+ |
+  |       v             v              v              v             |
+  |  +------------------------------------------------------+      |
+  |  |           ansible-core (2.16/2.17) Engine            |      |
+  |  |  +---------+ +----------+ +----------+ +----------+  |      |
+  |  |  |Strategy | |Connection| | Modules  | | Filters/ |  |      |
+  |  |  | Plugins | |  Plugins | |  (2400+) | |  Jinja2  |  |      |
+  |  |  +---------+ +----+-----+ +----------+ +----------+  |      |
+  |  +------------------++----------------------------------+      |
+  |                     |   Push (Default) / Pull (ansible-pull)       |
+  +---------------------+-------------------------------------------+
+                        |
+        +---------------+---------------+---------------+
+        v               v               v               v
+  +----------+    +----------+    +----------+    +----------+
+  | Cisco    |    | Juniper  |    | Arista   |    | Nokia    |
+  | IOS-XE   |    | Junos    |    | EOS      |    | SR OS    |
+  | (NETCONF|    | (NETCONF |    | (eAPI/   |    | (MD-CLI/ |
+  |  /RESTC.|    |  +YANG)  |    | RESTCONF)|    |  gNMI)   |
+  |  /SSH)   |    |          |    |          |    |          |
+  +----------+    +----------+    +----------+    +----------+
+        |               |               |               |
+        +---------------+---------------+---------------+
+                  Network of Multi-Vendor Devices
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+### 5단계 실행 흐름 (Execution Flow)
+
+1. **Inventory 로드**: `inventory.yml` 또는 `inventory/hosts` 파일에서 대상 호스트 그룹(예: `cisco_ios`, `juniper_junos`)과 변수(host, port, ansible_connection, ansible_network_os) 해석
+2. **Playbook 파싱**: YAML 형식의 Playbook을 Python AST로 변환, Host Pattern 매칭
+3. **Task별 Module 호출**: `cisco.ios.ios_vlans`, `junipernetworks.junos.junos_interfaces` 등 Collection 모듈 호출
+4. **Connection Plugin을 통한 장비 통신**:
+   - `network_cli` (SSH+CLI, TextFSM/regex 파싱) - 90% 레거시 호환
+   - `netconf` (RFC 6241, YANG 모델, XML 트리) - 표준화/트랜잭션
+   - `httpapi` (RESTCONF RFC 8040, JSON/XML) - SDN 컨트롤러 친화
+   - `grpc` (gNMI, OpenConfig YANG) - Streaming Telemetry 시대
+5. **Result 콜백**: `json`, `yaml`, `junit` 등의 Callback 플러그인을 통해 AWX/Jenkins로 결과 전송, JSON 결과 내 `changed: true/false` 필드로 Idempotency 확인
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Control Node** | Ansible 엔진 실행, 인증키 보관, Playbook 해석 | Python 3.10+, ansible-core 2.16+, SSH Key(vault)/PKI/Cert 인증, FQCN(`cisco.ios.ios_vlans`) 기반 Collection 로딩, 병렬 처리를 위한 `forks` 기본 5 -> 25+ 권장 |
+| **Inventory** | 대상 장비 목록 및 그룹화 변수 정의 | YAML 1.2 형식, `group_vars/`, `host_vars/` 디렉토리, 동적 인벤토리 플러그인(`plugin: netbox`, `plugin: aws_ec2`, `plugin: foreman`)로 SoT/CMDB 연동 |
+| **Playbook** | 실행 정책(What, Where, How) 선언 | YAML 1.2, `hosts:`, `gather_facts: no`(네트워크는 facts 비권장), `tasks:`, `handlers:`, `serial: 1`(rolling update), `order: sorted`(의존성), `max_fail_percentage: 25` |
+| **Module** | 실제 명령 실행 단위 | Ansible 2.10부터 FQCN 강제. 네트워크용 1,200+ 모듈, Network Resource Module은 `resource_definition:` 또는 `config:`/`state:` 키 표준, `state: merged/replaced/overridden/deleted/rendered/parsed` 6상태 |
+| **Connection Plugin** | 장비와의 통신 채널 추상화 | `network_cli`(기본), `netconf`(RFC 6241, NETCONF v1.1 base:1.1), `httpapi`(RESTCONF, Cisco/Huawei/Nokia), `grpc`(gNMI), `local` |
+| **Role / Collection** | 재사용 가능한 코드 패키지 | `ansible-galaxy collection install cisco.ios -p ./collections`, `roles/` 디렉토리 표준(`tasks/main.yml`, `handlers/main.yml`, `templates/`, `vars/main.yml`, `defaults/main.yml`, `meta/main.yml`) |
+| **Jinja2 Template** | 장비별/환경별 동적 구성 생성 | `{{ hostname }}`, `{% for vlan in vlans %}`, 필터(`ipaddr`, `network_in_network`, `ipmath`, `cisco.ios.facts` 커스텀 필터) |
+| **Ansible Vault / EDA** | 비밀 관리 및 이벤트 기반 자동화 | `ansible-vault encrypt_string` (AES-256-GCM), `EVENT-DRIVEN ANSIBLE` (Kafka/SNS/Webhook 트리거), Controller 2.4+ |
+| **AWX / Ansible Automation Platform** | 엔터프라이즈 오케스트레이션 | REST API(컨트롤 + 노드 분리), RBAC, Workflow(여러 Job Template 체이닝), Credential Types, Survey, Job Slice(대규모 병렬), Execution Environment(컨테이너 기반) |
+| **NAPALM / PyATS / Genie** | 멀티벤더 추상화 및 검증 | NAPALM: `get_facts()`, `get_interfaces()`, `get_config()`, `compliance_report()` - Cisco/Juniper/Arista/Nokia/FRR 통합. PyATS/Genie: `genie parse show version` -> JSON 트리, 테스트 자동화 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### Idempotency(멱등성)의 동작 원리
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+Ansible의 가장 중요한 설계 철학. 동일 Playbook을 100회 실행해도 시스템 상태가 1회 실행 후와 동일하게 유지됨. **Network Resource Module**은 내부적으로 `get_config`(현재 상태) -> `desired_config`(사용자 정의) -> Diff 계산 -> 변경 필요 시에만 NETCONF `<edit-config>` 또는 CLI `apply` 실행 -> 변경 없으면 `ok`, 변경 시 `changed`로 보고. 이는 **Configuration Drift Detection** 자동화의 핵심으로, 매일 새벽 3시 `cron + ansible-playbook --check --diff` 실행으로 비인가 변경 탐지.
 
----
+### Connection 플러그인별 트레이드오프
 
-## Ⅲ. 비교 및 연결
+| Connection | 데이터 모델 | 트랜잭션 | 성능 | 트러블슈팅 난이도 | 적합 사례 |
+|---|---|---|---|---|---|
+| `network_cli` + TextFSM/regex | 비정형 텍스트 | ❌ 부분 적용 위험 | 빠름 (1초/명령) | 상 (정규식 깨짐) | 레거시 IOS, 첫 자동화 도입 |
+| `netconf` + YANG | XML 트리 | ✅ Candidate/Lock | 중간 (200~500ms/RPC) | 중 (YANG 모델 이해 필수) | 신규 도입 IOS-XR, Junos, 표준화 |
+| `httpapi` + RESTCONF | JSON/XML | ⚠️ PATCH 일부만 | 중간 | 중 | IOS-XE 16.12+, SDN 컨트롤러 |
+| `grpc` + gNMI/JSON-IETF | protobuf/JSON | ✅ Set/Replace/Delete | 매우 빠름 (스트리밍) | 상 (protobuf 디버깅) | Streaming Telemetry, OpenConfig |
+| `httpapi` + vendor SDK (eAPI/ConfD) | JSON | △ | 빠름 | 하 | Arista EOS, Nokia SR OS |
 
-네트워크 자동화 NetDevOps Ansible을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 네트워크 자동화 NetDevOps Ansible |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 네트워크 자동화 NetDevOps Ansible은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 네트워크 자동화 NetDevOps Ansible은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 네트워크 자동화 NetDevOps Ansible을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-네트워크 자동화 NetDevOps Ansible을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 네트워크 자동화 NetDevOps Ansible 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 네트워크 자동화 NetDevOps Ansible은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 네트워크 자동화 NetDevOps Ansible의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 네트워크 자동화 NetDevOps Ansible의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-네트워크 자동화 NetDevOps Ansible 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 네트워크 자동화 NetDevOps Ansible은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **📢 섹션 요약 비유**: Ansible의 구조는 **심부름 센터 콜센터**와 같다. 손님(엔지니어)이 주문서(Playbook)를 작성해 전화하면, 콜센터 직원(Control Node)이 배
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 743 / 800

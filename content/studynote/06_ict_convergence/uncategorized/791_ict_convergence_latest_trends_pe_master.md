@@ -31,47 +31,47 @@ tags = ["studynote-ict-convergence"]
 ```text
 [ICT 융합 기술의 5축 구조와 데이터·서비스 수렴 흐름]
 
-   ┌────────────────────────────────────────────────────────────┐
-   │  🧠 인지(Cognitive) Layer                                  │
-   │  Foundation Model (LLM·VLM·LAM) | RAG | Agentic Workflow   │
-   │  Reasoning Engine (CoT·ReAct·ToT) | RAI / XAI              │
-   └────────────────┬───────────────────────────────────────────┘
-                    │ Function Calling · MCP · Tool Use
-                    ▼
-   ┌────────────────────────────────────────────────────────────┐
-   │  🌐 서비스(Service) Layer                                  │
-   │  API Gateway · Service Mesh (Istio/Linkerd)                 │
-   │  Event Streaming (Kafka·Pulsar·NATS JetStream)              │
-   │  Serverless / WASM Edge Runtime (WasmEdge·Fermyon)          │
-   └────────────────┬───────────────────────────────────────────┘
-                    │ Intent-based · Policy-driven
-                    ▼
-   ┌────────────────────────────────────────────────────────────┐
-   │  🔗 네트워크(Network) Layer                                │
-   │  5G-A(Rel-18/19) · 6G(AI-Native Air Interface)             │
-   │  TSN (802.1Qbv/Qcc) · DetNet · SRv6 · NGS                  │
-   │  Quantum-Safe VPN (PQC: Kyber·Dilithium)                   │
-   └────────────────┬───────────────────────────────────────────┘
-                    │ Deterministic · Time-Sensitive
-                    ▼
-   ┌────────────────────────────────────────────────────────────┐
-   │  📊 데이터(Data) Layer                                     │
-   │  Data Mesh · DataOps · Lakehouse (Iceberg·Delta·Hudi)       │
-   │  Vector DB (Pinecone·Milvus·Weaviate) · Knowledge Graph    │
-   │  Streaming ETL (Flink·Spark Structured Streaming)          │
-   └────────────────┬───────────────────────────────────────────┘
-                    │ SCADA·OPC UA·MQTT·DDS
-                    ▼
-   ┌────────────────────────────────────────────────────────────┐
-   │  ⚙️ 디바이스(Device) Layer                                 │
-   │  Edge AI (NVIDIA Jetson·Qualcomm RB3·Apple ANE)            │
-   │  Smart Sensor · LiDAR · IMU · BCI · Soft Sensor            │
-   │  Robotic / Cobot / AMR (Autonomous Mobile Robot)            │
-   └────────────────────────────────────────────────────────────┘
-                    │  ⇡ Cyber-Physical Loop (Sense→Think→Act) ⇡
-   ══════════════════════════════════════════════════════════════
+   +------------------------------------------------------------+
+   |  🧠 인지(Cognitive) Layer                                  |
+   |  Foundation Model (LLM·VLM·LAM) | RAG | Agentic Workflow   |
+   |  Reasoning Engine (CoT·ReAct·ToT) | RAI / XAI              |
+   +----------------+-------------------------------------------+
+                    | Function Calling · MCP · Tool Use
+                    v
+   +------------------------------------------------------------+
+   |  🌐 서비스(Service) Layer                                  |
+   |  API Gateway · Service Mesh (Istio/Linkerd)                 |
+   |  Event Streaming (Kafka·Pulsar·NATS JetStream)              |
+   |  Serverless / WASM Edge Runtime (WasmEdge·Fermyon)          |
+   +----------------+-------------------------------------------+
+                    | Intent-based · Policy-driven
+                    v
+   +------------------------------------------------------------+
+   |  🔗 네트워크(Network) Layer                                |
+   |  5G-A(Rel-18/19) · 6G(AI-Native Air Interface)             |
+   |  TSN (802.1Qbv/Qcc) · DetNet · SRv6 · NGS                  |
+   |  Quantum-Safe VPN (PQC: Kyber·Dilithium)                   |
+   +----------------+-------------------------------------------+
+                    | Deterministic · Time-Sensitive
+                    v
+   +------------------------------------------------------------+
+   |  📊 데이터(Data) Layer                                     |
+   |  Data Mesh · DataOps · Lakehouse (Iceberg·Delta·Hudi)       |
+   |  Vector DB (Pinecone·Milvus·Weaviate) · Knowledge Graph    |
+   |  Streaming ETL (Flink·Spark Structured Streaming)          |
+   +----------------+-------------------------------------------+
+                    | SCADA·OPC UA·MQTT·DDS
+                    v
+   +------------------------------------------------------------+
+   |  ⚙️ 디바이스(Device) Layer                                 |
+   |  Edge AI (NVIDIA Jetson·Qualcomm RB3·Apple ANE)            |
+   |  Smart Sensor · LiDAR · IMU · BCI · Soft Sensor            |
+   |  Robotic / Cobot / AMR (Autonomous Mobile Robot)            |
+   +------------------------------------------------------------+
+                    |  ⇡ Cyber-Physical Loop (Sense->Think->Act) ⇡
+   --------------------------------------------------------------
    🏭 도메인: 스마트팩토리 · 스마트시티 · 자율주행 · 스마트헬스 · 메타버스
-   ══════════════════════════════════════════════════════════════
+   --------------------------------------------------------------
 ```
 
 기존 패러다임은 **수직 통합(Vertical Silo)** 으로 OT·IT·CT가 분리되어 있었으나, 현재는 **수평 융합(Horizontal Convergence)** 으로 **데이터·서비스·네트워크가 단일 AI-Native 플랫폼** 위에서 운영됩니다. 이는 1990년대 ERP, 2000년대 SOA, 2010년대 Cloud Native에 이은 **4번째 플랫폼 패러다임 전환** 으로 해석됩니다.
@@ -98,39 +98,39 @@ ICT 융합의 표준 참조 아키텍처는 **ITU-T Y.3170(Y.3172·Y.3320·Y.353
 [ICT 융합 데이터·제어 루프 상세 아키텍처]
 
   [디바이스]       [엣지]              [데이터]             [인지]
- ┌────────┐     ┌─────────┐        ┌──────────┐        ┌──────────┐
- │ LiDAR  │─ADC─▶│ TinyML  │─MQTT─▶│  Kafka   │─Flink─▶│ Lakehouse│
- │ Camera │     │ Jetson  │       │  Pulsar  │        │ Iceberg  │
- │ IMU    │     │ Coral TPU│       │  NATS JS │        │ + Vector │
- │ Sensor │     └────┬────┘        └────┬─────┘        │  DB      │
- └────────┘          │eBPF/XDP         │CDC            └────┬─────┘
-      ▲              ▼                   ▼                   │
-      │        ┌──────────┐        ┌──────────┐             │
-      │        │ WASM     │        │ Feature  │             │ LoRA/QLoRA
-      │        │ Runtime  │        │ Store    │◀─Feature───┤ Fine-tune
-      │        │(WasmEdge)│        │ (Feast)  │             │
-      │        └────┬─────┘        └──────────┘             │
-      │             │Inference<1ms      │                   ▼
-      │             ▼                   │           ┌──────────────┐
-      │     ┌──────────────┐           │           │ Foundation   │
-      │     │ RAG Retriever│◀─Embedding┘           │ Model (LLM·  │
-      │     │ + ReRanker   │                       │ VLM·Code-LM) │
-      │     └──────┬───────┘                       └──────┬───────┘
-      │            │Tool Call (MCP/A2A)                   │Function
-      │            ▼                                       │Calling
-      │     ┌──────────────┐                       ┌──────▼───────┐
-      │     │  Agentic     │◀──Human-in-the-Loop──▶│ Orchestrator │
-      │     │  Workflow    │                       │ (LangGraph·  │
-      │     │ (CrewAI·     │                       │  AutoGen·    │
-      │     │  AutoGen)    │                       │  LlamaIndex) │
-      │     └──────┬───────┘                       └──────────────┘
-      │            │Decision JSON
-      │            ▼
-      │     ┌──────────────┐  TSN(802.1Qbv)   ┌─────────────┐
-      └──OPC┤ Control Plane├─DetNet─SRv6─▶────│  Actuation  │
-            │ (NGS·SD-WAN) │                  │ Robot·Cobot │
-            └──────────────┘                  │ AMR·PLC     │
-                                              └─────────────┘
+ +--------+     +---------+        +----------+        +----------+
+ | LiDAR  |-ADC-->| TinyML  |-MQTT-->|  Kafka   |-Flink-->| Lakehouse|
+ | Camera |     | Jetson  |       |  Pulsar  |        | Iceberg  |
+ | IMU    |     | Coral TPU|       |  NATS JS |        | + Vector |
+ | Sensor |     +----+----+        +----+-----+        |  DB      |
+ +--------+          |eBPF/XDP         |CDC            +----+-----+
+      ^              v                   v                   |
+      |        +----------+        +----------+             |
+      |        | WASM     |        | Feature  |             | LoRA/QLoRA
+      |        | Runtime  |        | Store    |<--Feature---+ Fine-tune
+      |        |(WasmEdge)|        | (Feast)  |             |
+      |        +----+-----+        +----------+             |
+      |             |Inference<1ms      |                   v
+      |             v                   |           +--------------+
+      |     +--------------+           |           | Foundation   |
+      |     | RAG Retriever|<--Embedding+           | Model (LLM·  |
+      |     | + ReRanker   |                       | VLM·Code-LM) |
+      |     +------+-------+                       +------+-------+
+      |            |Tool Call (MCP/A2A)                   |Function
+      |            v                                       |Calling
+      |     +--------------+                       +------v-------+
+      |     |  Agentic     |<---Human-in-the-Loop--->| Orchestrator |
+      |     |  Workflow    |                       | (LangGraph·  |
+      |     | (CrewAI·     |                       |  AutoGen·    |
+      |     |  AutoGen)    |                       |  LlamaIndex) |
+      |     +------+-------+                       +--------------+
+      |            |Decision JSON
+      |            v
+      |     +--------------+  TSN(802.1Qbv)   +-------------+
+      +--OPC+ Control Plane+-DetNet-SRv6-->----|  Actuation  |
+            | (NGS·SD-WAN) |                  | Robot·Cobot |
+            +--------------+                  | AMR·PLC     |
+                                              +-------------+
 ```
 
 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |

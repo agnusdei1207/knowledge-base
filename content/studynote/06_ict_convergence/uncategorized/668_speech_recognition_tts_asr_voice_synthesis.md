@@ -11,160 +11,149 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 음성 인식 TTS ASR 음성 합성은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 음성 인식(ASR)은 음향 모델(Acoustic Model, AM)·발음 모델(Pronunciation Lexicon)·언어 모델(Language Model, LM)의 3-그램 결합으로 음소 시퀀스를 텍스트 토큰으로 매핑하는 과정이며, TTS는 텍스트 -> 음소/멜 스펙트로그램 -> 신경망 보코더(Vocoder)를 통한 파형 합성으로 구성된다. Whisper, Conformer, VITS, FastSpeech 2와 같은 End-to-End Transformer 기반 모델이 기존 HMM/GMM 파이프라인을 대체하고 있다.
+> 2. **가치**: 콜센터 자동화 시 평균通话 시간(ATT) 30~45% 단축, AI 비서 응답 지연(Latency) 300ms 이내 구현으로 인간과 자연스러운 대화 가능, 음성 데이터는 비정형 데이터 중 연평균 18% 증가하며(2024~2028 Gartner), 멀티모달 AI의 핵심 인터페이스로 부상했다.
+> 3. **판단 포인트**: 실시간성(Streaming vs Batch), 도메인 특화(범용 모델 vs 화자/용도 적응), 합성 음성 자연스러움(MOS 4.0+ 목표), 저지연 추론(Edge On-device vs Cloud), 그리고 데이터 프라이버시(개인정보보호법·EU AI Act의 음성 생체정보 규제 준수) 간의 트레이드오프가 핵심 결정 변수다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-음성 인식 TTS ASR 음성 합성은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+음성 인터페이스는 키보드/터치 대비 **손·눈 점유율이 0%**라는 결정적 장점 때문에车载 인포테인먼트, 스마트홈, IoT, 콜센터, 메타버스 아바타 등에서 HCI(Human-Computer Interaction)의 새로운 표준으로 자리 잡았다. 2024년 Gartner에 따르면 미국 성인의 **42%가 주 1회 이상** 음성 비서를 사용하며, 한국은 25.3%(2023년 방송통신위원회 조사)로 모바일·가전·금융 분야로 확산 중이다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Speech Recognition TTS ASR Voice Synthesis 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+음성 인식(ASR, Automatic Speech Recognition)과 음성 합성(TTS, Text-to-Speech)는 **대칭 구조**를 가진다. ASR는 아날로그 음성 신호 `x(t)`를 샘플링(16kHz/16bit PCM)하여 MFCC·필터뱅크·멜 스펙트로그램으로 변환한 뒤 음소/단어 시퀀스 `W* = argmax P(W|X)`로 복원하는 추론 문제이며, TTS는 그 역방향으로 텍스트 `Y`를 멜 스펙트로그램 `M`을 거쳐 시간 영역 파형 `ŷ(t)`로 변환하는 생성 문제다. 두 분야 모두 2017년 Transformer 등장 이후 **End-to-End(E2E) 학습**으로 패러다임이 전환되었으며, HMM(Hidden Markov Model)·GMM-HMM·DNN-HMM 같은 모듈형 구조는 학술·연구 목적으로만 남아 있다.
+
+기존 키워드 스팟팅(Keyword Spotting)이나 명령어 인식은 **Closed-vocabulary**(`if-else` 분기 기반)와 **Finite State Grammar**로 구현되었으나, 자연스러운 대화에서는 개방형 어휘(Open-vocabulary)와 문맥 의존성을 처리해야 하므로 **언어 모델과 음향 모델의 결합**이 필수다. 한국어의 경우 교착어 특성상 조사·어미 변형이 많아 형태소 분석기(MeCab-ko, KoNLPy)와 음성 인식 결과를 결합한 후처리 모듈이 요구된다.
 
 ```text
-+--------------------------------------------------------------+
-|                    음성 인식 TTS ASR 음성 합성 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|              음성 인터페이스 시스템의 양방향 파이프라인                  |
++----------------------------------------------------------------------+
+|                                                                      |
+|  [사용자 음성]                                                        |
+|       |                                                              |
+|       v                                                              |
+|  +---------+   +---------+   +---------+   +---------+   +---------+|
+|  |  AFE    |--->|  VAD    |--->|   ASR   |--->|   NLU   |--->|  Dialog ||
+|  | (전처리) |   | (음성구간)|   |(음성->텍스트)|  |(의도/개체)|  |  Mgr.   ||
+|  +---------+   +---------+   +---------+   +---------+   +---------+|
+|       |              ^                            |          |       |
+|       |    +---------+-----------+                |          v       |
+|       |    |  AEC(에코 제거)      |                |      +------+   |
+|       |    |  Beamforming(빔포밍) |                |      | 정책 |   |
+|       |    |  NS(잡음 억제)       |                |      +------+   |
+|       |    +---------------------+                |          |       |
+|       |                                           |          v       |
+|       |                                       +---------+  +---------+|
+|       |                                       |  TTS    |<--|  NLG    ||
+|       |                                       |(텍스트->음성)|(응답생성)||
+|       |                                       +---------+  +---------+|
+|       |                                              |                |
+|       v                                              v                |
+|   [마이크 입력]                                   [스피커 출력]         |
++----------------------------------------------------------------------+
+        ASR 경로 (STT) <------------------------> TTS 경로
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+음성 인터페이스의 품질은 단순 인식률(WER, Word Error Rate)로 환원되지 않는다. **응답 지연(End-to-End Latency)**, **화자 독립성(Speaker Independence)**, **잡음 환경 강건성(Noise Robustness)**, **방언·신조어 적응력**, **개인정보 비식별화**가 동시에 충족되어야 한다. 또한 2024년 발효된 EU AI Act는 실시간 원격 생체 인식(Real-Time Remote Biometric Identification)을 **고위험(High-Risk)**로 분류하여, 음성 인식 시스템은 사후 감사·데이터 거버넌스·편향성 테스트를 의무화하고 있다. 한국도 2023년 개정 개인정보보호법으로 **음성 데이터는 생체정보(고유식별정보)**로 명시되어 동의·암호화·파기 절차가 강화되었다.
 
-- **📢 섹션 요약 비유**: 음성 인식 TTS ASR 음성 합성은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 음성 인식은 "사람의 귀와 뇌"를 모방한 것이고, TTS는 "입과 성대"를 모방한 것이다. 옛날 자동 응답기(ARS)는 정해진 번호만 누를 수 있는 "옛날 유선전화" 같았다면, 현대 음성 AI는 "주문·예약·상담까지 자유롭게 통역해주는 통역사"와 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-음성 인식 TTS ASR 음성 합성의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+음성 인식 시스템은 크게 **전처리(Front-end)**, **음향 모델(AM)**, **언어 모델(LM)**, **디코더(Decoder)**로 구성되며, TTS는 **텍스트 분석(Front-end)**, **음향 모델(Acoustic Model)**, **보코더(Vocoder)**의 3단 구조다. End-to-End 모델은 이를 단일 신경망으로 통합한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Speech Recognition TTS ASR Voice Synthesis 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[ASR (Whisper/Conformer 기반) 추론 흐름]
+-----------------------------------------------------------------------
+입력: 16kHz PCM x(t)
+   |
+   v
+[1단계: AFE (Audio Front-End)]
+   |  - 25~30ms 윈도우, 10ms 홉(hop) STFT
+   |  - 80채널 Log-Mel Spectrogram 산출
+   |  - SpecAugment (주파수/시간 마스킹)
+   v
+[2단계: Encoder (Self-Supervised + Attention)]
+   |  - CNN Down-sampling (stride 2, 채널 512)
+   |  - Conformer 블록 ×N (Conv + Self-Attention + FFN)
+   |  - 출력: 1280-dim 프레임 임베딩
+   v
+[3단계: Decoder (CTC + Attention 하이브리드)]
+   |  - CTC Loss: 帧 단위 greedy/beam search
+   |  - Attention Decoder: Transformer LM 결합
+   |  - LM Shallow Fusion: KenLM/N-gram 외부 LM 가중합
+   v
+[4단계: 후처리 (Rescoring & Inverse Text Normalization)]
+   |  - 발음사전(Grapheme-to-Phoneme, G2P) 보정
+   |  - 한국어 형태소 분석(KoSpacing, PyKoSpacing)
+   v
+출력: 정규화된 텍스트 "내일 오후 3시에 강남역으로 두 명 예약해줘"
+-----------------------------------------------------------------------
+
+[TTS (VITS/FastSpeech2 기반) 합성 흐름]
+-----------------------------------------------------------------------
+입력: 텍스트 "안녕하세요, 음성 합성 시스템입니다."
+   |
+   v
+[1단계: Text Front-End]
+   |  - 텍스트 정규화(TN): 숫자->발음 ("3시" -> "세 시")
+   |  - G2P (Grapheme-to-Phoneme): "안녕하세요" -> [a, nj, ʌŋ, ha, se, jo]
+   |  - 한국어 특성: 조사 분리, 평서/의문문 운율 마킹
+   |  - 음소 임베딩 (256-dim)
+   v
+[2단계: Acoustic Model (Mel-Spectrogram 생성)]
+   |  - FastSpeech2: Duration, Pitch, Energy Predictor
+   |  - Variance Adaptor -> Length Regulator
+   |  - 디코더: 멜 스펙트로그램 (80-bin × T 프레임)
+   v
+[3단계: Vocoder (Mel -> Waveform)]
+   |  - HiFi-GAN: Multi-period + Multi-scale Discriminator
+   |  - 또는 VITS의 Normalizing Flow 결합 구조
+   |  - 24kHz/16bit 파형 출력, RTF < 0.1
+   v
+출력: 음성 파형 ŷ(t), 약 2~5초 길이
+-----------------------------------------------------------------------
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **AFE (Audio Front-End)** | 잡음 제거·특징 추출 | WebRTC APM, RNNoise (RNN 기반 잡음 억제), Kaldi `compute-mfcc-feats`. 빔포밍(MVDR/GEV) 알고리즘으로 마이크 어레이 신호 분리. |
+| **VAD (Voice Activity Detection)** | 음성/비음성 구간 검출 | Silero-VAD (CNN), WebRTC VAD (GMM). Endpoint Detection은 ASR의 초기 발화 검출 정확도에 1차 영향을 미친다. |
+| **Acoustic Model (AM)** | 음향 신호 -> 음소 확률 | HMM-GMM(전통) -> TDNN/LSTM -> Conformer -> Whisper. Wav2Vec 2.0·HuBERT는 자기지도학습(Self-Supervised) pretext task로 비지도 음성 표현 학습. |
+| **Language Model (LM)** | 단어 시퀀스 확률 | N-gram(KenLM, 5-gram), Neural LM(BERT, GPT), RNN-T의 Internal LM. Shallow Fusion으로 가중합: `log p'(w) = log p_AM(w\|x) + λ·log p_LM(w)`. |
+| **Decoder** | 최적 시퀀스 탐색 | CTC Greedy, Beam Search (beam=5~10), WFST(Weighted Finite State Transducer) 기반 HMM 디코더. CTC + Attention Joint Decoding이 표준. |
+| **TTS Text Front-End** | 텍스트 정규화·음소 변환 | ko_KR G2P (eSpeak-ng, HMM 기반), 종성 규칙, 숫자/약어/외래어 발음 사전. KSS(Korean Single Speaker Speech) 데이터셋 활용. |
+| **TTS Acoustic Model** | 음소 -> 멜 스펙트로그램 | Tacotron 2 -> FastSpeech (Non-Autoregressive, 병렬 합성) -> FastSpeech 2 (Variance Adaptor) -> VITS (VAE + Flow). |
+| **Vocoder** | 멜 스펙트로그램 -> 파형 | WaveNet (Autoregressive, 24kHz) -> Parallel WaveGAN -> HiFi-GAN (Real-Time Factor 0.01) -> BigVGAN (24kHz 대역폭 확장). |
+| **Wake Word Detection** | 저전력 활성화어 검출 | KWS(KeyWord Spotting), Edge Impulse, Picovoice Cheetah. TinyML 모델 (CRNN, TC-ResNet) 100KB 이하, MSP430/Cortex-M4에서 추론. |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 핵심 알고리즘 심층 분석
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**1) CTC (Connectionist Temporal Classification) Loss**
+음성 프레임 길이 `T`와 출력 토큰 길이 `U`의 정렬 불일치를 해결하기 위해 Graves(2006)가 제안한 손실 함수. `L_CTC = -log P(Y|X) = -log Σ_π ∏_t p_t(π_t)`이며, blank 토큰(∅)으로 가능한 모든 alignment를 합산한다. Forward-Backward 알고리즘으로 `O(T·U)` 시간에 계산 가능하다.
 
----
+**2) Attention 기반 Seq2Seq**
+Bahdanau Attention(2015)을 음성에 적용한 Listen-Attend-Spell(LAS). `α_t = softmax(score(h_enc, s_dec))`, `c_t = Σ α_t · h_enc`로 컨텍스트 벡터를 만들고, 점진적으로 문자를 생성한다. 단, **Attention Collapse**(반복 생성) 현상이 있어 monotonic attention, CTC prefix score로 보정한다.
 
-## Ⅲ. 비교 및 연결
+**3) Conformer (Gulati et al., 2020)**
+Convolution + Self-Attention의 결합: `x' = x + 1/2 FFN(x)`, `x'' = x' + MHSA(x')`, `x''' = x'' + Conv(LN(x''))`, `y = LN(x''') + 1/2 FFN(LN(x'''))`. CNN은 지역적 패턴(Local), Attention은 전역 의존성(Global)을 동시에 포착해 WER 5~15% 개선.
 
-음성 인식 TTS ASR 음성 합성을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+**4) Self-Supervised Pretraining (Wav2Vec 2.0, HuBERT)**
+대규모 unlabeled 음성(예: 960h Librispeech, 31k hours CommonVoice)으로 Contrastive Task 학습 후 labeled data로 fine-tuning. **Labeled data 10분 만으로 WER 4.8/8.2%** 달성(Librispeech clean/other). 한국어에서는 `kresnik` 라이브러리, ETRI `koswav2vec`, Kakao `K-Wav2Vec`이 대표적이다.
 
-| 구분 | 전통적 접근 | 음성 인식 TTS ASR 음성 합성 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+**5) Whisper (OpenAI, 2022)**
+68만 시간 다국어·다중작업(Multitask) 약지도학습. 30초 청크 단위 인코더-디코더, timestamp 토큰·언어 토큰을 직접 예측. 한국어 WER 약 8~12%, 도메인 일반화 우수. **Var-VAD(Variable VAD) + 길이 페널티**로 hallucination 제어.
 
-관련 기술 영역과의 연결점도 중요하다. 음성 인식 TTS ASR 음성 합성은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+**6) FastSpeech 2 & VITS의 진화**
+FastSpeech 2는 **Duration·Pitch·Energy Predictor**를 명시적으로 모델링해 teacher-forcing 오차를 제거(병렬 합성 50x 가속). VITS는 **VAE + Normalizing Flow**로 멜-파형을 통합 생성해 MOS 4.4 달성(20kHz). 2023년 **StyleTTS 2**, **NaturalSpeech 3**(Factorized Codec) 등장.
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 음성 인식 TTS ASR 음성 합성은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 음성 인식 TTS ASR 음성 합성을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-음성 인식 TTS ASR 음성 합성을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 음성 인식 TTS ASR 음성 합성 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 음성 인식 TTS ASR 음성 합성은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 음성 인식 TTS ASR 음성 합성의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 음성 인식 TTS ASR 음성 합성의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-음성 인식 TTS ASR 음성 합성 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 음성 인식 TTS ASR 음성 합성은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+**7) 실시간 스트리밍 처리**
+- **Chunk-based ASR**: 200~300ms 청크 단위 처리, Emformer/Conformer-XL의 Memory Bank로 문맥 유지
+- **Server-Sent Events (SSE)** + **WebSocket** 전송: 부분 결과(Partial) -> 최종 결과(Final) 점진 응답
+- **단어 단위 지연 200~400ms**가 자연스러운 대화
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 668 / 800
