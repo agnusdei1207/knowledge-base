@@ -11,160 +11,130 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 데이터 윤리 편향 감사 공정성 지표은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 데이터 윤리 편향 감사는 AI/ML 시스템의 학습 데이터, 모델 출력, 의사결정 전 과정에서 **역사적·표본·측정·학습·평가·배포 편향(Historical/Sampling/Measurement/Learning/Evaluation/Deployment Bias)**을 식별하고, **Demographic Parity, Equalized Odds, Predictive Parity, Calibration, Individual Fairness, Counterfactual Fairness** 등 6대 이상의 상호 배타적이지 않은(Mathematical Impossibility Theorem) 공정성 지표를 통해 정량화하는 체계적 거버넌스 프로세스이다.
+> 2. **가치**: IBM·Microsoft 사례에서 공정성 개입 시 **소수집단 정확도 25~40% 향상**, EU AI Act(2024)·개인정보보호법(2023 개정)·AI 기본법(2026 시행) 등 규제 준수, 그리고 **모델 신뢰도(Trust Calibration) 향상**을 통한 사용자 수용성 증대 및 리스크 기반의 설명 가능한 AI(Explainable AI, XAI) 운영 체계 확립이라는 정성적 가치를 동시에 제공한다.
+> 3. **판단 포인트**: 가장 핵심적인 트레이드오프는 **"공정성-정확도(Fairness-Accuracy) Trade-off"**와 **"그룹 공정성 vs 개인 공정성(Group vs Individual Fairness) 간의 충돌"**, 그리고 **"Pre-processing·In-processing·Post-processing 중 어느 시점에서 개입할 것인가"**라는 세 가지 축의 아키텍처 결정이며, 기술사는 도메인(채용·대출·사법·의료)과 데이터 분포에 따라 **Chouldechova's Theorem과 Kleinberg's Impossibility Theorem**을 고려한 다층적 완화 전략을 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-데이터 윤리 편향 감사 공정성 지표은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+데이터 윤리 편향 감사 공정성 지표는 **인공지능 의사결정 시스템(Algorithmic Decision-Making, ADM)**이 사회 전반에 확산되면서 발생한 **알고리즘적 차별(Algorithmic Discrimination)** 문제를 해결하기 위한 기술적·법적·윤리적 통제 프레임워크이다. 2018년 Amazon의 성별 편향 채용 AI(여성 지원자 5배 페널티), 2019년 Apple Card의 성별 한도 차등(남성 10배), 2020년 COMPAS 사법 위험도 평가 시스템의 인종별 오분류율 차이(False Positive Rate: 흑인 44.9% vs 백인 23.5%) 등 대형 편향 사고가 발생하면서, 단순 정확도(Accuracy)만을 최적화하는 고전적 ML 패러다임에서 **공정성을 명시적 제약조건(Constraint)으로 다루는 Responsible AI 패러다임**으로의 전환이 불가피해졌다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Data Ethics Bias Audit Fairness Metrics 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기술적 관점에서 편향은 (1) **데이터 단계**(Historical Bias: 과거 사회적 차별이 라벨에 내재, Sampling Bias: 모집단 비대표성, Measurement Bias: 프록시 변수의 왜곡, Label Bias: 주관적 라벨링), (2) **모델 단계**(Aggregation Bias: 단일 모델의 다집단 일반화 실패, Learning Bias: 손실함수의 비대칭), (3) **평가 단계**(Evaluation Bias: 벤치마크 데이터셋의 편향), (4) **배포 단계**(Deployment Bias: 실제 운영 환경의 컨텍스트 편향) 등 7가지 이상의 발생 지점을 가지며, 각 지점마다 별도의 진단·완화 전략이 요구된다.
 
 ```text
-+--------------------------------------------------------------+
-|                    데이터 윤리 편향 감사 공정성 지표 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[AI 라이프사이클 전 영역에 걸친 편향 발생 지점 및 감사 체계]
+
+   +----------------------------------------------------------+
+   |              AI 시스템 전 생애주기 편향 감사 체계            |
+   +----------------------------------------------------------+
+
+   [1단계 데이터 수집]   --->  Historical Bias (과거 차별의 데이터 잔존)
+       |                    Sampling Bias (모집단 비대표)
+       |                    Selection Bias (자기선택/생존편향)
+       |                          |
+       |                          v
+   [2단계 데이터 라벨링] --->  Label Bias / Annotation Bias
+       |                    Measurement Bias (프록시 변수 왜곡)
+       |                    Inter-Annotator Disagreement
+       |                          |
+       |                          v
+   [3단계 모델 학습]     --->  Aggregation Bias
+       |                    Learning Bias (손실함수 비대칭)
+       |                    Representation Bias (임베딩 편향)
+       |                          |
+       |                          v
+   [4단계 모델 평가]     --->  Evaluation Bias (벤치마크 편향)
+       |                    Confirmation Bias (개발자 확증편향)
+       |                    Disparate Impact 검증 실패
+       |                          |
+       |                          v
+   [5단계 배포·운영]     --->  Deployment Bias (컨텍스트 불일치)
+       |                    Feedback Loop Bias (자기강화 편향)
+       |                    Concept Drift (사회규범 변화)
+       |                          |
+       |                          v
+   [6단계 거버넌스]      --->  Audit Trail / Model Card / Datasheet
+                               Model Risk Management (MRM)
+                               Algorithmic Impact Assessment (AIA)
+
+   ------------ 각 단계별 편향 감사 게이트(Gate) 설치 필수 ------------
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+기존 ML 거버넌스는 **정확도·재현율·정밀도·F1-Score·AUC-ROC** 등 단일 성능 지표 위주였으나, 이는 모집단 전체의 평균적 성능만을 측정하므로 **하위집단(Subgroup) 간의 불평등을 은폐하는 정확도 패러독스(Accuracy Paradox)** 현상을 야기한다. 예를 들어 1,000명 중 백인 900명·흑인 100명인 데이터에서 모델이 모든 백인을 양성으로 예측하면 정확도는 90%이지만, 흑인 집단의 FPR은 100%가 되어 **Disparate Impact Ratio = 0.0**이라는 심각한 공정성 위반이 발생한다. 이에 따라 NIST AI Risk Management Framework(AI RMF 1.0, 2023), ISO/IEC 23894:2023, IEEE 7003-2024 등 국제 표준은 **GOVERN-MAP-MEASURE-MANAGE** 4단계의 편향 감사 사이클을 명시하고 있으며, 국내에서도 2026년 1월 시행되는 **AI 기본법(인공지능 발전과 신뢰 기반 조성 등에 관한 기본법)**이 고영향 AI(연간 1만명 이상 영향)에 대해 **영향평가·이해관계자 참여·정기 감사**를 의무화한다.
 
-- **📢 섹션 요약 비유**: 데이터 윤리 편향 감사 공정성 지표은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 데이터 편향 감사는 마치 **수영장 정수 시스템**과 같다. 물(데이터)이 처음 들어올 때(수집), 정수 필터를 통과할 때(전처리), 수영장(모델)에 들어갔을 때, 수영하는 사람(배포)에게 모두 다른 종류의 불순물이 끼어들 수 있으므로, **수질검사 기구(공정성 지표)를 6단계마다 설치**하여 실시간으로 점검해야 깨끗한 운영이 가능하다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-데이터 윤리 편향 감사 공정성 지표의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+편향 감사 및 공정성 지표 시스템은 크게 **① 편향 탐지(Bias Detection) 엔진, ② 공정성 정량화(Fairness Quantification) 모듈, ③ 완화 개입(Mitigation Intervention) 모듈, ④ 거버넌스 보고서(Governance Reporting) 생성기**의 4계층 아키텍처로 구성된다. 핵심 동작 원리는 **보호 속성(Protected Attribute, 예: 성별·인종·연령·장애유무·지역)**을 기준으로 예측 결과를 분해(Disaggregation)하여, 확률 분포의 통계적 동등성(Statistical Parity) 또는 오류율의 균등성(Error Rate Equality)을 검증하는 것이다.
 
 ```text
-+--------------------------------------------------------------+
-|              Data Ethics Bias Audit Fairness Metrics 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[편향 감사 공정성 지표 시스템의 4계층 아키텍처 및 데이터 흐름]
+
+   +--------------------------------------------------------------+
+   |  Layer 4. 거버넌스 보고 & 규제 컴플라이언스 레이어             |
+   |  +--------------+  +--------------+  +------------------+    |
+   |  | Model Card   |  | Bias Report  |  | EU AI Act / NIST |    |
+   |  | (Mitchell+17)|  | (자동생성)   |  | AI RMF 매핑      |    |
+   |  +--------------+  +--------------+  +------------------+    |
+   +------------------------^-------------------------------------+
+                            |
+   +------------------------+-------------------------------------+
+   |  Layer 3. 완화 개입(Mitigation) 모듈                           |
+   |  +----------+  +--------------+  +------------------------+  |
+   |  |Pre-proc. |  | In-processing|  | Post-processing        |  |
+   |  |Reweighing|  | Adversarial  |  | Calibrated Equalized   |  |
+   |  |Disparate |  | Debiasing    |  | Odds / Reject Option   |  |
+   |  |Impact    |  | Reduction    |  | Threshold Adjustment   |  |
+   |  |Remover   |  | FairReg      |  | Equalized Odds Post    |  |
+   |  +----------+  +--------------+  +------------------------+  |
+   +------------------------^-------------------------------------+
+                            |
+   +------------------------+-------------------------------------+
+   |  Layer 2. 공정성 정량화(Fairness Quantification) 모듈         |
+   |  +--------------+  +--------------+  +------------------+    |
+   |  |Group Fairness|  |Individual    |  |Counterfactual     |    |
+   |  |• Demographic |  |Fairness      |  |Fairness           |    |
+   |  |  Parity      |  |• Similarity  |  |• Causal Inference |    |
+   |  |• Equalized   |  |  Metric      |  |• WAE (Wasserstein)|    |
+   |  |  Odds        |  |• Consistency |  |• Path-specific    |    |
+   |  |• Predictive  |  |              |  |  Counterfactuals  |    |
+   |  |  Parity      |  |              |  |                   |    |
+   |  |• Calibration |  |              |  |                   |    |
+   |  +--------------+  +--------------+  +------------------+    |
+   +------------------------^-------------------------------------+
+                            |
+   +------------------------+-------------------------------------+
+   |  Layer 1. 편향 탐지(Bias Detection) 엔진                       |
+   |  +--------------+  +--------------+  +------------------+    |
+   |  |Dataset Audit |  |Model Audit   |  |Intersectional    |    |
+   |  |• Label Dist. |  |• Confusion   |  |Analysis          |    |
+   |  |• Class Imb.  |  |  Matrix by   |  |• Subgroup Grid   |    |
+   |  |• Missingness |  |  Group       |  |• Bonferroni corr.|    |
+   |  |• Proxy Detec.|  |• SHAP/LIME   |  |• Cramér's V      |    |
+   |  |• WAE dist.   |  |  Group Diff  |  |• Multi-class     |    |
+   |  +--------------+  +--------------+  +------------------+    |
+   +------------------------^-------------------------------------+
+                            |
+   +------------------------+-------------------------------------+
+   |       Input: 예측 결과 Ŷ, 보호 속성 A, 실제 라벨 Y, 입력 X     |
+   +--------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **편향 탐지 엔진 (Bias Detection Engine)** | 데이터·모델·배포 단계의 편향 존재 여부 진단 | 데이터셋의 **클래스 불균형 지수(Imbalance Ratio, IR = max/min class ratio)**, **KL-Divergence(클래스 분포 차이)**, **Cramér's V(범주형 상관관계)**, **Maximum Mean Discrepancy(MMD)**로 분포 차이 측정, 모델 단계에서는 **SHAP(SHapley Additive exPlanations)** 값을 그룹별로 분해하여 **Permutation Feature Importance Difference** 계산, **Counterfactual Test**로 보호 속성만 변경 시 예측 변화율 측정 |
+| **공정성 정량화 모듈 (Fairness Quantification)** | 편향의 정량적 수치화 및 기준선 대비 차이 산출 | **Demographic Parity Difference( \|P(Ŷ=1\|A=0) − P(Ŷ=1\|A=1)\| )**, **Equalized Odds Difference( max(\|FPR_a−FPR_b\|, \|FNR_a−FNR_b\|) )**, **Predictive Parity Difference( \|PPV_a−PPV_b\| )**, **Calibration Error( \|P(Y=1\|Ŝ=p,A=a) − p\| )**, **Theil Index(불평등 지수, T = (1/n)Σ(x_i/x̄)ln(x_i/x̄) )**, **Disparate Impact Ratio( P(Ŷ=1\|A=unprivileged) / P(Ŷ=1\|A=privileged) )** 등 계산. 80% Rule(4/5 Rule, EEOC 기준) 적용 |
+| **완화 개입 모듈 (Mitigation Module)** | Pre/In/Post-processing 3단계에서 편향 제거 | **Pre-processing**: Reweighing(Kamiran-Calders 2012), Disparate Impact Remover(Feldman 2015), Learning Fair Representations(Zemel 2013). **In-processing**: Adversarial Debiasing(Edwards-Stork 2016, GAN 기반), Exponentiated Gradient Reduction(Agarwal 2018), Gerry Fair Learning. **Post-processing**: Calibrated Equalized Odds(Pleiss 2017), Reject Option Classification(Kamiran 2012), Equalized Odds Post-processing(Hardt 2016) |
+| **거버넌스 보고 생성기 (Governance Report Generator)** | Model Card, AI Audit, 컴플라이언스 보고서 자동 생성 | **Model Card(Mitchell et al., 2019)** 표준 양식(개요·의도된 사용·학습 데이터·정량 분석·윤리적 고려·caveats), **Datasheets for Datasets(Gebru 2018)**, **FactSheet(IBM AI FactSheets 2020)**, **AI Risk Registry(NIST AI RMF 1.0 GOVERN 함수)**, **Algorithmic Impact Assessment(AIA, 캐나다 정부 의무화)** 자동 매핑, **SBOM(Software Bill of Materials)** 개념의 **AIBOM(AI Bill of Materials)** 생성 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+핵심 알고리즘 원리를 수식으로 표현하면 다음과 같다. 가장 기본적인 **Demographic Parity(통계적 동등성)**는 보호 속성 A에 조건부인 양성 예측 확률이 모든 그룹에서 동일해야 한다는 원칙으로, $\Pr(\hat{Y}=1 \mid A=a) = \Pr(\hat{Y}=1 \mid A=b)$ for all $a, b \in A$ 로 정의된다. 실제 구현에서는 **Disparate Impact Ratio(DIR)**로 측정하며, DIR < 0.8 이면 EEOC 4/5 Rule 위반으로 간주한다.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-데이터 윤리 편향 감사 공정성 지표을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 데이터 윤리 편향 감사 공정성 지표 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 데이터 윤리 편향 감사 공정성 지표은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 데이터 윤리 편향 감사 공정성 지표은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 데이터 윤리 편향 감사 공정성 지표을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-데이터 윤리 편향 감사 공정성 지표을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 데이터 윤리 편향 감사 공정성 지표 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 데이터 윤리 편향 감사 공정성 지표은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 데이터 윤리 편향 감사 공정성 지표의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 데이터 윤리 편향 감사 공정성 지표의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-데이터 윤리 편향 감사 공정성 지표 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 데이터 윤리 편향 감사 공정성 지표은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+**Equalized Odds(Hardt et al., 2016)**는 $\Pr(\hat{Y}=1 \mid Y=y, A=a) = \Pr(\hat{Y}=1 \mid Y=y, A=b)$ for $y \in \{0,1\}$ 로, 실제 라벨이 동일할 때 모든 그룹의 TPR과 FPR이 같아야 한다는 더 강한 조건이다. **Predictive Parity(Chouldechova, 2017)**는 PPV가 그룹 간 동일해야 한다는 조건 $\Pr(Y=1 \mid \hat{Y}=1, A=a) = \Pr(Y=1 \mid \hat{Y}=1, A=b)$ 으로, 이 세 가지 조건은 **베이즈 정리(Bayes' Theorem)**에 의해
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 689 / 800

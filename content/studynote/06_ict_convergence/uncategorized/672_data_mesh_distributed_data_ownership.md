@@ -19,7 +19,7 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-기존의 **중앙집중식 데이터 아키텍처(ETL → Data Lake → Data Warehouse)**는 초기에 데이터의 **단일 진실 공급원(Single Source of Truth)**을 제공했으나, 데이터 규모가 페타바이트급으로 확장되고 도메인별 비즈니스 로직이 복잡해지면서 다음과 같은 **구조적 한계**가 드러났다.
+기존의 **중앙집중식 데이터 아키텍처(ETL -> Data Lake -> Data Warehouse)**는 초기에 데이터의 **단일 진실 공급원(Single Source of Truth)**을 제공했으나, 데이터 규모가 페타바이트급으로 확장되고 도메인별 비즈니스 로직이 복잡해지면서 다음과 같은 **구조적 한계**가 드러났다.
 
 - **중앙 팀 병목**: 데이터 엔지니어 한 명이 평균 30~50개 도메인의 파이프라인을 책임지며, 신규 요구사항 반영에 수 주~수개월 소요
 - **도메인 컨텍스트 손실**: "주문 상태"라는 필드의 비즈니스 의미가 결제·재고·CS 도메인에서 다르게 해석되어 Semantic Drift 발생
@@ -30,23 +30,23 @@ Zhamak Dehghani(2019)가 제안한 **데이터 메시(Data Mesh)**는 위 문제
 
 ```text
         [기존: 중앙집중형]                    [데이터 메시: 분산 소유형]
-                                                                
-  도메인A ──┐                                도메인A            도메인B
-            │                                ┌────────┐        ┌────────┐
-  도메인B ──┼──> [중앙 ETL/거버넌스팀] ──>     │주문    │        │결제    │
-            │     (병목·블랙박스·지연)         │Data    │        │Data    │
-  도메인C ──┤                                │Product │        │Product │
-            │                                │(Owner: │        │(Owner: │
-  도메인D ──┘                                 │주문팀) │        │결제팀) │
-                                             └───┬────┘        └───┬────┘
+
+  도메인A --+                                도메인A            도메인B
+            |                                +--------+        +--------+
+  도메인B --+--> [중앙 ETL/거버넌스팀] -->     |주문    |        |결제    |
+            |     (병목·블랙박스·지연)         |Data    |        |Data    |
+  도메인C --+                                |Product |        |Product |
+            |                                |(Owner: |        |(Owner: |
+  도메인D --+                                 |주문팀) |        |결제팀) |
+                                             +---+----+        +---+----+
                               Self-Serve Platform (S3, Iceberg, Kafka, K8s)
                               Federated Catalog / Policy (DataHub, OPA)
-                                                 │
-                                       ┌─────────┴─────────┐
-                                       ▼                   ▼
+                                                 |
+                                       +---------+---------+
+                                       v                   v
                                 [분석가·ML팀]          [다른 도메인 Consumer]
-                                
-  ❌ 데이터 팀이 모든 도메인의              ✅ 각 도메인이 자기 데이터의 
+
+  ❌ 데이터 팀이 모든 도메인의              ✅ 각 도메인이 자기 데이터의
      파이프라인을 떠안음                       Product Owner가 되어 SLA 보증
 ```
 
@@ -59,42 +59,42 @@ Zhamak Dehghani(2019)가 제안한 **데이터 메시(Data Mesh)**는 위 문제
 데이터 메시의 **4대 원칙(Dehghani, 2019)** 중 분산 데이터 소유권은 **제1원칙(Domain-oriented ownership)**이며, 나머지 3원칙(데이터를 제품으로, 셀프서비스 플랫폼, 연합 거버넌스)이 이를 **가능케 하는 토대**다.
 
 ```text
-       ┌───────────────────────────────────────────────────────────┐
-       │        Federated Computational Governance Plane          │
-       │  (글로벌 정책 엔진: Open Policy Agent, Unity Catalog,     │
-       │   AWS Lake Formation, Apache Ranger + 거버넌스 평의회)    │
-       └─────────────────────┬─────────────────────────────────────┘
-                             │  정책 자동 적용 (Policy-as-Code)
-       ┌─────────────────────┴─────────────────────────────────────┐
-       │      Self-Serve Data Infrastructure Platform             │
-       │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐         │
-       │  │ Object  │ │Stream   │ │Query    │ │ML/      │         │
-       │  │Storage  │ │(Kafka/  │ │Engine   │ │Feature  │         │
-       │  │(S3/MinIO│ │Pulsar)  │ │(Trino/  │ │Store    │         │
-       │  │+Iceberg)│ │         │ │Athena)  │ │(Feast)  │         │
-       │  └─────────┘ └─────────┘ └─────────┘ └─────────┘         │
-       │  CI/CD (ArgoCD), Observability (Grafana, Monte Carlo)     │
-       └─────────────────────┬─────────────────────────────────────┘
-                             │
-       ┌─────────────────────┴─────────────────────────────────────┐
-       │  Data Mesh Plane: 도메인별 자율 Data Product              │
-       │                                                           │
-       │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │
-       │  │ Order DP     │  │ Payment DP   │  │ Inventory DP │    │
-       │  │ ── Owner:    │  │ ── Owner:    │  │ ── Owner:    │    │
-       │  │   주문도메인  │  │   결제도메인  │  │   재고도메인  │    │
-       │  │ ── Port:     │  │ ── Port:     │  │ ── Port:     │    │
-       │  │   gRPC/HTTP  │  │   Kafka      │  │   Iceberg    │    │
-       │  │ ── SLO:      │  │   SLO:       │  │   SLO:       │    │
-       │  │   99.9% /   │  │   99.99% /   │  │   99.5% /    │    │
-       │  │   5분 신선도 │  │   1분 신선도 │  │   1시간 신선도│   │
-       │  │ ── Contract: │  │ ── Contract: │  │ ── Contract: │    │
-       │  │   Avro/JSON  │  │   Avro/JSON  │  │   Parquet    │    │
-       │  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘    │
-       └─────────┼─────────────────┼─────────────────┼─────────────┘
-                 │                 │                 │
-                 └────────┬────────┴────────┬────────┘
-                          ▼                 ▼
+       +-----------------------------------------------------------+
+       |        Federated Computational Governance Plane          |
+       |  (글로벌 정책 엔진: Open Policy Agent, Unity Catalog,     |
+       |   AWS Lake Formation, Apache Ranger + 거버넌스 평의회)    |
+       +---------------------+-------------------------------------+
+                             |  정책 자동 적용 (Policy-as-Code)
+       +---------------------+-------------------------------------+
+       |      Self-Serve Data Infrastructure Platform             |
+       |  +---------+ +---------+ +---------+ +---------+         |
+       |  | Object  | |Stream   | |Query    | |ML/      |         |
+       |  |Storage  | |(Kafka/  | |Engine   | |Feature  |         |
+       |  |(S3/MinIO| |Pulsar)  | |(Trino/  | |Store    |         |
+       |  |+Iceberg)| |         | |Athena)  | |(Feast)  |         |
+       |  +---------+ +---------+ +---------+ +---------+         |
+       |  CI/CD (ArgoCD), Observability (Grafana, Monte Carlo)     |
+       +---------------------+-------------------------------------+
+                             |
+       +---------------------+-------------------------------------+
+       |  Data Mesh Plane: 도메인별 자율 Data Product              |
+       |                                                           |
+       |  +--------------+  +--------------+  +--------------+    |
+       |  | Order DP     |  | Payment DP   |  | Inventory DP |    |
+       |  | -- Owner:    |  | -- Owner:    |  | -- Owner:    |    |
+       |  |   주문도메인  |  |   결제도메인  |  |   재고도메인  |    |
+       |  | -- Port:     |  | -- Port:     |  | -- Port:     |    |
+       |  |   gRPC/HTTP  |  |   Kafka      |  |   Iceberg    |    |
+       |  | -- SLO:      |  |   SLO:       |  |   SLO:       |    |
+       |  |   99.9% /   |  |   99.99% /   |  |   99.5% /    |    |
+       |  |   5분 신선도 |  |   1분 신선도 |  |   1시간 신선도|   |
+       |  | -- Contract: |  | -- Contract: |  | -- Contract: |    |
+       |  |   Avro/JSON  |  |   Avro/JSON  |  |   Parquet    |    |
+       |  +------+-------+  +------+-------+  +------+-------+    |
+       +---------+-----------------+-----------------+-------------+
+                 |                 |                 |
+                 +--------+--------+--------+--------+
+                          v                 v
                    [분석가/ML/다른도메인] (Data Consumer)
 ```
 
@@ -119,7 +119,7 @@ Zhamak Dehghani(2019)가 제안한 **데이터 메시(Data Mesh)**는 위 문제
 
   - SLO(Availability)     : 99.9% / 30일 rolling
   - SLO(Freshness)        : 99% of rows < 15분 지연
-  - SLO(Correctness)      : Great Expectations 기반 검증 
+  - SLO(Correctness)      : Great Expectations 기반 검증
                             0.05% 오차율 이하 (이메일 정규식 실패 등)
   - SLO(Completeness)     : NOT NULL 제약 컬럼 99.5% 이상 충족
   - SLI(Observability)    : Monte Carlo, Soda Core, Bigeye로 자동 측정
@@ -167,7 +167,7 @@ Zhamak Dehghani(2019)가 제안한 **데이터 메시(Data Mesh)**는 위 문제
 
 ### 단계적 도입 로드맵 (실무 권장)
 
-데이터 메시는 **"Big Bang 도입"이 거의 불가능**하며, 다음 
+데이터 메시는 **"Big Bang 도입"이 거의 불가능**하며, 다음
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 672 / 800
