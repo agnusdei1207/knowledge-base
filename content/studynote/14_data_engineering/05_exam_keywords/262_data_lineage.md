@@ -11,160 +11,169 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 데이터 리니지 혈통 추적 영향도 분석은(는) 시험 빈출 키워드 및 데이터/AI 아키텍처 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 데이터 리니지(Data Lineage)는 ETL/ELT 파이프라인, DW, Lakehouse, AI/ML 모델까지 아우르는 데이터 자산의 **출처(Provenance)·흐름·변환 이력**을 메타데이터 그래프(Directed Acyclic Graph, DAG)로 추적·기록하는 능동적 메타데이터(Active Metadata) 거버넌스 체계이며, 영향도 분석(Impact Analysis)은 그래프의 역방향/순방향 탐색과 Column-Level Lineage 매핑을 통해 변경 전·후 위험을 정량화하는 기법이다.
+> 2. **가치**: Gartner에 따르면 데이터 엔지니어의 **작업 시간 중 60~80%가 “데이터 디스커버리 및 의존성 파악”** 에 소요되며, W3C PROV 기반 리니지 도입 시 평균 MTTR(Mean Time To Repair) **45% 단축, 데이터 신뢰도(Trust Score) 30% 이상 향상, GDPR/개인정보보호법·데이터산업법·AI 신뢰성 법규 대응의 객관적 증거** 확보가 가능하다.
+> 3. **판단 포인트**: ① 자동 추론(Automatic Inference, SQL 파싱/Log 분석) vs 수동 선언(Manual Annotation) 비율, ② Column-Level/Row-Level 해상도, ③ 메타데이터 그래프 저장소 선택(RDF/SPARQL vs Property Graph/Neo4j vs JSON-LD), ④ 실시간 Push 기반 vs 배치 Pull 기반 수집 모델, ⑤ W3C PROV-O 표준 준용 여부, ⑥ 개인정보 마스킹과 리니지 동시 처리 설계가 핵심 트레이드오프이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-데이터 리니지 혈통 추적 영향도 분석은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+현대 데이터 플랫폼은 Hadoop->Lakehouse->Data Mesh로 빠르게 진화하면서, 한 개의 도메인 테이블이 수십~수백 개의 다운스트림(Downstream) 소비처(BI 대시보드, ML Feature Store, API, 규제 보고서)를 갖는 **N:N 의존성 그래프** 구조로 변모했다. 전통적인 데이터 카탈로그(Data Catalog)가 “데이터가 무엇인가(What)”만 답했다면, **리니지(Lineage)는 “데이터가 어디서 와서 어디로 가는가(Where) + 어떻게 변형되었는가(How) + 누가/언제 변경했는가(Who/When)”** 라는 5W1H 기반의 시간·인과 추적을 가능케 한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Data Lineage Impact Analysis Provenance 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+국내에서도 2022년 데이터산업법 시행, 2023년 개정 개인정보보호법의 가명·익명 처리 의무, 2024년 AI 기본법(안) 발의, 마이데이터 사업자 의무 등으로 인해 **“어떤 원천 데이터가 어떤 AI/리포트 결과를 만들었는가”** 를 법적으로 입증해야 하는 수요가 폭증했다. 또한 Apache Airflow/Dagster/Spark 기반 분산 환경에서 한 컬럼의 데이터 타입 변경이 3개월 뒤 KPI 대시보드 오류로 나타나는 등, **“보이지 않는 데이터 사일로(Invisible Data Silo)”** 가 컴플라이언스·재무·운영 리스크로 직결된다.
 
 ```text
-+--------------------------------------------------------------+
-|                    데이터 리니지 혈통 추적 영향도 분석 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|           데이터 리니지 & 영향도 분석 거버넌스 전(全)景观                 |
++----------------------------------------------------------------------+
+
+  [Source]        [Ingest]         [Transform]        [Serve]       [Consume]
+  +-------+      +---------+       +----------+      +--------+    +--------+
+  | ERP   |      | Kafka   |       |  Spark   |      | DW     |    | BI     |
+  | CRM   |--+   | CDC     |--+    |  dbt     |--+   | Lake   |---->| Tableau|
+  | Logs  |  |   | API GW  |  |    | Airflow  |  |   | Iceberg|    | PowerBI|
+  | IoT   |  |   +----+----+  |    +----+-----+  |   +----+---+    +----+---+
+  +-------+  |        v       |         v        |        v            |
+             |   +--------+   |   +----------+   |   +---------+       |
+             |   |Raw Zone|   |   |Cleansed  |   |   | Mart    |       |
+             |   |(Bronze)|   |   |(Silver)  |   |   |(Gold)   |       |
+             |   +----+---+   |   +----+-----+   |   +----+----+       |
+             |        |       |        |         |        |            |
+             |        v       |        v         |        v            v
+             |   +------------------------------------------------------+
+             |   |       Metadata Graph (Lineage Backbone)               |
+             |   |  +-------------------------------------------------+  |
+             |   |  |  Node: Table/Column/Job/MLModel/Dashboard       |  |
+             |   |  |  Edge: TRANSFORMS / DERIVES / READS / WRITES     |  |
+             |   |  |  Attr : ts, actor, query_hash, schema_hash       |  |
+             |   |  +-------------------------------------------------+  |
+             |   +-----------------+------------------------------------+
+             |                     |
+             |                     v
+             |      +------------------------------+
+             |      |  Lineage & Impact Analytics  |
+             |      |  +- Upstream Provenance (Root)|
+             |      |  +- Downstream Impact (Blast)|
+             |      |  +- Column-Level Diff        |
+             |      |  +- SLA / Freshness Heatmap  |
+             |      |  +- GDPR/PIAI Data Flow Map  |
+             |      +------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**기존 패러다임(Pre-Lineage Era)** 은 데이터 사전을 Excel/Confluence로 관리하는 **수동·정적·문서 중심** 방식이었고, 결과적으로 카탈로그와 실제 운영 환경의 괴리(Drift)가 40~60%에 달했다. **신규 패러다임(Active Metadata Era)** 은 Airflow/OpenLineage 같은 이벤트 기반 자동 추론 + W3C PROV 표준 메타모델 + Property Graph DB(Neo4j/Amazon Neptune/Apache JanusGraph) 기반의 **자동·동적·그래프 중심** 방식으로, “코드(Pipeline as Code) -> 메타데이터 자동 추출 -> 그래프 즉시 갱신 -> 영향도 즉시 분석” 의 폐루프(Closed-Loop) 구조를 실현한다.
 
-- **📢 섹션 요약 비유**: 데이터 리니지 혈통 추적 영향도 분석은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 데이터 리니지가 없는 조직은 “출처를 모르는 유통기한이 지난 음식을 그대로 먹는 식당” 같고, 리니지가 갖춰진 조직은 “어느 농장의 어느 날짜 농산물인지, 어떤 조리사를 거쳤는지, 어디로 배달됐는지 블록체인에 기록된 푸드 체인” 과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-데이터 리니지 혈통 추적 영향도 분석의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+데이터 리니지 시스템은 일반적으로 **① 수집 계(Ingestion Layer) ② 그래프 저장 계(Graph Store) ③ 의미·추론 계(Semantic Layer) ④ 영향도 분석 계(Impact Engine) ⑤ 거버넌스 UI/API 계** 의 5-Tier 아키텍처로 구성된다. OpenLineage, W3C PROV, OpenMetadata 같은 개방형 표준이 등장하면서 벤더 종속(Apache Atlas 전용, Collibra 전용) 문제가 상당 부분 해소되었다.
 
 ```text
-+--------------------------------------------------------------+
-|              Data Lineage Impact Analysis Provenance 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|        리니지 & 영향도 분석 아키텍처 (OpenLineage/PROV 기반)           |
++----------------------------------------------------------------------+
+
+   +-------------------------------------------------------------+
+   |  ① Source Systems & Pipeline Engines                        |
+   |  Spark | Airflow | dbt | Dagster | Snowflake | Kafka | Fivetran|
+   |  ML:   | MLflow | TFX  | Kubeflow | SageMaker              |
+   +----------------------+--------------------------------------+
+                          | (emit events: START/COMPLETE/FAIL/FACET)
+                          v
+   +-------------------------------------------------------------+
+   |  ② Ingestion Layer (Collectors/Adapters)                   |
+   |  +- SQL Parser (sqlglot, jOOQ, Apache Calcite)             |
+   |  +- Query Log Listener (JDBC proxy: MaxGauge, pganalyze)   |
+   |  +- OpenLineage HTTP Transport (Marquez, DataHub)          |
+   |  +- SDK/Operator Hook (airflow-openlineage, dbt-artifacts) |
+   +----------------------+--------------------------------------+
+                          |  (JSON-LD / Avro / Kafka)
+                          v
+   +-------------------------------------------------------------+
+   |  ③ Graph Store & Metadata DB                                |
+   |  +----------------+   +------------------------------+     |
+   |  | Property Graph |   | Search Index (Elasticsearch) |     |
+   |  | Neo4j / Neptune|   | Full-text / Facet Search      |     |
+   |  | JanusGraph     |   +------------------------------+     |
+   |  | + RDF/SPARQL   |   +------------------------------+     |
+   |  | (Apache Atlas) |   | Feature/Vector Store (Pinecone|     |
+   |  +----------------+   | -> AI Auto-Tagging)            |     |
+   |                       +------------------------------+     |
+   +----------------------+--------------------------------------+
+                          |
+                          v
+   +-------------------------------------------------------------+
+   |  ④ Semantic & Reasoning Layer (W3C PROV-O / SHACL)         |
+   |  • Entity: Dataset(D), Column(C), Job(J), Process(P)        |
+   |  • Relation: wasDerivedFrom, used, wasGeneratedBy           |
+   |  • Inference: transitive closure, temporal validity         |
+   |  • Ontology: Business Glossary ↔ Technical Asset 매핑        |
+   +----------------------+--------------------------------------+
+                          |
+                          v
+   +-------------------------------------------------------------+
+   |  ⑤ Impact Analysis Engine                                   |
+   |  +---------------------+  +-----------------------------+  |
+   |  | Forward Impact(BFS)  |  | Backward Provenance(BFS)    |  |
+   |  | "이 컬럼 바꾸면?"   |  | "이 결과는 어디서 왔나?"   |  |
+   |  +---------------------+  +-----------------------------+  |
+   |  +---------------------+  +-----------------------------+  |
+   |  | Schema Diff &       |  | SLA/Freshness Heatmap       |  |
+   |  | Column-Level Diff   |  | (Critical Path 탐지)         |  |
+   |  +---------------------+  +-----------------------------+  |
+   |  +-----------------------------------------------------+   |
+   |  | Privacy/PII Flow Mapping (GDPR Art.30 / PIPA)        |   |
+   |  | -> 자동 DPIA(Data Protection Impact Assessment)        |   |
+   |  +-----------------------------------------------------+   |
+   +----------------------+--------------------------------------+
+                          |
+                          v
+   +-------------------------------------------------------------+
+   |  ⑥ Governance UI / API / Webhook                            |
+   |  • DataHub | Unity Catalog | Collibra | Alation | DataHub   |
+   |  • Webhook -> Slack/Jira (Change Mgmt)                       |
+   |  • API: GraphQL/REST/OPC-UA for IIoT edge                  |
+   +-------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **① 소스/파이프라인 엔진** | 데이터의 실제 생성·이동·변환 수행 | Apache Spark(`executionListener`), Airflow(`on_success_callback`), dbt(`run_results.json`+`manifest.json`), Snowflake(`ACCESS_HISTORY`), BigQuery(`INFORMATION_SCHEMA.JOBS_BY_PROJECT`), Kafka Schema Registry |
+| **② 수집(Ingestion) 어댑터** | 실행 이벤트를 캡처하여 표준 메타데이터로 변환 | **OpenLineage**(Marquez 기반, JSON-LD, FACET 스펙: `dataQualityMetrics`, `schema`, `lifecycleStateChange`), **SQL 파서**(`sqlglot`, Apache Calcite) -> Column-Level Lineage 자동 추론, **JDBC Proxy**(`MaxGauge`, `pganalyze`)로 누락된 쿼리 보완 |
+| **③ 그래프/메타데이터 저장소** | 노드/엣지의 영속 저장과 인덱싱 | **Property Graph**: Neo4j(2.4억 노드 지원, Cypher), Amazon Neptune(RDF/SPARQL + Gremlin), TigerGraph; **Document**: MongoDB; **Search**: Elasticsearch/OpenSearch(전문검색·시각화); **벡터 DB**: Milvus/Pinecone(LLM 기반 자동 분류·태깅) |
+| **④ 시맨틱·추론 계층** | 메타데이터에 의미·제약·시간 속성 부여 | **W3C PROV-O**(`prov:Entity`, `prov:Activity`, `prov:Agent`, `prov:wasDerivedFrom`), **DCAT v3**, **SHACL**(Shape Constraint Language)로 데이터 품질 제약 표현, **OWL2 RL** 추론기로 transitive closure 계산 |
+| **⑤ 영향도 분석 엔진** | 그래프 탐색·시뮬레이션·스코어링 | **BFS/DFS**(Forward=Downstream Impact, Backward=Upstream Provenance), **PageRank 변형**(Criticality Score = 다운스트림 테이블 수 × BI 의존도 × SLA 우선순위), **What-If 시뮬레이션**(스키마 diff -> 영향 노드 마킹), **SLA 파급 효과 계산** |
+| **⑥ 거버넌스 UI/API** | 비기술 사용자에게 시각화·자동화 제공 | DataHub(DataHub Lite 포함), Unity Catalog(MS Fabric/Databricks 통합), Apache Atlas(Ranger 정책 연동), Grafana 리니지 플러그인, Webhook->Jira(변경 관리 티켓 자동 생성) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 핵심 알고리즘과 기술 파라미터
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+1. **Column-Level Lineage 자동 추론 알고리즘**
+   - SQL AST(Abstract Syntax Tree) -> `SELECT target_col FROM ... WHERE ...` 구문에서 projection/join/aggregation/udf 노드를 따라가며 source->target 매핑 행렬(M × N) 생성.
+   - 예: `SELECT a.id, SUM(b.amt) FROM orders a JOIN payments b ON a.id=b.oid GROUP BY a.id` -> `mart.daily_revenue.oid <- orders.id`, `mart.daily_revenue.total_amt <- payments.amt`.
+   - 한계: 동적 SQL, View 체인, Stored Procedure, dbt 매크로는 별도 후처리(ML 기반 콜럼 매칭, Jaccard 0.7+ 임계치) 필요.
 
----
+2. **Forward Impact Analysis 수식**
 
-## Ⅲ. 비교 및 연결
+$$
+\text{ImpactScore}(N) = \sum_{i=1}^{k} \big( w_{criticality}(C_i) \cdot w_{sla}(S_i) \cdot w_{pii}(P_i) \cdot \frac{1}{1+\log d(N,C_i)} \big)
+$$
 
-데이터 리니지 혈통 추적 영향도 분석을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+   여기서 $C_i$=다운스트림 자산, $S_i$=SLA 등급, $P_i$=PII 민감도(0~1), $d(N,C_i)$=그래프 거리. 임계치 ≥0.7이면 **High Impact**(Change Advisory Board 승인 필요)로 분류.
 
-| 구분 | 전통적 접근 | 데이터 리니지 혈통 추적 영향도 분석 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+3. **W3C PROV-O 핵심 트리플**
+   ```
+   :job_123  a  prov:Activity ;
+             prov:used    :source_table ;
+             prov:generated :target_table ;
+             prov:wasAssociatedWith :user_alice ;
+             prov:startedAtTime  "2024-05-01T10:00:00Z"^^xsd:dateTime .
+   :target_table  prov:wasDerivedFrom :source_table .
+   ```
 
-관련 기술 영역과의 연결점도 중요하다. 데이터 리니지 혈통 추적 영향도 분석은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 데이터 리니지 혈통 추적 영향도 분석은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 데이터 리니지 혈통 추적 영향도 분석을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-데이터 리니지 혈통 추적 영향도 분석을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 데이터 리니지 혈통 추적 영향도 분석 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 데이터 리니지 혈통 추적 영향도 분석은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 데이터 리니지 혈통 추적 영향도 분석의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 데이터 리니지 혈통 추적 영향도 분석의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-데이터 리니지 혈통 추적 영향도 분석 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 데이터 리니지 혈통 추적 영향도 분석은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+4. **OpenLineage 이벤트
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 262 / 300

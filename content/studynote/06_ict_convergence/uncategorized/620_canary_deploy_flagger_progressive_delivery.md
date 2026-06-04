@@ -11,160 +11,171 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 카나리 배포 Flagger 프로그레시브 딜리버리은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: Flagger는 Kubernetes 환경에서 Istio/Linkerd/App Mesh/NGINX 등의 Service Mesh 또는 Ingress Controller를 활용하여 **Canary CRD(Custom Resource Definition)** 기반으로 트래픽을 점진적으로 전환하고, Prometheus 메트릭과 Webhook 테스트를 통해 자동 승격/롤백하는 **GitOps 친화적 Progressive Delivery Operator**이다.
+> 2. **가치**: 수동 카나리 배포 대비 **MTTR(Mean Time To Recovery) 95% 단축**(배포 실패 시 60초 이내 자동 롤백), 배포 리스크의 **통계적 검증**을 통한 안정성 확보, SRE/DevOps 팀의 **배포 자동화 수준을 L4(Continuous Deployment) -> L5(Progressive Delivery)**로 격상시킨다.
+> 3. **판단 포인트**: 트래픽 라우팅 계층 선택(Istio VirtualService vs Gateway API vs NGINX Ingress), 분석 메트릭 정의(SLO 기반), 롤백 임계치(Threshold) 설정, 카나리 단계의 단계 수(iteration)와 유지 시간(step interval), 그리고 **웹훅 부하 테스트(Load Test) 도입 여부**가 운영 안정성의 핵심 결정 변수이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-카나리 배포 Flagger 프로그레시브 딜리버리은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 **Big-Bang Deployment**(전체 트래픽을 한 번에 신규 버전으로 전환)는 장애 발생 시 전체 서비스가 마비되는 **블랙아웃 리스크**를 수반한다. Kubernetes가 보편화되면서 **Rolling Update**가 기본 전략이 되었지만, 이는 "트래픽 비율 기반 점진 전환"이 아닌 "Pod 단위 순차 교체"이므로 신규 버전의 비즈니스 로직 결함을 **사용자 트래픽으로 검증**하기 어렵다. 또한 Amazon, Netflix, Google 사례에서 검증된 *"1%의 사용자가 장애를 만나기 전에는 알 수 없는 결함"*이 존재한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Canary Deploy Flagger Progressive Delivery 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+**Progressive Delivery**(프로그레시브 딜리버리)는 Continuous Delivery를 확장한 개념으로, 배포를 **단일 이벤트**가 아닌 **측정 가능한 연속적 과정**으로 다룬다. 핵심은 ① 단계적 트래픽 전환(Canary), ② 정량적 메트릭 분석(Metrics-Driven), ③ 자동화된 롤백(Automated Rollback), ④ 컨텍스트 기반 실험(A/B Testing)의 4축으로 구성된다. **Flagger**(Flux 프로젝트의 하위 컴포넌트, 원래 Weaveworks 개발)는 이를 Kubernetes 네이티브 CRD로 구현한 대표 Operator이다.
 
 ```text
-+--------------------------------------------------------------+
-|                    카나리 배포 Flagger 프로그레시브 딜리버리 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+   [기존 배포 패러다임 비교]
+
+   +------------------------------------------------------------+
+   |  A. Big-Bang Deploy    : v1.0 --------------► v2.0          |
+   |     (한 번에 100% 트래픽 전환, 장애 시 전 사용자 영향)        |
+   |                                                            |
+   |  B. Rolling Update     : v1.0 [■■■■■■■■]                    |
+   |                          v2.0 [▢▢▢▢▢▢▢▢] (Pod 단위 교체)      |
+   |     (Pod 단위 점진 교체, 트래픽 비율은 통제 불가)            |
+   |                                                            |
+   |  C. Blue/Green         : v1.0 (Idle)  v2.0 [■■■■■■■■]      |
+   |                          ---- 즉시 DNS/LB 스위치 ----►        |
+   |     (이진 스위치, 두 환경 유지 비용 2배)                     |
+   |                                                            |
+   |  D. Canary + Flagger   : v1.0 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓]        |
+   |                          v2.0 [▢▢]  --► [▓▓▓▓]  --► [▓▓▓▓▓▓▓▓]|
+   |     (1%->10%->25%->50%->100%, 메트릭 검증 후 승격)            |
+   +------------------------------------------------------------+
+   ※ Flagger = C와 D의 자동화/지능화 통합 (측정 가능한 점진 배포)
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**왜 Flagger인가?** Argo Rollouts, Spinnaker, Harness 등도 Progressive Delivery를 지원하지만, Flagger는 ① **단일 바이너리(flagger)로 가볍게** 동작, ② **Service Mesh 추상화(Istio/Linkerd/App Mesh/Consul)를 통해 라우터 교체 가능**, ③ **Flux/GitOps 생태계와 완벽 통합**(`Kustomize`/`Helm` 컨트롤러와 동일 런타임), ④ 분석 단위(iteration)와 메트릭 임계치를 **YAML 선언적**으로 정의 가능하다는 차별점이 있다.
 
-- **📢 섹션 요약 비유**: 카나리 배포 Flagger 프로그레시브 딜리버리은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 카나리 배포는 **새로운 음료를 출시할 때 1,000명에게 먼저 나눠주고 반응을 본 뒤**, 문제가 없으면 전국 매장에 펴는 식품 회사의 베타 테스트와 같다. Flagger는 그 베타 테스트 결과를 **자동으로 분석하고, 불량률 5% 이상이면 즉시 회수**하는 품질관리 AI 매니저다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-카나리 배포 Flagger 프로그레시브 딜리버리의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+Flagger는 **Controller 패턴**으로 동작하는 Kubernetes Operator이다. 핵심은 `Canary`라는 **CRD**로, 사용자는 `Deployment` 대신 `Canary` 리소스를 정의하면 Flagger Controller가 이를 감지하여 Primary Deployment(안정 버전)와 Canary Deployment(신규 버전)를 자동으로 생성·관리한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Canary Deploy Flagger Progressive Delivery 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+   [Flagger Progressive Delivery 아키텍처]
+
+   +------------------------------------------------------------------+
+   |                    Kubernetes Cluster                            |
+   |                                                                  |
+   |  +--------------+    watch    +----------------------------+    |
+   |  | Git Repo     |----------► | Flux/Argo CD (GitOps)        |    |
+   |  | (Canary YAML)|             +------------+---------------+    |
+   |  +--------------+                          | apply              |
+   |                                             v                    |
+   |  +----------------------------------------------------------+   |
+   |  |            Flagger Controller (Deployment)                |   |
+   |  |  +-------------+  +--------------+  +----------------+  |   |
+   |  |  | Canary CRD  |  | Metrics      |  | Webhook        |  |   |
+   |  |  | Reconciler  |  | Analyzer     |  | Executor       |  |   |
+   |  |  +------+------+  +------+-------+  +--------+-------+  |   |
+   |  +---------+-----------------+--------------------+----------+   |
+   |            | create/scale   | query              | call         |
+   |            v                v                    v              |
+   |  +-----------------+  +----------+  +--------------------+     |
+   |  | Primary Deploy  |  |Prometheus|  | Pre/Post Webhook   |     |
+   |  |  v1.0 [100%]    |  | (Metrics)|  | (Load Test,        |     |
+   |  |                 |  +----------+  |  Integration Test) |     |
+   |  | Canary Deploy   |                  +--------------------+     |
+   |  |  v1.1 [0%->100%]|                                           |
+   |  +--------+--------+                                           |
+   |           | traffic split                                       |
+   |           v                                                     |
+   |  +--------------------------------------+                       |
+   |  |  Service Mesh / Ingress Controller   |                       |
+   |  |  (Istio VirtualService / Linkerd     |                       |
+   |  |   TrafficSplit / NGINX Ingress /     |                       |
+   |  |   Gateway API / Contour / Gloo)      |                       |
+   |  +--------------------------------------+                       |
+   |           |                                                     |
+   |           v                                                     |
+   |      [End Users]  ◄-- 가중치 기반 라우팅                       |
+   +------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Flagger Controller** | Canary CRD를 reconcile하는 핵심 엔진. `Deployment`, `Service`, `Service Mesh 라우팅 객체`를 모두 lifecycle 관리 | Go로 작성된 단일 컨트롤러. leader election으로 HA 지원. 기본 10초 간격 reconcile |
+| **Canary CRD** | 배포 전략을 선언적으로 정의. `provider`, `metrics`, `webhooks`, `iterations`, `stepWeight` 등을 포함 | Kubernetes API Server에 `apiextensions.k8s.io/v1`로 등록. 사용자 진입점 |
+| **Metrics Analyzer** | Prometheus(또는 Datadog/New Relic) 쿼리 결과를 분석해 SLO 위반 여부 판정 | PromQL `http_request_success_rate`, `http_request_duration_p95` 등 평가. 임계치 초과 시 fail 처리 |
+| **Webhook Executor** | Pre-rollout(배포 전 통합 테스트) / Post-rollout(배포 후 부하 테스트) / During(롤아웃 중 점검) / Final(완료 후 검증) 4단계 훅 지원 | HTTP POST로 외부 시스템 호출, 응답 코드/본문으로 검증, timeout 설정 가능 |
+| **Service Mesh Adapter** | 트래픽 가중치 라우팅을 실제로 수행. 라우터 교체 가능 (Provider Plugin 구조) | Istio: VirtualService weight 0->100, Linkerd: TrafficSplit, NGINX: canary annotation, Gateway API: HTTPRoute |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 동작 메커니즘 (단계별 트래픽 전환 알고리즘)**:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+Flagger는 `Canary.spec.progressDeadlineSeconds`(기본 60분)와 `iterations`(기본 5회) 설정에 따라 다음을 수행한다:
+
+1. **Phase 1 - Initialization**: `app:pod-template-hash` 레이블 검출로 신규 ReplicaSet 등장 감지. Primary(100%) ↔ Canary(0%) 상태.
+2. **Phase 2 - Pre-rollout Webhook**: 외부 테스트 호출(예: `hey -c 2 -z 10s https://canary.app/`). 실패 시 즉시 abort.
+3. **Phase 3 - Iterative Weight Promotion**: 5단계 예시 (`stepWeights: [1, 10, 25, 50, 100]`)에서 각 iteration마다 ① Canary로 트래픽 가중치 이동 -> ② `stepInterval`(기본 1분) 대기 -> ③ PromQL 평가 -> ④ pass 시 다음 단계, fail 시 롤백.
+4. **Phase 4 - Promotion or Rollback**: 최종 iteration 성공 시 Canary Deployment의 Pod 수를 Primary로 복제 후 Primary 업데이트. 실패 시 모든 트래픽을 Primary로 환원하고 Canary는 0으로 축소.
+
+**PromQL 분석 예시 (핵심 임계치)**:
+
+```yaml
+# Canary CRD 분석 정의
+metrics:
+  - name: request-success-rate
+    thresholdRange:
+      min: 99        # 성공률 최소 99% (백분율)
+    interval: 30s    # 30초 간격 폴링
+    query: |
+      sum(
+        rate(
+          http_requests_total{
+            app="podinfo",
+            status=~"2..|3.."
+          }[1m]
+        )
+      )
+      /
+      sum(
+        rate(
+          http_requests_total{app="podinfo"}[1m]
+        )
+      )
+  - name: request-latency
+    thresholdRange:
+      max: 0.500     # P95 500ms 이하
+    query: |
+      histogram_quantile(0.95,
+        sum(
+          rate(
+            http_request_duration_seconds_bucket{app="podinfo"}[1m]
+          )
+        ) by (le)
+      )
+```
+
+핵심 고려사항: ① **메트릭 카디널리티**(`app`/`namespace` 레이블 누락 방지), ② **Canary에 트래픽이 충분히 흘러야** 통계적 유의성 확보(최소 분당 100 RPS 이상 권장), ③ **OpenTelemetry 기반 메트릭**은 PromQL 변환이 필요할 수 있음.
+
+- **📢 섹션 요약 비유**: Flagger는 **자동화 공장의 컨베이어 벨트 시스템**과 같다. 부품(새 코드)이 들어오면 QC 로봇(Webhook)이 사전 검사를 하고, 컨베이어 벨트(트래픽 가중치)를 천천히 움직여가며 **카메라 센서(Prometheus 메트릭)**가 불량품을 발견하면 벨트를 즉시 멈추고 원래 부품으로 되돌린다(롤백).
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-카나리 배포 Flagger 프로그레시브 딜리버리을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+**Canary Deployment 전략군** 및 **Progressive Delivery 도구** 간 비교를 통해 Flagger의 위치와 트레이드오프를 명확히 한다.
 
-| 구분 | 전통적 접근 | 카나리 배포 Flagger 프로그레시브 딜리버리 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | **Flagger** (Flux Project) | **Argo Rollouts** (Argo Project) | **Spinnaker** (Netflix OSS) | **Harness CD** (상용) |
+| :--- | :--- | :--- | :--- | :--- |
+| **아키텍처** | 단일 Operator + Service Mesh 어댑터 | CRD + Controller, UI 대시보드 내장 | 마이크로서비스 집합(Halyard, Clouddriver 등), 무거움 | SaaS/자체호스팅 에이전트, GUI 중심 |
+| **라우팅 추상화** | Provider Plugin (Istio/Linkerd/NGINX/Gateway API) | TrafficRouting Plugin (동일 + SMI, AWS ALB) | Stage Pipeline 내 Load Balancer 통합 | 단계별 인프라 API 직접 호출 |
+| **분석 메트릭** | Prometheus/Datadog/New Relic/SkyWalking | Prometheus/Kubernetes Jobs/Plugins | Datadog/Prometheus/New Relic + Stackdriver | 자체 APM + 3rd party 통합 |
+| **GitOps 친화성** | ◎ (Flux 네이티브), 단일 CRD | △ (Argo CD 필요), Rollout CRD 별도 | ✕ (Halyard 설정 기반, GitOps 부적합) | △ (Harness GitOps 옵션) |
+| **리소스 사용량** | 가벼움 (CPU 100m, Memory 128Mi) | 중간 (Controller + Dashboard) | 무거움 (Java, 최소 4 vCPU) | 에이전트 경량 |
+| **학습 곡선** | 낮음 (YAML 50줄이면 가능) | 중간 (AnalysisTemplate, Experiment 분리) | 높음 (Pipeline as Code JSON) | 낮음 (GUI) |
+| **A/B Testing** | △ (헤더 기반 라우팅 일부 지원) | ◎ (Nginx/Envoy header match) | ○ (Stage 구성) | ◎ (Feature Flag 통합) |
+| **라이선스** | Apache 2.0 (무료) | Apache 2.0 (무료) | Apache 2.0 (무료) | 상용 (Free 티어 제한) |
+| **적합 환경** | 중규모 K8s, GitOps 우선 조직 | 대규모 K8s, 복잡한 분석 필요 | 멀티클라우드, 비-K8s 혼재 | 엔터프라이즈, 거버넌스 중시 |
 
-관련 기술 영역과의 연결점도 중요하다. 카나리 배포 Flagger 프로그레시브 딜리버리은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+**연계 기술 스택**:
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 카나리 배포 Flagger 프로그레시브 딜리버리은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 카나리 배포 Flagger 프로그레시브 딜리버리을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-카나리 배포 Flagger 프로그레시브 딜리버리을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 카나리 배포 Flagger 프로그레시브 딜리버리 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 카나리 배포 Flagger 프로그레시브 딜리버리은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 카나리 배포 Flagger 프로그레시브 딜리버리의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 카나리 배포 Flagger 프로그레시브 딜리버리의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-카나리 배포 Flagger 프로그레시브 딜리버리 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 카나리 배포 Flagger 프로그레시브 딜리버리은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **Service Mesh (Istio, Linkerd, Consul, App Mesh)**: Flagger가 트래픽 가중치를 라우팅하는 핵심 계층. Istio 선택 시 `VirtualService` + `DestinationRule`을 자동 관리.
+- **Prometheus**: 메트릭 소스. Istio/Link
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 620 / 800

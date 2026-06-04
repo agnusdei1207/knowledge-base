@@ -11,160 +11,158 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 쿠버네티스 오퍼레이터 커스텀 리소스은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 쿠버네티스 오퍼레이터 패턴은 **CRD(Custom Resource Definition)로 도메인별 API를 확장**하고, **컨트롤러(Reconciliation Loop)가 선언적 상태(desired state)를 실제 클러스터 상태(actual state)에 수렴**시키며, 최종적으로 **인간의 운영 지식(Operational Knowledge)을 코드로 패키징(Operator SDK, controller-runtime)**하여 1차/2차/3차 운영업무를 자동화하는 쿠버네티스 네이티브 SRE 패턴이다.
+> 2. **가치**: 단순 배포 수준을 넘어 **Day-2 Operations 자동화**를 통해 평균 장애복구시간(MTTR)을 70% 이상 단축하고, **GitOps + CR 기반 선언적 운영**으로 수십~수백 개의 Stateful 워크로드(etcd, Kafka, PostgreSQL, Cassandra)를 단일 CR yaml로 셀프서비스(Self-Service)화 한다. CNCF 2024 조사 기준 운영 오퍼레이터 사용 기업은 평균 **인프라 운영 인력 40% 절감** 효과를 보고한다.
+> 3. **판단 포인트**: **`operator-sdk` 기반 Go 직접 구현 vs `Helm-based Operator`(Ansible/Kotlin)**, **단일 CR vs 다중 CR/Composite Controller**, **`status` 서브리소스 + finalizer 사용 여부**, **`conversion webhook`을 통한 v1beta1->v1 마이그레이션 전략**, 그리고 **OLM(Operator Lifecycle Manager)을 통한 카탈로그 배포**와 RBAC/네임스페이스 격리 수준이 아키텍처 결정의 핵심 트레이드오프다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-쿠버네티스 오퍼레이터 커스텀 리소스은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+쿠버네티스는 처음 설계될 때부터 "**선언적(Declarative) API**"라는 철학 위에 세워졌다. `kubectl apply -f` 한 줄로 Deployment, Service, Ingress 같은 *내장 리소스(Built-in Resource)* 가 자동으로 desired state로 수렴한다. 그러나 현실의 분산 시스템 운영은 그보다 훨씬 복잡하다. **etcd 클러스터는 quorum 관리가 필요**하고, **Kafka는 broker 재분배·controller 선출·topic 파티션 rebalance**를 자동으로 처리해야 하며, **PostgreSQL은 streaming replication + WAL archiving + 자동 failover**를 지원해야 한다. 이러한 **"인간의 운영 노하우(Operational Knowledge)"**를 컨트롤러라는 형태로 코드화한 것이 바로 **오퍼레이터 패턴(Operator Pattern)** 이며, 이를 가능하게 하는 **확장 메커니즘**이 **CRD(Custom Resource Definition)와 CR(Custom Resource)** 이다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Kubernetes Operator Custom Resource 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존에는 Helm Chart + Jenkins/GitLab CI/CD로 "Day-1(배포)"는 자동화되었지만, "**Day-2(스케일링, 업그레이드, 백업, 복구, 보안패치, 모니터링 통합)**"는 여전히 운영 엔지니어의 수작업에 의존했다. CR/오퍼레이터는 **도메인 지식을 컨트롤러의 reconcile() 함수에 인캡슐레이션**하여 이를 해결한다. 2016년 CoreOS가 처음 제안한 이 패턴은 2018년 Red Hat이 **Operator Framework(Operator SDK + OLM)** 를 오픈소스화하면서 산업 표준으로 자리잡았고, 현재 CNCF의 **cert-manager, ArgoCD, Prometheus Operator, Strimzi(Kafka), TiDB Operator, Crossplane, External Secrets Operator** 등 300+ 프로덕션 오퍼레이터가 활용 중이다.
 
 ```text
-+--------------------------------------------------------------+
-|                    쿠버네티스 오퍼레이터 커스텀 리소스 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+   +-------------------------------------------------------------------+
+   |              쿠버네티스 API 확장성 계층 (Kubernetes Extensibility)  |
+   +-------------------------------------------------------------------+
+   |                                                                   |
+   |   +--------------+   +--------------+   +------------------+    |
+   |   |  Built-in    |   |  Aggregation |   |   CRD (OpenAPI)  |    |
+   |   |  Resources   |   |  Layer (AA)  |   | apiextensions.k8s|    |
+   |   |  Pod, Svc    |   | kube-apiserver|   |   .io/v1         |    |
+   |   +--------------+   +--------------+   +--------+---------+    |
+   |                                                   |              |
+   |                  사용자 정의 API 리소스           |              |
+   |                                                   v              |
+   |   +----------------------------------------------------------+   |
+   |   |  Custom Resource (CR) -- e.g. "kind: KafkaCluster"        |   |
+   |   |  +------------+--------------+--------------+----------+  |   |
+   |   |  | spec:      | status:      | metadata:    | apiVer..|  |   |
+   |   |  |  replicas:3 | phase:Ready  | name: prod-  |  v1alpha1|  |   |
+   |   |  |  version:3.6|  nodes:3     |   kafka      |  /kafka. |  |   |
+   |   |  |  storage:  |  health:OK   |   namespace  |   strimzi|  |   |
+   |   |  |   100Gi    |              |              |   .io    |  |   |
+   |   |  +------------+--------------+--------------+----------+  |   |
+   |   +----------------------------------------------------------+   |
+   |                              |                                   |
+   |                              v watch (Informer)                  |
+   |   +----------------------------------------------------------+   |
+   |   |  Controller (Reconciliation Loop) -- Operator             |   |
+   |   |  +---------+  +---------+  +---------+  +-------------+ |   |
+   |   |  | Observe |-> |  Diff   |-> |  Act    |-> |  Update     | |   |
+   |   |  | (read)  |  |(desired |  |(create/ |  |  status     | |   |
+   |   |  |         |  | vs act) |  | patch)  |  |             | |   |
+   |   |  +---------+  +---------+  +---------+  +-------------+ |   |
+   |   |   ---- workqueue --- event-driven --- requeue ----      |   |
+   |   +----------------------------------------------------------+   |
+   |                              |                                   |
+   |                              v 관리 대상 워크로드                  |
+   |   +----------------------------------------------------------+   |
+   |   |  StatefulSet / Deployment / Service / PVC / ConfigMap … |   |
+   |   |  + 외부 시스템 API (Cloud RDS, Vault, GitHub, PagerDuty)  |   |
+   |   +----------------------------------------------------------+   |
+   +-------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+기존 패러다임(**Helm/Jenkins/Ansible Tower**)은 "**명령형(Imperative) 절차 실행**"에 가까워 상태 추적이 어려웠고, **유휴(idle) 환경에서 수동 변경을 감지하지 못한다**. CR/오퍼레이터는 **etcd에 desired state를 영속화**하고, **Informer(shared cache + watch) 메커니즘**으로 어떤 변경(사용자 편집, 자동 스케일링, 장애 등)도 감지하여 동일 상태로 복귀시키는 **종결 시스템(Terminating System)** 이다. 이 점이 **GitOps** 와의 결합을 자연스럽게 만든다.
 
-- **📢 섹션 요약 비유**: 쿠버네티스 오퍼레이터 커스텀 리소스은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 전통적 운영은 **레고 조립 설명서를 사람이 매번 보며 조립하는 것**이고, CR/오퍼레이터는 **"완성된 작품 사진(desired state)"만 벽에 걸어두면, AI 카메라(컨트롤러)가 24시간 사진을 비교하며 빠진 조각을 자동으로 채워주는 스마트 작업실**과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-쿠버네티스 오퍼레이터 커스텀 리소스의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+오퍼레이터는 크게 **CRD(스키마 등록) -> CR(데이터 인스턴스) -> Controller/Reconciler(상태 수렴) -> status 서브리소스(관측성) -> Webhook(정책/변환) -> OLM(배포/생명주기)** 의 6계층으로 구성된다. 각 계층의 동작 원리와 상호작용은 다음과 같다.
 
 ```text
-+--------------------------------------------------------------+
-|              Kubernetes Operator Custom Resource 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+                    쿠버네티스 클러스터 내부
+   +------------------------------------------------------------+
+   |                                                            |
+   |   +---------------------+    kube-apiserver                |
+   |   | kubectl apply -f    | -----------------------+         |
+   |   | kafka-cluster.yaml  |                         v         |
+   |   +---------------------+    +--------------------------+   |
+   |                              |  CRD: KafkaCluster       |   |
+   |                              |  apiextensions.k8s.io/v1 |   |
+   |                              |  ---------------------   |   |
+   |                              |   group: kafka.strimzi.io|   |
+   |                              |   versions: [v1beta2]    |   |
+   |                              |   scope: Namespaced      |   |
+   |                              |   names: kind=KafkaCluster|  |
+   |                              |   schema: openAPIV3Schema |   |
+   |                              |   subresources:          |   |
+   |                              |     status: {}           |   |
+   |                              |     scale: …             |   |
+   |                              |   conversion: …          |   |
+   |                              +----------+---------------+   |
+   |                                         |                   |
+   |   +-------------------------------------v--------------+    |
+   |   |  etcd  -->  Custom Resource (CR) 인스턴스 저장       |    |
+   |   |   apiVersion: kafka.strimzi.io/v1beta2              |    |
+   |   |   kind: KafkaCluster                                |    |
+   |   |   metadata: {name: prod, ns: kafka}                 |    |
+   |   |   spec: {replicas: 3, version: "3.6.1", …}          |    |
+   |   +---------------------------------+------------------+    |
+   |                                     | WATCH                  |
+   |                                     v                        |
+   |   +------------------------------------------------------+   |
+   |   |  Operator Pod (Deployment) -- controller-runtime      |   |
+   |   |  +-------------------------------------------------+ |   |
+   |   |  | Manager -- leader election -- metrics :8443     | |   |
+   |   |  |  +- Controller for KafkaCluster                  | |   |
+   |   |  |  |   +- Reconciler.Reconcile(ctx, req)         | |   |
+   |   |  |  |   |    +- Get CR -- Get Pods/PVC/ConfigMap   | |   |
+   |   |  |  |   |    +- Diff (desired vs actual)           | |   |
+   |   |  |  |   |    +- Apply StatefulSet / Service / PDB  | |   |
+   |   |  |  |   |    +- Patch status.phase / conditions    | |   |
+   |   |  |  |   |    +- return ctrl.Result{Requeue: true}  | |   |
+   |   |  |  |   +- Predicate (GenerationChangedPredicate) | |   |
+   |   |  |  |   +- Watches: Pod, PVC, Secret (EnqueueForOwner)| |   |
+   |   |  |  +- Webhook Server :443                           | |   |
+   |   |  |  |   +- ValidatingWebhook (CR 필드 검증)         | |   |
+   |   |  |  |   +- MutatingWebhook (default 값, sidecar)    | |   |
+   |   |  |  |   +- ConversionWebhook (v1beta1 ↔ v1 변환)   | |   |
+   |   |  |  +- CertController (cert-manager 통합)            | |   |
+   |   |  +-------------------------------------------------+ |   |
+   |   +-------------------------+----------------------------+   |
+   |                             |                                |
+   |                             v create/update                   |
+   |   +------------------------------------------------------+   |
+   |   |  Pod / StatefulSet / PVC / Service / ConfigMap / …    |   |
+   |   |  --> 실제 워크로드 구성                                |   |
+   |   +------------------------------------------------------+   |
+   |                                                            |
+   |   +------------------------------------------------------+   |
+   |   |  OLM (Operator Lifecycle Manager) 선택적 사용         |   |
+   |   |   - ClusterServiceVersion(CSV) 배포                   |   |
+   |   |   - CatalogSource -> Subscription -> InstallPlan        |   |
+   |   |   - OperatorGroup (멀티 네임스페이스 격리)            |   |
+   |   +------------------------------------------------------+   |
+   +------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **CRD (CustomResourceDefinition)** | 도메인 API의 **스키마 선언** | `apiextensions.k8s.io/v1` 리소스로 OpenAPI v3 스키마 정의. `spec.versions[]`에 served/storage 버전 명시, `subresources`에 `status: {}` 지정으로 spec/status 분리, `additionalPrinterColumns`로 `kubectl get` 출력 커스터마이즈. `scope: Namespaced \| Cluster` 결정. |
+| **CR (Custom Resource)** | 원하는 상태의 **데이터 인스턴스** | YAML/JSON으로 작성. `metadata.generation`은 spec 변경 시 1씩 증가, `status.observedGeneration`은 컨트롤러가 마지막으로 읽은 generation. Reconcile 키는 `namespace/name` 페어. |
+| **Controller (Reconciler)** | 상태 수렴을 수행하는 **컨트롤 루프** | `client-go`의 `Informer/Lister/WorkQueue`를 추상화한 `controller-runtime`의 `Reconcile(ctx, req) (Result, error)` 함수가 핵심. **idempotent(멱등성)** 보장 필수. `RequeueAfter: 5m` 또는 에러 시 즉시 재큐. |
+| **Predicate & EventFilter** | **불필요한 Reconcile 트리거를 필터링** | `GenerationChangedPredicate`(spec만 변경 시), `ResourceVersionChangedPredicate`, `LabelChangedPredicate`, `OwnerReference` 기반 `EnqueueRequestForOwner` 조합. |
+| **status subresource** | 컨트롤러의 **관측 결과 노출** | `subresources.status: {}`로 spec/status 분리 시 status는 `PUT /status` 권한 필요. `status.conditions[]` 배열에 `Type/Status/Reason/Message/LastTransitionTime` 표준화. |
+| **Finalizer** | **삭제 전 cleanup 보장 메커니즘** | `metadata.finalizers: [kafka.strimzi.io/cleanup]` 등록 -> 삭제 시 `DeletionTimestamp` 세팅, 컨트롤러가 외부 자원(DB, bucket) 정리 후 finalizer 제거해야 실제 삭제 진행. 누락 시 고아(orphan) 발생. |
+| **Webhook (Admission)** | **CR 유효성·기본값·버전 변환** | `MutatingWebhookConfiguration`으로 default 값 주입, `ValidatingWebhookConfiguration`으로 거부 정책. **Conversion Webhook**(여러 버전 운영 시)로 v1beta1 ↔ v1 자동 변환. 자체 CA 인증서 필요 -> `cert-manager` 또는 `controller-gen webhooks`로 자동 발급. |
+| **OLM (Operator Lifecycle Manager)** | **오퍼레이터의 카탈로그·업그레이드·의존성 관리** | `ClusterServiceVersion(CSV)`에 `ownedAPIs`, `dependencies`, `install strategy(deployment/OLM-allnamespaces)` 기술. `OperatorHub`에서 community operator를 `Subscription`으로 구독. |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 핵심 원리 — Reconciliation Loop의 수학적 의미
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+Reconcile 함수는 본질적으로 **고정점(Fixed Point) 알고리즘**이다. 클러스터의 실제 상태를 `A`, CR의 desired state를 `D`라 할 때, 컨트롤러는 다음을 반복한다:
 
----
-
-## Ⅲ. 비교 및 연결
-
-쿠버네티스 오퍼레이터 커스텀 리소스을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 쿠버네티스 오퍼레이터 커스텀 리소스 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 쿠버네티스 오퍼레이터 커스텀 리소스은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 쿠버네티스 오퍼레이터 커스텀 리소스은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 쿠버네티스 오퍼레이터 커스텀 리소스을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-쿠버네티스 오퍼레이터 커스텀 리소스을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 쿠버네티스 오퍼레이터 커스텀 리소스 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 쿠버네티스 오퍼레이터 커스텀 리소스은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 쿠버네티스 오퍼레이터 커스텀 리소스의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 쿠버네티스 오퍼레이터 커스텀 리소스의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-쿠버네티스 오퍼레이터 커스텀 리소스 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
 ```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 쿠버네티스 오퍼레이터 커스텀 리소스은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+repeat
+    A := readActualStateFromKubeAPI(D)
+    Δ := diff(D, A)
+    if Δ = ∅ then return  // 수렴
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 617 / 800

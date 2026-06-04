@@ -11,160 +11,188 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 데이터 오케스트레이션 Airflow DAG 워크플로은(는) 시험 빈출 키워드 및 데이터/AI 아키텍처 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: Airflow는 **Python 코드로 작성된 DAG(Directed Acyclic Graph)**를 기반으로 **Scheduler -> Executor -> Worker** 3계층 구조에서 **Task 단위의 의존성·재시도·스케줄·백필**을 선언적으로 오케스트레이션하는 배치 워크플로 엔진이며, 2.x 이후의 **TaskFlow API(@task), Datasets 기반 Data-Aware Scheduling, DAG Serialization, HA Scheduler**가 핵심 차별점이다.
+> 2. **가치**: 수천 개 태스크의 **SLA 준수율 95% 이상, 장애 격리로 인한 MTTR 60% 단축, 백필/리트라이 자동화로 운영 개입 70% 감소, Lineage 추적과 DAG Versioning**을 통해 데이터 거버넌스·컴플라이언스(개인정보 파기 SLA, 재무 결산 마감) 요구를 코드화할 수 있다.
+> 3. **판단 포인트**: 워크로드 특성에 따른 **Executor 선택(CeleryExecutor vs KubernetesExecutor vs CeleryKubernetesExecutor)**, 외부 시스템 트리거 기반의 **Sensor 남용 vs Datasets/TriggerDagRunOperator**, **단일 Scheduler의 Bottleneck vs Airflow 2.7+ HA Scheduler(Active-Active)**, 그리고 **DAG 파일 I/O 부하와 Scheduler Parsing 한계(파일 수·복잡도)**가 아키텍처 결정의 핵심 트레이드오프다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-데이터 오케스트레이션 Airflow DAG 워크플로은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+현대 데이터 플랫폼은 단순한 ETL을 넘어 **실시간 스트리밍, ML 파이프라인, 인프라 프로비저닝, API 의존 작업**이 혼재하는 복잡한 워크플로를 요구한다. 전통적인 **cron + shell 스크립트** 방식은 의존성 표현·재시도·로깅·알람·모니터링이 모두 수작업이라 장애 시 **평균 복구 시간(MTTR)이 길고, 운영자가 crontab을 직접 수정**해야 하는 "Configuration Drift" 문제가 발생한다. 또한 데이터 팀이 늘어나면서 **DAG 간 의존성 폭발(Dependency Hell)**로 신규 파이프라인 추가가 수일~수주 단위로 지연된다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Data Orchestration Airflow DAG Workflow 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+Apache Airflow(2014년 Airbnb에서 시작, 2019년 TLP, 2020년 2.0 출시)는 이를 **"Workflow as Code"** 패러다임으로 해결한다. Python의 표현력을 활용해 DAG을 코드로 정의하고, **메타데이터 DB(Metastore, 기본 SQLite -> 운영 시 PostgreSQL/MySQL)**를 단일 진실 공급원(Source of Truth)으로 사용해 **상태(State), 실행 이력(History), Lineage**를 통합 관리한다.
+
+**기존 방식 vs Airflow 기반 오케스트레이션**
+
+| 항목 | Cron + Shell Script | Apache Airflow |
+|---|---|---|
+| 의존성 표현 | `sleep &&` 체이닝 (수동) | `>>` / `set_downstream()` (DAG 선언) |
+| 재시도/백오프 | 스크립트 내부 루프 작성 | `retries`, `retry_delay`, `retry_exponential_backoff` |
+| 실패 알림 | cron mail / 별도 스크립트 | `on_failure_callback` + Email/Slack/Pagerduty Operator |
+| 실행 이력 | 로그 파일 (`/var/log/cron.log`) | Metastore + Web UI (Run ID, Duration, Logs) |
+| 파라미터화 | 환경변수 / 파일 치환 | `dag_run.conf`, Variables, `params` |
+| SLA 관리 | 없음 | `sla_miss_callback` + Web UI SLA Miss 표시 |
+| 동시성 제어 | 없음 (서버 과부하 위험) | `pool`, `priority_weight`, `concurrency` |
 
 ```text
-+--------------------------------------------------------------+
-|                    데이터 오케스트레이션 Airflow DAG 워크플로 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++--------------------------------------------------------------------------+
+|            데이터 오케스트레이션 패러다임의 진화                          |
++--------------------------------------------------------------------------+
+|                                                                          |
+|   1세대: cron + bash        2세대: Oozie/Azkanban    3세대: Airflow       |
+|   +----------+              +----------+              +----------+        |
+|   | Server A |              | Oozie    |              | Scheduler|        |
+|   | Server B |  --->        | Coordi-  |   --->       | --------->|        |
+|   | Server C |              | nator    |              | Executor |        |
+|   +----------+              | (XML)    |              |  |       |        |
+|   - 설정 분산                +----------+              |  v       |        |
+|   - 장애 전파                - 하둡 종속                | Workers  |        |
+|   - 수동 재실행              - 정적 워크플로            | (K8s Pod)|        |
+|                                                    +----------+        |
+|   (2010~)                    (2010~)                    (2014~)         |
+|   도메인: 단일 서버          도메인: Hadoop 클러스터    도메인: 하이브리드 |
+|                                                                          |
++--------------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 데이터 오케스트레이션 Airflow DAG 워크플로은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 기존 cron 방식이 **"각 가족에게 수기로 일정을 알려 알람기를 맞추게 하는 것"**이라면, Airflow는 **"Google Calendar처럼 모든 집안일(태스크)을 중앙 서버가 추적하고, 부엌(Worker)에 자동 배차하며, 완료 시 가족 단톡방(Web UI)에 자동 보고하는 시스템"**이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-데이터 오케스트레이션 Airflow DAG 워크플로의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+Airflow는 **논리적 컴포넌트(Scheduler, Webserver, Metastore DB, Executor, Worker)**와 **DAG 파일(DAG Definition)**로 구성된다. 사용자가 정의한 DAG 파일을 Scheduler가 주기적으로 Parsing하여 DagRun/TaskInstance 객체를 생성하고, Executor가 이를 Worker에 분배·실행한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Data Orchestration Airflow DAG Workflow 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------------+
+|                    Apache Airflow 2.x 핵심 아키텍처                        |
+|                                                                            |
+|  +----------------+    1. Parsing (5s 주기)     +---------------------+   |
+|  |  DAG Files     | ---------------------------> |   Scheduler         |   |
+|  | (Python 코드)  |                              |  (DagFileProcessor  |   |
+|  | - my_dag.py    |                              |   Manager)          |   |
+|  +----------------+                              |  - Serialization    |   |
+|        |                                          |  - Trigger Logic    |   |
+|        | 2. @task / Operator 정의                 +----------+----------+   |
+|        v                                                     |              |
+|  +----------------+                                          |              |
+|  | Metadata DB    | <------- 3. DagRun / TaskInstance CRUD ---+              |
+|  | (PostgreSQL)   |                                          |              |
+|  |  - dag_run     |                                          |              |
+|  |  - task_instance|                                         |              |
+|  |  - log         |                                          |              |
+|  |  - serialized_dag|                                        |              |
+|  +-------^--------+                                          |              |
+|          | 4. 상태 변경                                       |              |
+|          |                                                   v              |
+|  +--------------+                                   +------------------+   |
+|  |  Webserver    |  5. UI 조회 <----- DAG/Task 상태 - | Executor          |   |
+|  |  (Flask +    |                                   | (CeleryExecutor/  |   |
+|  |   Gunicorn)  |                                   |  K8sExecutor)     |   |
+|  |  - REST API   |                                   +---------+--------+   |
+|  +--------------+                                             |              |
+|                                                              | 6. Task 할당  |
+|                                                              v              |
+|                                                      +------------------+  |
+|                                                      |  Worker Nodes     |  |
+|                                                      |  (Celery Worker/  |  |
+|                                                      |   K8s Pod per TI) |  |
+|                                                      |  - Operator 실행  |  |
+|                                                      |  - Hook으로 외부  |  |
+|                                                      |    시스템 연결    |  |
+|                                                      +---------+--------+  |
+|                                                                |            |
+|                                                                v            |
+|                                                      +------------------+  |
+|                                                      |  External Systems |  |
+|                                                      |  S3, GCS, BQ,    |  |
+|                                                      |  SFTP, MySQL,    |  |
+|                                                      |  Slack, Email    |  |
+|                                                      +------------------+  |
+|                                                                            |
+|  [보조 컴포넌트]                                                            |
+|   - Flower: Celery Worker 모니터링                                          |
+|   - StatsD/Prometheus Exporter: 메트릭 수집                                 |
+|   - Triggerer: Deferrable Operator/Trigger의 비동기 이벤트 루프 (Airflow 2.2+)|
+|   - DAG File Processor: Scheduler 내부에서 DAG Parsing 전담 (2.0+)         |
++----------------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+### 1) DAG(Directed Acyclic Graph)와 TaskInstance의 상태 머신
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+DAG는 **순환이 없는 방향성 그래프**로, 노드가 Task, 엣지가 의존성이다. **Cycle이 있으면 무한 루프**가 되어 시스템이 중단되므로, Airflow는 명시적으로 검출하여 DAG Parsing 자체를 거부한다. Task는 다음 상태 머신을 거친다:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+```
+none -> scheduled -> queued -> running -> success / failed / up_for_retry / skipped / up_for_reschedule / deferred
+```
 
----
+| 상태 | 의미 | 트리거 조건 |
+|---|---|---|
+| `scheduled` | 실행 시각이 도래하여 대기열에 등록 | Scheduler가 `next_execution_date` 도달 시 |
+| `queued` | Executor가 Worker에 할당 대기 | `queued_by_job_id` 기록 |
+| `running` | Worker가 실제 수행 중 | `hostname`, `pid` 기록 |
+| `success` | 정상 완료 | `_execute_task` 콜백 성공 |
+| `up_for_retry` | 실패 후 재시도 대기 | `retries < max_retries` |
+| `failed` | 재시도 소진 후 최종 실패 | `on_failure_callback` 발화 |
+| `skipped` | BranchPythonOperator 분기에서 제외 | `none_failed_or_skipped` 트리거 |
+| `up_for_reschedule` | Sensor가 `mode='reschedule'`로 다음 점검까지 해제 | `poke_interval` 적용 |
+| `deferred` | 외부 이벤트/I/O 대기 (Trigger 사용) | `triggerer`가 비동기 모니터링 |
 
-## Ⅲ. 비교 및 연결
+### 2) Scheduler의 핵심 메커니즘
 
-데이터 오케스트레이션 Airflow DAG 워크플로을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 데이터 오케스트레이션 Airflow DAG 워크플로 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 데이터 오케스트레이션 Airflow DAG 워크플로은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 데이터 오케스트레이션 Airflow DAG 워크플로은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 데이터 오케스트레이션 Airflow DAG 워크플로을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-데이터 오케스트레이션 Airflow DAG 워크플로을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 데이터 오케스트레이션 Airflow DAG 워크플로 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 데이터 오케스트레이션 Airflow DAG 워크플로은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 데이터 오케스트레이션 Airflow DAG 워크플로의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 데이터 오케스트레이션 Airflow DAG 워크플로의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+Scheduler는 **DAG Parsing -> DagRun 생성 -> TaskInstance 스케줄 -> Executor 큐잉**의 4단계를 수행한다. Airflow 2.0 이전에는 단일 프로세스에서 모든 것을 처리해 병목이었으나, **2.0+부터 DAG File Processor Manager(서브 프로세스 풀)**가 도입되어 Parsing이 분리되었다.
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-데이터 오케스트레이션 Airflow DAG 워크플로 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
++------------------------------------------------------------------+
+|         Scheduler 내부 루프 (1초 주기, scheduler_heartbeat)       |
++------------------------------------------------------------------+
+|  1. DagFileProcessorManagerProcess                                |
+|     +- DagFileProcessorProcess (N개, multiprocessing)             |
+|         +- DAG 파일 1개 Parsing -> SerializedDAGModel 저장         |
+|         +- DAG 파일 2개 Parsing -> ...                              |
+|         +- 신규 DagRun 생성 (start_date, schedule_interval)        |
+|  2. SchedulerJob                                                   |
+|     +- DagRun의 scheduled TaskInstance 조회                        |
+|     +- Pool 가용 슬롯 확인                                         |
+|     +- Upstream 완료 여부 확인 (Trigger Rule 평가)                 |
+|     +- Executor.queue_command(task_instance) 호출                  |
+|  3. Executor (Celery/K8s)                                          |
+|     +- TaskInstance를 큐(Redis)/Pod 스펙으로 변환하여 Worker 할당   |
++------------------------------------------------------------------+
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+### 3) Executor 선택 — 아키텍처의 분기점
 
-1. 데이터 오케스트레이션 Airflow DAG 워크플로은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+| Executor | 동작 원리 | 적합 시나리오 | 제약/주의점 |
+|---|---|---|---|
+| **SequentialExecutor** | 단일 프로세스 순차 실행 | 개발/디버깅 전용 | 프로덕션 부적합 |
+| **LocalExecutor** | 로컬 멀티프로세스 | 소규모 단일 노드 (<50 tasks) | DB 락 경합, 단일 장애점 |
+| **CeleryExecutor** | Celery + Redis/RabbitMQ로 태스크 분배 | 중규모 (50~500 tasks/day), 상시 Worker Pool 유지 | Worker 상시 가동으로 비용, Celery Broker 장애 시 큐 적체 |
+| **CeleryKubernetesExecutor** | Celery + K8s 하이브리드 | **일부는 상시 Worker, 일부는 K8s Pod 격리** | 양쪽 운영 복잡도 |
+| **KubernetesExecutor** | **TaskInstance 1개당 K8s Pod 1개 동적 생성** | 간헐적·격리·리소스 변동 큰 워크로드, ML training | K8s API 호출 오버헤드, Image Pull 시간, K8s 클러스터 필수 |
+| **CeleryExecutor + DockerOperator** | Celery Worker 안에서 docker run | 패키지 의존성 격리 (Python 2/3 공존) | Airflow 2.0에서 KubernetesExecutor로 흡수 권장 |
 
----
+### 4) Operator / Sensor / Hook의 분담
 
+* **Operator**: Task의 **"무엇을 할 것인가"**를 정의 (단일 작업 단위, BashOperator, PythonOperator, BigQueryInsertJobOperator 등 50+ 내장)
+* **Sensor**: Operator의 특수 형태로 **외부 상태를 폴링** (S3KeySensor, ExternalTaskSensor, HttpSensor)
+* **Hook**: Operator 내부에서 **외부 시스템 연결 추상화** (S3Hook -> boto3 래퍼, BigQueryHook -> google-cloud-bigquery 래퍼). Connection 오브젝트(Airflow Metastore에 저장된 `conn_id`)로 인증 정보 통합 관리
+* **TaskFlow API (`@task`)**: Airflow 2.0에서 도입된 **XCom 자동 처리** 래퍼. 함수 인자/리턴이 자동 직렬화되어 의존성 그래프의 노드 역할을 동시에 수행
+
+### 5) Deferrable Operator와 Triggerer
+
+전통적인 Sensor는 **Worker 슬롯을 점유한 채 `time.sleep()`**로 폴링하여 자원 낭비가 심했다(예: 1시간 대기 Sensor가 1시간 Worker CPU 점유). Airflow 2.2+의 **Deferrable Operator + Triggerer**는 Sensor의 폴링을 **Triggerer 프로세스의 비동기 이벤트 루프(asyncio)**로 옮기고, 대기 중에는 Worker 슬롯을 반납한다. 이로써 **동시 Sensor 1000건을 Triggerer 단일 프로세스 1개**로 처리할 수 있다.
+
+### 6) Datasets (Data-Aware Scheduling, Airflow 2.4+)
+
+기존의 **시간 기반 스케줄**(`schedule="0 2 * * *"`)은 **데이터 도착 시점과 무관**하게 실행되어 **데이터 미준비로 인한 No-op 실행**이 빈번했다. Datasets은 **"이 태스크가 이 Dataset을 produce"** -> **"다른 DAG가 그 Dataset을 consume"**을 선언하면, **자동으로 의존 DAG를 트리거**한다. 구현은 Metastore의 `dataset_event` 테이블 + `dataset_dag_run_queued_ref`로, **DAG 간 명확한 데이터 Lineage + 의존성 표현**이 가능하다.
+
+### 7) 핵심 구성 요소 표
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+| :--- | :--- | :--- |
+| **Scheduler** | DAG Parsing, DagRun/TaskInstance 생성, Executor 큐잉 | DagFileProcessorManager(멀티프로세스), SerializedDAGModel 캐
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 287 / 300

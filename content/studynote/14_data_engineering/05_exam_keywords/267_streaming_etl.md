@@ -11,160 +11,157 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스트리밍 ETL 실시간 파이프라인 설계은(는) 시험 빈출 키워드 및 데이터/AI 아키텍처 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 스트리밍 ETL은 Kafka/Kinesis 등 로그 기반 메시지 브로커를 Source of Truth로 두고, Flink/Spark Structured Streaming 같은 분산 스트림 프로세서가 Change Data Capture(CDC)로 추출한 변경 이벤트를 Event Time 기준 Watermark·Checkpoint·Exactly-Once Semantics(EOS) 하에서 변환·적재하여 수 초~수 분 내 Downstream 가용성을 보장하는 **Low-Latency Continuous Dataflow**이다.
+> 2. **가치**: 기존 야간 배치 대비 데이터 신선도(Freshness)를 T+24h에서 P50 1~5초·P99 30초 수준으로 단축하여, 실시간 사기 탐지·동적 가격 책정·이상 거래 알림 등 Time-Critical 의사결정의 비즈니스 ROI를 직접 창출하며, 동일 데이터 사본을 통해 Batch/AI Serving을 중복 적재 없이 재사용할 수 있다.
+> 3. **판단 포인트**: 핵심 트레이드오프는 ① **Stateful 처리 비용 vs. Stateless 단순성**, ② **End-to-End EOS를 위한 2PC vs. Sink 측 Idempotent Upsert(MERGE)**, ③ **Lambda(배치+스트림 이원화) vs. Kappa(단일 스트림)**, ④ **Watermark 허용 지연(latency tolerance)에 따른 정확도/지연 균형**, ⑤ **Event Time vs. Processing Time**의 의미론적 차이를 비즈니스 SLA와 데이터 정확성 요구수준으로 결정해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-스트리밍 ETL 실시간 파이프라인 설계은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 야간/시간 단위 Batch ETL은 데이터 웨어하우스(DW)·데이터 레이크를 구축하는 데 충분했지만, 디지털 트랜잭션이 마이크로초 단위로 발생하고 고객 행동이 실시간화되는 환경에서는 한계가 명확해졌다. 금융사 사기 탐지(FDS)의 경우 1시간 지연은 이미 막대한 손실을 의미하고, 이커머스 추천 엔진은 5분 전 클릭 이력만으로 CTR이 18~30% 하락한다. 또한 동일 원천 데이터를 분석용 DW, ML Feature Store, 운영용 RDBMS에 중복 적재하며 발생하는 스토리지 비용·정합성 문제(다중 진실 문제)는 배치 시대의 가장 큰 아키텍처 부채였다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Streaming ETL Real-time Pipeline Design 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+스트리밍 ETL은 RDBMS의 WAL(Write-Ahead Log) 또는 Binlog를 Debezium/Oracle GoldenGate 등으로 추출해 Kafka의 **불변 로그(Immutable Log)** 에 적재하고, 이를 Flink Job이 CDC 이벤트 단위로 변환해 Iceberg·Delta Lake·ClickHouse·DynamoDB 등에 MERGE/INSERT하는 파이프라인이다. 핵심은 원천 DB에 부하를 주지 않으면서(Log-based CDC는 Asynchronous로 동작) 트랜잭션 정합성을 보존하는 것이며, 이를 위해 Debezium은 `read_committed` Snapshot 모드와 `tombstone` 이벤트 처리를 제공한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    스트리밍 ETL 실시간 파이프라인 설계 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++-------------------------------------------------------------------------+
+|         기존 Batch ETL (T+24h, 야간 윈도우) -> Streaming ETL (초 단위)     |
++-------------------------------------------------------------------------+
+
+[Source DB]                  [Stream ETL]                       [Sink]
++----------+    CDC       +------------+   Flink   +--------------------+
+| MySQL    |--Binlog------>| Kafka      |--Job------>| Iceberg +          |
+| Postgres |              |  - topic A |           |   ClickHouse       |
+| Oracle   |              |  - topic B |   CDC     |   + DynamoDB       |
++----------+  Debezium    |  - topic C |  --->      |   + Feature Store  |
+                         | (immutable)|  Kafka     |                    |
+                         |   KRaft    |  Connect   |  • OLAP Query      |
+                         |  cluster   |  (S3 Sink) |  • ML Training     |
+                         +------------+            |  • API Serving     |
+                                ^                  +--------------------+
+                                |
+                          +-----+-----+
+                          | Schema    |  Avro/Protobuf with
+                          | Registry  |  backward-compatible evolution
+                          +-----------+
+
+   [Time]
+   -----+
+   T+0  |  ● 트랜잭션 발생  --->  Kafka  --->  Flink Window  --->  Sink
+        |        (ms)            (ms)        (1~30s)
+        |
+        |
+   T+24h|  Batch   ---------------------------->  DW (야간 누락)
+        |  ETL     (참고용 Snapshot)            (불필요해짐)
+        v
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+- **기존 vs 신규 패러다임**
+  - **기존**: RDBMS -> Sqoop/Airflow(1h) -> Hive/Snowflake(15h) -> BI. 총 지연 16h+, 재처리 시 HDFS 전체 재적재.
+  - **신규**: RDBMS -> Debezium(ms) -> Kafka(ms) -> Flink(1~30s) -> Lakehouse(s). 재처리는 Consumer Group Offset 리셋 + Kafka Log Replay로 **코드 변경 없이 임의 시점 재생** 가능.
 
-- **📢 섹션 요약 비유**: 스트리밍 ETL 실시간 파이프라인 설계은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 야간에 신문을 받아 읽는 것(배치 ETL)에서, 중요한 뉴스는 푸시 알림으로 즉시 받는 알림 서비스(스트리밍 ETL)로 옮겨온 것과 같다. 알림이 오지 않아도 나중에 신문으로 전체 흐름을 다시 확인할 수 있다(Replayability).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-스트리밍 ETL 실시간 파이프라인 설계의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+스트리밍 ETL의 표준 아키텍처는 **Source -> Ingest -> Process -> Sink**의 4단 계층으로 구성되며, 각 계층은 Loose Coupling을 위해 메시지 브로커(Kafka·Pulsar·Kinesis)를 중심에 둔다. End-to-End 정확성을 보장하기 위해 **Source Connector(Fetch/Offset Commit) ↔ Kafka(Broker Replication + Log Compaction) ↔ Flink(Checkpoint + 2PC Sink) ↔ Sink Connector(Exactly-Once Sink Function)**의 4개 경계에서 EOS를 중첩 적용한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Streaming ETL Real-time Pipeline Design 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+   +--------------------------------------------------------------------+
+   |                  Streaming ETL End-to-End Architecture              |
+   +--------------------------------------------------------------------+
+
+   [1. Source]                 [2. Ingest]            [3. Process]
+   +----------+                +----------+           +--------------+
+   | RDBMS    |                | Kafka    |           | Flink Job    |
+   | -------- |   CDC Events   | -------- |   consume | ------------ |
+   | MySQL    | --Binlog------->| topic    | ---------->| Source       |
+   |  Master  |   (ROW image)  |  orders  |           |   v          |
+   |          |                |          |           | Watermark    |
+   | Postgres | --WAL---------> | topic    | ---------->|   v          |
+   |          |                |  users   |           | Process       |
+   | MongoDB  | --Oplog-------> | topic    | ---------->|  • enrich    |
+   +----------+                |          |           |  • join       |
+        ^                      | -------- |           |  • aggregate |
+        |                      | Partition|           |   v          |
+   +----+-----+                |  0..N    |           |  Windowing   |
+   | Debezium |                |          |           |   v          |
+   | Connect  |                |  Schema  |           |  State(Rocks)|
+   | Server   |                |  Registry|           |   v          |
+   | (Kafka   |                |  (Avro)  |           |  Checkpoint  |
+   |  Connect)|                |          |           |   v          |
+   +----------+                |  KRaft   |           |  2PC Sink    |
+                               |  Controller           +------+-------+
+                               +----------+                  |
+                                                              v
+                              [4. Sink]              +------------------+
+                              +----------+           | Lakehouse        |
+                              | Iceberg  | <----------|  • S3 + Athena   |
+                              | Delta    |           |  • Snowflake     |
+                              | Hudi     |           |  • BigQuery      |
+                              |          |           |  • ClickHouse    |
+                              | Key-Value|           |  • DynamoDB      |
+                              | Redis    |           |  • Postgres      |
+                              |          |           |  • ElasticSearch |
+                              +----------+           +------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Source Connector (Debezium/Kafka Connect)** | RDBMS Binlog/WAL의 변경 이벤트를 Kafka 토픽으로 비동기 발행. Source DB의 Transaction Log Reader로 동작하여 Lock 없이 일관된 스냅샷 제공 | Debezium은 MySQL의 `binlog_reader=binlog_client_v4`, Postgres의 `pgoutput`/`wal2json` 플러그인을 사용. `snapshot.mode=initial`(전체 스냅샷 후 증분 전환) 또는 `schema_only`. `tombstone`은 Soft Delete의 전파를 위해 `__deleted` 컬럼과 null value로 발행 |
+| **Message Broker (Kafka KRaft)** | 모든 CDC 이벤트의 불변 로그(Immutable, Append-only) 저장. Consumer Group별 Offset으로 재생·재처리 지원. Log Compaction으로 Key별 최종 상태만 유지 | KRaft 모드(ZooKeeper 제거, Raft 합의)로 메타데이터 관리 단순화. `min.insync.replicas=2`, `acks=all`, `enable.idempotence=true`로 Leader Epoch 기반 중복 방지. `cleanup.policy=compact`로 Changelog 토픽 운영 |
+| **Schema Registry (Confluent/Apicurio)** | Avro/Protobuf 스키마 버전 관리. Producer/Consumer 간 Contract 보장 및 Backward/Forward/Full 호환성 검증 | Schema ID는 Wire Format에 인라인 임베드(Magic Byte + Schema ID). `compatibility=BACKWARD`로 신규 필드 default 추가만 허용, 필드 삭제는 불가. CI 단계에서 Compatibility Check 필수 |
+| **Stream Processor (Flink/Spark Structured Streaming)** | Stateful 변환(Join, Aggregate, Enrichment), Window 연산, Watermark 기반 Event Time 처리, Exactly-Once Checkpoint | Flink는 Chandy-Lamport 분산 스냅샷을 주기적(보통 10~60s)으로 RocksDB State Backend에 저장. Barrier Alignment로 병렬 Subtask 간 일관성 보존. 두 번의 Checkpoint 완료로 멱등성 보장. Watermark는 `(event_time - max_out_of_orderness)`로 설정 |
+| **Sink (Lakehouse/OLAP/KV)** | 변환 결과를 영구 저장. MERGE(UPSERT) 지원 여부가 EOS 구현 가능 여부를 결정 | Iceberg의 `V2` Hidden Partition + MOR(Merge-on-Read) Delete File로 Row-level Update 지원. ClickHouse는 `ReplacingMergeTree` + `FINAL` 또는 `Lightweight Update`. DynamoDB는 Conditional Write로 멱등성 보장 |
+| **Orchestration & Observability** | 파이프라인 배포·모니터링·장애 대응. Flink Job은 Savepoint로 버전 업그레이드 시 상태 보존 | Kubernetes(Operator 패턴: Strimzi, Flink Kubernetes Operator), Prometheus + Grafana, OpenLineage(Marquez)로 Lineage 추적, PagerDuty 연동 Alert |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 핵심 메커니즘 심층 분석
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**1. Exactly-Once Semantics(EOS) — "데이터는 한 번도 빠짐없이, 한 번뿐이 아니라 정확히 한 번만 반영되어야 한다"**
+
+EOS는 다음 4가지가 동시 만족되어야 달성된다.
+- **Idempotent Source**: Kafka 자체가 동일 Offset을 재처리해도 동일 Record를 반환(아직 Offset Commit 전이면).
+- **Deterministic Processing**: Flink는 동일 입력 + 동일 상태 -> 동일 출력 보장. 단, `currentTimestamp()`·Random·UUID 같은 비결정적 함수 사용 시 깨짐.
+- **Atomic Checkpoint**: Flink의 Barrier가 모든 Parallel Instance를 통과해야 Checkpoint 성공. 실패 시 State와 Kafka Offset을 함께 롤백.
+- **Idempotent/Transactional Sink**:
+  - **2PC Sink** (Kafka -> JDBC/Exactly-Once Sink Function): Sink가 `beginTransaction` -> `invoke` -> `preCommit` -> `commit` 4단계로 JDBC에 2PC 적용. 단, Sink DB가 XA Transaction을 지원해야 함(Postgres·MySQL은 제한적).
+  - **Idempotent Sink** (Lakehouse MERGE): `UPSERT WHERE _op = 'd' DELETE` 형태로 Key 기준 멱등. 실전에서 가장 많이 사용.
+
+**2. Watermark & Event Time**
+
+`Watermark(t) = max(event_time) - max_out_of_orderness`로 정의하며, `t` 이후의 이벤트는 더 이상 도착하지 않을 것이라고 **낙관적으로 가정**하는 메커니즘.
+
+$$W(t) = \max_{seen}(\text{event\_time}) - \text{idle\_timeout}$$
+
+- `Bounded Out-of-Orderness`: 5분 허용 시 `W(t) = max_event_time - 5min`. 너무 작으면 Late Event가 Drop, 너무 크면 Latency 증가.
+- `Punctuated Watermark`: Source 레코드 일부에 Watermark 정보 임베드.
+- `Idle Source Detection`: Kafka Partition이 데이터를 일시적으로 안 보내면 Watermark 진행 정지 -> TM(TaskManager)이 자동 감지.
+
+**3. Stateful Stream Processing**
+
+Flink의 `Keyed State`는 RocksDB에 LSM-Tree로 저장되며, Checkpoint 시 `sst` 파일을 Streaming으로 S3/HDFS에 업로드. TB 단위 상태도 처리 가능하나, State Size가 크면 Checkpoint 시간과 Recovery 시간이 선형 증가. **State Schema Evolution** 시 `AvroSerializer`와 `State Schema Registry`를 함께 사용해야 Job 재시작 시 역직렬화 실패를 방지한다.
+
+**4. Kafka의 KRaft 모드**
+
+기존 ZooKeeper 의존을 제거한 Raft 합의 기반 컨트롤러. 단일 Controller(Scalability 한계) 문제를 해결하기 위해 KRaft 2.0+에서는 Multi-Controller(Quorum of Controllers) 지원. Producer는 `acks=all` + `enable.idempotence=true`로 Leader Epoch 기반 중복 제거 수행.
+
+- **📢 섹션 요약 비유**: 스트리밍 ETL은 택배의 실시간 배송 추적 시스템과 같다. 상점에서 주문이 들어오면(Database Transaction), 분류 센터(Kafka)가 각 배송 차량별로 분류하고, 배송 기사(Flink)가 주소 변경·시간대별 재배분(Enrichment)을 거쳐 고객에게 전달(Sink)한다. 중간에 문제가 생기면 출고 시점부터 다시 분류를 시작(Replay)할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-스트리밍 ETL 실시간 파이프라인 설계을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+스트리밍 ETL은 여러 유사 개념과 명확히 구분되어야 한다. 가장 자주 혼동되는 것은 **Batch ETL**, **Lambda Architecture**, **ELT**이며, 의사결정 시 핵심 차이를 정확히 파악해야 한다.
 
-| 구분 | 전통적 접근 | 스트리밍 ETL 실시간 파이프라인 설계 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 스트리밍 ETL 실시간 파이프라인 설계은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 스트리밍 ETL 실시간 파이프라인 설계은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 스트리밍 ETL 실시간 파이프라인 설계을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-스트리밍 ETL 실시간 파이프라인 설계을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 스트리밍 ETL 실시간 파이프라인 설계 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 스트리밍 ETL 실시간 파이프라인 설계은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 스트리밍 ETL 실시간 파이프라인 설계의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 스트리밍 ETL 실시간 파이프라인 설계의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-스트리밍 ETL 실시간 파이프라인 설계 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 스트리밍 ETL 실시간 파이프라인 설계은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | Batch ETL (전통) | Lambda Architecture | Kappa Architecture (스트리밍 ETL) | ELT (Modern DW) |
+| :--- | :--- | :--- | :--- | :--- |
+| **지연 시간 (Latency)** | T+12h ~ T+24h | 실시간(Layer) + 배치(보정) | P50 1~5초, P99 30초 | T+1h ~ T+24h (dbt 기반) |
+| **코드 중복** | 없음 (단일 파이프라인) | 있음 (Batch Layer + Speed Layer 동일 로직 2벌) | 없음 (단일 스트림 코드) | 없음 (SQL 변환) |
+| **재처리 방식** | 전체 재적재(Full Reload) | Batch Layer가 Raw 데이터로 재계산 | Kafka Log Replay (Offset Reset) | 테이블 전체 REPLACE |
+| **State 관리** | 단순 (DB 테이블 JOIN) | 복잡 (2개 Layer 동기화) | 중간 (Flink State) | 없음 (DW 엔진이 처리) |
+| **적합 Use Case** | 일간 리포팅, 정합성 최우선 | 추천
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 267 / 300

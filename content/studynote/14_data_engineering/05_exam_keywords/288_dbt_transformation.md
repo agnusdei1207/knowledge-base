@@ -11,160 +11,169 @@ tags = ["studynote-data-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: dbt 데이터 변환 모델링 테스트 문서화은(는) 시험 빈출 키워드 및 데이터/AI 아키텍처 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: dbt(Data Build Tool)는 SQL 기반의 ELT 패러다임에서 `SELECT` 문만으로 클라우드 데이터 웨어하우스 내 변환 로직을 모델링하고, Jinja2 템플릿·Ref 함수·Materialization·Schema Test·Docs 블록을 통해 소프트웨어 엔지니어링 원칙(DRY, 모듈화, 버전관리, CI/CD)을 데이터 파이프라인에 적용하는 Transformation-as-Code 프레임워크이다.
+> 2. **가치**: 수동 ETL 작성 대비 모델 재사용성 70%^, 스키마 변경 추적·리니지 자동화로 데이터 다운타임 평균 60%v, `dbt test`/`dbt docs` 자동화로 분석가-엔지니어 간 핸드오프 비용 절감 및 데이터 신뢰도(Quality) 측정 가능.
+> 3. **판단 포인트**: View/Table/Incremental/Ephemeral 4종 Materialization 선택 시 트레이드오프(저장·비용·신선도), 테스트 4종 기본제 vs Singular Test 작성 비중, `sources`를 통한 Raw 데이터 계약(Contract) 정의, 멀티 프로젝트 모노레포 vs 폴리레포 운영 전략, 카탈로그(Snowflake/BigQuery/Redshift/Databricks)별 한계 식별.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-dbt 데이터 변환 모델링 테스트 문서화은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적 ETL 파이프라인은 Informatica, Talend 같은 GUI 기반 도구로 추출·변환·적재 로직을 블랙박스 형태로 관리했다. 이는 ① 변환 로직 추적 불가 ② 비즈니스 로직과 데이터 모델 간 분절 ③ 레거시 의존성 ④ 테스트 부재로 인한 데이터 신뢰성 저하 문제를 야기했다. Snowflake·BigQuery·Redshift 같은 클라우드 DWH의 컴퓨팅-스토리지 분리 구조가 보편화되면서, **"Warehouse 내 In-Place Transformation"** 개념이 등장했고, dbt가 이를 SQL-first로 실현했다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, dbt Data Transformation Modeling Testing 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+dbt는 dbt Labs(Fishtown Analytics)에서 2016년 출시되었으며, 2024년 기준 30,000+ 기업이 도입했고, Analytics Engineer라는 직무를 만들어낸 기술로 평가된다. 핵심 가치는 **"Analytics as Code"** — SQL+Jinja+YAML을 Git으로 버전관리하고, DAG(Directed Acyclic Graph) 기반 의존성 자동 해석, 테스트 자동화, 자동 문서화를 제공한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    dbt 데이터 변환 모델링 테스트 문서화 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++---------------------------------------------------------------------+
+|            전통 ETL vs dbt 기반 ELT 패러다임 비교                    |
++---------------------------------------------------------------------+
+|                                                                     |
+|  [Legacy ETL]              [Modern ELT + dbt]                       |
+|                                                                     |
+|  Source ---> [Informatica] ---> [Staging DB] ---> [DW]                |
+|             (ETL Server)     (전용 DB)                              |
+|             (비-버전관리)      (중간 적재)                          |
+|                  |                |                                |
+|                  v                v                                |
+|             Black Box         Black Box                            |
+|                                                                     |
+|  ---------------------------------------------------------         |
+|                                                                     |
+|  Source ---> [Cloud DWH(Snowflake/BQ/Redshift)] <--- dbt run        |
+|   Raw       |         |         |         |         |              |
+|   Tables    v         v         v         v         v              |
+|          staging  intermediate  marts  snapshots  seeds            |
+|          (.sql)   (.sql)      (.sql)   (SCD)     (.csv)           |
+|                          |                                        |
+|                          v                                        |
+|                    dbt test (스키마·데이터)                         |
+|                    dbt docs (자동 문서·리니지)                      |
++---------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+기존에는 분석가가 SQL을 작성하면 데이터 엔지니어가 이를 Airflow/Spark 작업으로 wrap-up했다. dbt는 이 간극을 메워 분석가가 직접 `model.sql`을 작성하고, 데이터 엔지니어는 인프라·오케스트레이션·CI/CD에 집중하게 만드는 **책임 분리(SoR, Separation of Responsibility)** 모델을 제시한다.
 
-- **📢 섹션 요약 비유**: dbt 데이터 변환 모델링 테스트 문서화은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: dbt는 데이터 웨어하우스 안의 **"변환 전용 공장 컨베이어 벨트"**로, 원자재(Raw Data)를 받아 가공 매뉴얼(SQL)대로 제품을 만들고, 자동 검사장치(Test)와 제품 카탈로그(Docs)를 함께 출력합니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-dbt 데이터 변환 모델링 테스트 문서화의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+dbt의 아키텍처는 4계층으로 구성된다: **① 프로젝트 구조(파일시스템) ② 컴파일러(Jinja+SQL) ③ 어댑터(어댑터 플러그인) ④ 오케스트레이션 레이어(dbt Cloud/Airflow/Prefect)**.
+
+핵심 메커니즘은 `ref()` 함수를 통한 **DAG 자동 구성**이다. `{{ ref('stg_orders') }}`는 컴파일 시 CTE(Common Table Expression) 형태의 의존성 그래프 노드로 해석되며, dbt는 이를 topological sort하여 실행 순서를 결정한다. 또한 `source()` 함수는 Raw 데이터에 대한 **계약(Contract)**을 정의하여, 업스트림 변경 시 다운스트림 모델을 보호한다.
 
 ```text
-+--------------------------------------------------------------+
-|              dbt Data Transformation Modeling Testing 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|                  dbt 프로젝트 아키텍처 및 실행 흐름                  |
++----------------------------------------------------------------------+
+|                                                                      |
+|  📂 프로젝트 구조 (dbt_project.yml 루트)                              |
+|  +----------------------------------------------------+             |
+|  | models/         staging/   intermediate/   marts/  |             |
+|  |   stg_orders.sql     +--- fct_orders.sql          |             |
+|  |   stg_customers.sql  +--- dim_customers.sql       |             |
+|  | tests/         (schema.yml / singular .sql)       |             |
+|  | macros/        (재사용 가능한 Jinja 매크로)        |             |
+|  | snapshots/     (SCD Type 2)                        |             |
+|  | seeds/         (소규모 참조 데이터 .csv)           |             |
+|  | analyses/      (임시 Ad-hoc 쿼리)                  |             |
+|  +----------------------------------------------------+             |
+|                          |                                           |
+|                          v  dbt parse / compile                     |
+|  +----------------------------------------------------+             |
+|  |  Jinja2 템플릿 엔진 ---> SQL 변환 (CTE 생성)        |             |
+|  |  ref('model')    ---> {{ database }}.{{ schema }}  |             |
+|  |                       .{{ identifier }}            |             |
+|  |  source('raw', 'orders') ---> raw.orders             |             |
+|  |  var('start_date')        ---> '2024-01-01'         |             |
+|  |  config(materialized='incremental')                |             |
+|  |           |                                        |             |
+|  |           v                                        |             |
+|  |  +------------------------------------+           |             |
+|  |  |   DAG(Directed Acyclic Graph)      |           |             |
+|  |  |   sources -> staging -> intermediate  |           |             |
+|  |  |             -> marts -> exposures     |           |             |
+|  |  +------------------------------------+           |             |
+|  |           |                                        |             |
+|  |           v                                        |             |
+|  |  어댑터 (dbt-snowflake, dbt-bigquery,              |             |
+|  |          dbt-redshift, dbt-databricks,              |             |
+|  |          dbt-postgres, dbt-spark)                  |             |
+|  |           |                                        |             |
+|  |           v                                        |             |
+|  |  Warehouse DML/DDL 실행 (CREATE/INSERT/MERGE)      |             |
+|  +----------------------------------------------------+             |
+|                          |                                           |
+|                          v                                           |
+|  +----------------------------------------------------+             |
+|  |  검증 레이어:                                       |             |
+|  |   ✅ dbt test    (스키마 4종 + Singular)             |             |
+|  |   📚 dbt docs    (카탈로그·리니지·컬럼 단위)         |             |
+|  |   🔍 dbt source freshness (신선도 SLA)              |             |
+|  |   📊 dbt-expectations, dbt-utils (패키지)           |             |
+|  +----------------------------------------------------+             |
++----------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **dbt Project** | 변환 로직 컨테이너 | `dbt_project.yml`로 모델 경로·Materialization 기본값·변수 정의. `name`, `version`, `profile`, `model-paths`, `seed-paths`, `test-paths`, `macro-paths` 등 |
+| **Models (.sql)** | 변환 단위 SQL 파일 | `{{ config(materialized='incremental', unique_key='order_id', on_schema_change='append_new_columns') }}` 메타데이터. `SELECT`문만 작성 (CREATE TABLE 등은 dbt가 생성) |
+| **Schema YAML (sources/tests/docs)** | 데이터 계약·테스트·문서 | `sources:` (raw 테이블 정의+신선도), `models:` (description, columns, tests, meta), `exposures:` (BI 대시보드 의존성) |
+| **Macros** | Jinja2 기반 재사용 함수 | `{% macro cents_to_dollars(column_name) %} {{ column_name }}/100.0 {% endmacro %}` 패턴. `dbt_utils` 같은 패키지로 생태계 확장 |
+| **Tests** | 데이터 품질 검증 | ① 내장: `unique`, `not_null`, `accepted_values`, `relationships` ② Singular: `tests/assert_positive_revenue.sql` (Boolean 결과 반환) ③ Generic: 패키지 형태의 재사용 가능 테스트 |
+| **Snapshots** | SCD Type 2 구현 | `dbt snapshot`으로 slowly changing dimension 추적. `strategy: timestamp` vs `check` 컬럼 비교, `unique_key`로 멱등성 보장 |
+| **Seeds** | CSV 참조 데이터 적재 | `dbt seed`로 소규모(<수만 행) 정적 데이터 적재. 국가코드, 우편번호 매핑 등 |
+| **Adapter Layer** | DWH 종속성 추상화 | `dbt-snowflake`, `dbt-bigquery`, `dbt-redshift`, `dbt-databricks`, `dbt-postgres` 등 12+ 어댑터. Database/Schema 매핑, Incremental merge 전략 차별화 |
+| **Artifacts (run_results.json, manifest.json)** | 메타데이터 산출물 | DAG 노드 ID, 의존성 그래프, 실행 로그. 외부 도구(Elementary, Re_data, dbt-monitor)가 이를 소비해 모니터링·경보 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+핵심 파라미터/알고리즘:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **Incremental 전략**: `append` (중복 허용), `merge` (unique_key 기반 UPSERT, `dbt-1.0+`에서 기본), `delete+insert`, `insert_overwrite`(파티션 기반). BigQuery는 `merge`를 `MERGE STATEMENT`로, Snowflake는 `MERGE INTO`로 변환.
+- **Ref 해석 알고리즘**: `ref()` 함수 호출 시 manifest.json에 노드 등록 -> DAG 정렬 시 Kahn's Algorithm 위상 정렬 -> 의존 모델 우선 컴파일·실행.
+- **Schema Test 컴파일**: `unique` -> `SELECT col FROM (SELECT col, COUNT(*) OVER (PARTITION BY col) cnt FROM tbl) WHERE cnt > 1` 형태로 변환, 실패 시 `dbt test --store-failures` 옵션으로 결과 테이블 적재.
+- **dbt parse 시간**: 프로젝트 1000+ 모델 기준 평균 30~90초. `--no-partial-parse`로 캐시 무효화.
+
+- **📢 섹션 요약 비유**: dbt는 **"SQL로 만드는 레고 블록"**과 같습니다. 작은 블록(Model)을 Ref로 연결해 큰 조형물(Marts)을 짓고, 매 블록마다 자동 검사(Test)를 통과해야만 다음 단계로 넘어갈 수 있습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-dbt 데이터 변환 모델링 테스트 문서화을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+dbt는 데이터 변환 영역의 사실상 표준(de facto)이지만, Apache Airflow, Dataform, SQLMesh, Coalesce 같은 경쟁 도구와 비교 시 차별점이 분명하다. 또한 Great Expectations, Soda Core 같은 데이터 품질 도구, Atlan·DataHub 같은 카탈로그 도구, Monte Carlo·Bigeye 같은 observability 도구와 보완 관계에 있다.
 
-| 구분 | 전통적 접근 | dbt 데이터 변환 모델링 테스트 문서화 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | **dbt** | **Apache Airflow** | **Dataform (Google)** | **SQLMesh** | **Great Expectations** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **핵심 목적** | SQL 변환+테스트+문서 | 워크플로우 오케스트레이션 | SQL 변환 (dbt와 유사) | SQL 변환+가상환경 | 데이터 품질 검증 |
+| **언어** | SQL + Jinja | Python (DAG 정의) | SQL + JavaScript | SQL + Python | Python/YAML |
+| **테스트** | 내장 4종 + 사용자 정의 | 별도 구현 필요 | assertions 블록 | 내장 + audit | 강력한 Expectation 시스템 |
+| **리니지** | 자동 (manifest.json) | OpenLineage 통합 | 자동 (Dataform Web) | 자동 (UI 내장) | 미제공 |
+| **환경 격리** | dbt Cloud only (Dev/Prod) | Celery/K8s Executor | Git 통합 | 내장 (Dev/Prod 가상 환경) | 별도 |
+| **상태(state) 관리** | Weak (스키마 기반) | Weak | Weak | **Strong (snapshot 기반 변경 감지)** | Weak |
+| **실행 단위** | Model (DAG 노드) | Task | Table | Model | Checkpoint |
+| **커뮤니티** | 매우 활발 (dbt Slack 80K+) | 매우 활발 | 활발 | 성장 중 | 활발 |
+| **라이선스** | Core: Apache 2.0 / Cloud: 상용 | Apache 2.0 | 상용 (Google) | Apache 2.0 | Apache 2.0 |
+| **DWH 의존성** | 어댑터 12+ | 없음 (범용) | BigQuery 우선 | 어댑터 7+ | 없음 (범용) |
+| **학습 곡선** | 낮음 (SQL만 알면 됨) | 중간 (Python+DAG) | 낮음 | 중간 | 높음 (Python) |
 
-관련 기술 영역과의 연결점도 중요하다. dbt 데이터 변환 모델링 테스트 문서화은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+**연계 통합 패턴:**
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 dbt 데이터 변환 모델링 테스트 문서화은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+- **dbt + Airflow**: Airflow의 `DbtRunOperationOperator`/`DbtRunOperator`로 dbt Cloud API 호출 또는 `BashOperator`로 `dbt-core` CLI 실행. Airflow는 외부 시스템(API, S3) -> Warehouse 적재(EL의 L) 담당, dbt는 T 담당.
+- **dbt + Great Expectations/Soda Core**: `dbt-expectations` 패키지(Great Expectations의 GE Expectation을 dbt 테스트로 래핑) 또는 Soda의 `soda scan`을 `dbt run` 후 CI 단계에서 실행. 이 경우 품질 검증의 단일 진실 공급원은 dbt로 통합.
+- **dbt + DataHub/Atlan**: `dbt-artifacts` 또는 `dbt_manifest_parser`로 manifest.json을 카탈로그에 push, column-level 리니지 시각화.
+- **dbt + Elementary**: `dbt run` 후 `elementary` 패키지가 anomaly detection, freshness, volume 추적.
+- **dbt + dbt-mesh/Cross-project ref**: `dbt-project-dependencies`로 멀티팀 모노레포 운영. 동일 카탈로그 내 다른 프로젝트의 모델 참조 가능 (`+group:finance`).
+
+- **📢 섹션 요약 비유**: Airflow가 **"전체 공장 스케줄러"**라면, dbt는 **"변환 라인 전용 작업 매뉴얼"**입니다. 두 도구를 합치면 L(적재)은 Airflow가, T(변환)는 dbt가 각자 전문 영역을 담당합니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 dbt 데이터 변환 모델링 테스트 문서화을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
 ### 기술사형 판단 체크리스트
 
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-dbt 데이터 변환 모델링 테스트 문서화을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, dbt 데이터 변환 모델링 테스트 문서화 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: dbt 데이터 변환 모델링 테스트 문서화은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | dbt 데이터 변환 모델링 테스트 문서화의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | dbt 데이터 변환 모델링 테스트 문서화의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-dbt 데이터 변환 모델링 테스트 문서화 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. dbt 데이터 변환 모델링 테스트 문서화은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+1. **Materialization 전략 수립**: `staging` 레이어는 `view`(저장비용 0,
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 288 / 300
