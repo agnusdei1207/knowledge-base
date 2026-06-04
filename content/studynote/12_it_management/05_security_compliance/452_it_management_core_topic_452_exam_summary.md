@@ -100,7 +100,7 @@ IT 경영 관리의 핵심 아키텍처는 **COBIT 2019 Governance System**을 �
 |   |  | Strategy, Acquisition, Performance, Conformance, Human   |  |    |
 |   |  | Behavior (3-Evaluate, 3-Direct, 3-Monitor)              |  |    |
 |   |  +----------------------------------------------------------+  |    |
-|   |                          ↕ Bidirectional Alignment             |    |
+|   |                          <-> Bidirectional Alignment             |    |
 |   |  L4. 거버넌스 시스템(Governance System)                         |    |
 |   |  +----------------------------------------------------------+  |    |
 |   |  | COBIT 2019: 40 Governance & Management Objectives        |  |    |
@@ -110,7 +110,7 @@ IT 경영 관리의 핵심 아키텍처는 **COBIT 2019 Governance System**을 �
 |   |  |  ·People/Skills/Culture/Service/Infrastructure/Apps      |  |    |
 |   |  | Focus Areas: DevOps, Cybersecurity, Digital Transformation|  |    |
 |   |  +----------------------------------------------------------+  |    |
-|   |                          ↕ Mapping                             |    |
+|   |                          <-> Mapping                             |    |
 |   |  L3. 운영관리 시스템(Service Management)                       |    |
 |   |  +----------------------------------------------------------+  |    |
 |   |  | ITIL 4 Service Value System (SVS)                        |  |    |
@@ -122,14 +122,14 @@ IT 경영 관리의 핵심 아키텍처는 **COBIT 2019 Governance System**을 �
 |   |  |  • 4 Dimensions of Service Mgmt: Org·People·Info·       |  |    |
 |   |  |    Technology·Partners·Value Streams·Processes           |  |    |
 |   |  +----------------------------------------------------------+  |    |
-|   |                          ↕ Integration                          |    |
+|   |                          <-> Integration                          |    |
 |   |  L2. 프로젝트/프로그램 (Project/Program)                        |    |
 |   |  +----------------------------------------------------------+  |    |
 |   |  | PMBOK 7th (8 Performance Domains) + PRINCE2 (7 Themes)  |  |    |
 |   |  | + SAFe 6.0 (5 Core Values) + ISO 21502:2020              |  |    |
 |   |  | Stage Gate: Feasibility->Design->Build->Test->Deploy->Close  |  |    |
 |   |  +----------------------------------------------------------+  |    |
-|   |                          ↕ Security Overlay                     |    |
+|   |                          <-> Security Overlay                     |    |
 |   |  L1. 보안/컴플라이언스 (Security & Compliance)                  |    |
 |   |  +----------------------------------------------------------+  |    |
 |   |  | ISO 27001:2022 (Annex A 93 Controls) + ISMS-P 인증      |  |    |

@@ -99,7 +99,7 @@ ITIL 4는 2019년 발표된 최신 버전으로, **Service Value System(SVS)** �
 |   |  - MEA01 Performance Management  |  - MEA02 Sytem Internal |       |
 |   |  - MEA03 External Compliance    |  - MEA04 Assurance      |       |
 |   +-------------------------------------------------------------+       |
-|                              ↕ 매핑(Mapping) ↕                          |
+|                              <-> 매핑(Mapping) <->                          |
 |   +--------------- ITIL 4 Service Value Chain (SVC) -----------+       |
 |   |                                                              |       |
 |   |   [Plan]--->[Engage]--->[Design & Transition]                 |       |

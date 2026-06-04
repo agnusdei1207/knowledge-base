@@ -73,23 +73,23 @@ IT 경영 관리의 표준 아키텍처는 **COBIT 2019**의 체계와 **TOGAF A
 |  |  • 비즈니스 전략    • IT 거버넌스 위원회 (ITGC)            |          |
 |  |  • 디지털 로드맵    • 투자 우선순위(FinOps/Business Case)  |          |
 |  +----------------------------------------------------+          |
-|                          ↕ 정렬(Alignment)                              |
+|                          <-> 정렬(Alignment)                              |
 |  +--- Planning Layer (기획 계층) -------------------------+          |
 |  |  • 포트폴리오 관리(PPM)  • PMO(3-tier: Portfolio/Program)|       |
 |  |  • 자원 배분(Budgeting)  • 위험 관리(Risk Register)     |          |
 |  +----------------------------------------------------+          |
-|                          ↕ 변환(Transformation)                          |
+|                          <-> 변환(Transformation)                          |
 |  +--- Execution Layer (수행 계층) ------------------------+          |
 |  |  • EA 구현(TOGAF ADM)  • Agile/Scrum/SAFe              |       |
 |  |  • DevOps 파이프라인    • SRE 관행(Error Budget)         |          |
 |  +----------------------------------------------------+          |
-|                          ↕ 제공(Delivery)                                |
+|                          <-> 제공(Delivery)                                |
 |  +--- Operations Layer (운영 계층) ----------------------+          |
 |  |  • ITIL 4 SVS(34 Practices)                            |       |
 |  |  • AIOps/관측가능성(Observability: M/E/L/T)             |       |
 |  |  • FinOps(클라우드 비용 최적화)                          |       |
 |  +----------------------------------------------------+          |
-|                          ↕ 측정(Measurement)                            |
+|                          <-> 측정(Measurement)                            |
 |  +--- Governance Layer (거버넌스 계층) ----------------------+      |
 |  |  • COBIT 2019(40 Goals)  • ISO 38500                   |       |
 |  |  • BSC 4관점(Financial/Customer/Process/Learning)        |       |

@@ -30,19 +30,19 @@ IT 경영관리(Information Technology Management & Governance)는 기업의 미
 |  |  • Business Strategy ↔ IT Strategy 정렬               |  |
 |  |  • Ward & Peppard Balanced Scorecard, Henderson 모델   |  |
 |  +--------------------------------------------------------+  |
-|                          ↕ 양방향 피드백                     |
+|                          <-> 양방향 피드백                     |
 |  +--------------------------------------------------------+  |
 |  | ② 포트폴리오·투자 계층 (Portfolio Layer)                |  |
 |  |  • Demand Mgmt -> Portfolio Prioritization -> Funding    |  |
 |  |  • Build/Buy/Rent, App rationalization, BIM/BI          |  |
 |  +--------------------------------------------------------+  |
-|                          ↕ RACI/거버넌스 위원회              |
+|                          <-> RACI/거버넌스 위원회              |
 |  +--------------------------------------------------------+  |
 |  | ③ 운영·서비스 계층 (Operation Layer)                    |  |
 |  |  • ITIL 4 SVS(서비스 가치 시스템)                       |  |
 |  |  • SLA/OLA/UC, Incident->Problem->Change                 |  |
 |  +--------------------------------------------------------+  |
-|                          ↕ KPI/CSF 측정                    |
+|                          <-> KPI/CSF 측정                    |
 |  +--------------------------------------------------------+  |
 |  | ④ 성과·리스크 계층 (Performance & Risk Layer)           |  |
 |  |  • COBIT 2019 EDM, ISO 38500, ISMS-P, NIST CSF         |  |
@@ -51,7 +51,7 @@ IT 경영관리(Information Technology Management & Governance)는 기업의 미
 +--------------------------------------------------------------+
         |                                              |
    이사회(Board)                              감사위원회(Audit)
-   ↕ CISO/CHRO                                ↕ 내부감사
+   <-> CISO/CHRO                                <-> 내부감사
    CIO/CTO/CDO(Chief Digital Officer)        DPO
 ```
 

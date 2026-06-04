@@ -30,7 +30,7 @@ tags = ["studynote-it-management"]
 |                                                                     |
 |  +------------------- Strategy Layer -------------------+           |
 |  |  Corporate Vision / Mission / Strategic Objectives  |           |
-|  |       ↕ (Strategy Alignment via Balanced Scorecard) |           |
+|  |       <-> (Strategy Alignment via Balanced Scorecard) |           |
 |  +----------------------+-------------------------------+           |
 |                         |                                           |
 |  +---------- Governance Layer (COBIT 2019 EDM) --------+             |

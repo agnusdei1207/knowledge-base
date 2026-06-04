@@ -23,9 +23,9 @@ tags = ["NSX", "SDN", "Zero Trust", "data center security", "east west traffic",
 
 ```
 [외부 인터넷]
-      ↕  <- 노스-사우스 (North-South): 외부 ↔ 내부
+      <->  <- 노스-사우스 (North-South): 외부 ↔ 내부
 [경계 방화벽 / DMZ]
-      ↕
+      <->
 [내부 데이터센터]
   서버A ↔ 서버B ↔ 서버C  <- 이스트-웨스트 (East-West): 내부 간
 ```

@@ -24,12 +24,12 @@ tags = ["studynote-ict-convergence"]
 +-------------------------------------------------------+
 |  [AE — Application Entity]                            |
 |   스마트홈 앱, 환경 모니터링 앱                       |
-|      ↕ Mca 인터페이스                                 |
+|      <-> Mca 인터페이스                                 |
 |  [CSE — Common Service Entity]                        |
 |   등록·디스커버리·데이터관리·구독·보안                |
-|      ↕ Mcc 인터페이스                                 |
+|      <-> Mcc 인터페이스                                 |
 |  [CSE (다른 노드)]                                    |
-|      ↕ Mcn 인터페이스                                 |
+|      <-> Mcn 인터페이스                                 |
 |  [NSE — Network Service Entity]                       |
 |   전송 네트워크 (LTE, Wi-Fi, LoRa)                   |
 +-------------------------------------------------------+

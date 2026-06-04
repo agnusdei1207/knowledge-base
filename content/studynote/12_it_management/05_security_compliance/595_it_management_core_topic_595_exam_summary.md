@@ -40,7 +40,7 @@ tags = ["studynote-it-management"]
    +-----------------+ +--------------+ +-----------------+
    | Business Unit A | | Business Unit| | IT / Platform    |
    | (Demand Owner)  | | B (Demand)   | | (Supply Owner)  |
-   |  ↕ Engagement   | |              | |  ↕ Architecture |
+   |  <-> Engagement   | |              | |  <-> Architecture |
    +-----------------+ +--------------+ +-----------------+
               |               |               |
               +---------------+---------------+

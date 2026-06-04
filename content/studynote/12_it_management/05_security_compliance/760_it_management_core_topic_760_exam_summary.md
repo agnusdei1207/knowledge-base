@@ -59,7 +59,7 @@ tags = ["studynote-it-management"]
 |                  | tion:Risk Ratio)       |                          |
 |                  +------------------------+                          |
 +---------------------------------------------------------------------+
-   ↕ (Feedback Loop: KPI/SLA/SLI/BCP-DR Test/Internal Audit)
+   <-> (Feedback Loop: KPI/SLA/SLI/BCP-DR Test/Internal Audit)
 ```
 
 **시대의 흐름에 따른 패러다임 비교:**

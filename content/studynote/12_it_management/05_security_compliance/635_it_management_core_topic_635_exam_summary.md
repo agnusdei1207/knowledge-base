@@ -99,12 +99,12 @@ IT 경영 관리 아키텍처는 크게 **① 전략 계층(Strategy Layer)**, *
 |                              |                                   |
 |   +--------------------------v------------------------------+   |
 |   |   ① Governance Objectives (40개 목표)                   |   |
-|   |       ↕ 정렬                                            |   |
+|   |       <-> 정렬                                            |   |
 |   |   ② Components: Process / Organizational Structures /    |   |
 |   |      Information Flows / People, Skills & Competencies / |   |
 |   |      Policies & Procedures / Culture, Ethics & Behavior /|   |
 |   |      Services, Infrastructure & Applications             |   |
-|   |       ↕ 매핑                                            |   |
+|   |       <-> 매핑                                            |   |
 |   |   ③ Design Factors (13개) -> 시스템 맞춤화                |   |
 |   +----------------------------------------------------------+   |
 |                              |                                   |

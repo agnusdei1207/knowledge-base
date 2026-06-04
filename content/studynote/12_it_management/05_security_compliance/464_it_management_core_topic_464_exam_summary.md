@@ -35,13 +35,13 @@ IT 투자 규모는 글로벌 연평균 4.8조 USD(2024, IDC)에 달하며, 한�
    |   |  - EDM03(Risk Optimization), EDM04(Resource),        |    |
    |   |  - EDM05(Stakeholder Transparency)                    |    |
    |   +------------------------------------------------------+    |
-   |                            ↕ 전략 연계                        |
+   |                            <-> 전략 연계                        |
    |   +------------------------------------------------------+    |
    |   |  Tier 2: CIO/CFO (Management)                        |    |
    |   |  - IT Portfolio Mgmt, IT-BSC, IT Financial Mgmt     |    |
    |   |  - EDM ↔ MEA(01~04) ↔ APO(01~14) ↔ BAI(01~11)      |    |
    |   +------------------------------------------------------+    |
-   |                            ↕ 운영 연계                        |
+   |                            <-> 운영 연계                        |
    |   +------------------------------------------------------+    |
    |   |  Tier 3: PM/Service Owner (Operational)              |    |
    |   |  - KPI/SLA 측정, Incident/MTTR, CSAT/NPS            |    |
@@ -95,7 +95,7 @@ IT 성과관리 시스템은 크게 **① 입력(Input) -> ② 처리(Process) -
    | - IT Risk   |            | +- Baseline 측정        |
    | - IT Budget |            | +- Realization Tracking  |
    +-------------+            +--------------------------+
-                                       ↕
+                                       <->
    [4. Feedback Layer]        [3. Output Layer]
    +----------------------+   +--------------------------+
    | MEA01: Perf&Eval     | <-- | MEA02: Assurance        |

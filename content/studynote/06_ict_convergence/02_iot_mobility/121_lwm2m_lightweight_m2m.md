@@ -23,7 +23,7 @@ tags = ["studynote-ict-convergence"]
 |    LwM2M 아키텍처                                     |
 +-------------------------------------------------------+
 |  [LwM2M Server]                                       |
-|    ↕ CoAP (DTLS 보안)                                |
+|    <-> CoAP (DTLS 보안)                                |
 |  [LwM2M Client (디바이스)]                            |
 |    +-- Object 3 (Device) — 제조사·모델·배터리        |
 |    +-- Object 5 (Firmware) — FOTA 업데이트            |

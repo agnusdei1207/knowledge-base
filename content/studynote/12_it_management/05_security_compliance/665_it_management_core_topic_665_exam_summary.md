@@ -65,7 +65,7 @@ COBIT 2019는 **5개 도메인(Domain)**, **40개 거버넌스/관리 목표(GO/
                 |  (이해관계자 Needs: 가치/위험/자원)  |
                 +--------------+----------------------+
                                | Goals Cascade (13 Enterprise Goals
-                               |  ↕ Alignment ↕ 13 IT Goals)
+                               |  <-> Alignment <-> 13 IT Goals)
                 +--------------v----------------------+
                 |  Enterprise Goals (EG)              |
                 |  EG01 포트폴리오 적정 수익          |

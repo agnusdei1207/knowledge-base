@@ -177,7 +177,7 @@ IT 경영 관리의 핵심은 **전략-투자-집행-운영-평가의 Value Loop
   |  7. 측정 (Measurement)               -> 성과/리스크 지표    |
   |  8. 불확실성 (Uncertainty)            -> 애매모호/복잡성/변동|
   +----------------------------------------------------------+
-                ↕ 12가지 Project Management Principle ↕
+                <-> 12가지 Project Management Principle <->
   (책임/팀/접근/계획/불확실성
 ## 🔗 이전/다음 글 (Navigation)
 

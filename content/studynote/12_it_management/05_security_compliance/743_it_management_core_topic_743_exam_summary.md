@@ -105,7 +105,7 @@ COBIT 2019는 ISACA(Information Systems Audit and Control Association)가 2018�
 |   |  EDM04 Resource Optimization (자원 최적화)                    |        |
 |   |  EDM05 Stakeholder Transparency (이해관계자 투명성)           |        |
 |   +------------------------------------------------------------+        |
-|                              ↕ (상호연결: RACI Matrix)                    |
+|                              <-> (상호연결: RACI Matrix)                    |
 |   +--- APO (Align, Plan, Organize) — 계획·조직 (14개) -------------+        |
 |   |  APO01 Mgt Framework | APO02 Strategy | APO03 Enterprise Arch|        |
 |   |  APO04 Innovation    | APO05 Portfolio| APO06 Budget & Cost  |        |
@@ -113,20 +113,20 @@ COBIT 2019는 ISACA(Information Systems Audit and Control Association)가 2018�
 |   |  APO10 Suppliers     | APO11 Quality  | APO12 Risk Mgmt      |        |
 |   |  APO13 Security Mgmt | APO14 Data Mgmt                         |        |
 |   +------------------------------------------------------------+        |
-|                              ↕                                              |
+|                              <->                                              |
 |   +--- BAI (Build, Acquire, Implement) — 구축·도입 (11개) --------+        |
 |   |  BAI01 Mgt Programs| BAI02 Reqmts Mgmt| BAI03 Solutions Id |        |
 |   |  BAI04 Availability & Capacity | BAI05 Org Change | BAI06 Changes| |
 |   |  BAI07 IM Transition | BAI08 Knowledge | BAI09 Assets | BAI10 Config| |
 |   |  BAI11 Projects Mgmt                                             |        |
 |   +------------------------------------------------------------+        |
-|                              ↕                                              |
+|                              <->                                              |
 |   +--- DSS (Deliver, Service, Support) — 인도·지원 (6개) ----------+        |
 |   |  DSS01 Operations| DSS02 Service Requests| DSS03 Incidents  |        |
 |   |  DSS04 Continuity| DSS05 Security Services| DSS06 Bus Process|        |
 |   |     Ctl                                                              |        |
 |   +------------------------------------------------------------+        |
-|                              ↕                                              |
+|                              <->                                              |
 |   +--- MEA (Monitor, Evaluate, Assess) — 모니터·평가 (4개) ---------+        |
 |   |  MEA01 Performance & Conformance| MEA02 Sytem of Internal Ctl|        |
 |   |  MEA03 Compliance w/ External Reqmts| MEA04 Assurance        |        |

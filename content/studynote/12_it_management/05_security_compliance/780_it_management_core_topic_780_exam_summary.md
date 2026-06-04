@@ -71,14 +71,14 @@ ISO 38500은 **6원칙(Responsibility, Strategy, Acquisition, Performance, Confo
    | ② Direct:  전략·정책 결정        |<--- COBIT Goals Cascade
    | ③ Monitor: 성과·리스크 감독      |<--- KPI Dashboard
    +----------------------------------+
-              ↕ (ISO 38500 6원칙 적용)
+              <-> (ISO 38500 6원칙 적용)
    +----------------------------------+
    |  IT Steering Committee (ISC)     |<--- CIO + 사업부서 CFO
    |  · Portfolio Prioritization      |<--- NPV, IRR, VOI
    |  · Architecture Review Board     |<--- EA 4-Layer
    |  · Change Advisory Board (CAB)   |<--- ITIL Change Mgmt
    +----------------------------------+
-              ↕ (Segregation of Duty)
+              <-> (Segregation of Duty)
    +----------------------------------+
    |  Operating Layer (PMO, SMO)      |<--- PMBOK, PRINCE2
    |  · Program Manager               |<--- Benefits Realization

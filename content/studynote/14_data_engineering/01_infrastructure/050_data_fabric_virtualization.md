@@ -29,7 +29,7 @@ tags = ["AI-driven", "data catalog", "data fabric", "data mesh", "data virtualiz
 
 데이터 패브릭:
   [단일 통합 레이어 (메타데이터 + 가상화 + 거버넌스)]
-      ↕      ↕      ↕      ↕
+      <->      <->      <->      <->
   온프레미스  클라우드  SaaS  레거시
 ```
 
@@ -119,7 +119,7 @@ AI 크롤러: 컬럼명, 데이터 타입, 값 분포 분석
 
 ```
 데이터 메시 (도메인 소유권 분산)
-    ↕
+    <->
 데이터 패브릭 (기술 통합 레이어)
 -> 메시의 자율성 + 패브릭의 통합 가시성
 ```
@@ -139,7 +139,7 @@ AI 크롤러: 컬럼명, 데이터 타입, 값 분포 분석
   +-- 카탈로그 (Collibra/Atlan)
   +-- 가상화 엔진 (Denodo/Dremio/Starburst)
   +-- 거버넌스 정책 (Apache Ranger/Privacera)
-      ↕         ↕         ↕
+      <->         <->         <->
   [온프레미스]  [AWS]    [Azure/GCP]
 ```
 

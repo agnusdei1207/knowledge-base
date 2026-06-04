@@ -29,7 +29,7 @@ IT 경영 관리(Information Technology Management, 이하 ITM)는 1990년대 �
 |                                                                          |
 |  +------------ Tier 0: Stakeholder & Value ------------+                 |
 |  |  Board | CEO | CFO | CIO | CISO | CDO | 사업부서장  |                 |
-|  |      ↕ (BSC, OKR, Risk Appetite Statement)          |                 |
+|  |      <-> (BSC, OKR, Risk Appetite Statement)          |                 |
 |  +------------------------------------------------------+                 |
 |                          |                                                |
 |  +------------ Tier 1: Strategy & Governance ----------+                 |

@@ -22,9 +22,9 @@ tags = ["studynote-cloud-architecture"]
 NIST 클라우드 참조 모델:
 
 클라우드 소비자 (Consumer)
-     ↕
+     <->
 [CSB - Cloud Service Broker]
-     ↕
+     <->
 클라우드 제공자 (Provider: AWS, Azure, GCP)
 
 CSB 3대 역할 (Gartner):
@@ -236,9 +236,9 @@ CSB 솔루션 설계:
 
 계층 구조:
   기업 사용자/팀
-       ↕
+       <->
   [CSB 레이어: CloudHealth + CASB]
-       ↕
+       <->
   AWS + Azure 멀티 클라우드
 
 CloudHealth (CMP) 도입:

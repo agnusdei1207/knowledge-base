@@ -29,7 +29,7 @@ SQL 쿼리
    +-- free list: 빈 프레임 목록
    +-- LRU list: Young(Hot) | Old(Cold) 영역
    +-- flush list: 더티 페이지 목록
-   ↕  (miss 시 디스크 I/O)
+   <->  (miss 시 디스크 I/O)
 데이터 파일 (.ibd)
 ```
 

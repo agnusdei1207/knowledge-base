@@ -11,160 +11,174 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: AI 할루시네이션 환각 방지 전략은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: LLM(대규모 언어 모델)이 학습 데이터에 없거나 통계적 패턴으로 그럴듯하게 조합한 **사실 무근거(factually unfounded) 콘텐츠를 사실로 출력하는 현상**(Intrinsic/Extrinsic Hallucination)을, **RAG(Retrieval-Augmented Generation)·Grounded Decoding·Constitutional AI·Fact-Verification Pipeline**의 4계층 방어 체계로 억제하는 기법
+> 2. **가치**: TruthfulQA·HaluEval·FActScore 기준 환각율 **40~65% → 5~15% 수준으로 감소**시키며, 의료·법률·금융 도메인에서 **Misinformation Liability(허위정보 법적 책임)** 리스크를 약 70% 절감하고 EU AI Act Article 6(High-Risk System)·ISO/IEC 42001 컴플라이언스 충족에 필수
+> 3. **판단 포인트**: **Latency vs Accuracy 트레이드오프**(Self-Consistency 5-path 샘플링은 토큰 비용 5배), **Domain Freshness vs Index Cost**, **Open-Domain Generalization vs Closed-Domain Precision**의 균형점에서 도메인·비용·규제 요건을 종합한 아키텍처 결정 필요
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-AI 할루시네이션 환각 방지 전략은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
-
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, AI Hallucination Prevention Strategy 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+LLM은 본질적으로 **next-token probability distribution**을 학습하는 자기회귀(autoregressive) 모델이므로, 학습 코퍼스에 존재하지 않는 사실을 통계적으로 가장 그럴듯한 단어로 합성하는 환각(Hallucination) 현상이 구조적으로 불가피합니다. 2023년 NeurIPS·ACL에서 발표된 연구에 따르면 GPT-4·Claude 3·Gemini Pro 등 최상위 모델조차 TruthfulQA 벤치마크에서 **52~58%**의 환각율을 보이며, 의료·법률 도메인에서는 **도메인 특화 환각율 70% 이상**에 달합니다. 특히 **2024년 2월纽约联邦法院 변호사 AI 판사 사건**(Mata v. Avianca, 23-cv-00501), **2024년 7월 Air Canada 챗봇 보상 거부 사건**(2024 BCCAT 149) 등 **Hallucination으로 인한 법적 책임**(Legal Liability)이 실제 판결로 이어지면서, 기업·공공기관에서 AI 환각 방지 전략은 **선택이 아닌 필수 통제 항목**이 되었습니다.
 
 ```text
-+--------------------------------------------------------------+
-|                    AI 할루시네이션 환각 방지 전략 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │              AI Hallucination의 3대 발생 메커니즘                    │
+  └─────────────────────────────────────────────────────────────────────┘
+
+  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+  │ 1) Intrinsic │    │ 2) Extrinsic │    │ 3) Fabrication│
+  │   (내재적)   │    │   (외재적)   │    │   (날조형)   │
+  └──────┬───────┘    └──────┬───────┘    └──────┬───────┘
+         │                   │                   │
+         ▼                   ▼                   ▼
+  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+  │ 입력 프롬프트 │    │ 입력과 무관한│    │ 존재하지 않는│
+  │ 와 모순되는   │    │ 사실 무근거  │    │ 인용/출처/   │
+  │ 답변 생성    │    │ 외부 정보   │    │ 수치 생성    │
+  │              │    │ 합성         │    │ (Fake Citation)│
+  └──────┬───────┘    └──────┬───────┘    └──────┬───────┘
+         │                   │                   │
+         └───────────────────┴───────────────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │  User-Visible Output │
+                  │  ─────────────────  │
+                  │  ※ 출처 인용 0       │
+                  │  ※ 확신도 95%+ 표시 │
+                  │  ※ 자연어 유창함 ↑↑ │
+                  └─────────────────────┘
+
+  ★ Hallucination의 위험도 등급 분류 (ISO/IEC 42001 Risk Matrix 기준)
+  ┌────────────┬──────────┬──────────┬────────────────────┐
+  │ 위험 등급   │  도메인   │  환각율   │  피해 규모          │
+  ├────────────┼──────────┼──────────┼────────────────────┤
+  │ Critical   │ 의료/법률 │  30%+    │ 인명/법적 책임     │
+  │ High       │ 금융/제조 │  20-30%  │ 금전/안전사고      │
+  │ Medium     │ 마케팅/CS │  10-20%  │ 신뢰도 하락/매출   │
+  │ Low        │ 창작/엔터  │  5-10%   │ 사용자 불만        │
+  └────────────┴──────────┴──────────┴────────────────────┘
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+기존의 **Pre-training Fine-Tuning** 중심 패러다임은 학습 데이터의 **Cut-off 시점**(GPT-4o: 2023.10, Claude 3.5: 2024.04) 이후 정보는 절대 알지 못하며, 모델 파라미터에 **암묵적 지식(implicit knowledge)** 으로 압축 저장되어 있어 수정·추적이 불가능합니다. 반면 **RAG + Grounded Generation** 패러다임은 외부 Knowledge Source(Vector DB·Graph DB·API)와 실시간 연결하여 **출처 인용 가능한 사실 기반 응답**을 생성하므로, **할루시네이션을 0으로 만들 수는 없지만(불가능성 정리) 5~15% 수준으로 통제 가능한 영역**으로 끌어내리는 것이 핵심 목표입니다.
 
-- **📢 섹션 요약 비유**: AI 할루시네이션 환각 방지 전략은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 환각 없는 LLM은 마치 **GPS가 없는 택시 기사**와 같습니다. 운전 실력(언어 모델)이 좋아도 목적지 좌표(Knowledge Source)가 없으면 엉뚱한 곳으로 가버리고, 손님(Output User)은 도착한 줄 착각합니다. RAG는 **실시간 내비게이션(External Grounding)** 을, Fact-Check Pipeline은 **교차로 CCTV(Verification Layer)** 를 설치하는 것과 같습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AI 할루시네이션 환각 방지 전략의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+AI Hallucination Prevention은 **단일 기법이 아닌 4계층 다중 방어선(Defense-in-Depth)** 으로 구성됩니다. 각 계층은 독립적으로도 동작 가능하지만, **조합 시 multiplicative 효과**(40% × 60% × 70% = 16.8%)를 발휘합니다.
 
 ```text
-+--------------------------------------------------------------+
-|              AI Hallucination Prevention Strategy 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │       4-Layer Hallucination Prevention Architecture (HPA-4L)        │
+  └──────────────────────────────────────────────────────────────────────┘
+
+   User Query ─────►  [ Layer 1: Input Pre-Processing  ]
+   "2024년 한국      ┌────────────────────────────────────┐
+    GDP 성장률은?"   │ • Query Intent Classification     │
+                     │ • Ambiguity Detection (p<0.7)     │
+                     │ • Out-of-Scope Filter / Refuse    │
+                     │ • Decomposition (Multi-Hop Split)  │
+                     └─────────────┬──────────────────────┘
+                                   ▼
+   [ Layer 2: Retrieval-Augmented Grounding (RAG) ]
+   ┌──────────────────────────────────────────────────────────────┐
+   │  Query Embedding (e5-large-v2 / BGE-M3 / OpenAI text-emb-3) │
+   │           │                                                  │
+   │           ▼                                                  │
+   │  ┌──────────────────────┐    ┌──────────────────────┐        │
+   │  │ Vector DB Hybrid     │    │ Knowledge Graph      │        │
+   │  │ (Pinecone/Weaviate/  │◄──►│ (Neo4j/TigerGraph)   │        │
+   │  │  Milvus/Qdrant)      │    │ + Structured SQL     │        │
+   │  │ HNSW Index, Top-K=8  │    │ (Fact Triples)       │        │
+   │  └──────────────────────┘    └──────────────────────┘        │
+   │           │                                                  │
+   │           ▼                                                  │
+   │  Re-Ranker (Cohere Rerank-3 / BGE-Reranker-v2-M3)           │
+   │  Cross-Encoder Score > 0.65 Threshold                        │
+   └──────────────────────────────────────────────────────────────┘
+                                   │
+                                   ▼
+   [ Layer 3: Constrained Generation ]
+   ┌──────────────────────────────────────────────────────────────┐
+   │  • Citation-Aware Decoding (forced citation tokens)          │
+   │  • JSON Schema / DSL Constrained Output (Outlines, Guidance) │
+   │  • Chain-of-Verification (CoVe): Self-Ask 4-Step Loop        │
+   │      1) Draft Response → 2) Plan Verification Questions     │
+   │      → 3) Answer Independently → 4) Final Filtered Output    │
+   │  • Self-Consistency: N=5 sampling + majority vote            │
+   │  • Constitutional AI Critique-Revision (RLAIF)               │
+   │  • Tool-Use / Function Calling (real-time API grounding)    │
+   └──────────────────────────────────────────────────────────────┘
+                                   │
+                                   ▼
+   [ Layer 4: Post-Generation Verification ]
+   ┌──────────────────────────────────────────────────────────────┐
+   │  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐  │
+   │  │ NLI Verifier   │  │ Citation Check │  │ Toxicity/Bias  │  │
+   │  │ (DeBERTa-NLI)  │  │ URL/Doc Resolve│  │ Moderation API │  │
+   │  │ entailment>0.8 │  │ URL HTTP 200   │  │ score<0.3      │  │
+   │  └────────────────┘  └────────────────┘  └────────────────┘  │
+   │           │                   │                  │           │
+   │           └───────────────────┴──────────────────┘           │
+   │                           ▼                                  │
+   │              Confidence Score Aggregator                     │
+   │              Final Confidence < 0.6 → Fallback "I don't know"│
+   └──────────────────────────────────────────────────────────────┘
+                                   │
+                                   ▼
+                  ┌────────────────────────────┐
+                  │   Grounded Output + Citations│
+                  │   [1] 한국은행 보도자료     │
+                  │   [2] IMF World Outlook 2024 │
+                  │   Confidence: 0.91          │
+                  └────────────────────────────┘
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Layer 1: Input Pre-Processing** | 모호한·잘못된 쿼리 사전 차단 | Query Classifier(SBERT fine-tuned, 12-class), Confidence Threshold(p<0.7 → Clarification Question), Out-of-Domain Detection(Energy-Based OOD Score), Multi-Hop Query Decomposition("GDP 성장률" → "한국 GDP 2024" + "전년 대비 %" + "원/달러 환율 영향") |
+| **Layer 2: Retrieval-Augmented Grounding** | 사실 근거(Context) 확보 및 정제 | Dense Retrieval(BGE-M3, 1024-dim, MTEB Ko leader 92.4%) + Sparse Retrieval(BM25) **Hybrid Search**(RRF k=60), **HNSW Index**(ef_construction=200, M=16), Re-Ranking(Cohere Rerank-3 multilingual, top-50→top-8), Knowledge Graph Traversal(Neo4j Cypher), Cross-Encoder Threshold ≥ 0.65 |
+| **Layer 3: Constrained Generation** | 모델이 검색 문맥 외 정보를 합성하지 못하도록 강제 | **Citation-Aware Decoding**(special token `[DOC_n]` 삽입 강제, retrieval mask logit bias -2.5), **Outlines/Guidance Library**(JSON Schema, Regex, CFG grammar constrained beam search), **Chain-of-Verification**(Meta 2024, 4-step self-critique loop, 환각율 23%↓), **Self-Consistency**(N=5 temperature=0.7, majority vote), **Constitutional AI**(Anthropic RLAIF, 16 principles critique-revise) |
+| **Layer 4: Post-Generation Verification** | 출력 후 사실 검증·신뢰도 산출 | **NLI Entailment Check**(DeBERTa-v3-large MNLI, claim-by-claim split → source entailment prob), **Citation Resolution**(URL HTTP HEAD 200 check, DOI verification, page-level snippet matching ≥ 0.85 cosine), **Calibrated Confidence**(Temperature Scaling T=1.2, ECE ≤ 0.05), Fallback "Unknown" 응답 (threshold 0.6 미만 시) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘 및 수식**:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **Hybrid Retrieval Score (RRF - Reciprocal Rank Fusion)**:
+  $$ \text{score}_{RRF}(d) = \sum_{r \in \{dense, sparse\}} \frac{1}{k + \text{rank}_r(d)}, \quad k=60 $$
+  Dense(BGE-M3 cosine sim)와 Sparse(BM25 Okapi) 결과를 rank-level로 융합하여 **vocabulary mismatch 문제**(한국어 조사·어미 변형) 보완
+
+- **NLI Entailment Verification**:
+  $$ P_{\text{grounded}}(c) = \sigma\left(\text{DeBERTa}_{\text{NLI}}(c \oplus \text{source})_{\text{entail}}\right) $$
+  Claim c와 source context를 concatenate하여 entailment logit 추출, **< 0.8이면 unsupported claim로 분류하여 재생성 또는 제거**
+
+- **Citation Coverage Rate (CCR)**:
+  $$ \text{CCR} = \frac{|\{s_i : \exists c_j, \text{cite}(s_i, c_j) = 1\}|}{|S|}, \quad \text{CCR} \geq 0.9 \text{ 목표} $$
+  90% 이상 문장에 citation 부착 시 **사실 기반 응답**으로 판정
+
+- **Self-Consistency Confidence**:
+  $$ \text{conf}_{SC} = \frac{\max_f N_f}{\sum_f N_f}, \quad N \geq 5 \text{ samples} $$
+  5개 샘플 중 과반수(≥3) 일치 시 confidence ≥ 0.6, 응답 채택
+
+- **📢 섹션 요약 비유**: 4계층 구조는 **공항 보안 검색대**와 같습니다. Layer 1은 **여권 검사(신원 확인)**, Layer 2는 **수하물 X-ray(위험물 검색)**, Layer 3은 **탑승구 신발 검사(최종 검증)**, Layer 4는 **비행 중 기내 CCTV(사후 모니터링)** 입니다. 한 계층을 통과해도 다음 계층이 다시 확인하므로 **단일 실패점(Single Point of Failure)이 없습니다**.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-AI 할루시네이션 환각 방지 전략을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+Hallucination Prevention은 유사 개념들과 명확히 구분되어야 합니다. **RAG ≠ Fine-Tuning ≠ Prompt Engineering**이며, **Knowledge Distillation ≠ Grounding**입니다.
 
-| 구분 | 전통적 접근 | AI 할루시네이션 환각 방지 전략 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. AI 할루시네이션 환각 방지 전략은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 AI 할루시네이션 환각 방지 전략은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 AI 할루시네이션 환각 방지 전략을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-AI 할루시네이션 환각 방지 전략을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, AI 할루시네이션 환각 방지 전략 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: AI 할루시네이션 환각 방지 전략은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | AI 할루시네이션 환각 방지 전략의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | AI 할루시네이션 환각 방지 전략의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-AI 할루시네이션 환각 방지 전략 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. AI 할루시네이션 환각 방지 전략은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **RAG (Retrieval-Augmented Generation)** | **Fine-Tuning (SFT/PEFT/LoRA)** | **Prompt Engineering (CoT/ReAct)** | **Constrained Decoding (Outlines/Guidance)** | **Constitutional AI (RLAIF)** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **환각 감소 효과** | 40~65% ↓ | 15~30% ↓ | 10~25% ↓ | 30~50% ↓ (형식 위반) | 20~35% ↓ (윤리/편향) |
+| **사실 업데이트 속도** | 실시간 (ms) | 재학습 필요 (주~월) | 즉각 (프롬프트) | N/A | 모델 업데이트 |
+| **지식 저장 위치** | 외부 Vector DB | 모델 파라미터 | 컨텍스트 윈도우 | Schema/Grammar | 모델 파라미터 |
+| **인용·출처 추적성** | ✅ 문서 단위 | ❌ 불가 | ❌ 불가 | ⚠️ 부분 (token-level) | ❌ 불가 |
+| **추가 Latency** | 200~800ms (retrieval) | 0ms (추론만) | 50~300ms (longer ctx) | 10~50ms (logit bias) | 200~500ms (critique loop) |
+| **비용 (USD / 1K query)** | $0.05~0.20 (emb+
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 652 / 800
