@@ -11,115 +11,135 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MQTT CoAP IoT 프로토콜 비교은(는) 제약 장치와 네트워크에서 메시지를 효율적으로 주고받기 위한 경량 IoT 애플리케이션 프로토콜이다.
-> 2. **가치**: 센서 데이터 발행, 원격 제어, 장치 상태 모니터링을 적은 오버헤드로 구현한다
-> 3. **판단 포인트**: 브로커 구조와 REST 구조, QoS, 보안, 네트워크 품질 요구를 비교해야 한다
+> 1. **본질**: MQTT는 IBM/OASIS 표준(ISO/IEC 20922)의 TCP 기반 Publish/Subscribe 메시지 브로커 프로토콜로, Broker(예: Mosquitto, EMQX, HiveMQ)를 중심으로 토픽 트리(topic tree)와 3단계 QoS(QoS 0/1/2)·LWT(Last Will and Testament)·Persistent Session으로 불안정한 링크에서도 메시지 전달을 보장하며, CoAP는 IETF RFC 7252 기반 UDP/RESTful 프로토콜로 Confirmable/Non-confirmable 메시지, Observe(리소스 구독, RFC 7641), Block-wise Transfer(RFC 7959), DTLS(RFC 6347) 4모드(NoSec/PreSharedKey/RawPublicKey/Certificate)를 통해 제약 노드(클래스 1, ~10KB RAM) 환경을 지원한다.
+> 2. **가치**: MQTT는 2바이트 고정 헤더와 와일드카드(`+`, `#`) 토픽으로 수십만 클라이언트의 1:N 푸시·원격 측정·모바일 푸시(Facebook Messenger가 MQTT 사용) 시나리오에서 90% 이상의 대역폭 절감을 달성하고, CoAP는 HTTP의 의미론(GET/POST/PUT/DELETE)을 4바이트 CoAP 헤더로 변환하여 6LoWPAN·Thread·Zigbee IP·LwM2M 디바이스 관리에서 코덱·헤더 압축과 결합 시 70% 이상의 패킷 오버헤드를 절감한다.
+> 3. **판단 포인트**: 손실 없는 메시지 전달과 모바일/광대역 환경이면 MQTT(특히 MQTT 5.0의 Shared Subscription, Message Expiry, Request/Response 패턴), 자원 제약 센서·mesh·요청-응답 모델·LwM2M 디바이스 관리·NAT 제약 환경이면 CoAP(Observe·Block-wise·CoAP over TCP RFC 8323) 선택이 정석이며, 결정 트리는 ①전송계층(TCP vs UDP 가용성) ②메시지 패턴(1:N 푸시 vs 1:1 REST) ③QoS 요건 ④보안(TLS vs DTLS, X.509 vs PSK) ⑤연결성(항상 연결 vs 간헐 연결) ⑥헤더 압축(6LoWPAN) ⑦브로커 운영 부담의 7가지 축으로 분기한다.
 
 ---
 
-## I. 개요 및 필요성
+## Ⅰ. 개요 및 필요성
 
-MQTT CoAP IoT 프로토콜 비교은(는) ICT 융합에서 물리 세계와 디지털 서비스를 연결하는 핵심 주제다. 단순한 신기술 소개가 아니라, 현장 데이터가 어떻게 수집되고 네트워크를 거쳐 플랫폼에서 판단되며 다시 사용자나 장치의 행동으로 돌아오는지를 설명해야 한다.
+IoT는 전통적인 클라이언트-서버 인터넷과 근본적으로 다른 제약을 가진다. RFC 7228(2014)이 정의한 IoT 디바이스 클래스 2(클래스 2, ~50KB RAM, ~250KB Flash) 이하의 제약 노드는 IPv4/IPv6 풀스택, TLS 1.3 풀핸드셰이크, HTTP/2의 헤더 오버헤드(HTTP 평균 700~1,400바이트 헤더)를 그대로 수용하기 어렵다. 또한 2016년 Ericsson Mobility Report 기준 셀룰러 IoT(Cat-M1, NB-IoT)는 대역폭 200kbps~1Mbps, 지연 1~10초, 패킷 손실률 1~10% 수준으로, TCP의 3-way handshake조차 비효율적이다. 무엇보다 IoT는 *사람 간*(H2H) HTTP의 Request/Response 모델이 아닌 *기계 간*(M2M) 비대칭 Publish/Subscribe 모델(예: 1개 센서 -> 1,000개 액추에이터)이 대부분이므로, 새로운 응용 계층 프로토콜이 요구되었다.
 
-기술사 관점에서는 성능 수치만으로 충분하지 않다. 서비스 목적, 데이터 신뢰성, 안전·보안 요구, 규제 제약, 운영 비용을 함께 놓고 판단해야 한다. 특히 산업·도시·의료·통신 영역은 장애가 물리적 피해로 이어질 수 있으므로 Fail-safe와 운영 책임을 명확히 해야 한다.
+이背景下에서 MQTT(1999, IBM Andy Stanford-Clark·Arlen Nipper 설계, OASIS 3.1.1 2014 -> ISO/IEC 20922:2016)와 CoAP(2010 IETF CoRE WG -> RFC 7252 2014)가 표준화되었다. 두 프로토콜은 IETF·OASIS·oneM2M·OCF 등 복수 SDO에서 상호보완적으로 채택되며 현대 IoT 스택의 양대 축으로 자리 잡았고, **기술사 시험**에서는 "주어진 IoT 시나리오에서 두 프로토콜 중 어떤 것을 선택할 것인가"를 아키텍처 의사결정 기준으로 묻는 문제가 빈출한다.
 
 ```text
-[MQTT CoAP IoT 프로토콜 비교 적용 흐름]
+[IoT 응용 계층 프로토콜 진화 및 적용 영역]
+  +-----------------------------------------------------------------+
+  |                전통 인터닛 vs IoT 제약 환경                     |
+  +-----------------------------------------------------------------+
+  |                                                                 |
+  |  [전통 인터넷]                       [IoT 제약 환경]            |
+  |  • 1GB RAM, GHz CPU                 • 10~50KB RAM, MHz MCU    |
+  |  • 유선/고속 LTE                    • 셀룰러 IoT/LoRa/저전력 WPAN|
+  |  • HTTP/TCP/TLS 1.3                 • UDP 우선, 6LoWPAN 헤더압축|
+  |  • 1:1 Request/Response             • 1:N Pub/Sub, M2M 통신    |
+  |           |                                      |              |
+  |           v                                      v              |
+  |  +-----------------+                    +------------------+   |
+  |  | HTTP/1.1, 2, 3  |                    | CoAP (UDP+REST)  |   |
+  |  | • 평균 헤더 800B |                    | • 4B 헤더        |   |
+  |  | • TCP 의존       |                    | • RFC 7252       |   |
+  |  | • 풀 핸드셰이크   |                    | • Observe·Block  |   |
+  |  +-----------------+                    +------------------+   |
+  |           |                                      |              |
+  |           v                                      v              |
+  |  +---------------------------------------------------------+   |
+  |  |      MQTT (TCP + Pub/Sub, Broker 중앙집중)              |   |
+  |  |   • 2B 고정 헤더 • QoS 0/1/2 • Topic 와일드카드          |   |
+  |  |   • LWT, Retain, Persistent Session • MQTT 5.0 (2019)   |   |
+  |  +---------------------------------------------------------+   |
+  |                          |                                      |
+  |                          v                                      |
+  |        +------------------------------+                        |
+  |        |  oneM2M·OCF·LwM2M·Thread 등   |                        |
+  |        |  통합 IoT 플랫폼 (다중 프로토콜)|                       |
+  |        +------------------------------+                        |
+  +-----------------------------------------------------------------+
 
-Need / Scenario
-  -> Device and data acquisition
-  -> Network and platform integration
-  -> Analytics / control / service
-  -> Security, safety, compliance
-  -> Operation and improvement
+[IoT 트래픽 특성 vs 전통 HTTP]
+  +-----------------+--------------+--------------+----------------+
+  | 항목            | HTTP/1.1     | MQTT 3.1.1   | CoAP           |
+  +-----------------+--------------+--------------+----------------+
+  | 연결당 최소 패킷| SYN+SYN+ACK  | CONNECT만 1회| CON/NON 0-RTT  |
+  |                 |  +TLS 4-RTT  |  (TCP+TLS)   | (DTLS 1-RTT)   |
+  | 헤더 크기       | 700~1400 B   | 2~4 B        | 4 B + 옵션     |
+  | 푸시 모델       | X (Polling)  | O (Push)     | O (Observe)    |
+  | 패킷 손실 회복  | TCP 자동     | QoS 1/2      | CON 재전송      |
+  +-----------------+--------------+--------------+----------------+
 ```
 
-- **섹션 요약 비유**: MQTT CoAP IoT 프로토콜 비교은(는) 현장과 관제센터를 잇는 신경망과 같다. 감각기관이 정확해야 하고, 신호가 늦지 않아야 하며, 잘못된 판단이 바로 행동으로 이어지지 않도록 안전장치가 필요하다.
+**기존 방식(전통 HTTP) 대비 새로운 패러다임**:
+- **전통 HTTP/HTTPS**: 요청-응답, 클라이언트-서버 1:1, 매 요청마다 헤더 700B+, Keep-Alive 없으면 매번 TCP 3-way handshake -> IoT에서 *Wake-of-Radio* 에너지 낭비, 배터리가 수 시간 내 소진.
+- **MQTT**: 연결 1회 후 양방향 푸시, 헤더 2B, 토픽 구독으로 N:M 라우팅 -> 1:1,000 fan-out을 단일 TCP 연결로 처리, 3단계 QoS로 신뢰성·성능 트레이드오프 제어.
+- **CoAP**: UDP 기반 0-RTT 시작, 4B 헤더, REST 시맨틱 유지로 HTTP 쉬운 마이그레이션 -> 웹 개발자가 학습 비용 없이 임베디드 환경 진입, Observe로 푸시 모델 구현.
+
+- **📢 섹션 요약 비유**: HTTP는 매번 우체국에 가서 "○○동 123번지" 주소를 써야 하는 택배 서비스이고, MQTT는 한 번 우체국에 사서함을 등록해두면 배달부가 알아서 주소를 분류해 받는 사람들에게 던져주는 시스템이며, CoAP는 초인종을 누르면 1초 안에 응답이 오고 상대가 움직이면 자동으로 다시 알려주는 스마트 인터폰과 같다.
 
 ---
 
-## II. 아키텍처 및 핵심 원리
+## Ⅱ. 아키텍처 및 핵심 원리
 
-MQTT CoAP IoT Protocol Comparison은 일반적으로 디바이스, 연결망, 플랫폼, 분석·제어, 운영 거버넌스 계층으로 구성된다. 현장 환경은 예측하기 어렵기 때문에 네트워크 단절, 전원 부족, 센서 오차, 업데이트 실패까지 설계 범위에 포함해야 한다.
+### A. MQTT 아키텍처
+
+MQTT는 **3-Tier Publish/Subscribe** 구조를 가진다. Publisher(데이터 생산자), Subscriber(데이터 소비자), Broker(중개자)가 물리적으로 분리되어 있고, Publisher와 Subscriber는 서로의 IP·포트·식별자를 알 필요가 없다. 메시지는 **토픽**(slash로 구분된 UTF-8 문자열, 예: `factory/line3/sensor/temp`)으로 식별되며, Broker는 구독 테이블을 메모리/디스크에 유지하여 매칭 라우팅을 수행한다. MQTT 3.1.1은 OASIS, 5.0(2019년 5월)은 Shared Subscription(Consumer Group), Message Expiry Interval, Correlation Data, Response Information, Reason Code, Property Bag을 추가하여 요청-응답 패턴과 마이크로서비스 메시징 브로커(Kafka 대체) 영역으로 확장되었다.
 
 ```text
-[Reference architecture]
+[MQTT 5.0 패킷 구조 및 메시지 흐름]
+  +---------------------------------------------------------------------+
+  |  Publisher --- PUBLISH(topic=payload) --->  Broker (HiveMQ/EMQX)  |
+  |  +----------+                              +------------------+   |
+  |  | CONNECT  | -- ClientID, KeepAlive=60s --> |  Subs Tree        |   |
+  |  | CONNACK   | <-- SessionPresent, Reason --- |  factory/+/temp  |   |
+  |  | SUBSCRIBE | -- PacketID=1, Topic="a/b/#"  |       v match     |   |
+  |  | SUBACK    | <-- PacketID=1, Reason=0x00   |  fan-out 복제     |   |
+  |  | PUBLISH   | <-- QoS=2, Topic, Payload     +------------------+   |
+  |  | PUBREC    | -- PacketID=2 (4-way 핸드셰이크)         |           |
+  |  | PUBREL    | -- PacketID=2                +----------v--------+  |
+  |  | PUBCOMP   | <-- PacketID=2               |  Subscriber N개   |  |
+  |  | DISCONNECT| -- Reason=0x00(normal)      |  (모바일/서버)    |  |
+  |  +----------+                              +-------------------+  |
+  +---------------------------------------------------------------------+
 
-Device / User / Field System
-  -> Connectivity and Gateway
-  -> Platform, Data Store, API
-  -> Analytics, Automation, Control
-  -> Monitoring, Governance, Compliance
+  [MQTT 5.0 PUBLISH 패킷 바이너리 구조]
+  +---------+---------+---------+---------+------------+----------+
+  | Fixed    | Variable | Topic   | Packet  | Properties | Payload  |
+  | Header   | Length   | Name    | ID      | (가변)     | (앱 데이 |
+  | 1~2B     | 1~4B     | 2B+N    | 0~4B    | 가변        |  터)     |
+  +---------+---------+---------+---------+------------+----------+
+  | Byte 0: [Control(4bit)|Type(4bit)]                              |
+  |   Type 1=CONNECT, 3=PUBLISH, 8=SUBSCRIBE, 14=DISCONNECT       |
+  | Byte 1+: Flags (DUP, QoS=0/1/2, RETAIN for PUBLISH)             |
+  +----------------------------------------------------------------+
 
-Core flow: Connect -> Publish -> Subscribe -> Acknowledge -> Monitor
+  [MQTT QoS 전달 보장 메커니즘]
+  QoS 0 (At most once) : PUBLISH ------------------> 최대 1회 (fire-and-forget)
+  QoS 1 (At least once): PUBLISH --> PUBACK <-------  최소 1회 (중복 가능)
+  QoS 2 (Exactly once) : PUBLISH --> PUBREC --> PUBREL --> PUBCOMP  (정확히 1회)
+                          ---------------------------------------
+                          4-way 핸드셰이크, 디스크/DB 영속화 필요
 ```
 
-| 구성 요소 | 역할 | 설계 포인트 |
-| :--- | :--- | :--- |
-| 디바이스 계층 | 센싱, 표시, 제어, 사용자 입력 | 전원, 내구성, 정확도, 보정 |
-| 네트워크 계층 | 데이터 전송과 연결 유지 | 지연, 커버리지, 보안 채널, 장애 대체 |
-| 플랫폼 계층 | 데이터 저장, 권한, API, 워크플로 | 확장성, 스키마, 표준, 로그 |
-| 분석·제어 계층 | 예측, 최적화, 자동 실행 | 모델 품질, 오탐/미탐, 제어 안전 |
-| 운영 계층 | 배포, 모니터링, 감사, 규제 대응 | 책임자, 변경관리, 증적, 사고 대응 |
+### B. CoAP 아키텍처
 
-핵심 기술 묶음은 **MQTT, CoAP, Broker, Topic, QoS, DTLS**이며, 검토 시에는 **QoS, 브로커 장애, 보안, NAT/방화벽**을(를) 우선 확인한다.
+CoAP는 **REST 아키텍처 스타일을 UDP에 매핑**한 프로토콜이다. 4바이트 고정 헤더 + 선택적 토큰(0~8B) + 옵션(Uri-Path, Uri-Query, Content-Format, Accept, ETag, If-Match 등 TLV 인코딩) + 페이로드(0~1,024B, 블록 전송 시 더 큼) 구조이며, 4가지 메시지 타입(CON: Confirmable, NON: Non-confirmable, ACK: Acknowledgement, RST: Reset)으로 UDP의 비신뢰성을 보완한다. CON은 지수 백오프(Exponential Backoff, RFC 7252 §4.2 기본 ACK_TIMEOUT=2초, 최대 4회 재전송)로 신뢰성을, NON은 부하 절감을, Observe(RFC 7641)는 리소스 변경 시 서버가 클라이언트에게 비동기 알림을 보내 푸시를 구현한다. 블록 전송(RFC 7959)은 16비트 블록 번호(0~1,023)와 SZX(블록 크기 16~2,048B)로 페이로드를 분할·재조립한다.
 
----
-
-## III. 비교 및 연결
-
-| 구분 | 기존 접근 | MQTT CoAP IoT 프로토콜 비교 접근 |
-| :--- | :--- | :--- |
-| 데이터 | 사후 수집, 샘플링 중심 | 실시간·연속 데이터 중심 |
-| 운영 | 사람 경험과 수작업 조치 | 자동화·예측·원격 운영 |
-| 인프라 | 단일 시스템 최적화 | 디바이스-망-플랫폼 통합 최적화 |
-| 위험 | 장애 후 복구 중심 | 사전 감지, Fail-safe, 보안 내재화 |
-| 성과 | 비용과 속도 | 안전, 품질, 경험, 지속가능성 포함 |
-
-관련 개념으로는 IoT, 엣지 컴퓨팅, 클라우드, AI, 데이터 거버넌스, 보안 컴플라이언스가 있다. 서비스가 물리 환경과 연결될수록 데이터 품질과 운영 프로세스가 기술 선택만큼 중요해진다.
-
----
-
-## IV. 실무 적용 및 기술사 판단
-
-### 기술사형 판단 체크리스트
-
-1. 적용 시나리오와 KPI가 정량적으로 정의되어 있는가?
-2. 데이터 수집 주기, 정확도, 결측, 보정 방법이 검증되었는가?
-3. 네트워크 단절, 디바이스 고장, 업데이트 실패 시 안전하게 동작하는가?
-4. 개인정보, 산업안전, 의료·통신·금융 규제 등 도메인 규제를 반영했는가?
-5. PoC 이후 대규모 운영 비용과 유지보수 조직이 준비되어 있는가?
-
-### 피해야 할 안티패턴
-
-- 장비만 도입하고 운영 프로세스와 KPI를 정의하지 않는 접근
-- 센서 데이터 품질을 확인하지 않고 AI 판단을 자동 실행하는 접근
-- 보안을 운영 후반에 추가하려는 접근
-- 파일럿 성공을 전체 현장 확산의 근거로 바로 일반화하는 접근
-
----
-
-## V. 기대효과 및 결론
-
-MQTT CoAP IoT 프로토콜 비교은(는) 디지털 기술을 실제 업무와 공간에 연결해 운영 효율, 안전, 품질, 사용자 경험을 개선하는 기반이다. 효과는 기술 자체보다 데이터 품질, 운영 절차, 보안·규제 체계가 함께 맞을 때 나타난다.
-
-따라서 도입 판단은 **업무 가치**, **데이터 신뢰성**, **운영 안정성**, **보안·규제 준수**, **확장 비용**을 함께 평가해야 한다. 이 균형이 잡히면 단순 자동화를 넘어 지속적으로 개선되는 지능형 운영 체계를 만들 수 있다.
-
-### 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| IoT/디바이스 | 물리 세계 데이터를 디지털화하는 출발점 |
-| 네트워크 | 지연과 신뢰성을 결정하는 연결 기반 |
-| 엣지/클라우드 | 처리 위치와 비용·지연의 균형점 |
-| AI/분석 | 예측, 최적화, 이상 탐지의 판단 엔진 |
-| 거버넌스 | 보안, 규제, 운영 책임을 제도화 |
-
+```text
+[CoAP 메시지 구조 및 Confirmable 흐름]
+  +------------------------------------------------------------------+
+  |  CoAP Header (4 bytes 고정)                                     |
+  |  +------+--------+--------+----------+----------+               |
+  |  | Ver=1| Type   | TKL    | Code     | MID(16b) |               |
+  |  | 2bit | 2bit   | 4bit   | 8bit     |          |               |
+  |  |      | CON=0  | Token  | 0.01 GET | 0x7A3F   |               |
+  |  |      | NON=1  | Length | 0.02 POST|          |               |
+  |  |      | ACK=2  |        | 2.05 Cont|          |               |
+  |  |
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 606 / 800
 
-<- **이전**: [605. OTA 펌웨어 업데이트 관리](/knowledge-base/studynote/06_ict_convergence/uncategorized/605_ota_over_the_air_update_firmware_management/)
+<- **이전**: [605. OTA 무선 업데이트 펌웨어 관리](/knowledge-base/studynote/06_ict_convergence/uncategorized/605_ota_over_the_air_update_firmware_management/)
 **다음**: [607. Matter 스마트홈 통합 표준 프로토콜](/knowledge-base/studynote/06_ict_convergence/uncategorized/607_matter_smart_home_unified_standard_protocol/) ->
 
 ---
